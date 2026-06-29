@@ -1,6 +1,8 @@
+```markdown
 ---
-title: "概念库"
+title: "Concept Library"
 draft: false
 ---
 
-这里将整理 C/A/E、S/D/B、PCN、Execution Chain 等核心概念。
+This page provides structured explanations of core concepts, including C/A/E, S/D/B, PCN, and Execution Chain.
+```
