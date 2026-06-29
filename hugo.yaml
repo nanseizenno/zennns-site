@@ -43,15 +43,7 @@ languages:
         - name: "Legal"
           url: "/legal/"
           weight: 70
-        - name: "日本語"
-          url: "/"
-          weight: 90
-        - name: "中文"
-          url: "/zh/"
-          weight: 91
-        - name: "English"
-          url: "/en/"
-          weight: 92
+
 
   zh:
     languageCode: "zh-CN"
@@ -84,15 +76,7 @@ languages:
         - name: "Legal"
           url: "/zh/legal/"
           weight: 70
-        - name: "日本語"
-          url: "/"
-          weight: 90
-        - name: "中文"
-          url: "/zh/"
-          weight: 91
-        - name: "English"
-          url: "/en/"
-          weight: 92
+
 
   en:
     languageCode: "en-US"
@@ -125,12 +109,3 @@ languages:
         - name: "Legal"
           url: "/en/legal/"
           weight: 70
-        - name: "日本語"
-          url: "/"
-          weight: 90
-        - name: "中文"
-          url: "/zh/"
-          weight: 91
-        - name: "English"
-          url: "/en/"
-          weight: 92
