@@ -1,8 +1,8 @@
 ---
-title: "声明"
+title: "Statement"
 draft: false
 ---
 
-本网站内容用于公开说明 TPCA / CAE-SDB 状态迁移前置控制架构的基本思想、应用方向和工程价值。
+The content of this website is intended to publicly explain the basic concepts, application areas, and engineering value of the TPCA / CAE-SDB Transition Pre-Control Architecture.
 
-本文所述内容不构成对任何第三方的实施授权，不包含具体工程参数、核心仲裁逻辑、完整接口配置、数据库结构或可直接照搬的实施细节。
+The content described on this website does not constitute implementation authorization for any third party, and does not include specific engineering parameters, core arbitration logic, complete interface configurations, database structures, or implementation details that can be directly reproduced.
