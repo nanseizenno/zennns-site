@@ -4,7 +4,7 @@ title: "TPCA / CAE-SDB 技術体系"
 theme: "PaperMod"
 
 params:
-  description: "TPCA / CAE-SDB 状态迁移前置控制架构"
+  description: "TPCA / CAE-SDB 状態遷移前制御アーキテクチャ"
   author: "全野南政 / Nansei Zenno"
   defaultTheme: "auto"
   ShowReadingTime: true
