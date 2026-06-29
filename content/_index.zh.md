@@ -3,7 +3,7 @@ title: "TPCA / CAE-SDB 技术体系"
 draft: false
 ---
 
-# TPCA(Transition Pre-Control Architecture) / CAE-SDB 状态迁移前置控制架构
+## TPCA(Transition Pre-Control Architecture) / CAE-SDB 状态迁移前置控制架构
 
 全野南政｜Nansei Zenno
 
