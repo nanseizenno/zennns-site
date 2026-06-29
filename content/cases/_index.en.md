@@ -1,6 +1,8 @@
+```markdown
 ---
-title: "案例研究"
+title: "Case Studies"
 draft: false
 ---
 
-这里将整理 TPCA / CAE-SDB 在 case1、case2、case3 中的公开说明案例。
+This page provides public explanatory case studies showing how TPCA / CAE-SDB can be applied to the target domains of case1, case2, and case3.
+```
