@@ -1,6 +1,6 @@
 ---
 
-title: "TPCA / CAE-SDB"
+title: "TPCA(Transition Pre-Control Architecture) / CAE-SDB"
 description: "状态迁移前置控制架构"
 translationKey: "home"
 ----------------------
