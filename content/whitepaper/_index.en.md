@@ -1,6 +1,7 @@
 ---
-title: "白皮书"
+title: "White Paper"
 draft: false
 ---
 
-这里将发布 TPCA / CAE-SDB 状态迁移前置控制架构的公开白皮书。
+This page provides the public white paper on the TPCA / CAE-SDB Transition Pre-Control Architecture.
+
