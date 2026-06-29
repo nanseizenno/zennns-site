@@ -1,6 +1,7 @@
 ---
-title: "技术札记"
+title: "Technical Notes"
 draft: false
 ---
 
-这里将整理面向制造现场、自动化系统和数字调用治理的技术札记。
+This page organizes technical notes for manufacturing sites, automation systems, and digital invocation governance.
+
