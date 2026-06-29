@@ -3,7 +3,7 @@ title: "TPCA / CAE-SDB"
 description: "状態遷移前制御アーキテクチャ"
 ---
 
-# TPCA (Transition Pre-Control Architecture) / CAE-SDB
+# TPCA (Transition Pre-Control Architecture) 
 
 ## 状態遷移前制御アーキテクチャ
 
