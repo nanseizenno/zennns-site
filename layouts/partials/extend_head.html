@@ -1,0 +1,151 @@
+<style>
+  /* Hide PaperMod default automatic language switch */
+  .lang-switch:not(.fixed-lang-switch) {
+    display: none !important;
+  }
+
+  .fixed-lang-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-inline-start: 10px;
+    padding: 0;
+    list-style: none;
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  .fixed-lang-switch li {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .fixed-lang-switch a {
+    text-decoration: none;
+    opacity: 0.85;
+  }
+
+  .fixed-lang-switch a:hover {
+    text-decoration: underline;
+    opacity: 1;
+  }
+
+  .fixed-lang-switch a.active {
+    font-weight: 700;
+    text-decoration: underline;
+    opacity: 1;
+  }
+
+  .fixed-lang-switch .sep {
+    opacity: 0.5;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const target = document.querySelector(".logo-switches");
+
+    if (!target) {
+      return;
+    }
+
+    if (target.querySelector(".fixed-lang-switch")) {
+      return;
+    }
+
+    const path = window.location.pathname;
+
+    function getCurrentLang() {
+      if (path === "/jp/" || path.startsWith("/jp/")) {
+        return "jp";
+      }
+      if (path === "/zh/" || path.startsWith("/zh/")) {
+        return "zh";
+      }
+      if (path === "/en/" || path.startsWith("/en/")) {
+        return "en";
+      }
+      return "jp";
+    }
+
+    function getBasePath() {
+      let base = path;
+
+      if (base === "/" || base === "") {
+        return "/";
+      }
+
+      if (base === "/jp" || base === "/jp/") {
+        return "/";
+      }
+
+      if (base === "/zh" || base === "/zh/") {
+        return "/";
+      }
+
+      if (base === "/en" || base === "/en/") {
+        return "/";
+      }
+
+      if (base.startsWith("/jp/")) {
+        base = base.replace(/^\/jp/, "");
+      } else if (base.startsWith("/zh/")) {
+        base = base.replace(/^\/zh/, "");
+      } else if (base.startsWith("/en/")) {
+        base = base.replace(/^\/en/, "");
+      }
+
+      if (!base.startsWith("/")) {
+        base = "/" + base;
+      }
+
+      return base || "/";
+    }
+
+    function langUrl(lang) {
+      const base = getBasePath();
+
+      if (base === "/") {
+        return "/" + lang + "/";
+      }
+
+      return "/" + lang + base;
+    }
+
+    const current = getCurrentLang();
+
+    const langs = [
+      { code: "jp", label: "日本語" },
+      { code: "zh", label: "中文" },
+      { code: "en", label: "English" }
+    ];
+
+    const ul = document.createElement("ul");
+    ul.className = "fixed-lang-switch";
+
+    langs.forEach(function (lang, index) {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+
+      a.href = langUrl(lang.code);
+      a.textContent = lang.label;
+      a.setAttribute("hreflang", lang.code);
+
+      if (lang.code === current) {
+        a.className = "active";
+      }
+
+      li.appendChild(a);
+      ul.appendChild(li);
+
+      if (index < langs.length - 1) {
+        const sepLi = document.createElement("li");
+        sepLi.className = "sep";
+        sepLi.textContent = "/";
+        ul.appendChild(sepLi);
+      }
+    });
+
+    target.appendChild(ul);
+  });
+</script>
