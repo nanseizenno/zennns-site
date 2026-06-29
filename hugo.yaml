@@ -1,3 +1,4 @@
+:::writing{variant="standard" id="72914"}
 baseURL: "https://zennns.com/"
 theme: "PaperMod"
 
@@ -5,165 +6,140 @@ defaultContentLanguage: "ja"
 defaultContentLanguageInSubdir: false
 
 params:
-defaultTheme: "auto"
-ShowReadingTime: true
-ShowBreadCrumbs: true
-ShowPostNavLinks: true
-ShowCodeCopyButtons: true
+  defaultTheme: "auto"
+  ShowReadingTime: true
+  ShowBreadCrumbs: true
+  ShowPostNavLinks: true
+  ShowCodeCopyButtons: true
 
 languages:
-ja:
-languageCode: "ja-JP"
-languageName: "日本語"
-weight: 1
-title: "TPCA / CAE-SDB 技術体系"
-params:
-description: "TPCA / CAE-SDB 状態遷移前制御アーキテクチャ"
-author: "全野南政 / Nansei Zenno"
-menu:
-main:
-- name: "Home"
-url: "/"
-weight: 10
+  ja:
+    languageCode: "ja-JP"
+    languageName: "日本語"
+    weight: 1
+    title: "TPCA / CAE-SDB 技術体系"
+    params:
+      description: "TPCA / CAE-SDB 状態遷移前制御アーキテクチャ"
+      author: "全野南政 / Nansei Zenno"
+    menu:
+      main:
+        - name: "Home"
+          url: "/"
+          weight: 10
+        - name: "Whitepaper"
+          url: "/whitepaper/"
+          weight: 20
+        - name: "Notes"
+          url: "/notes/"
+          weight: 30
+        - name: "Cases"
+          url: "/cases/"
+          weight: 40
+        - name: "Concepts"
+          url: "/concepts/"
+          weight: 50
+        - name: "Cooperation"
+          url: "/cooperation/"
+          weight: 60
+        - name: "Legal"
+          url: "/legal/"
+          weight: 70
+        - name: "日本語"
+          url: "/"
+          weight: 90
+        - name: "中文"
+          url: "/zh/"
+          weight: 91
+        - name: "English"
+          url: "/en/"
+          weight: 92
 
-```
-    - name: "Whitepaper"
-      url: "/whitepaper/"
-      weight: 20
+  zh:
+    languageCode: "zh-CN"
+    languageName: "中文"
+    weight: 2
+    title: "TPCA / CAE-SDB 技术体系"
+    params:
+      description: "TPCA / CAE-SDB 状态迁移前置控制架构"
+      author: "全野南政 / Nansei Zenno"
+    menu:
+      main:
+        - name: "Home"
+          url: "/zh/"
+          weight: 10
+        - name: "Whitepaper"
+          url: "/zh/whitepaper/"
+          weight: 20
+        - name: "Notes"
+          url: "/zh/notes/"
+          weight: 30
+        - name: "Cases"
+          url: "/zh/cases/"
+          weight: 40
+        - name: "Concepts"
+          url: "/zh/concepts/"
+          weight: 50
+        - name: "Cooperation"
+          url: "/zh/cooperation/"
+          weight: 60
+        - name: "Legal"
+          url: "/zh/legal/"
+          weight: 70
+        - name: "日本語"
+          url: "/"
+          weight: 90
+        - name: "中文"
+          url: "/zh/"
+          weight: 91
+        - name: "English"
+          url: "/en/"
+          weight: 92
 
-    - name: "Notes"
-      url: "/notes/"
-      weight: 30
+  en:
+    languageCode: "en-US"
+    languageName: "English"
+    weight: 3
+    title: "TPCA / CAE-SDB Technical Framework"
+    params:
+      description: "TPCA / CAE-SDB Transition Pre-Control Architecture"
+      author: "Nansei Zenno"
+    menu:
+      main:
+        - name: "Home"
+          url: "/en/"
+          weight: 10
+        - name: "Whitepaper"
+          url: "/en/whitepaper/"
+          weight: 20
+        - name: "Notes"
+          url: "/en/notes/"
+          weight: 30
+        - name: "Cases"
+          url: "/en/cases/"
+          weight: 40
+        - name: "Concepts"
+          url: "/en/concepts/"
+          weight: 50
+        - name: "Cooperation"
+          url: "/en/cooperation/"
+          weight: 60
+        - name: "Legal"
+          url: "/en/legal/"
+          weight: 70
+        - name: "日本語"
+          url: "/"
+          weight: 90
+        - name: "中文"
+          url: "/zh/"
+          weight: 91
+        - name: "English"
+          url: "/en/"
+          weight: 92
+:::
 
-    - name: "Cases"
-      url: "/cases/"
-      weight: 40
+③ 提交
 
-    - name: "Concepts"
-      url: "/concepts/"
-      weight: 50
+Commit message 写：
 
-    - name: "Cooperation"
-      url: "/cooperation/"
-      weight: 60
-
-    - name: "Legal"
-      url: "/legal/"
-      weight: 70
-
-    - name: "日本語"
-      url: "/"
-      weight: 90
-
-    - name: "中文"
-      url: "/zh/"
-      weight: 91
-
-    - name: "English"
-      url: "/en/"
-      weight: 92
-```
-
-zh:
-languageCode: "zh-CN"
-languageName: "中文"
-weight: 2
-title: "TPCA / CAE-SDB 技术体系"
-params:
-description: "TPCA / CAE-SDB 状态迁移前置控制架构"
-author: "全野南政 / Nansei Zenno"
-menu:
-main:
-- name: "Home"
-url: "/zh/"
-weight: 10
-
-```
-    - name: "Whitepaper"
-      url: "/zh/whitepaper/"
-      weight: 20
-
-    - name: "Notes"
-      url: "/zh/notes/"
-      weight: 30
-
-    - name: "Cases"
-      url: "/zh/cases/"
-      weight: 40
-
-    - name: "Concepts"
-      url: "/zh/concepts/"
-      weight: 50
-
-    - name: "Cooperation"
-      url: "/zh/cooperation/"
-      weight: 60
-
-    - name: "Legal"
-      url: "/zh/legal/"
-      weight: 70
-
-    - name: "日本語"
-      url: "/"
-      weight: 90
-
-    - name: "中文"
-      url: "/zh/"
-      weight: 91
-
-    - name: "English"
-      url: "/en/"
-      weight: 92
-```
-
-en:
-languageCode: "en-US"
-languageName: "English"
-weight: 3
-title: "TPCA / CAE-SDB Technical Framework"
-params:
-description: "TPCA / CAE-SDB Transition Pre-Control Architecture"
-author: "Nansei Zenno"
-menu:
-main:
-- name: "Home"
-url: "/en/"
-weight: 10
-
-```
-    - name: "Whitepaper"
-      url: "/en/whitepaper/"
-      weight: 20
-
-    - name: "Notes"
-      url: "/en/notes/"
-      weight: 30
-
-    - name: "Cases"
-      url: "/en/cases/"
-      weight: 40
-
-    - name: "Concepts"
-      url: "/en/concepts/"
-      weight: 50
-
-    - name: "Cooperation"
-      url: "/en/cooperation/"
-      weight: 60
-
-    - name: "Legal"
-      url: "/en/legal/"
-      weight: 70
-
-    - name: "日本語"
-      url: "/"
-      weight: 90
-
-    - name: "中文"
-      url: "/zh/"
-      weight: 91
-
-    - name: "English"
-      url: "/en/"
-      weight: 92
-```
+```text
+Fix hugo yaml indentation
