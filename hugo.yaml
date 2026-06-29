@@ -1,6 +1,6 @@
 baseURL: "https://zennns.com/"
-languageCode: "zh-CN"
-title: "ZENNNS｜全野南政技术体系"
+languageCode: "ja-JP"
+title: "ZENNNS｜全野 南政 技術体系"
 theme: "PaperMod"
 
 params:
@@ -14,30 +14,30 @@ params:
 
 menu:
   main:
-    - name: "首页"
+    - name: "Home"
       url: "/"
       weight: 10
 
-    - name: "白皮书"
+    - name: "Whitepaper"
       url: "/whitepaper/"
       weight: 20
 
-    - name: "技术札记"
+    - name: "Notes"
       url: "/notes/"
       weight: 30
 
-    - name: "案例研究"
+    - name: "Cases"
       url: "/cases/"
       weight: 40
 
-    - name: "概念库"
+    - name: "Concepts"
       url: "/concepts/"
       weight: 50
 
-    - name: "合作说明"
+    - name: "Cooperation"
       url: "/cooperation/"
       weight: 60
 
-    - name: "声明"
+    - name: "Legal"
       url: "/legal/"
       weight: 70
