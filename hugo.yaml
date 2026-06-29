@@ -1,8 +1,8 @@
 baseURL: "https://zennns.com/"
 theme: "PaperMod"
 
-defaultContentLanguage: "ja"
-defaultContentLanguageInSubdir: false
+defaultContentLanguage: "jp"
+defaultContentLanguageInSubdir: true
 
 params:
   defaultTheme: "auto"
@@ -13,7 +13,7 @@ params:
   displayFullLangName: true
 
 languages:
-  ja:
+  jp:
     languageCode: "ja-JP"
     languageName: "日本語"
     weight: 1
@@ -24,25 +24,25 @@ languages:
     menu:
       main:
         - name: "Home"
-          url: "/"
+          url: "/jp/"
           weight: 10
         - name: "Whitepaper"
-          url: "/whitepaper/"
+          url: "/jp/whitepaper/"
           weight: 20
         - name: "Notes"
-          url: "/notes/"
+          url: "/jp/notes/"
           weight: 30
         - name: "Cases"
-          url: "/cases/"
+          url: "/jp/cases/"
           weight: 40
         - name: "Concepts"
-          url: "/concepts/"
+          url: "/jp/concepts/"
           weight: 50
         - name: "Cooperation"
-          url: "/cooperation/"
+          url: "/jp/cooperation/"
           weight: 60
         - name: "Legal"
-          url: "/legal/"
+          url: "/jp/legal/"
           weight: 70
 
   zh:
