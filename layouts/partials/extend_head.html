@@ -1,11 +1,19 @@
 <style>
   /* Hide PaperMod default automatic language switch */
-  .lang-switch:not(.fixed-lang-switch) {
+  .logo-switches .lang-switch,
+  .logo-switches > ul:not(.fixed-lang-switch) {
     display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
   }
 
+  /* Fixed language switch */
   .fixed-lang-switch {
-    display: inline-flex;
+    display: inline-flex !important;
     align-items: center;
     gap: 6px;
     margin-inline-start: 10px;
@@ -13,6 +21,10 @@
     list-style: none;
     font-size: 14px;
     line-height: 1;
+    visibility: visible !important;
+    width: auto !important;
+    height: auto !important;
+    overflow: visible !important;
   }
 
   .fixed-lang-switch li {
@@ -48,6 +60,19 @@
     if (!target) {
       return;
     }
+
+    /* Hide PaperMod default language switch again by JavaScript */
+    target.querySelectorAll("ul").forEach(function (el) {
+      if (!el.classList.contains("fixed-lang-switch")) {
+        el.style.display = "none";
+        el.style.visibility = "hidden";
+        el.style.width = "0";
+        el.style.height = "0";
+        el.style.margin = "0";
+        el.style.padding = "0";
+        el.style.overflow = "hidden";
+      }
+    });
 
     if (target.querySelector(".fixed-lang-switch")) {
       return;
