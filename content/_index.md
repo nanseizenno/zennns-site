@@ -1,5 +1,5 @@
 ---
-title: "TPCA / CAE-SDB"
+title: "TPCA (Transition Pre-Control Architecture) "
 description: "状態遷移前制御アーキテクチャ"
 ---
 
