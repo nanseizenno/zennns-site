@@ -5,7 +5,7 @@ description: "Transition Pre-Control Architecture"
 translationKey: "home"
 ----------------------
 
-# TPCA / CAE-SDB
+## TPCA / CAE-SDB
 
 ## Transition Pre-Control Architecture
 
