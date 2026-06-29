@@ -1,0 +1,43 @@
+baseURL: "https://zennns.com/"
+languageCode: "zh-CN"
+title: "ZENNNS｜全野南政技术体系"
+theme: "PaperMod"
+
+params:
+  description: "TPCA / CAE-SDB 状态迁移前置控制架构"
+  author: "全野南政 / Nansei Zenno"
+  defaultTheme: "auto"
+  ShowReadingTime: true
+  ShowBreadCrumbs: true
+  ShowPostNavLinks: true
+  ShowCodeCopyButtons: true
+
+menu:
+  main:
+    - name: "首页"
+      url: "/"
+      weight: 10
+
+    - name: "白皮书"
+      url: "/whitepaper/"
+      weight: 20
+
+    - name: "技术札记"
+      url: "/notes/"
+      weight: 30
+
+    - name: "案例研究"
+      url: "/cases/"
+      weight: 40
+
+    - name: "概念库"
+      url: "/concepts/"
+      weight: 50
+
+    - name: "合作说明"
+      url: "/cooperation/"
+      weight: 60
+
+    - name: "声明"
+      url: "/legal/"
+      weight: 70
