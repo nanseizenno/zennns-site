@@ -2,8 +2,6 @@
 title: "关于作者"
 draft: false
 ShowReadingTime: false
-_build:
-  list: never
 ---
 
 全野南政 / Nansei Zenno
