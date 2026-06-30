@@ -2,9 +2,6 @@
 title: "State Transition Engineering"
 draft: false
 ---
-
-## State Transition Engineering
-
 ## 复杂工程系统状态迁移知识体系
 
 复杂工程系统进入目标状态前，需要完成一系列状态判断。
