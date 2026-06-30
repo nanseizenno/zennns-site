@@ -19,31 +19,37 @@ languages:
     weight: 1
     title: "State Transition Engineering"
     params:
-      description: "TPCA / CAE-SDB 状態遷移前制御アーキテクチャ"
+      description: "複雑工程システムの状態遷移に関する知識体系と共通工程言語"
       author: "全野南政 / Nansei Zenno"
     menu:
       main:
         - name: "Home"
           url: "/jp/"
           weight: 10
-        - name: "Whitepaper"
-          url: "/jp/whitepaper/"
+        - name: "Questions"
+          url: "/jp/questions/"
           weight: 20
-        - name: "Notes"
-          url: "/jp/notes/"
+        - name: "Concepts"
+          url: "/jp/concepts/"
           weight: 30
         - name: "Cases"
           url: "/jp/cases/"
           weight: 40
-        - name: "Concepts"
-          url: "/jp/concepts/"
+        - name: "White Papers"
+          url: "/jp/whitepaper/"
           weight: 50
+        - name: "Notes"
+          url: "/jp/notes/"
+          weight: 60
         - name: "Cooperation"
           url: "/jp/cooperation/"
-          weight: 60
+          weight: 70
+        - name: "About"
+          url: "/jp/about/"
+          weight: 80
         - name: "Legal"
           url: "/jp/legal/"
-          weight: 70
+          weight: 90
 
   zh:
     languageCode: "zh-CN"
@@ -51,31 +57,37 @@ languages:
     weight: 2
     title: "State Transition Engineering"
     params:
-      description: "TPCA / CAE-SDB 状态迁移前置控制架构"
+      description: "构建复杂工程系统状态迁移的知识体系与共同工程语言"
       author: "全野南政 / Nansei Zenno"
     menu:
       main:
-        - name: "Home"
+        - name: "首页"
           url: "/zh/"
           weight: 10
-        - name: "Whitepaper"
-          url: "/zh/whitepaper/"
+        - name: "工程问题"
+          url: "/zh/questions/"
           weight: 20
-        - name: "Notes"
-          url: "/zh/notes/"
+        - name: "概念库"
+          url: "/zh/concepts/"
           weight: 30
-        - name: "Cases"
+        - name: "案例"
           url: "/zh/cases/"
           weight: 40
-        - name: "Concepts"
-          url: "/zh/concepts/"
+        - name: "白皮书"
+          url: "/zh/whitepaper/"
           weight: 50
-        - name: "Cooperation"
-          url: "/zh/cooperation/"
+        - name: "技术札记"
+          url: "/zh/notes/"
           weight: 60
-        - name: "Legal"
-          url: "/zh/legal/"
+        - name: "合作说明"
+          url: "/zh/cooperation/"
           weight: 70
+        - name: "关于"
+          url: "/zh/about/"
+          weight: 80
+        - name: "声明"
+          url: "/zh/legal/"
+          weight: 90
 
   en:
     languageCode: "en-US"
@@ -83,28 +95,34 @@ languages:
     weight: 3
     title: "State Transition Engineering"
     params:
-      description: "TPCA / CAE-SDB Transition Pre-Control Architecture"
+      description: "A knowledge system and common engineering language for state transitions in complex systems"
       author: "Nansei Zenno"
     menu:
       main:
         - name: "Home"
           url: "/en/"
           weight: 10
-        - name: "Whitepaper"
-          url: "/en/whitepaper/"
+        - name: "Questions"
+          url: "/en/questions/"
           weight: 20
-        - name: "Notes"
-          url: "/en/notes/"
+        - name: "Concepts"
+          url: "/en/concepts/"
           weight: 30
         - name: "Cases"
           url: "/en/cases/"
           weight: 40
-        - name: "Concepts"
-          url: "/en/concepts/"
+        - name: "White Papers"
+          url: "/en/whitepaper/"
           weight: 50
+        - name: "Notes"
+          url: "/en/notes/"
+          weight: 60
         - name: "Cooperation"
           url: "/en/cooperation/"
-          weight: 60
+          weight: 70
+        - name: "About"
+          url: "/en/about/"
+          weight: 80
         - name: "Legal"
           url: "/en/legal/"
-          weight: 70
+          weight: 90
