@@ -26,7 +26,7 @@ languages:
         - name: "Home"
           url: "/jp/"
           weight: 10
-        - name: "Questions"
+        - name: "Engineering Questions"
           url: "/jp/questions/"
           weight: 20
         - name: "Concepts"
@@ -38,7 +38,7 @@ languages:
         - name: "White Papers"
           url: "/jp/whitepaper/"
           weight: 50
-        - name: "Notes"
+        - name: "Technical Notes"
           url: "/jp/notes/"
           weight: 60
         - name: "Cooperation"
@@ -47,9 +47,27 @@ languages:
         - name: "About"
           url: "/jp/about/"
           weight: 80
-        - name: "Legal"
-          url: "/jp/legal/"
-          weight: 90
+
+        - name: "About TPCA"
+          url: "/jp/about/tpca/"
+          parent: "About"
+          weight: 81
+        - name: "About the Author"
+          url: "/jp/about/author/"
+          parent: "About"
+          weight: 82
+        - name: "Roadmap"
+          url: "/jp/about/roadmap/"
+          parent: "About"
+          weight: 83
+        - name: "Legal Notice"
+          url: "/jp/about/legal/"
+          parent: "About"
+          weight: 84
+        - name: "Contact"
+          url: "/jp/about/contact/"
+          parent: "About"
+          weight: 85
 
   zh:
     languageCode: "zh-CN"
@@ -85,9 +103,27 @@ languages:
         - name: "关于"
           url: "/zh/about/"
           weight: 80
+
+        - name: "关于 TPCA"
+          url: "/zh/about/tpca/"
+          parent: "关于"
+          weight: 81
+        - name: "关于作者"
+          url: "/zh/about/author/"
+          parent: "关于"
+          weight: 82
+        - name: "路线图"
+          url: "/zh/about/roadmap/"
+          parent: "关于"
+          weight: 83
         - name: "声明"
-          url: "/zh/legal/"
-          weight: 90
+          url: "/zh/about/legal/"
+          parent: "关于"
+          weight: 84
+        - name: "联系方式"
+          url: "/zh/about/contact/"
+          parent: "关于"
+          weight: 85
 
   en:
     languageCode: "en-US"
@@ -102,7 +138,7 @@ languages:
         - name: "Home"
           url: "/en/"
           weight: 10
-        - name: "Questions"
+        - name: "Engineering Questions"
           url: "/en/questions/"
           weight: 20
         - name: "Concepts"
@@ -114,7 +150,7 @@ languages:
         - name: "White Papers"
           url: "/en/whitepaper/"
           weight: 50
-        - name: "Notes"
+        - name: "Technical Notes"
           url: "/en/notes/"
           weight: 60
         - name: "Cooperation"
@@ -123,6 +159,24 @@ languages:
         - name: "About"
           url: "/en/about/"
           weight: 80
-        - name: "Legal"
-          url: "/en/legal/"
-          weight: 90
+
+        - name: "About TPCA"
+          url: "/en/about/tpca/"
+          parent: "About"
+          weight: 81
+        - name: "About the Author"
+          url: "/en/about/author/"
+          parent: "About"
+          weight: 82
+        - name: "Roadmap"
+          url: "/en/about/roadmap/"
+          parent: "About"
+          weight: 83
+        - name: "Legal Notice"
+          url: "/en/about/legal/"
+          parent: "About"
+          weight: 84
+        - name: "Contact"
+          url: "/en/about/contact/"
+          parent: "About"
+          weight: 85
