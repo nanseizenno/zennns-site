@@ -10,7 +10,7 @@ ShowReadingTime: false
 
 ## 页面导航
 
-[作者](/zh/about/author/)  
+[关于作者](/zh/about/author/)  
 了解作者背景、工程经历和当前研究方向。
 
 [声明](/zh/about/legal/)  
