@@ -11,7 +11,7 @@ ShowReadingTime: false
 
 ## ページ案内
 
-[著者](/jp/about/author/)  
+[著者について](/jp/about/author/)  
 著者の経歴、工程設計における実務経験、現在の研究および技術整理の方向性について紹介します。
 
 [知的財産について](/jp/about/legal/)  
