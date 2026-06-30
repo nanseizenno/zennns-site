@@ -14,8 +14,8 @@ ShowReadingTime: false
 [著者](/jp/about/author/)  
 著者の経歴、工程設計における実務経験、現在の研究および技術整理の方向性について紹介します。
 
-[声明・知的財産について](/jp/about/legal/)  
+[知的財産について](/jp/about/legal/)  
 本サイトの利用範囲、知的財産権、特許構成、公開範囲について説明します。
 
-[協力・連携について](/jp/about/cooperation/)  
+[協力について](/jp/about/cooperation/)  
 TPCA / CAE-SDB に関する協力の方向性、連携範囲、連絡方法について説明します。
