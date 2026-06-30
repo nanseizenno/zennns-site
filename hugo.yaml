@@ -41,33 +41,26 @@ languages:
         - name: "Technical Notes"
           url: "/jp/notes/"
           weight: 60
-        - name: "Cooperation"
-          url: "/jp/cooperation/"
-          weight: 70
         - name: "About"
           url: "/jp/about/"
-          weight: 80
+          weight: 70
 
-        - name: "About TPCA"
-          url: "/jp/about/tpca/"
+        - name: "About Cooperation"
+          url: "/jp/about/cooperation/"
           parent: "About"
-          weight: 81
-        - name: "About the Author"
-          url: "/jp/about/author/"
-          parent: "About"
-          weight: 82
-        - name: "Roadmap"
-          url: "/jp/about/roadmap/"
-          parent: "About"
-          weight: 83
+          weight: 71
         - name: "Legal Notice"
           url: "/jp/about/legal/"
           parent: "About"
-          weight: 84
+          weight: 72
         - name: "Contact"
           url: "/jp/about/contact/"
           parent: "About"
-          weight: 85
+          weight: 73
+        - name: "About the Author"
+          url: "/jp/about/author/"
+          parent: "About"
+          weight: 74
 
   zh:
     languageCode: "zh-CN"
@@ -97,33 +90,26 @@ languages:
         - name: "技术札记"
           url: "/zh/notes/"
           weight: 60
-        - name: "合作说明"
-          url: "/zh/cooperation/"
-          weight: 70
         - name: "关于"
           url: "/zh/about/"
-          weight: 80
+          weight: 70
 
-        - name: "关于 TPCA"
-          url: "/zh/about/tpca/"
+        - name: "合作说明"
+          url: "/zh/about/cooperation/"
           parent: "关于"
-          weight: 81
-        - name: "关于作者"
-          url: "/zh/about/author/"
-          parent: "关于"
-          weight: 82
-        - name: "路线图"
-          url: "/zh/about/roadmap/"
-          parent: "关于"
-          weight: 83
+          weight: 71
         - name: "声明"
           url: "/zh/about/legal/"
           parent: "关于"
-          weight: 84
+          weight: 72
         - name: "联系方式"
           url: "/zh/about/contact/"
           parent: "关于"
-          weight: 85
+          weight: 73
+        - name: "关于作者"
+          url: "/zh/about/author/"
+          parent: "关于"
+          weight: 74
 
   en:
     languageCode: "en-US"
@@ -153,30 +139,23 @@ languages:
         - name: "Technical Notes"
           url: "/en/notes/"
           weight: 60
-        - name: "Cooperation"
-          url: "/en/cooperation/"
-          weight: 70
         - name: "About"
           url: "/en/about/"
-          weight: 80
+          weight: 70
 
-        - name: "About TPCA"
-          url: "/en/about/tpca/"
+        - name: "About Cooperation"
+          url: "/en/about/cooperation/"
           parent: "About"
-          weight: 81
-        - name: "About the Author"
-          url: "/en/about/author/"
-          parent: "About"
-          weight: 82
-        - name: "Roadmap"
-          url: "/en/about/roadmap/"
-          parent: "About"
-          weight: 83
+          weight: 71
         - name: "Legal Notice"
           url: "/en/about/legal/"
           parent: "About"
-          weight: 84
+          weight: 72
         - name: "Contact"
           url: "/en/about/contact/"
           parent: "About"
-          weight: 85
+          weight: 73
+        - name: "About the Author"
+          url: "/en/about/author/"
+          parent: "About"
+          weight: 74
