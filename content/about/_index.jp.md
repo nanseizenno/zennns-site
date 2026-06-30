@@ -3,9 +3,6 @@ title: "このサイトについて"
 draft: false
 ShowReadingTime: false
 ---
-
-## このサイトについて
-
 本サイトは、複雑な工程システムにおける状態遷移に関する工学的知見を体系化するためのサイトです。
 
 主な対象領域は、State Transition Engineering、TPCA / CAE-SDB、PCN、製造現場における協調停滞の診断、自動化実行ユニットの状態遷移前判定、デジタル呼び出しガバナンスです。
