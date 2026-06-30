@@ -2,9 +2,6 @@
 title: "Concepts"
 draft: false
 ---
-
-# Concepts
-
 This page defines the basic terms used in the TPCA / CAE-SDB framework.  
 The definitions are written for engineering use and are intended to keep public materials, case descriptions, cooperation documents, and technical notes consistent.
 
