@@ -17,7 +17,7 @@ languages:
     languageCode: "ja-JP"
     languageName: "日本語"
     weight: 1
-    title: "TPCA / CAE-SDB 技術体系"
+    title: "State Transition Engineering"
     params:
       description: "TPCA / CAE-SDB 状態遷移前制御アーキテクチャ"
       author: "全野南政 / Nansei Zenno"
@@ -49,7 +49,7 @@ languages:
     languageCode: "zh-CN"
     languageName: "中文"
     weight: 2
-    title: "TPCA / CAE-SDB 技术体系"
+    title: "State Transition Engineering"
     params:
       description: "TPCA / CAE-SDB 状态迁移前置控制架构"
       author: "全野南政 / Nansei Zenno"
@@ -81,7 +81,7 @@ languages:
     languageCode: "en-US"
     languageName: "English"
     weight: 3
-    title: "TPCA / CAE-SDB Technical Framework"
+    title: "State Transition Engineering"
     params:
       description: "TPCA / CAE-SDB Transition Pre-Control Architecture"
       author: "Nansei Zenno"
