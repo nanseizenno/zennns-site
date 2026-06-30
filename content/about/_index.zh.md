@@ -1,10 +1,8 @@
 ---
-title: "关于"
+title: "关于本站"
 draft: false
 ShowReadingTime: false
 ---
-
-## 关于本站
 
 本网站用于整理复杂工程系统状态迁移相关的工程知识，重点围绕 State Transition Engineering、TPCA / CAE-SDB、PCN、制造现场协同停滞诊断、自动化执行单元前置判定和数字调用治理展开。
 
