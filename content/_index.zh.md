@@ -5,6 +5,7 @@ draft: false
 
 ## 复杂工程系统状态迁移知识体系
 
+
 复杂工程系统进入目标状态前，需要完成一系列状态判定。
 
 这些判定广泛存在于制造系统、自动化执行单元、PLC / HMI、机器人系统、MES / WCS、AGV / AMR 群控系统、API 网关以及生成式 AI 调用系统中。
@@ -12,6 +13,7 @@ draft: false
 工程现场长期存在一类问题：
 
 系统表面上已经具备某些条件，但仍不能稳定进入下一状态。
+
 
 例如：
 
@@ -23,13 +25,14 @@ draft: false
 - 多个系统记录了很多状态，却不能形成协同判断；
 - 状态迁移条件、异常边界和执行链设计长期依赖个人经验。
 
-这些问题通常发生在同一个位置：
 
-系统准备进入目标状态、目标执行路径或目标物理执行阶段之前。
+这些问题通常发生在同一个位置： 系统准备进入目标状态、目标执行路径或目标物理执行阶段之前。
+
 
 ## 从工程问题开始
 
 如果你正在思考以下问题，可以先从 Engineering Questions 开始阅读。
+
 
 ### 单元与现场执行问题
 
@@ -45,6 +48,7 @@ draft: false
 4. [为什么报警越来越多，排查时间没有明显缩短？](/zh/questions/why-alarms-do-not-reduce-troubleshooting/)  
    报警能指出设备或信号异常，却未必能解释状态迁移失败的原因。
 
+
 ### 多系统联动问题
 
 5. [为什么 MES / WCS 能记录，却不能解释停滞？](/zh/questions/why-mes-records-but-cannot-explain/)  
@@ -59,16 +63,17 @@ draft: false
 8. [为什么系统记录很多状态，却不能形成协同判断？](/zh/questions/why-status-records-cannot-form-coordination-judgment/)  
    多个系统都在记录状态，但如果缺少统一的 C / A / E 映射和 S / D / B 判定，就难以说明协同停滞来自结构缺失、动态异常还是控制边界。
 
+
 ### 状态迁移设计问题
 
 9. [为什么状态迁移设计长期依赖个人经验？](/zh/questions/why-state-transition-depends-on-experience/)  
    状态迁移条件、异常边界和执行链设计在不同项目、不同工程师之间缺少统一标准。
 
+
 ## 这些问题指向同一个位置
 
-Ready、Waiting、Alarm、Pending、Blocked、Interlock、Task Created 这些状态都很重要。
+Ready、Waiting、Alarm、Pending、Blocked、Interlock、Task Created 这些状态都很重要。但它们通常只是压缩后的状态表达。
 
-但它们通常只是压缩后的状态表达。
 
 现场真正需要进一步判断的是：
 
@@ -80,6 +85,7 @@ Ready、Waiting、Alarm、Pending、Blocked、Interlock、Task Created 这些状
 - 经验如何沉淀为可复用的状态迁移设计结构。
 
 这就是状态迁移值得单独设计的原因。
+
 
 ## TPCA / CAE-SDB
 
@@ -104,18 +110,18 @@ S / D / B 判定
 状态记录与追溯
 
 C / A / E 表示三类状态变量：
-
 - Condition：条件状态
 - Authority：许可状态
 - Execution Chain：执行链状态
 
-S / D / B 表示三类判定性质：
 
+S / D / B 表示三类判定性质：
 - Structure：结构完整性
 - Dynamics：动态时序有效性
 - Boundary：控制边界
 
 TPCA / CAE-SDB 将 Ready、NG、Waiting、Pending、Blocked 等压缩状态继续展开，明确问题来源、判定性质、控制路径和记录方式。
+
 
 ## 后续阅读入口
 
