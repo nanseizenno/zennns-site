@@ -1,10 +1,25 @@
 {{- define "main" }}
+
+<style>
+  .post-content a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+
+  .post-content a:hover {
+    text-decoration-thickness: 2px;
+  }
+</style>
+
 <article class="post-single">
   <header class="post-header">
     <h1 class="post-title">{{ .Title }}</h1>
   </header>
+
   <div class="post-content">
     {{ .Content }}
   </div>
 </article>
+
 {{- end }}
