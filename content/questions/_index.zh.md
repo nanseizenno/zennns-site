@@ -8,7 +8,7 @@ ShowReadingTime: false
 
 如果你正在思考以下问题，可以从对应文章开始阅读。
 
-## 单元执行问题
+## 单元与现场执行问题
 1. [为什么 Ready 不够？](/zh/questions/why-ready-is-not-enough/)  
    设备已经 Ready，但系统仍不能稳定进入下一阶段。
 
