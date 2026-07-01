@@ -2,6 +2,7 @@
 title: "Engineering Questions"
 draft: false
 ShowReadingTime: false
+layout: "questions"
 ---
 
 ## 从这些工程问题开始
