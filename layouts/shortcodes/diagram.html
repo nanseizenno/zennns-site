@@ -1,0 +1,12 @@
+<figure class="diagram-wide">
+  <div class="diagram-scroll">
+    <img
+      src="{{ .Get "src" }}"
+      alt="{{ .Get "alt" }}"
+      loading="lazy"
+    >
+  </div>
+  {{ with .Get "caption" }}
+  <figcaption class="diagram-caption">{{ . }}</figcaption>
+  {{ end }}
+</figure>
