@@ -1,5 +1,5 @@
 ---
-title: "TPCA / CAE-SDB 状态迁移前置控制架构"
+title: "TPCA/CAE-SDB 状态迁移前置控制架构"
 summary: "面向制造系统的前置判定、结构诊断与多路径控制"
 draft: false
 ShowReadingTime: true
@@ -7,9 +7,7 @@ ShowToc: true
 TocOpen: true
 ---
 
-## 状态迁移前置控制架构 TPCA / CAE-SDB
-
-### 面向制造系统的前置判定、结构诊断与多路径控制
+## 面向制造系统的前置判定、结构诊断与多路径控制
 
 ## 一句话定义
 
