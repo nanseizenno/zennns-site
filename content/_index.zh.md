@@ -1,10 +1,7 @@
 ---
-title: "State Transition Engineering"
+title: "复杂工程系统状态迁移知识体系"
 draft: false
 ---
-
-## 复杂工程系统状态迁移知识体系
-
 
 复杂工程系统进入目标状态前，需要完成一系列状态判定。
 
