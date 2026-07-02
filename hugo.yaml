@@ -58,7 +58,7 @@ languages:
           parent: "このサイト"
           weight: 73
 
-   zh:
+  zh:
     languageCode: "zh-CN"
     languageName: "中文"
     weight: 2
