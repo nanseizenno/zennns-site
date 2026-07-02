@@ -6,7 +6,12 @@ summary: "以视觉识别输送线机器人单元为代表例，说明为什么 
 ---
 
 ## 为什么 Robot Ready，不代表可以进入抓取阶段
+本案例中的 PCN、C / A / E、S / D / B、多路径控制等术语，可先参见：
 
+- [Concepts｜概念库](/zh/concepts/)
+- [TPCA / CAE-SDB 公开白皮书](/zh/whitepaper/)
+- [为什么 Ready 不够？](/zh/questions/why-ready-is-not-enough/)
+- [为什么 PLC Ready 仍不能运行？](/zh/questions/why-plc-ready-does-not-run/)
 ## 1. 现场问题
 
 在视觉识别输送线机器人单元中，现场经常会遇到一种情况：
@@ -373,3 +378,10 @@ B：边界是否可控
 本文为公开说明案例，用于解释 TPCA / CAE-SDB 在自动化执行单元中的工程逻辑。
 
 实际项目中的具体设计，应根据设备结构、现场节拍、安全要求、控制平台和交付规范另行确定。
+
+本案例中的 PCN、C / A / E、S / D / B、多路径控制等术语，可先参见：
+
+- [Concepts｜概念库](/zh/concepts/)
+- [TPCA / CAE-SDB 公开白皮书](/zh/whitepaper/)
+- [为什么 Ready 不够？](/zh/questions/why-ready-is-not-enough/)
+- [为什么 PLC Ready 仍不能运行？](/zh/questions/why-plc-ready-does-not-run/)
