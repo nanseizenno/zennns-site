@@ -1,7 +1,6 @@
 ---
 title: "权利声明"
-draft: false
-ShowReadingTime: false
+summary: "网站内容使用边界、知识产权说明、专利相关公开限制和引用规则。"
 ---
 
 本网站用于公开说明 State Transition Engineering、TPCA / CAE-SDB 状态迁移前置控制架构及相关工程应用方向。
