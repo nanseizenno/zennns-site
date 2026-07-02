@@ -223,6 +223,8 @@ Waiting 是系统没有进入下一状态时给出的压缩表达。
 
 ## 进一步阅读
 
+- [概念库：TPCA / CAE-SDB](/zh/concepts/)
+- [TPCA / CAE-SDB 公开白皮书](/zh/whitepaper/)
 - [为什么 Ready 不够？](/zh/questions/why-ready-is-not-enough/)
 - [为什么 PLC Ready 仍不能运行？](/zh/questions/why-plc-ready-does-not-run/)
-- [概念库：TPCA / CAE-SDB](/zh/concepts/)
+
