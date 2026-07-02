@@ -1,3 +1,17 @@
+baseURL: "https://zennns.com/"
+theme: "PaperMod"
+
+defaultContentLanguage: "jp"
+defaultContentLanguageInSubdir: true
+
+params:
+  defaultTheme: "auto"
+  ShowReadingTime: true
+  ShowBreadCrumbs: true
+  ShowPostNavLinks: true
+  ShowCodeCopyButtons: true
+  displayFullLangName: true
+
 languages:
   jp:
     languageCode: "ja-JP"
