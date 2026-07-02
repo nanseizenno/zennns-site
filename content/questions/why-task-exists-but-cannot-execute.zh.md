@@ -326,7 +326,9 @@ B：Boundary，控制边界。
 
 ## 进一步阅读
 
+- [概念库：TPCA / CAE-SDB](/zh/concepts/)
+- [TPCA / CAE-SDB 公开白皮书](/zh/whitepaper/)
 - [为什么 MES / WCS 能记录，却不能解释停滞？](/zh/questions/why-mes-records-but-cannot-explain/)
 - [为什么资源锁、区域许可和下游许可比 Ready 更关键？](/zh/questions/why-authority-is-more-critical-than-ready/)
 - [为什么系统记录很多状态，却不能形成协同判断？](/zh/questions/why-status-records-cannot-form-coordination-judgment/)
-- [概念库：TPCA / CAE-SDB](/zh/concepts/)
+
