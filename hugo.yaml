@@ -1,66 +1,48 @@
-baseURL: "https://zennns.com/"
-theme: "PaperMod"
-
-defaultContentLanguage: "jp"
-defaultContentLanguageInSubdir: true
-
-params:
-  defaultTheme: "auto"
-  ShowReadingTime: true
-  ShowBreadCrumbs: true
-  ShowPostNavLinks: true
-  ShowCodeCopyButtons: true
-  displayFullLangName: true
-
 languages:
   jp:
     languageCode: "ja-JP"
     languageName: "日本語"
     weight: 1
-    title: "State Transition Engineering"
+    title: "複雑工程システム状態遷移知識庫"
     params:
-      description: "複雑工程システムの状態遷移に関する知識体系と共通工程言語"
+      description: "製造システム、PLC / HMI、MES / WCS、AGV / AMR、ロボット単元およびデジタル呼出し制御に関する状態遷移先行制御の知識体系。"
       author: "全野南政 / Nansei Zenno"
     menu:
       main:
-        - name: "Home"
+        - name: "ホーム"
           url: "/jp/"
           weight: 10
-        - name: "Engineering Questions"
+        - name: "工程課題"
           url: "/jp/questions/"
           weight: 20
-        - name: "Concepts"
+        - name: "基本概念"
           url: "/jp/concepts/"
           weight: 30
-        - name: "Cases"
+        - name: "応用事例"
           url: "/jp/cases/"
           weight: 40
-        - name: "White Papers"
+        - name: "白書"
           url: "/jp/whitepaper/"
           weight: 50
-        - name: "Technical Notes"
+        - name: "技術札記"
           url: "/jp/notes/"
           weight: 60
-        - name: "About"
+        - name: "このサイト"
           url: "/jp/about/"
           weight: 70
 
-        - name: "About Cooperation"
+        - name: "協力について"
           url: "/jp/about/cooperation/"
-          parent: "About"
+          parent: "このサイト"
           weight: 71
-        - name: "Legal Notice"
+        - name: "権利表示"
           url: "/jp/about/legal/"
-          parent: "About"
+          parent: "このサイト"
           weight: 72
-        - name: "Contact"
-          url: "/jp/about/contact/"
-          parent: "About"
-          weight: 73
-        - name: "About the Author"
+        - name: "著者について"
           url: "/jp/about/author/"
-          parent: "About"
-          weight: 74
+          parent: "このサイト"
+          weight: 73
 
   zh:
     languageCode: "zh-CN"
@@ -72,19 +54,19 @@ languages:
       author: "全野南政 / Nansei Zenno"
     menu:
       main:
-        - name: "网站首页"
+        - name: "首页"
           url: "/zh/"
           weight: 10
         - name: "工程问题"
           url: "/zh/questions/"
           weight: 20
-        - name: "概念术语"
+        - name: "核心概念"
           url: "/zh/concepts/"
           weight: 30
         - name: "应用案例"
           url: "/zh/cases/"
           weight: 40
-        - name: "公开白书"
+        - name: "白皮书"
           url: "/zh/whitepaper/"
           weight: 50
         - name: "技术札记"
@@ -102,14 +84,10 @@ languages:
           url: "/zh/about/legal/"
           parent: "关于本站"
           weight: 72
-        - name: "联系方式"
-          url: "/zh/about/contact/"
-          parent: "关于本站"
-          weight: 73
         - name: "关于作者"
           url: "/zh/about/author/"
           parent: "关于本站"
-          weight: 74
+          weight: 73
 
   en:
     languageCode: "en-US"
@@ -117,7 +95,7 @@ languages:
     weight: 3
     title: "State Transition Engineering"
     params:
-      description: "A knowledge system and common engineering language for state transitions in complex systems"
+      description: "A knowledge system and common engineering language for state transitions in complex systems."
       author: "Nansei Zenno"
     menu:
       main:
@@ -127,7 +105,7 @@ languages:
         - name: "Engineering Questions"
           url: "/en/questions/"
           weight: 20
-        - name: "Concepts"
+        - name: "Core Concepts"
           url: "/en/concepts/"
           weight: 30
         - name: "Cases"
@@ -143,7 +121,7 @@ languages:
           url: "/en/about/"
           weight: 70
 
-        - name: "About Cooperation"
+        - name: "Cooperation"
           url: "/en/about/cooperation/"
           parent: "About"
           weight: 71
@@ -151,11 +129,7 @@ languages:
           url: "/en/about/legal/"
           parent: "About"
           weight: 72
-        - name: "Contact"
-          url: "/en/about/contact/"
-          parent: "About"
-          weight: 73
-        - name: "About the Author"
+        - name: "Author"
           url: "/en/about/author/"
           parent: "About"
-          weight: 74
+          weight: 73
