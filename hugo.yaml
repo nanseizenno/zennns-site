@@ -72,16 +72,16 @@ languages:
       author: "全野南政 / Nansei Zenno"
     menu:
       main:
-        - name: "首页"
+        - name: "网站首页"
           url: "/zh/"
           weight: 10
         - name: "工程问题"
           url: "/zh/questions/"
           weight: 20
-        - name: "概念库"
+        - name: "概念术语"
           url: "/zh/concepts/"
           weight: 30
-        - name: "案例"
+        - name: "应用案例"
           url: "/zh/cases/"
           weight: 40
         - name: "白皮书"
@@ -90,25 +90,25 @@ languages:
         - name: "技术札记"
           url: "/zh/notes/"
           weight: 60
-        - name: "关于"
+        - name: "关于本站"
           url: "/zh/about/"
           weight: 70
 
         - name: "合作说明"
           url: "/zh/about/cooperation/"
-          parent: "关于"
+          parent: "关于本站"
           weight: 71
-        - name: "声明"
+        - name: "权利声明"
           url: "/zh/about/legal/"
-          parent: "关于"
+          parent: "关于本站"
           weight: 72
         - name: "联系方式"
           url: "/zh/about/contact/"
-          parent: "关于"
+          parent: "关于本站"
           weight: 73
         - name: "关于作者"
           url: "/zh/about/author/"
-          parent: "关于"
+          parent: "关于本站"
           weight: 74
 
   en:
