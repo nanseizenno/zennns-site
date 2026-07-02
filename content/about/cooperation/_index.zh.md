@@ -32,7 +32,7 @@ ShowReadingTime: false
 
 邮件联系：
 
-`contact@zennns.com`
+[contact@zennns.com](mailto:contact@zennns.com)
 
 来信时建议简要说明：
 
