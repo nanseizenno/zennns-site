@@ -84,7 +84,7 @@ languages:
         - name: "应用案例"
           url: "/zh/cases/"
           weight: 40
-        - name: "白皮书"
+        - name: "公开白书"
           url: "/zh/whitepaper/"
           weight: 50
         - name: "技术札记"
