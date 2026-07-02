@@ -66,9 +66,9 @@ languages:
     languageCode: "zh-CN"
     languageName: "中文"
     weight: 2
-    title: "State Transition Engineering"
+    title: "复杂工程系统状态迁移知识库 | State Transition Engineering"
     params:
-      description: "构建复杂工程系统状态迁移的知识体系与共同工程语言"
+      description: "面向制造系统、PLC / HMI、MES / WCS、AGV / AMR、机器人单元和数字调用治理的状态迁移前置控制知识库。"
       author: "全野南政 / Nansei Zenno"
     menu:
       main:
