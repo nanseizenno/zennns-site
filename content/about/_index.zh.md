@@ -52,7 +52,7 @@ PoC、技术验证或合作研究的前期沟通。
 如果你是第一次访问本站，建议按以下顺序阅读：
 
 [工程问题](/zh/questions/)：从现场问题进入；  
-[概念库](/zh/concepts/)：确认核心术语；  
+[核心概念](/zh/concepts/)：确认核心术语；  
 [应用案例](/zh/cases/)：查看工程落地方式；  
-[公开白皮书](/zh/whitepaper/)：系统理解整体架构；  
+[白皮书](/zh/whitepaper/)：系统理解整体架构；  
 [技术札记](/zh/notes/tpca-existing-theories/)：理解与既有理论的边界关系。
