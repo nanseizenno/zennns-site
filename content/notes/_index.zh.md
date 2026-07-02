@@ -12,5 +12,5 @@ draft: false
 ## 相关阅读
 
 - [TPCA / CAE-SDB 公开白皮书](/zh/whitepaper/)
-- [Concepts｜概念库](/zh/concepts/)
+- [Concepts｜概念术语](/zh/concepts/)
 - [Engineering Questions｜工程问题](/zh/questions/)
