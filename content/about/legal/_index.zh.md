@@ -1,5 +1,5 @@
 ---
-title: "声明"
+title: "权利声明"
 draft: false
 ---
 
