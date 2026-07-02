@@ -13,7 +13,7 @@ ShowReadingTime: false
 [关于作者](/zh/about/author/)  
 了解作者背景、工程经历和当前研究方向。
 
-[声明](/zh/about/legal/)  
+[权利声明](/zh/about/legal/)  
 了解网站内容的使用边界、知识产权说明、专利布局和公开限制。
 
 [合作说明](/zh/about/cooperation/)  
