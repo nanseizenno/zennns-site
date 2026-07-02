@@ -214,6 +214,8 @@ HMI 全是绿色，但动作不发生；
 
 ## 进一步阅读
 
+- [概念库：TPCA / CAE-SDB](/zh/concepts/)
+- [TPCA / CAE-SDB 公开白皮书](/zh/whitepaper/)
 - [为什么 Ready 不够？](/zh/questions/why-ready-is-not-enough/)
 - [为什么 Waiting 越来越难排查？](/zh/questions/why-waiting-is-hard-to-trace/)
 - [概念库：TPCA / CAE-SDB](/zh/concepts/)
