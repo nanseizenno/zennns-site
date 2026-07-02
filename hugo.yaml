@@ -44,7 +44,7 @@ languages:
           parent: "このサイト"
           weight: 73
 
-  zh:
+   zh:
     languageCode: "zh-CN"
     languageName: "中文"
     weight: 2
@@ -75,7 +75,6 @@ languages:
         - name: "关于本站"
           url: "/zh/about/"
           weight: 70
-
         - name: "合作说明"
           url: "/zh/about/cooperation/"
           parent: "关于本站"
