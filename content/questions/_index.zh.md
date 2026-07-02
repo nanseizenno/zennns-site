@@ -39,3 +39,21 @@ layout: "questions"
 9. [为什么状态迁移设计长期依赖个人经验？](/zh/questions/why-state-transition-depends-on-experience/)  
    状态迁移条件、异常边界和执行链设计在不同项目、不同工程师之间缺少统一标准。
    
+
+
+## 进一步阅读
+
+相关概念：
+
+- [C / A / E](/zh/concepts/#c)
+- [S / D / B](/zh/concepts/#s)
+- [PCN](/zh/concepts/#pcn)
+- [多路径控制](/zh/concepts/#多路径控制)
+
+相关案例：
+
+- [自动化执行单元前置判定案例](/zh/cases/automation-execution-unit-pre-control/)
+
+系统说明：
+
+- [TPCA / CAE-SDB 公开白皮书](/zh/whitepaper/)
