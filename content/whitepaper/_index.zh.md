@@ -553,7 +553,7 @@ TPCA / CAE-SDB 的重点不在于增加更多报警，也不在于替换既有 P
 
 >如果希望理解术语定义，可以阅读：
 
-[Concepts｜概念术语](/zh/concepts/)
+[Concepts｜核心概念](/zh/concepts/)
 
 >如果希望了解工程应用，可以阅读：
 
