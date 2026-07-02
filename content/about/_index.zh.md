@@ -2,9 +2,6 @@
 title: "关于本站"
 description: "State Transition Engineering 中文站的内容定位、作者背景、公开边界和合作入口。"
 ---
-
-# 关于本站
-
 本网站用于整理复杂工程系统状态迁移相关的工程知识。
 
 内容围绕 State Transition Engineering、TPCA / CAE-SDB、PCN，以及制造现场协同停滞诊断、自动化执行单元前置判定、数字调用治理等方向展开。
