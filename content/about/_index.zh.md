@@ -9,13 +9,11 @@ ShowReadingTime: false
 
 本站资料主要用于公开说明工程问题、术语边界、方法结构、典型案例和技术札记。公开内容保持在方法论和工程说明层级。
 
-## 页面导航
-
-[关于作者](/zh/about/author/)  
+## [关于作者](/zh/about/author/)  
 了解作者背景、工程经历和当前研究方向。
 
-[权利声明](/zh/about/legal/)  
+## [权利声明](/zh/about/legal/)  
 了解网站内容的使用边界、知识产权说明、专利相关公开限制和引用规则。
 
-[合作说明](/zh/about/cooperation/)  
+## [合作说明](/zh/about/cooperation/)  
 了解 TPCA / CAE-SDB 相关合作方向、合作边界和沟通方式。
