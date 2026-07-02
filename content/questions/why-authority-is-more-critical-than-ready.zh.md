@@ -330,8 +330,10 @@ Ready 主要说明设备、机构或模块自身具备局部可运行状态。
 
 ## 进一步阅读
 
+- [概念库：TPCA / CAE-SDB](/zh/concepts/)
+- [TPCA / CAE-SDB 公开白皮书](/zh/whitepaper/)
 - [为什么 Ready 不够？](/zh/questions/why-ready-is-not-enough/)
 - [为什么 PLC Ready 仍不能运行？](/zh/questions/why-plc-ready-does-not-run/)
 - [为什么 MES / WCS 能记录，却不能解释停滞？](/zh/questions/why-mes-records-but-cannot-explain/)
 - [为什么系统记录很多状态，却不能形成协同判断？](/zh/questions/why-status-records-cannot-form-coordination-judgment/)
-- [概念库：TPCA / CAE-SDB](/zh/concepts/)
+
