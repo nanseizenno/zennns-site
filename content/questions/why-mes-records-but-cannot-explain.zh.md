@@ -335,7 +335,9 @@ MES / WCS 能记录事件、任务和状态，这很重要。
 
 ## 进一步阅读
 
+- [概念库：TPCA / CAE-SDB](/zh/concepts/)
+- [TPCA / CAE-SDB 公开白皮书](/zh/whitepaper/)
 - [为什么 Ready 不够？](/zh/questions/why-ready-is-not-enough/)
 - [为什么 Waiting 越来越难排查？](/zh/questions/why-waiting-is-hard-to-trace/)
 - [为什么 PLC Ready 仍不能运行？](/zh/questions/why-plc-ready-does-not-run/)
-- [概念库：TPCA / CAE-SDB](/zh/concepts/)
+
