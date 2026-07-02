@@ -1,7 +1,6 @@
 ---
 title: "合作说明"
-draft: false
-ShowReadingTime: false
+summary: "TPCA / CAE-SDB 相关合作方向、合作边界和沟通方式。"
 ---
 
 本页用于说明本站相关内容的合作方向、合作边界和沟通方式。
