@@ -561,22 +561,22 @@ TPCA / CAE-SDB 的重点不在于增加更多报警，也不在于替换既有 P
 
 本白皮书用于承接 Engineering Questions 中提出的工程问题，并给出 TPCA / CAE-SDB 的整体理论方向。
 
-如果希望理解 TPCA / CAE-SDB 与既有工业自动化理论之间的关系，可以阅读：
+>如果希望理解 TPCA / CAE-SDB 与既有工业自动化理论之间的关系，可以阅读：
 
 [TPCA / CAE-SDB 与既有工业自动化理论的关系](/zh/notes/tpca-existing-theories/)
 
-如果正在寻找具体问题入口，可以先阅读：
+>如果正在寻找具体问题入口，可以先阅读：
 
 [Engineering Questions｜工程问题](/zh/questions/)
 
-如果希望理解术语定义，可以阅读：
+>如果希望理解术语定义，可以阅读：
 
-[Concepts｜概念库](/zh/concepts/)
+[Concepts｜概念术语](/zh/concepts/)
 
-如果希望了解工程应用，可以阅读：
+>如果希望了解工程应用，可以阅读：
 
-[Cases｜案例](/zh/cases/)
+[Cases｜应用案例](/zh/cases/)
 
-如果希望跟踪后续技术思考，可以阅读：
+>如果希望跟踪后续技术思考，可以阅读：
 
 [Technical Notes｜技术札记](/zh/notes/)
