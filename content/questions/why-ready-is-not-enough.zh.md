@@ -136,5 +136,7 @@ Ready 很重要，但 Ready 不够。
 
 ## 进一步阅读
 
+- [概念库：TPCA / CAE-SDB](/zh/concepts/)
+- [TPCA / CAE-SDB 公开白皮书](/zh/whitepaper/)
 - [为什么 Waiting 越来越难排查？](/zh/questions/why-waiting-is-hard-to-trace/)
 - [为什么 PLC Ready 仍不能运行？](/zh/questions/why-plc-ready-does-not-run/)
