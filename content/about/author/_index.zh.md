@@ -1,7 +1,6 @@
 ---
 title: "关于作者"
-draft: false
-ShowReadingTime: false
+summary: "作者背景、工程经历和当前研究方向。"
 ---
 
 全野南政 / Nansei Zenno
