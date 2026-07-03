@@ -35,6 +35,10 @@ draft: false
 
 -用于理解多个 PCN 如何按目标状态入口连接成状态迁移前置控制网络，并形成“这里需要增加一个 PCN 点”的工程讨论语言。
 
+### ⭐⭐⭐ OEE VS PCN
+[为什么 OEE 之后还需要 PCN？](/zh/notes/why-oee-pcn/)
+
+
 
 
 ## 相关栏目阅读
