@@ -17,7 +17,7 @@ languages:
     languageCode: "ja-JP"
     languageName: "日本語"
     weight: 1
-    title: "複雑工程システム状態遷移知識庫"
+    title: "状態遷移エンジニアリング"
     params:
       description: "製造システム、PLC / HMI、MES / WCS、AGV / AMR、ロボット単元およびデジタル呼出し制御に関する状態遷移先行制御の知識体系。"
       author: "全野南政 / Nansei Zenno"
