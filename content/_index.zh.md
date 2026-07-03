@@ -7,9 +7,7 @@ ShowReadingTime: false
 ShowToc: false
 ---
 
-# 复杂工程系统状态迁移知识体系
-
-> 设备已经 Ready，为什么还是不动？
+## 设备已经 Ready，为什么还是不动？
 
 在制造现场、自动化执行单元、PLC / HMI、机器人系统、MES / WCS、AGV / AMR 群控系统中，经常出现一些表面上已经满足条件、但系统仍不能进入下一状态的问题。
 
