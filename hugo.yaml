@@ -32,11 +32,11 @@ languages:
         - name: "基本概念"
           url: "/jp/concepts/"
           weight: 30
-        - name: "応用事例"
-          url: "/jp/cases/"
-          weight: 40
         - name: "白書"
           url: "/jp/whitepaper/"
+          weight: 40
+        - name: "応用事例"
+          url: "/jp/cases/"
           weight: 50
         - name: "技術札記"
           url: "/jp/notes/"
@@ -77,11 +77,11 @@ languages:
         - name: "核心概念"
           url: "/zh/concepts/"
           weight: 30
-        - name: "应用案例"
-          url: "/zh/cases/"
-          weight: 40
         - name: "白皮书"
           url: "/zh/whitepaper/"
+          weight: 40
+        - name: "应用案例"
+          url: "/zh/cases/"
           weight: 50
         - name: "技术札记"
           url: "/zh/notes/"
@@ -121,11 +121,11 @@ languages:
         - name: "Core Concepts"
           url: "/en/concepts/"
           weight: 30
-        - name: "Cases"
-          url: "/en/cases/"
-          weight: 40
         - name: "White Papers"
           url: "/en/whitepaper/"
+          weight: 40
+        - name: "Cases"
+          url: "/en/cases/"
           weight: 50
         - name: "Technical Notes"
           url: "/en/notes/"
