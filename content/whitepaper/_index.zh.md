@@ -2,6 +2,13 @@
 title: "TPCA / CAE-SDB 状态迁移前置控制架构"
 summary: "面向制造系统的前置判定、结构诊断与多路径控制"
 description: "介绍 TPCA / CAE-SDB 状态迁移前置控制架构，以及 PCN 前置控制节点、C / A / E 状态映射、S / D / B 判定、多路径控制和典型应用方向。"
+date: 2026-07-01
+lastmod: 2026-07-01
+author: "全野南政"
+document_type: "公开白皮书"
+version: "Public Version 1.0"
+citation_title: "TPCA / CAE-SDB 状态迁移前置控制架构"
+citation_url: "https://zennns.com/zh/whitepaper/"
 draft: false
 ShowReadingTime: true
 ShowToc: true
@@ -9,6 +16,22 @@ TocOpen: true
 ---
 
 ## 面向制造系统的前置判定、结构诊断与多路径控制
+## 文档信息
+
+| 项目 | 内容 |
+|---|---|
+| 文档名称 | TPCA / CAE-SDB 状态迁移前置控制架构 |
+| 文档类型 | 公开白皮书 |
+| 作者 | 全野南政 / Nansei Zenno |
+| 版本 | Public Version 1.0 |
+| 发布日期 | 2026-07-04 |
+| 当前 URL | https://zennns.com/zh/whitepaper/ |
+
+## 建议引用方式
+
+全野南政 / Nansei Zenno，《TPCA / CAE-SDB 状态迁移前置控制架构》，Public Version 1.0，2026-07-01，https://zennns.com/zh/whitepaper/
+
+> 本文为公开白皮书，用于说明 TPCA / CAE-SDB 的工程定位、核心概念、PCN 节点结构和典型应用方向。具体工程实施，应结合实际系统、现场安全要求和合作条件另行设计。
 
 ## 一句话定义
 
