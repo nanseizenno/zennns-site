@@ -329,6 +329,6 @@ PCN 在输出停滞识别结果和控制建议时，同步记录判定过程。
 
 本文为 TPCA / CAE-SDB 在 MES / WCS 协同停滞诊断中的公开案例版本。
 
-Public Case Version 1.0 发布于 2026-06-30。
+Public Case Version 1.0 发布于 2026-06-30
 
-引用时建议保留版本号、发布日期和原始 URL。
+作者：全野南政 / Nansei Zenno
