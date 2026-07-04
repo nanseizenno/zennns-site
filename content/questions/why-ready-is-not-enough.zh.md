@@ -190,10 +190,10 @@ Ready 很重要，但 Ready 不够。
 
 ## 文档信息
 
-题目 ： 为什么 Ready 不够？
-文档类型 ： 工程问题 
-问题类型 ： 单元与现场执行问题 
-版本 ： Public Question Version 1.0 
-发布日期 ： 2026-07-04 
-作者 ： 全野南政 / Nansei Zenno 
+题目 ： 为什么 Ready 不够？ 
+文档类型 ： 工程问题  
+问题类型 ： 单元与现场执行问题  
+版本 ： Public Question Version 1.0  
+发布日期 ： 2026-07-04  
+作者 ： 全野南政 / Nansei Zenno  
 当前 URL ： https://zennns.com/zh/questions/why-ready-is-not-enough/ 
