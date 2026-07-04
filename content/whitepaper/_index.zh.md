@@ -14,8 +14,6 @@ ShowReadingTime: true
 ShowToc: true
 TocOpen: true
 ---
-
-## 面向制造系统的前置判定、结构诊断与多路径控制
 ## 文档信息
 
 | 项目 | 内容 |
