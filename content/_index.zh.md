@@ -51,19 +51,19 @@ ShowToc: false
 ## 阅读入口
 
 [工程问题](/zh/questions/)  
- - 从 Ready、Waiting、PLC Ready、报警、MES / WCS 停滞、任务存在但不能执行、状态记录无法形成协同判断等问题进入。
+ > 从 Ready、Waiting、PLC Ready、报警、MES / WCS 停滞、任务存在但不能执行、状态记录无法形成协同判断等问题进入。
 
 [核心概念](/zh/concepts/)  
- - 理解 TPCA / CAE-SDB、PCN、C / A / E、S / D / B 和多路径控制之间的关系。
+ > 理解 TPCA / CAE-SDB、PCN、C / A / E、S / D / B 和多路径控制之间的关系。
 
 [白皮书](/zh/whitepaper/)  
- - 系统理解 TPCA / CAE-SDB 的工程背景、PCN 前置控制节点、判定结构、多路径控制和应用方向。
+ > 系统理解 TPCA / CAE-SDB 的工程背景、PCN 前置控制节点、判定结构、多路径控制和应用方向。
 
 [应用案例](/zh/cases/)  
- - 查看 TPCA / CAE-SDB 在自动化执行单元和 MES / WCS 协同停滞诊断中的公开说明案例。
+ > 查看 TPCA / CAE-SDB 在自动化执行单元和 MES / WCS 协同停滞诊断中的公开说明案例。
 
 [技术札记](/zh/notes/)  
- - 阅读 TPCA / CAE-SDB 与既有工业自动化理论、PCN 网络、OEE、状态迁移条件显式化等相关说明。
+ > 阅读 TPCA / CAE-SDB 与既有工业自动化理论、PCN 网络、OEE、状态迁移条件显式化等相关说明。
 
 ---
 
