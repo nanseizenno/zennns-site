@@ -384,7 +384,8 @@ B：边界是否可控
 
 本文为 TPCA / CAE-SDB 状态迁移前置控制架构在自动化执行单元中的公开案例版本。
 
-Public Case Version 1.0 发布于 2026-06-30。
+Public Case Version 1.0 发布于 2026-06-30
 
-引用时建议保留版本号、发布日期和原始 URL。
+作者：全野南政 / Nansei Zenno  
+
 
