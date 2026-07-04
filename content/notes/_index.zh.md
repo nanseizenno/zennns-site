@@ -23,14 +23,9 @@ draft: false
 - 用于理解 TPCA / CAE-SDB 与状态机、安全互锁、报警诊断、AI 诊断、MES / WCS 调度和形式化验证之间的边界关系。
 
 
-⭐⭐⭐ [为什么 PCN 是 TPCA 的最小工程单元？](/zh/notes/pcn-minimum-engineering-unit/)
+⭐⭐⭐ [为什么状态迁移条件必须显式化？](/zh/notes/explicit-state-transition-conditions/)
 
-- 用于理解 TPCA 如何通过 PCN 落到具体状态入口、输入、判定、输出和记录。
-
-
-⭐⭐⭐[多个 PCN 如何形成状态迁移前置控制网络？](/zh/notes/pcn-network-structure/)
-
-- 用于理解多个 PCN 如何按目标状态入口连接成状态迁移前置控制网络，并形成“这里需要增加一个 PCN 点”的工程讨论语言。
+- 用于理解 PCN 的方法论核心：把隐含在程序、接口、经验和人工判断中的状态迁移条件，转化为可设计、可检查、可记录、可复用、可改善的工程对象。
 
 
 ⭐⭐⭐[为什么 OEE 之后还需要 PCN？](/zh/notes/why-oee-pcn/)
@@ -38,9 +33,15 @@ draft: false
 - 用于理解 OEE 与 PCN 之间的互补关系，以及为什么设备数据之外还需要状态迁移前置判定。
 
 
-⭐⭐⭐ [为什么状态迁移条件必须显式化？](/zh/notes/explicit-state-transition-conditions/)
+⭐⭐⭐ [为什么 PCN 是 TPCA 的最小工程单元？](/zh/notes/pcn-minimum-engineering-unit/)
 
-- 用于理解 PCN 的方法论核心：把隐含在程序、接口、经验和人工判断中的状态迁移条件，转化为可设计、可检查、可记录、可复用、可改善的工程对象。
+- 用于理解 TPCA 如何通过 PCN 落到具体状态入口、输入、判定、输出和记录。
+
+
+⭐⭐[多个 PCN 如何形成状态迁移前置控制网络？](/zh/notes/pcn-network-structure/)
+
+- 用于理解多个 PCN 如何按目标状态入口连接成状态迁移前置控制网络，并形成“这里需要增加一个 PCN 点”的工程讨论语言。
+
 
 ---
 
