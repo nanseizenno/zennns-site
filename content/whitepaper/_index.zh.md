@@ -18,8 +18,6 @@ TocOpen: true
 
 全野南政 / Nansei Zenno，《TPCA / CAE-SDB 状态迁移前置控制架构》，Public Version 1.0，2026-07-01，https://zennns.com/zh/whitepaper/
 
-> 本文为公开白皮书，用于说明 TPCA / CAE-SDB 的工程定位、核心概念、PCN 节点结构和典型应用方向。具体工程实施应结合实际系统、现场安全要求和项目条件另行设计。
-
 ## 一句话定义
 
 TPCA / CAE-SDB 是一套面向目标状态进入前的工程判定与多路径控制结构。
