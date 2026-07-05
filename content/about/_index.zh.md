@@ -16,10 +16,7 @@ State Transition Engineering 中文站用于整理复杂工程系统状态迁移
 
 作者：全野南政 / Nansei Zenno，长期从事制造现场自动化、生产技术、PLC / HMI、电气控制、生产数据采集、IoT 和工程系统改善相关工作。
 
-详细背景可阅读：
-
-[关于作者](/zh/about/author/)
-
+详细背景可阅读： [关于作者](/zh/about/author/) 
 
 ## 合作与交流
 
@@ -33,9 +30,7 @@ State Transition Engineering 中文站用于整理复杂工程系统状态迁移
 - 当前关注的问题；
 - 希望讨论的是技术交流、PoC、合作开发、引用转载，还是其他事项。
 
-详细说明可阅读：
-
-[合作说明](/zh/about/cooperation/)
+详细说明可阅读： [合作说明](/zh/about/cooperation/)
 
 ## 内容边界
 
