@@ -4,8 +4,6 @@ summary: "介绍作者的工程背景、研究方向，以及 TPCA / CAE-SDB 的
 draft: false
 ---
 
-# 关于作者
-
 全野南政 / Nansei Zenno
 
 长期从事制造现场自动化、生产技术、PLC / HMI、电气控制、生产数据采集、IoT 和工程系统改善相关工作。
