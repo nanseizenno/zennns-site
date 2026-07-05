@@ -1,7 +1,7 @@
 baseURL: "https://zennns.com/"
 theme: "PaperMod"
 
-defaultContentLanguage: "jp"
+defaultContentLanguage: "zh"
 defaultContentLanguageInSubdir: true
 
 params:
