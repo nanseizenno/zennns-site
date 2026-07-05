@@ -22,9 +22,12 @@ TocOpen: true
 > 应用层级：自动化执行单元层  
 > 代表对象：视觉识别输送线机器人单元  
 > 版本：Public Case Version 1.0  
-> 发布日期：2026-06-30  
-> **建议引用方式**  
-> 全野南政，《自动化执行单元前置判定案例：为什么 Robot Ready 不代表可以进入抓取阶段》，TPCA / CAE-SDB 公开案例，Public Case Version 1.0，2026-06-30，https://zennns.com/zh/cases/automation-execution-unit-pre-control/
+> 发布日期：2026-06-30
+
+建议引用方式
+```
+全野南政，《自动化执行单元前置判定案例：为什么 Robot Ready 不代表可以进入抓取阶段》，TPCA / CAE-SDB 公开案例，Public Case Version 1.0，2026-06-30，https://zennns.com/zh/cases/automation-execution-unit-pre-control/
+```
 
 本案例中的 PCN、C / A / E、S / D / B、多路径控制等术语，可先参见：
 
