@@ -23,8 +23,11 @@ TocOpen: true
 > 代表对象：制造现场协同停滞诊断模块  
 > 版本：Public Case Version 1.0  
 > 发布日期：2026-06-30  
-> **建议引用方式**  
-> 全野南政，《MES / WCS 协同停滞诊断模块案例：为什么 MES 记录了状态，仍解释不了制造现场为什么停》，TPCA / CAE-SDB 公开案例，Public Case Version 1.0，2026-06-30，https://zennns.com/zh/cases/collaborative-stagnation-diagnosis/
+
+建议引用方式
+```text
+全野南政，《MES / WCS 协同停滞诊断模块案例：为什么 MES 记录了状态，仍解释不了制造现场为什么停》，TPCA / CAE-SDB 公开案例，Public Case Version 1.0，2026-06-30，https://zennns.com/zh/cases/collaborative-stagnation-diagnosis/
+```
 
 本案例中的术语可先参见：
 
