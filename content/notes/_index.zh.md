@@ -5,13 +5,7 @@ draft: false
 
 技术札记整理面向制造现场、自动化系统和数字调用治理的技术札记。
 
-> 星级表示推荐阅读优先级：
-
-> 重点阅读为-⭐⭐⭐
-
-> 建议阅读为-⭐⭐
-
-> 补充阅读为-⭐
+> 星级表示推荐阅读优先级： 【重点阅读为-⭐⭐⭐】 【建议阅读为-⭐⭐】 【补充阅读为-⭐】
 
 
 ## 技术札记清单
@@ -36,6 +30,10 @@ draft: false
 ⭐⭐⭐ [为什么 PCN 是 TPCA 的最小工程单元？](/zh/notes/pcn-minimum-engineering-unit/)
 
 > 用于理解 TPCA 如何通过 PCN 落到具体状态入口、输入、判定、输出和记录。
+
+⭐⭐⭐ [TPCA / PCN 适用场景分析](/zh/notes/tpca-pcn-applicable-scenarios/)
+
+> 用于判断什么对象可以纳入 PCN，什么对象不应纳入，并说明 C / A / E 信号采集、人的动作、生产 DX 与组织管理流程之间的边界。
 
 
 ⭐⭐[多个 PCN 如何形成状态迁移前置控制网络？](/zh/notes/pcn-network-structure/)
