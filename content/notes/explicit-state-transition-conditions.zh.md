@@ -213,9 +213,14 @@ PCN把“进入下一状态之前到底需要什么”整理出来。
 ---
 
 ## 文档信息
-题目：为什么状态迁移条件必须显式化？
-文档类型：技术札记
-版本：Public Note Version 1.0
-发布日期：2026-07-04
-作者：全野南政 / Nansei Zenno
-当前 URL：https://zennns.com/zh/notes/explicit-state-transition-conditions/
+题目：为什么状态迁移条件必须显式化？  
+文档类型：技术札记  
+版本：Public Note Version 1.0  
+发布日期：2026-07-04  
+作者：全野南政 / Nansei Zenno  
+当前 URL：https://zennns.com/zh/notes/explicit-state-transition-conditions/  
+
+---
+
+本文属于 TPCA / CAE-SDB 状态迁移前置判定方法论的公开说明内容。  
+TPCA、CAE-SDB 与 PCN 为本站作者围绕复杂工程系统目标状态进入前判定问题所整理的术语体系。
