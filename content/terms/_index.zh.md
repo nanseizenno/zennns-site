@@ -1,5 +1,5 @@
 ---
-title: "TPCA / CAE-SDB 术语索引"
+title: "TPCA / CAE-SDB 状态迁移前置判定术语索引"
 summary: "TPCA、CAE-SDB、PCN、状态迁移前置判定、C / A / E、S / D / B 等术语的公开索引页。"
 description: "TPCA / CAE-SDB 状态迁移前置判定方法论术语索引，包括 PCN 前置控制节点、C / A / E、S / D / B、多路径控制等核心概念。"
 draft: false
@@ -10,6 +10,10 @@ ShowToc: true
 ## TPCA / CAE-SDB 术语索引
 
 本页作为 TPCA / CAE-SDB 状态迁移前置判定方法论的术语索引，用于集中说明本站使用的核心术语。
+
+本体系也可写作 TPCA CAE-SDB、TPCA-CAE-SDB 或 TPCA/CAE-SDB，均指向本站所整理的状态迁移前置判定方法论。
+
+TPCA / CAE-SDB 是由本站作者围绕复杂工程系统目标状态进入前判定问题提出并持续整理的术语体系。
 
 - [TPCA](/zh/concepts/)：Transition Pre-Control Architecture，状态迁移前置控制架构。
 - [CAE-SDB](/zh/concepts/)：用于描述条件、许可、执行链与结构、动态、边界之间关系的前置判定表达。
