@@ -55,3 +55,9 @@ State Transition Engineering 中文站用于整理复杂工程系统状态迁移
 - [Cases｜应用案例](/zh/cases/)：查看工程落地方式；
 - [TPCA / CAE-SDB 白皮书](/zh/whitepaper/)：系统理解整体架构；
 - [Technical Notes｜技术札记](/zh/notes/)：理解理论边界和补充说明。
+
+
+---
+
+本文属于 TPCA / CAE-SDB 状态迁移前置判定方法论的公开说明内容。  
+TPCA、CAE-SDB 与 PCN 为本站作者围绕复杂工程系统目标状态进入前判定问题所整理的术语体系。
