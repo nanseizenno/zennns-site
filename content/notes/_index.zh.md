@@ -53,3 +53,8 @@ draft: false
 
 - [Engineering Questions｜工程问题](/zh/questions/)  
   从制造现场常见问题进入，例如 Ready、Waiting、MES / WCS 停滞、任务存在但不能执行等问题。
+
+  ---
+
+本文属于 TPCA / CAE-SDB 状态迁移前置判定方法论的公开说明内容。  
+TPCA、CAE-SDB 与 PCN 为本站作者围绕复杂工程系统目标状态进入前判定问题所整理的术语体系。
