@@ -64,11 +64,11 @@ ShowToc: false
 [TPCA / CAE-SDB 与既有工业自动化理论的关系](/zh/notes/tpca-existing-theories/)
 
 > 如果你已经熟悉状态机、安全互锁、报警诊断、FMEA、STPA、RCA、MES / WCS 调度或形式化验证，建议先阅读这一篇。  
-> 这篇用于说明 TPCA / CAE-SDB 与既有方法之间的关系和边界，避免把它误解成普通报警分类、互锁说明、状态机重命名或 AI 诊断包装。
+> 这篇用于说明 TPCA (Transition Pre-Control Architecture) / CAE-SDB 与既有方法之间的关系和边界，避免把它误解成普通报警分类、互锁说明、状态机重命名或 AI 诊断包装。
 
 [核心概念](/zh/concepts/)
 
-> 理解 TPCA / CAE-SDB、PCN、C / A / E、S / D / B 和多路径控制之间的关系。
+> 理解 TPCA / CAE-SDB、PCN 、C / A / E、S / D / B 和多路径控制之间的关系。
 
 [白皮书](/zh/whitepaper/)
 
@@ -80,7 +80,7 @@ ShowToc: false
 
 [技术札记](/zh/notes/)
 
-> 阅读 PCN 网络、OEE、状态迁移条件显式化、PCN 适用场景等相关补充说明。
+> 阅读 PCN (Pre-Control Node) 网络、OEE、状态迁移条件显式化、PCN 适用场景等相关补充说明。
 
 ---
 
