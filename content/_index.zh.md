@@ -1,7 +1,7 @@
 ---
-title: "工程系统状态迁移知识体系"
+title: "工程系统状态迁移知识体系｜TPCA / CAE-SDB"
 summary: "围绕复杂工程系统进入目标状态前的判定问题，整理 Ready、Waiting、PLC Ready、MES / WCS 停滞、任务执行、资源许可和状态协同等典型问题。"
-description: "工程系统状态迁移知识体系，面向制造现场、自动化执行单元、PLC / HMI、机器人系统、MES / WCS、AGV / AMR 群控系统中的目标状态进入前判定问题。"
+description: "工程系统状态迁移知识体系，TPCA / CAE-SDB 状态迁移前置判定方法论，面向制造现场、自动化执行单元、PLC / HMI、机器人系统、MES / WCS、AGV / AMR 群控系统中的目标状态进入前判定问题。"
 draft: false
 ShowReadingTime: false
 ShowToc: false
