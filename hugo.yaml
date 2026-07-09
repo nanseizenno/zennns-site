@@ -32,13 +32,13 @@ languages:
         - name: "基本概念"
           url: "/jp/concepts/"
           weight: 30
-        - name: "白書"
+        - name: "ホワイトペーパー"
           url: "/jp/whitepaper/"
           weight: 40
         - name: "応用事例"
           url: "/jp/cases/"
           weight: 50
-        - name: "技術札記"
+        - name: "技術ノート"
           url: "/jp/notes/"
           weight: 60
         - name: "このサイト"
@@ -49,7 +49,7 @@ languages:
           url: "/jp/about/cooperation/"
           parent: "このサイト"
           weight: 71
-        - name: "権利表示"
+        - name: "権利について"
           url: "/jp/about/legal/"
           parent: "このサイト"
           weight: 72
