@@ -27,6 +27,11 @@ draft: false
 > 用于理解 OEE 与 PCN 之间的互补关系，以及为什么设备数据之外还需要状态迁移前置判定。
 
 
+⭐⭐⭐ [为什么 PCN 判定记录是一种新的工程数据？](/zh/notes/why-pcn-trace-is-engineering-data/)
+
+> 用于理解 PCN 判定记录与设备数据、生产数据、报警履历之间的区别，以及如何利用 C/A/E 映射、S/D/B 判定、仲裁结果和控制履历，形成状态迁移设计的改善数据源。
+
+
 ⭐⭐⭐ [为什么 PCN 是 TPCA 的最小工程单元？](/zh/notes/pcn-minimum-engineering-unit/)
 
 > 用于理解 TPCA 如何通过 PCN 落到具体状态入口、输入、判定、输出和记录。
