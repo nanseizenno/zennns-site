@@ -14,6 +14,9 @@ TocOpen: true
 本页整理 TPCA / CAE-SDB 状态迁移前置控制架构中的基础术语。  
 术语以工程使用为主，用于统一公开说明、案例资料、合作沟通和后续技术文档中的表达。
 
+[TPCA / CAE-SDB 与既有工业自动化理论的关系](/zh/notes/tpca-existing-theories/)
+
+> 用于理解 TPCA / CAE-SDB 与状态机、安全互锁、报警诊断、AI 诊断、MES / WCS 调度和形式化验证之间的边界关系。
 ---
 
 ## 当前状态 / 目标状态
