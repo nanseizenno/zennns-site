@@ -1,5 +1,4 @@
 ---
-
 title: "TPCA / PCN 建立在什么工程基础上？——五个基础工程共识"
 summary: "从状态迁移、许可约束、执行链接续、动态时序有效性和控制边界五个基础工程共识出发，说明 TPCA / PCN 并不是重新发明已有控制概念，而是把分散在 PLC、状态机、安全逻辑、调度系统和工程师经验中的判断统一组织到目标状态迁移入口。"
 description: "说明 TPCA / PCN 所建立的五个基础工程共识，并进一步解释 TPCA 如何通过 PCN、C/A/E 状态映射、S/D/B 判定、控制仲裁、多路径控制和 Trace，把目标状态进入前的判断转化为可设计、可执行、可追溯的工程对象。"
@@ -13,7 +12,7 @@ draft: false
 ShowReadingTime: true
 ShowToc: true
 TocOpen: true
--------------
+---
 
 ## TPCA / PCN 建立在什么工程基础上？
 
