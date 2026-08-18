@@ -24,7 +24,7 @@ TocOpen: true
 
 建议引用方式：
 
-`全野南政，《生产 DX 状态迁移条件设计与履历分析案例：为什么生产 DX 有了数据，状态迁移仍然依赖经验？》，TPCA / PCN 公开案例，Public Case Version 1.0，2026-08-18，https://zennns.com/zh/cases/production-dx-state-transition-design/`
+`全野南政，《生产 DX 状态迁移条件设计与履历分析案例：为什么生产 DX 有了数据，状态迁移仍然依赖经验？》，TPCA / PCN 公开案例，Public Case Version 1.0，2026-08-18，https://zennns.com/zh/cases/production-dx-state-transition/`
 
 相关阅读：
 
