@@ -1,24 +1,4 @@
-from pathlib import Path
-import zipfile
-
-# 1) 修正 V3.3 正式 Hugo 文件中的资源引用
-v33 = Path("/mnt/data/pcn_home_animation_v3_3")
-html_path = v33 / "pcn-animation-v3-3.html"
-html = html_path.read_text(encoding="utf-8")
-html = html.replace("layouts/shortcodes/pcn-animation-v3-2.html", "layouts/shortcodes/pcn-animation-v3-3.html")
-html = html.replace('css/pcn-animation-v3-2.css', 'css/pcn-animation-v3-3.css')
-html = html.replace('js/pcn-animation-v3-2.js', 'js/pcn-animation-v3-3.js')
-html_path.write_text(html, encoding="utf-8")
-
-zip_path = Path("/mnt/data/pcn_home_animation_v3_3_fixed.zip")
-with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
-    z.write(v33 / "pcn-animation-v3-3.html", "layouts/shortcodes/pcn-animation-v3-3.html")
-    z.write(v33 / "pcn-animation-v3-3.css", "static/css/pcn-animation-v3-3.css")
-    z.write(v33 / "pcn-animation-v3-3.js", "static/js/pcn-animation-v3-3.js")
-    z.write(v33 / "README.md", "README.md")
-
-# 2) 生成更新后的 Concepts 完整 Markdown
-content = r'''---
+---
 title: "概念术语"
 summary: "整理 TPCA / PCN 状态迁移前置控制体系中的基础术语，包括当前状态、目标状态、前置控制、PCN、PCN 网络、多源状态信号、C / A / E、S / D / B、CAE-SDB 判定结果、控制仲裁、多路径控制和 PCN Trace。"
 description: "用于统一 TPCA / PCN 状态迁移前置控制体系中的核心术语，说明 PCN 前置控制节点、C / A / E 状态映射、S / D / B 判定、CAE-SDB 判定结果、控制仲裁、多路径控制和 PCN Trace 之间的关系。"
@@ -468,10 +448,3 @@ PCN Trace 用于现场复盘、问题追溯、设计审核、项目交接和后�
 
 本文属于 TPCA / PCN 状态迁移前置控制体系的公开说明内容。  
 TPCA、CAE-SDB 与 PCN 为本站作者围绕复杂工程系统目标状态进入前判定问题所整理的术语体系。
-'''
-
-out = Path("/mnt/data/concepts-index.zh.md")
-out.write_text(content, encoding="utf-8")
-
-print("已生成 Concepts 完整版：", out)
-print("已修正 V3.3 Hugo 包：", zip_path)
