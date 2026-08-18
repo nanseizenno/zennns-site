@@ -1,5 +1,4 @@
 ---
-
 title: "TPCA / PCN 面对已有技术分歧，它站在哪里？——三个典型工程争议"
 summary: "从确定性控制与 AI、集中控制与分布式自治、保守阻断与受控继续三个典型工程争议出发，说明 TPCA / PCN 的基本技术立场。"
 description: "结合系统安全、强化学习、分布式控制、故障容错与 Graceful Degradation 等代表性研究，说明 TPCA / PCN 在 Runtime 控制、节点部署和异常处置上的架构选择。"
@@ -13,7 +12,7 @@ draft: false
 ShowReadingTime: true
 ShowToc: true
 TocOpen: true
--------------
+---
 
 ## TPCA / PCN 面对已有技术分歧，它站在哪里？
 
