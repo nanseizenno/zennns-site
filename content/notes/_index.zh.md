@@ -29,7 +29,7 @@ draft: false
 
 ⭐⭐ [你真的理解 TPCA / PCN 了吗？——十个工程问题](/zh/notes/tpca-pcn-understanding-test/)
 
-> 通过十个具体工程问题，检验是否真正理解状态迁移入口、PCN、C/A/E、S/D/B、CAE-SDB Result、Arbitration、Multipath Control 和 Trace 之间的关系。
+> 通过十个具体工程问题，检验是否真正理解状态迁移入口、PCN、C/A/E、S/D/B、Multipath Control 和 Trace 之间的关系。
 
 
 ⭐⭐⭐ [为什么状态迁移条件必须显式化？](/zh/notes/explicit-state-transition-conditions/)
