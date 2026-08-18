@@ -6,7 +6,7 @@ draft: false
 
 State Transition Engineering 中文站用于整理复杂工程系统状态迁移相关的工程知识。
 
-本站内容围绕 TPCA / CAE-SDB、PCN、C / A / E、S / D / B、多路径控制，以及制造现场协同停滞诊断、自动化执行单元前置判定、生产 DX 和数字调用治理等方向展开。
+本站内容围绕 TPCA / CAE-SDB、PCN、C / A / E、S / D / B、控制仲裁、多路径控制和 PCN Trace，以及制造现场协同停滞诊断、自动化执行单元前置控制、生产 DX 和数字调用治理等方向展开。
 
 本站重点关注一个工程问题：
 
@@ -36,7 +36,7 @@ State Transition Engineering 中文站用于整理复杂工程系统状态迁移
 
 本站公开内容用于说明工程问题、基本概念、典型应用、公开案例和合作方向。
 
-围绕 TPCA / CAE-SDB、PCN、C / A / E 状态映射、S / D / B 判定、多路径控制及相关案例内容，作者已在多个方向进行发明专利布局。相关内容可能涉及已提交或正在推进的专利申请、公开技术资料和作者原创技术体系。
+围绕 TPCA / CAE-SDB、PCN、C / A / E 状态映射、S / D / B 判定、控制仲裁、多路径控制、PCN Trace 及相关应用内容，作者已在多个方向进行发明专利布局。 相关内容可能涉及已提交或正在推进的专利申请、公开技术资料和作者原创技术体系。
 
 本站内容不构成实施授权、专利许可、技术转让、工程交付承诺或法律意见。
 
@@ -54,10 +54,10 @@ State Transition Engineering 中文站用于整理复杂工程系统状态迁移
 - [Concepts｜核心概念](/zh/concepts/)：确认核心术语；
 - [Cases｜应用案例](/zh/cases/)：查看工程落地方式；
 - [TPCA / CAE-SDB 白皮书](/zh/whitepaper/)：系统理解整体架构；
-- [Technical Notes｜技术札记](/zh/notes/)：理解理论边界和补充说明。
+- [Technical Notes｜技术札记](/zh/notes/)：阅读工程基础、技术立场、理解检验及 PCN 相关专题说明。
 
 
 ---
 
-本文属于 TPCA / CAE-SDB 状态迁移前置判定方法论的公开说明内容。  
+本文属于 TPCA / CAE-SDB 状态迁移前置控制架构的公开说明内容。  
 TPCA、CAE-SDB 与 PCN 为本站作者围绕复杂工程系统目标状态进入前判定问题所整理的术语体系。
