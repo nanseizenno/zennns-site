@@ -1,7 +1,7 @@
 ---
 title: "工程系统状态迁移知识体系｜TPCA / CAE-SDB"
 summary: "围绕复杂工程系统进入目标状态前的判定问题，整理 Ready、Waiting、PLC Ready、MES / WCS 停滞、任务执行、资源许可和状态协同等典型问题。"
-description: "工程系统状态迁移知识体系，围绕 TPCA（Transition Pre-Control Architecture）/ CAE-SDB 状态迁移前置判定方法论，面向制造现场、自动化执行单元、PLC / HMI、机器人系统、MES / WCS、AGV / AMR 群控系统中的目标状态进入前判定问题。"
+description: "工程系统状态迁移知识体系，围绕 TPCA（Transition Pre-Control Architecture）/ CAE-SDB 状态迁移前置控制架构，面向制造现场、自动化执行单元、PLC / HMI、机器人系统、MES / WCS、AGV / AMR 群控系统中的目标状态进入前判定与多路径控制问题。"
 draft: false
 ShowReadingTime: false
 ShowToc: false
@@ -40,8 +40,10 @@ ShowToc: false
 - 条件是否成立；
 - 许可是否成立；
 - 执行链是否能够接续；
-- 当前状态是否可信；
-- 当前状态是否进入预设控制边界
+- 判定结构是否完整；
+- 当前状态是否有效；
+- 是否触发预设控制边界；
+- 多个判定结果同时存在时，最终应输出哪条控制路径。
 
 本站将这类问题整理为 **TPCA / CAE-SDB 状态迁移前置控制架构与结构化判定方法**。
 
@@ -68,11 +70,11 @@ ShowToc: false
 
 [核心概念](/zh/concepts/)
 
-> 理解 TPCA / CAE-SDB、PCN 、C / A / E、S / D / B 和多路径控制之间的关系。
+> 理解 TPCA / CAE-SDB、PCN、C / A / E、S / D / B、控制仲裁、多路径控制和 PCN Trace 之间的关系。
 
 [白皮书](/zh/whitepaper/)
 
-> 系统理解 TPCA / CAE-SDB 的工程背景、PCN 前置控制节点、判定结构、多路径控制和应用方向。
+> 系统理解 TPCA / CAE-SDB 的工程背景、PCN 前置控制节点、CAE-SDB 判定结构、控制仲裁、多路径控制、PCN Trace 和应用方向。
 
 [应用案例](/zh/cases/)
 
