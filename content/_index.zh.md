@@ -1,4 +1,3 @@
-
 ---
 title: "工程系统状态迁移知识体系｜TPCA / CAE-SDB"
 summary: "围绕复杂工程系统进入目标状态前的判定问题，整理 Ready、Waiting、PLC Ready、MES / WCS 协同停滞、生产 DX 状态迁移、任务执行、资源许可和状态协同等典型问题。"
