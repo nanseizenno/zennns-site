@@ -23,6 +23,9 @@ TocOpen: true
 - [TPCA / CAE-SDB 白皮书](/zh/whitepaper/)
 - [为什么 PCN 是 TPCA 的最小工程单元？](/zh/notes/pcn-minimum-engineering-unit/)
 - [为什么状态迁移条件必须显式化？](/zh/notes/explicit-state-transition-conditions/)
+- [TPCA / PCN 建立在什么工程基础上？——五个基础工程共识](/zh/notes/engineering-foundations-of-tpca-pcn/)
+- [TPCA / PCN 面对已有技术分歧，它站在哪里？——三个典型工程争议](/zh/notes/engineering-positions-of-tpca-pcn/)
+- [你真的理解 TPCA / PCN 了吗？——十个工程问题](/zh/notes/tpca-pcn-understanding-test/)
 
 ---
 
@@ -120,7 +123,7 @@ D = Dynamics，动态时序有效性。
 判断信号是否超时、未刷新、抖动、冲突、延迟、不同步、低置信度、许可撤销或处于切换中。
 
 B = Boundary，控制边界。  
-判断系统处于未完全确定或边界状态时，下一步应等待、重试、重识别、回流、降级、禁止、人工确认、安全锁定还是异常隔离。
+判断 C、A 或 E 状态是否进入预先定义的控制边界，以及相关边界条件是否被触发。
 
 TPCA / CAE-SDB 的输出不是原因标签，而是控制路径，例如允许进入、等待、重识别、重采样、重定位、回流、异常分流、下游协调、资源释放、降级执行、禁止进入、安全锁定、人工确认、异常隔离和增强记录。
 
