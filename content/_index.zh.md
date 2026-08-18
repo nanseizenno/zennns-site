@@ -1,7 +1,7 @@
 ---
 title: "工程系统状态迁移知识体系｜TPCA / CAE-SDB"
-summary: "围绕复杂工程系统进入目标状态前的判定问题，整理 Ready、Waiting、PLC Ready、MES / WCS 停滞、任务执行、资源许可和状态协同等典型问题。"
-description: "工程系统状态迁移知识体系，围绕 TPCA（Transition Pre-Control Architecture）/ CAE-SDB 状态迁移前置控制架构，面向制造现场、自动化执行单元、PLC / HMI、机器人系统、MES / WCS、AGV / AMR 群控系统中的目标状态进入前判定与多路径控制问题。"
+summary: "围绕复杂工程系统进入目标状态前的判定问题，整理 Ready、Waiting、PLC Ready、MES / WCS 协同停滞、生产 DX 状态迁移、任务执行、资源许可和状态协同等典型问题。"
+description: "工程系统状态迁移知识体系，围绕 TPCA（Transition Pre-Control Architecture）/ CAE-SDB 状态迁移前置控制架构，面向制造现场、自动化执行单元、PLC / HMI、机器人系统、MES / WCS、AGV / AMR 群控系统和生产 DX 中的目标状态进入前判定、多路径控制与状态迁移履历问题。"
 draft: false
 ShowReadingTime: false
 ShowToc: false
@@ -9,7 +9,7 @@ ShowToc: false
 
 ## 设备已经 Ready，为什么系统还是不进入下一步？
 
-在制造现场、自动化执行单元、PLC / HMI、机器人系统、MES / WCS、AGV / AMR 群控系统中，经常出现一些表面上已经满足条件、但系统仍不能进入下一状态的问题。
+在制造现场、自动化执行单元、PLC / HMI、机器人系统、MES / WCS、AGV / AMR 群控系统以及生产 DX 流程中，经常出现一些表面上已经满足条件、但系统仍不能进入下一状态的问题。
 
 典型场景包括：
 
@@ -19,7 +19,9 @@ ShowToc: false
 - MES / WCS 显示 Waiting、Pending 或 Blocked，但不能解释停滞原因；
 - 报警能够定位设备，却不能解释状态迁移失败原因；
 - 任务已经生成，但目标执行路径没有成立；
-- 多个系统记录了很多状态，却不能形成协同判断。
+- 多个系统记录了很多状态，却不能形成协同判断；
+- MES、质量、设备、人员和下游系统都有数据，但仍需要人工确认当前生产流程是否可以进入下一阶段；
+- 同样的 Waiting、Hold 或人工确认反复发生，却很难从长期履历中判断状态迁移条件本身哪里需要改善。
 
 这些问题通常发生在同一个位置：
 
@@ -43,17 +45,20 @@ ShowToc: false
 - 判定结构是否完整；
 - 当前状态是否有效；
 - 是否触发预设控制边界；
-- 多个判定结果同时存在时，最终应输出哪条控制路径。
+- 多个判定结果同时存在时，最终应输出哪条控制路径；
+- 本次状态迁移为什么被允许、等待、Hold、阻断或分流；
+- 这些判定结果能否形成可追溯的状态迁移履历，并用于后续复盘和工程改善。
 
 本站将这类问题整理为 **TPCA / CAE-SDB 状态迁移前置控制架构与结构化判定方法**。
 
 其中：
 
 - **TPCA**：Transition Pre-Control Architecture，状态迁移前置控制架构；
+- **PCN**：Pre-Control Node，部署在目标状态进入前的前置控制节点；
 - **CAE-SDB**：用于描述条件、许可、执行链与结构、动态、边界之间关系的判定表达；
-- **PCN**：Pre-Control Node，部署在目标状态进入前的前置控制节点。
+- **PCN Trace**：围绕一次目标状态进入判定形成的状态迁移履历。
 
-目标是把原本分散在 PLC 程序、HMI 画面、机器人控制器、MES / WCS 日志、安全许可、调度状态和工程师经验中的状态迁移判断，整理为可描述、可检查、可记录、可复用的工程结构。
+目标是把原本分散在 PLC 程序、HMI 画面、机器人控制器、MES / WCS 日志、质量放行、安全许可、人员权限、调度状态和工程师经验中的状态迁移判断，整理为可描述、可检查、可记录、可复用的工程结构。
 
 ---
 
@@ -61,16 +66,16 @@ ShowToc: false
 
 [工程问题](/zh/questions/)
 
-> 从 Ready、Waiting、PLC Ready、报警、MES / WCS 停滞、任务存在但不能执行、状态记录无法形成协同判断等问题进入。
+> 从 Ready、Waiting、PLC Ready、报警、MES / WCS 停滞、任务存在但不能执行、状态记录无法形成协同判断和状态迁移依赖工程师经验等问题进入。
 
 [TPCA / CAE-SDB 与既有工业自动化理论的关系](/zh/notes/tpca-existing-theories/)
 
 > 如果你已经熟悉状态机、安全互锁、报警诊断、FMEA、STPA、RCA、MES / WCS 调度或形式化验证，建议先阅读这一篇。  
-> 这篇用于说明 TPCA (Transition Pre-Control Architecture) / CAE-SDB 与既有方法之间的关系和边界，避免把它误解成普通报警分类、互锁说明、状态机重命名或 AI 诊断包装。
+> 这篇用于说明 TPCA（Transition Pre-Control Architecture）/ CAE-SDB 与既有方法之间的关系和边界，避免把它误解成普通报警分类、互锁说明、状态机重命名或 AI 诊断包装。
 
 [核心概念](/zh/concepts/)
 
-> 理解 TPCA / CAE-SDB、PCN、C / A / E、S / D / B、控制仲裁、多路径控制和 PCN Trace 之间的关系。
+> 理解 Current State、Target State、TPCA、PCN、C / A / E、S / D / B、CAE-SDB Result、控制仲裁、多路径控制和 PCN Trace 之间的关系。
 
 [白皮书](/zh/whitepaper/)
 
@@ -78,11 +83,11 @@ ShowToc: false
 
 [应用案例](/zh/cases/)
 
-> 查看 TPCA / CAE-SDB 在自动化执行单元和 MES / WCS 协同停滞诊断中的公开说明案例。
+> 查看 TPCA / PCN 在自动化执行单元、MES / WCS 协同停滞诊断以及生产 DX 状态迁移条件设计与履历分析中的公开说明案例。
 
 [技术札记](/zh/notes/)
 
-> 阅读 TPCA / PCN 的工程基础、典型技术争议、理解度测试，以及状态迁移条件显式化、OEE、PCN Trace、PCN Network 和适用场景等专题说明。
+> 阅读 TPCA / PCN 的工程基础、与既有方法的关系，以及状态迁移条件显式化、OEE、PCN 最小工程单元、PCN Trace、PCN Network 和适用场景等专题说明。
 
 ---
 
@@ -90,6 +95,9 @@ ShowToc: false
 
 本网站为个人技术体系公开说明站点，用于说明工程问题、基本概念、典型应用、公开案例和技术札记。
 
+公开内容主要用于说明 TPCA / PCN 的工程定位、基本结构、应用方式和公开案例。
+
 网站内容不构成对任何第三方的实施授权，也不构成专利许可、技术转让、工程交付承诺或法律意见。
 
 更多信息可阅读：[关于本站](/zh/about/)
+```
