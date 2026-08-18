@@ -1,5 +1,4 @@
 ---
-
 title: "你真的理解 TPCA / PCN 了吗？——十个工程问题"
 summary: "通过十个工程问题检验对 TPCA / PCN 的理解是否停留在 C/A/E、S/D/B 等术语记忆层面，还是已经能够识别状态迁移入口、建立 PCN、形成结构化判定并推导多路径控制。"
 description: "不考术语定义，而是通过机器人、视觉、AGV、执行链、许可、动态时序、控制边界、仲裁和新场景迁移等问题，检验是否真正理解 TPCA / PCN 的工程逻辑。"
@@ -13,7 +12,8 @@ draft: false
 ShowReadingTime: true
 ShowToc: true
 TocOpen: true
--------------
+---
+
 
 ## 你真的理解 TPCA / PCN 了吗？
 
