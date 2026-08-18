@@ -1,17 +1,37 @@
----
+from pathlib import Path
+import zipfile
+
+# 1) 修正 V3.3 正式 Hugo 文件中的资源引用
+v33 = Path("/mnt/data/pcn_home_animation_v3_3")
+html_path = v33 / "pcn-animation-v3-3.html"
+html = html_path.read_text(encoding="utf-8")
+html = html.replace("layouts/shortcodes/pcn-animation-v3-2.html", "layouts/shortcodes/pcn-animation-v3-3.html")
+html = html.replace('css/pcn-animation-v3-2.css', 'css/pcn-animation-v3-3.css')
+html = html.replace('js/pcn-animation-v3-2.js', 'js/pcn-animation-v3-3.js')
+html_path.write_text(html, encoding="utf-8")
+
+zip_path = Path("/mnt/data/pcn_home_animation_v3_3_fixed.zip")
+with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
+    z.write(v33 / "pcn-animation-v3-3.html", "layouts/shortcodes/pcn-animation-v3-3.html")
+    z.write(v33 / "pcn-animation-v3-3.css", "static/css/pcn-animation-v3-3.css")
+    z.write(v33 / "pcn-animation-v3-3.js", "static/js/pcn-animation-v3-3.js")
+    z.write(v33 / "README.md", "README.md")
+
+# 2) 生成更新后的 Concepts 完整 Markdown
+content = r'''---
 title: "概念术语"
-summary: "整理 TPCA / CAE-SDB 状态迁移前置控制架构中的基础术语，包括当前状态、目标状态、前置控制、PCN、PCN 网络、多源状态信号、C / A / E、S / D / B、CAE-SDB 判定结果、控制仲裁、多路径控制和状态记录。"
-description: "用于统一 TPCA / CAE-SDB 状态迁移前置控制架构中的核心术语，说明 PCN 前置控制节点、C / A / E 状态映射、S / D / B 判定、CAE-SDB 判定结果、控制仲裁、多路径控制和状态记录之间的关系。"
+summary: "整理 TPCA / PCN 状态迁移前置控制体系中的基础术语，包括当前状态、目标状态、前置控制、PCN、PCN 网络、多源状态信号、C / A / E、S / D / B、CAE-SDB 判定结果、控制仲裁、多路径控制和 PCN Trace。"
+description: "用于统一 TPCA / PCN 状态迁移前置控制体系中的核心术语，说明 PCN 前置控制节点、C / A / E 状态映射、S / D / B 判定、CAE-SDB 判定结果、控制仲裁、多路径控制和 PCN Trace 之间的关系。"
 draft: false
 date: 2026-07-04
-lastmod: 2026-08-18
+lastmod: 2026-08-19
 author: "全野南政 / Nansei Zenno"
 ShowReadingTime: false
 ShowToc: true
 TocOpen: true
 ---
 
-本页整理 TPCA / CAE-SDB 状态迁移前置控制架构中的基础术语。  
+本页整理 TPCA / PCN 状态迁移前置控制体系中的基础术语。  
 术语以工程使用为主，用于统一公开说明、案例资料、合作沟通和后续技术文档中的表达。
 
 [TPCA / CAE-SDB 与既有工业自动化理论的关系](/zh/notes/tpca-existing-theories/)
@@ -79,6 +99,8 @@ TPCA 用于目标状态、目标执行路径或目标物理执行阶段进入前
 > → Arbitration  
 > → Multipath Control  
 > → PCN Trace
+
+{{< pcn-animation >}}
 
 TPCA 的重点不是增加一个新的报警层，而是把目标状态进入前原本分散的判断整理为明确的工程结构。
 
@@ -160,11 +182,19 @@ C / A / E 表示状态变量域。
 
 S / D / B 表示对这些状态变量进行判断时使用的判定性质。
 
-CAE-SDB 用于形成目标状态进入前的结构化判定结果，即：
+C / A / E 与 S / D / B 组合后，形成 9 个判定坐标：
+
+|  | S | D | B |
+|---|---|---|---|
+| C | C-S | C-D | C-B |
+| A | A-S | A-D | A-B |
+| E | E-S | E-D | E-B |
+
+一次前置判定可以形成一个或多个有效判定坐标。
+
+这些坐标共同构成：
 
 > CAE-SDB Result
-
-CAE-SDB Result 不是最终控制路径。
 
 当多个判定结果同时存在时，还需要经过控制优先级仲裁：
 
@@ -335,6 +365,14 @@ CAE-SDB 判定结果，是 PCN 对目标状态进入前的 C / A / E 状态变�
 
 表示 E 执行链域中存在结构完整性问题。
 
+一次状态迁移前置判定可以同时形成一个或多个坐标结果。
+
+例如：
+
+> C-D + E-D
+
+表示条件域和执行链域中同时存在动态时序有效性问题。
+
 这些结果用于说明：
 
 > 问题发生在哪个状态变量域，以及属于什么判定性质。
@@ -353,11 +391,11 @@ CAE-SDB Result 不是最终控制指令。
 
 某个条件状态存在动态异常的同时，也可能存在关键许可未成立。
 
-这时不能简单根据某一个矩阵坐标直接生成最终动作。
+这时不能简单根据某一个判定坐标直接生成最终动作。
 
 Arbitration 的作用是：
 
-> 在完整 CAE-SDB Result 基础上处理多个判定结果之间的控制优先关系。
+> 在完整 CAE-SDB Result 基础上处理一个或多个判定结果之间的控制优先关系，并确定应触发的执行链或控制路径。
 
 最终结果再进入 Multipath Control。
 
@@ -388,7 +426,9 @@ Arbitration 的作用是：
 - 异常隔离；
 - 增强记录。
 
-多路径控制的作用，是把目标状态进入前不同的判定结果最终转化为可执行、可显示和可记录的工程控制路径。
+多路径控制的作用，是把目标状态进入前一个或多个判定结果最终转化为可执行、可显示和可记录的工程控制路径。
+
+其中，正常执行链成立时，系统可以进入目标状态；其他判定结果则可以触发等待、重试、回流、人工确认、禁止进入或其他预先定义的执行路径。
 
 ---
 
@@ -426,5 +466,12 @@ PCN Trace 用于现场复盘、问题追溯、设计审核、项目交接和后�
 
 ---
 
-本文属于 TPCA / CAE-SDB 状态迁移前置控制架构的公开说明内容。  
+本文属于 TPCA / PCN 状态迁移前置控制体系的公开说明内容。  
 TPCA、CAE-SDB 与 PCN 为本站作者围绕复杂工程系统目标状态进入前判定问题所整理的术语体系。
+'''
+
+out = Path("/mnt/data/concepts-index.zh.md")
+out.write_text(content, encoding="utf-8")
+
+print("已生成 Concepts 完整版：", out)
+print("已修正 V3.3 Hugo 包：", zip_path)
