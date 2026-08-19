@@ -1,0 +1,621 @@
+{{/* 生产 DX 状态迁移执行示意动图 Public Version 1.0 */}}
+<style>
+
+:root{
+  --p3-bg:#ffffff;
+  --p3-panel:#f7f8fa;
+  --p3-panel2:#eef3ff;
+  --p3-text:#1f2328;
+  --p3-muted:#667085;
+  --p3-border:#d0d5dd;
+  --p3-accent:#2563eb;
+  --p3-accent-soft:rgba(37,99,235,.10);
+  --p3-warn:#b45309;
+  --p3-warn-soft:rgba(180,83,9,.11);
+  --p3-ok:#15803d;
+  --p3-ok-soft:rgba(21,128,61,.11);
+  --p3-purple:#7c3aed;
+  --p3-purple-soft:rgba(124,58,237,.10);
+
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --p3-bg:#16181d;
+    --p3-panel:#20232a;
+    --p3-panel2:#1f2940;
+    --p3-text:#f2f4f7;
+    --p3-muted:#aab2bf;
+    --p3-border:#3b414b;
+    --p3-accent:#7aa2ff;
+    --p3-accent-soft:rgba(122,162,255,.12);
+    --p3-warn:#f4b35e;
+    --p3-warn-soft:rgba(244,179,94,.12);
+    --p3-ok:#65cf82;
+    --p3-ok-soft:rgba(101,207,130,.12);
+    --p3-purple:#c4b5fd;
+    --p3-purple-soft:rgba(196,181,253,.12);
+
+  }
+}
+.pcn3{margin:2rem 0;color:var(--p3-text)}
+.pcn3__toolbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:.65rem}
+.pcn3__title{font-weight:700}
+.pcn3__controls{display:flex;align-items:center;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+.pcn3__mode,.pcn3__stepnav{display:flex;align-items:center;gap:.35rem}
+.pcn3__control{appearance:none;border:1px solid var(--p3-border);background:transparent;color:var(--p3-purple);padding:.38rem .72rem;border-radius:999px;cursor:pointer;font:inherit;font-size:.84rem;line-height:1.2;font-weight:700}
+.pcn3__control:hover,.pcn3__control:focus-visible{border-color:var(--p3-purple);background:var(--p3-purple-soft)}
+.pcn3__control.is-selected{border-color:var(--p3-purple);background:var(--p3-purple-soft);color:var(--p3-purple);font-weight:800}
+.pcn3__counter{display:inline-flex;align-items:center;justify-content:center;min-width:3.8rem;color:var(--p3-purple);font-size:.82rem;font-weight:800}
+.pcn3__frame{background:var(--p3-bg);border:1px solid var(--p3-border);border-radius:18px;overflow:hidden}
+.pcn3__svg{display:block;width:100%;height:auto;min-height:430px}
+.pcn3__status{min-height:2.8rem;padding:.8rem 1rem 1rem;text-align:center;color:var(--p3-text);font-size:1.06rem;font-weight:700;letter-spacing:.01em;background:var(--p3-accent-soft);border-top:1px solid var(--p3-border)}
+.pcn3__note{margin:.7rem .2rem 0;color:var(--p3-muted);font-size:.9rem}
+.pcn3 svg text{fill:var(--p3-text);font-family:inherit}
+.pcn3-zone{font-size:15px;font-weight:700;fill:var(--p3-muted)!important}
+.pcn3-source rect,.pcn3-cae>rect,.pcn3-domain rect,.pcn3-matrix__panel,.pcn3-cell rect,.pcn3-result rect,.pcn3-arb rect,.pcn3-path rect,.pcn3-target rect,.pcn3-trace rect,.pcn3-refresh rect{
+  fill:var(--p3-panel);stroke:var(--p3-border);stroke-width:2
+}
+.pcn3-pcn rect{fill:var(--p3-panel2);stroke:var(--p3-accent);stroke-width:2.5}
+.pcn3-pcn__title{font-size:25px;font-weight:800}
+.pcn3-pcn__sub{font-size:14px;fill:var(--p3-muted)!important}
+.pcn3-section-title{font-size:15px;font-weight:700}
+.pcn3-source text{font-size:13px}
+.pcn3-domain__key{font-size:20px;font-weight:800}
+.pcn3-domain__label{font-size:11px;fill:var(--p3-muted)!important}
+.pcn3-maptext{font-size:11px;fill:var(--p3-muted)!important}
+.pcn3-matrix__head,.pcn3-matrix__row{font-size:13px;font-weight:700}
+.pcn3-cell text{font-size:14px;font-weight:700}
+.pcn3-matrix__note{font-size:12px;fill:var(--p3-muted)!important}
+.pcn3-result__title,.pcn3-arb__title,.pcn3-target__title,.pcn3-trace__title,.pcn3-refresh__title{font-size:14px;font-weight:700}
+.pcn3-result__code{font-size:22px;font-weight:800;fill:var(--p3-warn)!important}
+.pcn3-result__desc,.pcn3-path__sub,.pcn3-refresh__sub,.pcn3-trace__line{font-size:12px;fill:var(--p3-muted)!important}
+.pcn3-arb__choice{font-size:16px;font-weight:800;fill:var(--p3-warn)!important}
+.pcn3-path text{font-size:13px}
+.pcn3-path__title{font-size:14px!important;font-weight:700}
+.pcn3-target__value{font-size:17px;font-weight:700;fill:var(--p3-muted)!important}
+.pcn3-flow{fill:none;stroke:var(--p3-border);stroke-width:4;stroke-linecap:round;stroke-dasharray:9 9}
+.pcn3-flow--signal{stroke-width:3}
+
+/* initial opacity */
+.pcn3 [data-part="cae"],.pcn3 [data-part="matrix"],.pcn3 [data-part="result"],.pcn3 [data-part="arb"],.pcn3 [data-part="trace"],.pcn3 [data-part="refresh"],.pcn3 [data-part="target"],
+.pcn3 [data-line],.pcn3 [data-path]{
+  opacity:.14;transition:opacity .35s ease,transform .35s ease,filter .35s ease;
+}
+.pcn3 [data-part="cae"],.pcn3 [data-part="matrix"],.pcn3 [data-part="result"],.pcn3 [data-part="arb"],.pcn3 [data-part="trace"],.pcn3 [data-part="refresh"],.pcn3 [data-part="target"],.pcn3 [data-path]{
+  transform:translateY(5px);
+}
+.pcn3 .is-on{opacity:1;transform:translateY(0)}
+.pcn3 .is-flow{opacity:1;stroke:var(--p3-accent);animation:p3flow 1s linear infinite}
+.pcn3 .is-warnline{opacity:1;stroke:var(--p3-warn);animation:p3flow 1s linear infinite}
+.pcn3 .is-okline{opacity:1;stroke:var(--p3-ok);animation:p3flow 1s linear infinite}
+.pcn3 [data-src].is-active rect{stroke:var(--p3-accent);fill:var(--p3-accent-soft)}
+.pcn3 [data-domain].is-active rect{stroke:var(--p3-accent);fill:var(--p3-accent-soft)}
+.pcn3 .pcn3-cell.is-scan rect{stroke:var(--p3-accent);fill:var(--p3-accent-soft)}
+.pcn3 .pcn3-cell.is-hit rect{stroke:var(--p3-warn);fill:var(--p3-warn-soft)}
+.pcn3 .pcn3-cell.is-hit text{fill:var(--p3-warn)!important}
+.pcn3 [data-path].is-selected rect{stroke:var(--p3-warn);fill:var(--p3-warn-soft)}
+.pcn3 [data-part="result"].is-hit rect,.pcn3 [data-part="arb"].is-hit rect{stroke:var(--p3-warn);fill:var(--p3-warn-soft)}
+.pcn3 [data-part="refresh"].is-on rect{stroke:var(--p3-ok);fill:var(--p3-ok-soft)}
+.pcn3.is-allow [data-path="normal"] rect,.pcn3.is-allow [data-part="target"] rect,.pcn3.is-allow [data-part="result"] rect,.pcn3.is-allow [data-part="arb"] rect{
+  stroke:var(--p3-ok);fill:var(--p3-ok-soft)
+}
+.pcn3.is-allow .pcn3-result__code,.pcn3.is-allow .pcn3-arb__choice,.pcn3.is-allow .pcn3-target__value{fill:var(--p3-ok)!important}
+.pcn3.is-allow .pcn3-cell.is-hit rect{stroke:var(--p3-border);fill:var(--p3-panel)}
+.pcn3.is-allow .pcn3-cell.is-hit text{fill:var(--p3-text)!important}
+@keyframes p3flow{to{stroke-dashoffset:-36}}
+.pcn3.is-paused *{animation-play-state:paused!important}
+@media(prefers-reduced-motion:reduce){.pcn3 *{animation:none!important;transition:none!important}}
+@media(max-width:740px){
+  .pcn3__svg{min-height:380px}
+  .pcn3__title{font-size:.96rem}
+  .pcn3__status{font-size:.92rem}.pcn3__note{font-size:.84rem}
+}
+
+@media(max-width:820px){
+  .pcn3__toolbar{align-items:flex-start;flex-direction:column}
+  .pcn3__controls{justify-content:flex-start;width:100%}
+}
+
+
+/* PaperMod / site dark-theme compatibility */
+body.dark .pcn3,
+html.dark .pcn3,
+[data-theme="dark"] .pcn3 {
+  --p3-bg:#16181d;
+  --p3-panel:#20232a;
+  --p3-panel2:#1f2940;
+  --p3-text:#f2f4f7;
+  --p3-muted:#aab2bf;
+  --p3-border:#3b414b;
+  --p3-accent:#7aa2ff;
+  --p3-accent-soft:rgba(122,162,255,.12);
+  --p3-warn:#f4b35e;
+  --p3-warn-soft:rgba(244,179,94,.12);
+  --p3-ok:#65cf82;
+  --p3-ok-soft:rgba(101,207,130,.12);
+  --p3-purple:#c4b5fd;
+  --p3-purple-soft:rgba(196,181,253,.12);
+}
+
+</style>
+
+<div class="pcn3" data-pcn3>
+  <div class="pcn3__toolbar">
+    <div class="pcn3__title">生产 DX 状态迁移执行示意动图</div>
+    <div class="pcn3__controls" aria-label="动画控制">
+      <div class="pcn3__mode" role="group" aria-label="播放模式">
+        <button class="pcn3__control is-selected" type="button" data-pcn3-auto aria-pressed="true">自动循环</button>
+        <button class="pcn3__control" type="button" data-pcn3-manual aria-pressed="false">手动</button>
+      </div>
+      <div class="pcn3__stepnav" role="group" aria-label="状态前后切换">
+        <button class="pcn3__control" type="button" data-pcn3-prev aria-label="上一个状态">← 上一步</button>
+        <span class="pcn3__counter" data-pcn3-counter aria-live="polite">1 / 8</span>
+        <button class="pcn3__control" type="button" data-pcn3-next aria-label="下一个状态">下一步 →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="pcn3__frame">
+    <svg class="pcn3__svg" viewBox="0 0 1200 720" role="img" aria-labelledby="pcn3Title pcn3Desc">
+      <title id="pcn3Title">生产 DX 状态迁移执行示意动图</title>
+      <desc id="pcn3Desc">
+        多源设备与系统信号进入 PCN，在 PCN 内部映射为 C、A、E 三个变量域，
+        再通过 S、D、B 三类判定性质形成九个 CAE-SDB 判定坐标。
+        一个或多个判定坐标被触发后进入 Arbitration，并选择相应执行路径。
+        示例先触发 E-D，进入 等待 / 状态刷新；状态刷新后重新判定，进入正常执行链并到达 Target State。
+      </desc>
+
+      <!-- ===== Header zones ===== -->
+      <text x="72" y="44" class="pcn3-zone">生产状态 / 多源信号</text>
+      <text x="430" y="44" class="pcn3-zone">Production DX PCN</text>
+      <text x="910" y="44" class="pcn3-zone">生产路径 / Target State</text>
+
+      <!-- ===== LEFT: source signals ===== -->
+      <g class="pcn3-sources" data-part="sources">
+        <g class="pcn3-source" data-src="vision">
+          <rect x="50" y="90" width="220" height="48" rx="12"/>
+          <text x="160" y="120" text-anchor="middle">Current State：检测完成</text>
+        </g>
+        <g class="pcn3-source" data-src="work">
+          <rect x="50" y="152" width="220" height="48" rx="12"/>
+          <text x="160" y="182" text-anchor="middle">质量结果：NG</text>
+        </g>
+        <g class="pcn3-source" data-src="safety">
+          <rect x="50" y="214" width="220" height="48" rx="12"/>
+          <text x="160" y="244" text-anchor="middle">MES：工单 / 批次</text>
+        </g>
+        <g class="pcn3-source" data-src="quality">
+          <rect x="50" y="276" width="220" height="48" rx="12"/>
+          <text x="160" y="306" text-anchor="middle">返工许可 / 人员权限</text>
+        </g>
+        <g class="pcn3-source" data-src="robot">
+          <rect x="50" y="338" width="220" height="48" rx="12"/>
+          <text x="160" y="368" text-anchor="middle">返工设备状态</text>
+        </g>
+        <g class="pcn3-source" data-src="downstream">
+          <rect x="50" y="400" width="220" height="48" rx="12"/>
+          <text x="160" y="430" text-anchor="middle">搬送 / 追溯回写</text>
+        </g>
+      </g>
+
+      <!-- Signal flow into PCN -->
+      <path class="pcn3-flow pcn3-flow--signal" data-line="sig1" d="M270 114 C320 114 330 150 370 150"/>
+      <path class="pcn3-flow pcn3-flow--signal" data-line="sig2" d="M270 176 C320 176 330 185 370 185"/>
+      <path class="pcn3-flow pcn3-flow--signal" data-line="sig3" d="M270 238 C320 238 330 220 370 220"/>
+      <path class="pcn3-flow pcn3-flow--signal" data-line="sig4" d="M270 300 C320 300 330 255 370 255"/>
+      <path class="pcn3-flow pcn3-flow--signal" data-line="sig5" d="M270 362 C320 362 330 290 370 290"/>
+      <path class="pcn3-flow pcn3-flow--signal" data-line="sig6" d="M270 424 C320 424 330 325 370 325"/>
+
+      <!-- ===== CENTER: PCN box ===== -->
+      <g class="pcn3-pcn" data-part="pcn">
+        <rect x="370" y="82" width="450" height="520" rx="22"/>
+        <text x="595" y="118" text-anchor="middle" class="pcn3-pcn__title">PCN</text>
+        <text x="595" y="142" text-anchor="middle" class="pcn3-pcn__sub">状态迁移前置判定节点</text>
+      </g>
+
+      <!-- CAE mapping -->
+      <g class="pcn3-cae" data-part="cae">
+        <rect x="405" y="160" width="380" height="128" rx="14"/>
+        <text x="595" y="184" text-anchor="middle" class="pcn3-section-title">C / A / E Mapping</text>
+
+        <g class="pcn3-domain" data-domain="c">
+          <rect x="425" y="202" width="104" height="62" rx="12"/>
+          <text x="477" y="226" text-anchor="middle" class="pcn3-domain__key">C</text>
+          <text x="477" y="247" text-anchor="middle" class="pcn3-domain__label">Condition</text>
+        </g>
+        <g class="pcn3-domain" data-domain="a">
+          <rect x="543" y="202" width="104" height="62" rx="12"/>
+          <text x="595" y="226" text-anchor="middle" class="pcn3-domain__key">A</text>
+          <text x="595" y="247" text-anchor="middle" class="pcn3-domain__label">Authority</text>
+        </g>
+        <g class="pcn3-domain" data-domain="e">
+          <rect x="661" y="202" width="104" height="62" rx="12"/>
+          <text x="713" y="226" text-anchor="middle" class="pcn3-domain__key">E</text>
+          <text x="713" y="247" text-anchor="middle" class="pcn3-domain__label">Execution Chain</text>
+        </g>
+
+        <!-- mapping tags -->
+        <text x="477" y="281" text-anchor="middle" class="pcn3-maptext" data-maptext="c">质量结果 / 工单</text>
+        <text x="595" y="281" text-anchor="middle" class="pcn3-maptext" data-maptext="a">返工许可 / 权限</text>
+        <text x="713" y="281" text-anchor="middle" class="pcn3-maptext" data-maptext="e">返工设备 / 搬送</text>
+      </g>
+
+      <!-- ===== 3x3 CAE-SDB matrix ===== -->
+      <g class="pcn3-matrix" data-part="matrix">
+        <rect x="405" y="316" width="380" height="238" rx="14" class="pcn3-matrix__panel"/>
+        <text x="595" y="342" text-anchor="middle" class="pcn3-section-title">CAE × SDB</text>
+
+        <text x="464" y="372" text-anchor="middle" class="pcn3-matrix__head">变量域</text>
+        <text x="548" y="372" text-anchor="middle" class="pcn3-matrix__head">S</text>
+        <text x="632" y="372" text-anchor="middle" class="pcn3-matrix__head">D</text>
+        <text x="716" y="372" text-anchor="middle" class="pcn3-matrix__head">B</text>
+
+        <text x="464" y="416" text-anchor="middle" class="pcn3-matrix__row">C</text>
+        <text x="464" y="466" text-anchor="middle" class="pcn3-matrix__row">A</text>
+        <text x="464" y="516" text-anchor="middle" class="pcn3-matrix__row">E</text>
+
+        <!-- row C -->
+        <g class="pcn3-cell" data-cell="C-S">
+          <rect x="510" y="388" width="76" height="40" rx="9"/>
+          <text x="548" y="414" text-anchor="middle">C-S</text>
+        </g>
+        <g class="pcn3-cell" data-cell="C-D">
+          <rect x="594" y="388" width="76" height="40" rx="9"/>
+          <text x="632" y="414" text-anchor="middle">C-D</text>
+        </g>
+        <g class="pcn3-cell" data-cell="C-B">
+          <rect x="678" y="388" width="76" height="40" rx="9"/>
+          <text x="716" y="414" text-anchor="middle">C-B</text>
+        </g>
+
+        <!-- row A -->
+        <g class="pcn3-cell" data-cell="A-S">
+          <rect x="510" y="438" width="76" height="40" rx="9"/>
+          <text x="548" y="464" text-anchor="middle">A-S</text>
+        </g>
+        <g class="pcn3-cell" data-cell="A-D">
+          <rect x="594" y="438" width="76" height="40" rx="9"/>
+          <text x="632" y="464" text-anchor="middle">A-D</text>
+        </g>
+        <g class="pcn3-cell" data-cell="A-B">
+          <rect x="678" y="438" width="76" height="40" rx="9"/>
+          <text x="716" y="464" text-anchor="middle">A-B</text>
+        </g>
+
+        <!-- row E -->
+        <g class="pcn3-cell" data-cell="E-S">
+          <rect x="510" y="488" width="76" height="40" rx="9"/>
+          <text x="548" y="514" text-anchor="middle">E-S</text>
+        </g>
+        <g class="pcn3-cell" data-cell="E-D">
+          <rect x="594" y="488" width="76" height="40" rx="9"/>
+          <text x="632" y="514" text-anchor="middle">E-D</text>
+        </g>
+        <g class="pcn3-cell" data-cell="E-B">
+          <rect x="678" y="488" width="76" height="40" rx="9"/>
+          <text x="716" y="514" text-anchor="middle">E-B</text>
+        </g>
+
+        <text x="595" y="545" text-anchor="middle" class="pcn3-matrix__note" data-matrix-note>
+          判定结果：无
+        </text>
+      </g>
+
+      <!-- Result explanation -->
+      <g class="pcn3-result" data-part="result">
+        <rect x="842" y="104" width="300" height="86" rx="14"/>
+        <text x="992" y="130" text-anchor="middle" class="pcn3-result__title">CAE-SDB Result</text>
+        <text x="992" y="157" text-anchor="middle" class="pcn3-result__code" data-result-code>E-D</text>
+        <text x="992" y="179" text-anchor="middle" class="pcn3-result__desc" data-result-desc>返工设备状态未刷新</text>
+      </g>
+
+      <path class="pcn3-flow" data-line="matrix_to_result" d="M785 436 C820 436 816 147 842 147"/>
+
+      <!-- Arbitration -->
+      <g class="pcn3-arb" data-part="arb">
+        <rect x="842" y="220" width="300" height="72" rx="14"/>
+        <text x="992" y="247" text-anchor="middle" class="pcn3-arb__title">Arbitration</text>
+        <text x="992" y="274" text-anchor="middle" class="pcn3-arb__choice" data-arb-choice>等待 / 状态刷新</text>
+      </g>
+
+      <path class="pcn3-flow" data-line="result_to_arb" d="M992 190 V220"/>
+
+      <!-- paths -->
+      <g class="pcn3-path" data-path="wait">
+        <rect x="842" y="326" width="138" height="48" rx="12"/>
+        <text x="911" y="356" text-anchor="middle">等待 / 状态刷新</text>
+      </g>
+
+      <g class="pcn3-path" data-path="recheck">
+        <rect x="1004" y="326" width="138" height="48" rx="12"/>
+        <text x="1073" y="356" text-anchor="middle">回流工序</text>
+      </g>
+
+      <g class="pcn3-path" data-path="manual">
+        <rect x="842" y="392" width="138" height="48" rx="12"/>
+        <text x="911" y="422" text-anchor="middle">废品处理工序</text>
+      </g>
+
+      <g class="pcn3-path" data-path="prohibit">
+        <rect x="1004" y="392" width="138" height="48" rx="12"/>
+        <text x="1073" y="422" text-anchor="middle">隔离工序</text>
+      </g>
+
+      <g class="pcn3-path pcn3-path--normal" data-path="normal">
+        <rect x="890" y="476" width="204" height="58" rx="13"/>
+        <text x="992" y="501" text-anchor="middle" class="pcn3-path__title">返工执行链</text>
+        <text x="992" y="522" text-anchor="middle" class="pcn3-path__sub">Target State：返工工序</text>
+      </g>
+
+      <path class="pcn3-flow" data-line="arb_to_wait" d="M950 292 C940 310 930 314 911 326"/>
+      <path class="pcn3-flow" data-line="arb_to_recheck" d="M1034 292 C1045 309 1055 313 1073 326"/>
+      <path class="pcn3-flow" data-line="arb_to_manual" d="M930 292 C900 330 902 368 911 392"/>
+      <path class="pcn3-flow" data-line="arb_to_prohibit" d="M1054 292 C1084 330 1082 368 1073 392"/>
+      <path class="pcn3-flow" data-line="arb_to_normal" d="M992 292 V476"/>
+
+      <!-- Target State -->
+      <g class="pcn3-target" data-part="target">
+        <rect x="890" y="572" width="204" height="76" rx="15"/>
+        <text x="992" y="599" text-anchor="middle" class="pcn3-target__title">Target State：返工工序</text>
+        <text x="992" y="628" text-anchor="middle" class="pcn3-target__value" data-target-value>暂未进入</text>
+      </g>
+      <path class="pcn3-flow" data-line="normal_to_target" d="M992 534 V572"/>
+
+      <!-- Trace -->
+      <g class="pcn3-trace" data-part="trace">
+        <rect x="370" y="624" width="450" height="76" rx="14"/>
+        <text x="392" y="650" class="pcn3-trace__title">PCN Trace #DX-001</text>
+        <text x="392" y="675" class="pcn3-trace__line" data-trace-text>
+          1st: E-D → 等待 / 状态刷新
+        </text>
+      </g>
+
+      <!-- refresh flag -->
+      <g class="pcn3-refresh" data-part="refresh">
+        <rect x="52" y="524" width="250" height="70" rx="13"/>
+        <text x="177" y="551" text-anchor="middle" class="pcn3-refresh__title">状态已刷新</text>
+        <text x="177" y="576" text-anchor="middle" class="pcn3-refresh__sub">搬送 / 追溯回写 = valid</text>
+      </g>
+    </svg>
+
+    <div class="pcn3__status" data-pcn3-status aria-live="polite">
+      检测完成后，围绕 Target State = 返工工序进行前置判定
+    </div>
+  </div>
+
+  <p class="pcn3__note">
+    示意：当前对象在“检测完成”后，围绕 Target State = 返工工序进行前置判定。
+    PCN 完成 C / A / E Mapping、S / D / B Evaluation、CAE-SDB Result、Arbitration 与 Multipath Control，并形成 PCN Trace。
+  </p>
+</div>
+
+<script>
+
+(() => {
+  "use strict";
+
+  const STEPS = [
+    {name:"signals", duration:1725, status:"生产状态 / 多源信号进入 PCN"},
+    {name:"cae", duration:2025, status:"PCN 围绕返工工序完成 C / A / E Mapping"},
+    {name:"matrix", duration:2250, status:"C / A / E 进入 S / D / B Evaluation"},
+    {name:"scan", duration:2550, status:"对 9 个 CAE-SDB 判定坐标进行检查"},
+    {name:"hit", duration:2250, status:"本次判定触发 E-D：返工设备状态未刷新"},
+    {name:"wait", duration:2250, status:"Active result set {E-D} → Arbitration → 等待 / 状态刷新"},
+    {name:"refresh", duration:2325, status:"返工设备状态刷新后，PCN 重新判定"},
+    {name:"allow", duration:2850, status:"判定恢复正常 → 返工执行链 → Target State"}
+  ];
+
+  const q=(r,s)=>r.querySelector(s);
+  const qa=(r,s)=>[...r.querySelectorAll(s)];
+  const on=(r,s)=>qa(r,s).forEach(e=>e.classList.add("is-on"));
+  const flow=(r,s,k="is-flow")=>qa(r,s).forEach(e=>{e.classList.add("is-on",k)});
+
+  function reset(root){
+    root.classList.remove("is-allow","is-paused");
+    qa(root,".is-on,.is-flow,.is-warnline,.is-okline,.is-active,.is-scan,.is-hit,.is-selected")
+      .forEach(e=>e.classList.remove("is-on","is-flow","is-warnline","is-okline","is-active","is-scan","is-hit","is-selected"));
+
+    const note=q(root,"[data-matrix-note]");
+    const rc=q(root,"[data-result-code]");
+    const rd=q(root,"[data-result-desc]");
+    const ac=q(root,"[data-arb-choice]");
+    const tv=q(root,"[data-target-value]");
+    const tt=q(root,"[data-trace-text]");
+    if(note)note.textContent="判定结果：无";
+    if(rc)rc.textContent="E-D";
+    if(rd)rd.textContent="返工设备状态未刷新";
+    if(ac)ac.textContent="等待 / 状态刷新";
+    if(tv)tv.textContent="暂未进入";
+    if(tt)tt.textContent="1st: E-D → 等待 / 状态刷新";
+  }
+
+  function baseSignals(root){
+    qa(root,"[data-src]").forEach(e=>e.classList.add("is-active"));
+    flow(root,'[data-line^="sig"]');
+  }
+
+  function showCAE(root){
+    on(root,'[data-part="cae"]');
+    qa(root,"[data-domain]").forEach(e=>e.classList.add("is-active"));
+  }
+
+  function showMatrix(root){
+    on(root,'[data-part="matrix"]');
+  }
+
+  function render(root, step){
+    reset(root);
+    baseSignals(root);
+
+    if(["cae","matrix","scan","hit","wait","refresh","allow"].includes(step)){
+      showCAE(root);
+    }
+    if(["matrix","scan","hit","wait","refresh","allow"].includes(step)){
+      showMatrix(root);
+    }
+
+    if(step==="scan"){
+      qa(root,"[data-cell]").forEach((cell,i)=>{
+        setTimeout(()=>cell.classList.add("is-scan"), i*85);
+      });
+    }
+
+    if(["hit","wait","refresh"].includes(step)){
+      q(root,'[data-cell="E-D"]')?.classList.add("is-hit");
+      const note=q(root,"[data-matrix-note]");
+      if(note)note.textContent="判定结果：{E-D}";
+      on(root,'[data-part="result"]');
+      q(root,'[data-part="result"]')?.classList.add("is-hit");
+      flow(root,'[data-line="matrix_to_result"]',"is-warnline");
+    }
+
+    if(["wait","refresh"].includes(step)){
+      on(root,'[data-part="arb"]');
+      q(root,'[data-part="arb"]')?.classList.add("is-hit");
+      flow(root,'[data-line="result_to_arb"]',"is-warnline");
+      on(root,'[data-path]');
+      q(root,'[data-path="wait"]')?.classList.add("is-selected");
+      flow(root,'[data-line="arb_to_wait"]',"is-warnline");
+      flow(root,'[data-line="arb_to_recheck"],[data-line="arb_to_manual"],[data-line="arb_to_prohibit"],[data-line="arb_to_normal"]');
+      on(root,'[data-part="trace"]');
+    }
+
+    if(step==="refresh"){
+      on(root,'[data-part="refresh"]');
+      const tt=q(root,"[data-trace-text]");
+      if(tt)tt.textContent="1st: E-D → 等待 / 状态刷新  |  Re-evaluating…";
+    }
+
+    if(step==="allow"){
+      root.classList.add("is-allow");
+      const note=q(root,"[data-matrix-note]");
+      const rc=q(root,"[data-result-code]");
+      const rd=q(root,"[data-result-desc]");
+      const ac=q(root,"[data-arb-choice]");
+      const tv=q(root,"[data-target-value]");
+      const tt=q(root,"[data-trace-text]");
+      if(note)note.textContent="判定结果：无";
+      if(rc)rc.textContent="OK";
+      if(rd)rd.textContent="无阻断性判定结果";
+      if(ac)ac.textContent="允许进入返工工序";
+      if(tv)tv.textContent="返工工序执行中";
+      if(tt)tt.textContent="第1次：E-D → 等待 ｜ 第2次：允许进入返工工序";
+
+      on(root,'[data-part="result"],[data-part="arb"],[data-path],[data-part="target"],[data-part="trace"]');
+      flow(root,'[data-line="matrix_to_result"],[data-line="result_to_arb"],[data-line="arb_to_normal"],[data-line="normal_to_target"]',"is-okline");
+    }
+  }
+
+  function init(root){
+    const status=q(root,"[data-pcn3-status]");
+    const autoBtn=q(root,"[data-pcn3-auto]");
+    const manualBtn=q(root,"[data-pcn3-manual]");
+    const prevBtn=q(root,"[data-pcn3-prev]");
+    const nextBtn=q(root,"[data-pcn3-next]");
+    const counter=q(root,"[data-pcn3-counter]");
+    const reduced=window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+
+    let idx=0;
+    let timer=null;
+    let mode=reduced ? "manual" : "auto";
+    let hoverPaused=false;
+
+    function updateControls(){
+      const auto = mode==="auto";
+      autoBtn?.classList.toggle("is-selected", auto);
+      manualBtn?.classList.toggle("is-selected", !auto);
+      autoBtn?.setAttribute("aria-pressed", auto ? "true" : "false");
+      manualBtn?.setAttribute("aria-pressed", auto ? "false" : "true");
+      if(counter) counter.textContent=`${idx+1} / ${STEPS.length}`;
+    }
+
+    function apply(){
+      const s=STEPS[idx];
+      render(root,s.name);
+      if(status)status.textContent=s.status;
+      updateControls();
+    }
+
+    function stopTimer(){
+      clearTimeout(timer);
+      timer=null;
+    }
+
+    function schedule(){
+      stopTimer();
+      if(mode!=="auto" || hoverPaused || reduced) return;
+      timer=setTimeout(()=>{
+        idx=(idx+1)%STEPS.length;
+        apply();
+        schedule();
+      },STEPS[idx].duration);
+    }
+
+    function setMode(nextMode){
+      mode=nextMode;
+      stopTimer();
+      root.classList.toggle("is-paused", mode==="manual" || hoverPaused);
+      updateControls();
+      if(mode==="auto") schedule();
+    }
+
+    function go(delta){
+      setMode("manual");
+      idx=(idx+delta+STEPS.length)%STEPS.length;
+      apply();
+    }
+
+    autoBtn?.addEventListener("click",()=>setMode("auto"));
+    manualBtn?.addEventListener("click",()=>setMode("manual"));
+    prevBtn?.addEventListener("click",()=>go(-1));
+    nextBtn?.addEventListener("click",()=>go(1));
+
+    root.addEventListener("mouseenter",()=>{
+      if(mode==="auto"){
+        hoverPaused=true;
+        stopTimer();
+        root.classList.add("is-paused");
+      }
+    });
+
+    root.addEventListener("mouseleave",()=>{
+      if(mode==="auto"){
+        hoverPaused=false;
+        root.classList.remove("is-paused");
+        schedule();
+      }
+    });
+
+    root.addEventListener("focusin",()=>{
+      if(mode==="auto"){
+        hoverPaused=true;
+        stopTimer();
+        root.classList.add("is-paused");
+      }
+    });
+
+    root.addEventListener("focusout",e=>{
+      if(mode==="auto" && !root.contains(e.relatedTarget)){
+        hoverPaused=false;
+        root.classList.remove("is-paused");
+        schedule();
+      }
+    });
+
+    if(reduced){
+      idx=STEPS.length-1;
+      mode="manual";
+      apply();
+      if(status)status.textContent="静态预览：返工执行链 → Target State";
+      return;
+    }
+
+    apply();
+    schedule();
+  }
+
+  document.addEventListener("DOMContentLoaded",()=>document.querySelectorAll("[data-pcn3]").forEach(init));
+
+})();
+
+</script>
