@@ -149,6 +149,8 @@ PCN 可以由 MES、制造执行中间层、工业边缘系统、PLC / HMI 协�
 
 本案例不限定具体部署平台。
 
+{{< production-dx-animation >}}
+
 ---
 
 ## 3. 多源状态信号与 C / A / E 映射
