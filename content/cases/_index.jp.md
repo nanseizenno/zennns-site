@@ -10,16 +10,16 @@ ShowReadingTime: false
 
 ## 事例一覧
 
-### [自動化実行ユニット前置判定事例](/ja/cases/automation-execution-unit-pre-control/)
+### [自動化実行ユニット前置判定事例](/jp/cases/automation-execution-unit-pre-control/)
 
 > 画像認識搬送ラインのロボットユニットを代表例として、PLC / PCN がロボットのピックアップ段階へ入る前に、画像認識、ロボット、安全装置、搬送コンベヤ、下流受入、上位システムの各信号を C / A / E にマッピングし、S / D / B 判定を行ったうえで、通常ピックアップ、回流、異常分流、待機、進入禁止、安全ロックなどの制御経路を出力する方法を説明する。
 
 
-### [MES / WCS 協調停滞診断モジュール事例](/ja/cases/collaborative-stagnation-diagnosis/)
+### [MES / WCS 協調停滞診断モジュール事例](/jp/cases/collaborative-stagnation-diagnosis/)
 
 > 製造現場の協調停滞診断モジュールを対象として、タスクが存在し、設備がオンラインで、システムにも状態記録があるにもかかわらず、なぜ現場で協調停滞が発生するのかを説明する。また、MES / WCS が PCN を通じて複数ソース状態の構造化判定、停滞識別、構造分類、Multipath Control 出力を行う方法を示す。
 
 
-### [生産 DX における状態遷移条件設計と履歴分析事例](https://zennns.com/ja/cases/production-dx-state-transition/)
+### [生産 DX における状態遷移条件設計と履歴分析事例](https://zennns.com/jp/cases/production-dx-state-transition/)
 
 > 「前工程完了 / 放行待ち → 次の生産段階を実行」を代表的な状態遷移入口として、生産 DX において MES、品質、設備、人、保全、下流システム、トレーサビリティシステムに分散している状態を C / A / E 状態変数として整理し、S / D / B 判定、制御優先度の Arbitration、Multipath Control、PCN Trace を通じて、従来はシステム横断の確認やエンジニアの経験に依存していた状態遷移条件を明示化し、記録・振り返り可能な形にする方法を説明する。
