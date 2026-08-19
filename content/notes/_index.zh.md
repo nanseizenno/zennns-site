@@ -17,6 +17,11 @@ draft: false
 > 用于理解 TPCA / CAE-SDB 与状态机、安全互锁、报警诊断、AI 诊断、MES / WCS 调度和形式化验证之间的边界关系。
 
 
+⭐⭐⭐ [从迁移后恢复到迁移前判定](/zh/notes/pre-transition-judgment-vs-post-transition-recovery/)
+
+> 从状态机、SFC 与现场异常恢复逻辑出发，区分必要的运行中 Recovery 与可避免的迁移后补偿，并说明 PCN 为什么要把可在目标状态进入前识别的问题前移到状态迁移入口进行判定。
+
+
 ⭐⭐⭐ [TPCA / PCN 建立在什么工程基础上？——五个基础工程共识](/zh/notes/engineering-foundations-of-tpca-pcn/)
 
 > 从状态迁移、许可约束、执行链接续、动态时序有效性和控制边界五个基础工程共识出发，理解 TPCA / PCN 建立在什么已有工程基础上。
@@ -37,7 +42,7 @@ draft: false
 > 用于理解 PCN 的方法论核心：把隐含在程序、接口、经验和人工判断中的状态迁移条件，转化为可设计、可检查、可记录、可复用、可改善的工程对象。
 
 
-⭐⭐⭐[为什么 OEE 之后还需要 PCN？](/zh/notes/why-oee-pcn/)
+⭐⭐⭐ [为什么 OEE 之后还需要 PCN？](/zh/notes/why-oee-pcn/)
 
 > 用于理解 OEE 与 PCN 之间的互补关系，以及为什么设备数据之外还需要状态迁移前置判定。
 
@@ -79,3 +84,4 @@ draft: false
 
 本文属于 TPCA / CAE-SDB 状态迁移前置判定方法论的公开说明内容。  
 TPCA、CAE-SDB 与 PCN 为本站作者围绕复杂工程系统目标状态进入前判定问题所整理的术语体系。
+
