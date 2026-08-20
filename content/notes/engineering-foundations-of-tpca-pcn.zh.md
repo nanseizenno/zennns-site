@@ -3,7 +3,7 @@ title: "TPCA / PCN 建立在什么工程基础上？——五个基础工程共�
 summary: "从状态迁移、许可约束、执行链接续、动态时序有效性和控制边界五个基础工程共识出发，说明 TPCA / PCN 并不是重新发明已有控制概念，而是把分散在 PLC、状态机、安全逻辑、调度系统和工程师经验中的判断统一组织到目标状态迁移入口。"
 description: "说明 TPCA / PCN 所建立的五个基础工程共识，并进一步解释 TPCA 如何通过 PCN、C/A/E 状态映射、S/D/B 判定、控制仲裁、多路径控制和 Trace，把目标状态进入前的判断转化为可设计、可执行、可追溯的工程对象。"
 date: 2026-08-18
-lastmod: 2026-08-18
+lastmod: 2026-08-20
 author: "全野南政 / Nansei Zenno"
 document_type: "技术札记"
 version: "Public Note Version 1.0"
@@ -24,7 +24,7 @@ TocOpen: true
 
 这两种看法都不适合工程系统。
 
-状态、状态迁移、Interlock、Ready、安全许可、超时、降级、备用路径，这些当然不是今天才出现的概念。成熟的自动化系统早就在使用它们。
+状态、状态迁移、Interlock、Ready、安全许可、超时、降级、备用路径，这些当然不是今天才出现的概念。成熟的自动化系统早就在使用它们。IEC 61131-3、ISA-88、ISO 13849-1 以及 OPC UA 等既有标准体系，也分别从顺序控制、设备状态、安全相关控制和状态模型等角度建立了成熟的工程基础。[1][2][3][4]
 
 真正的问题是：
 
@@ -68,11 +68,13 @@ TPCA / PCN 关注的是：
 
 > 为了从当前状态进入目标状态，到底需要哪些条件成立？
 
+SFC、设备状态模型和状态机等既有工程方法已经长期使用状态、步骤和迁移来组织控制逻辑。[1][2][4]
+
 因此 TPCA 的基本分析单位不是单个状态位，而是一个明确的状态迁移入口。
 
 只有先确定：
 
-> Current State
+> Current State  
 > → Target State
 
 后面的 C、A、E 以及 S、D、B 才有明确的工程意义。
@@ -83,9 +85,11 @@ TPCA / PCN 关注的是：
 
 复杂系统中，“能不能做”和“允不允许做”必须区分。
 
-机器人可能已经 Ready，夹爪可能正常，路径也可能可以执行。 
+机器人可能已经 Ready，夹爪可能正常，路径也可能可以执行。
 
 但如果安全许可没有成立、区域许可被撤销、上位系统没有放行，系统仍然不能进入目标状态。
+
+安全相关控制系统本身就是成熟的独立工程领域。ISO 13849-1 对执行安全功能的控制系统安全相关部分提出了设计与集成原则。[3]
 
 因此 TPCA 将进入目标状态前的相关信息进一步整理为不同变量域。
 
@@ -137,6 +141,8 @@ A 可以包括：
 AGV Ready，不代表目标站点可以接收。
 
 主设备 Ready，也不代表异常排出路径已经可用。
+
+ISA-88 对物理模型、功能模型、顺序控制以及安全互锁之间的关系进行了标准化描述，并提供了机器与单元状态的实施示例。这类既有工程体系说明，单体设备状态与更高层级执行关系本来就不是同一个对象。[2]
 
 因此 TPCA 中的 E 并不是普通的 Equipment Ready。
 
@@ -219,7 +225,9 @@ TPCA 将这一类判定性质定义为：
 
 这是 D——Dynamics，动态时序有效性。
 
-如果不区分这两个问题，最后往往都会被压缩成一个模糊的 NG。
+OPC UA 的信息模型中同样存在明确的状态机、状态变量和迁移表达，说明工程状态本身需要被放在状态关系和运行上下文中理解。[4]
+
+如果不区分这些问题，最后往往都会被压缩成一个模糊的 NG。
 
 ---
 
@@ -276,12 +284,12 @@ B 判断的是：
 
 把前面的五点分别拆开看，都不是陌生概念。
 
-* 状态机有状态迁移。 
-* PLC 有 Interlock。 
-* 安全系统有许可。 
-* 工业通信有时间戳和超时。 
-* 控制系统有边界、降级和安全停止。 
-* 调度系统也有等待、重派和备用路径。 
+* 状态机有状态迁移；
+* PLC 有 Interlock；
+* 安全系统有许可；
+* 工业系统有状态时序和有效性问题；
+* 控制系统有边界、降级和安全停止；
+* 调度系统也有等待、重派和备用路径。
 
 TPCA 的重点是把这些原本分散的工程机制，重新组织到一个明确的目标状态迁移入口。
 
@@ -289,14 +297,14 @@ TPCA 的重点是把这些原本分散的工程机制，重新组织到一个明
 
 其基本处理链为：
 
-> Current State
-> → Target State
-> → PCN
-> → C / A / E Mapping
-> → S / D / B Evaluation
-> → CAE-SDB Result
-> → Arbitration
-> → Multipath Control
+> Current State  
+> → Target State  
+> → PCN  
+> → C / A / E Mapping  
+> → S / D / B Evaluation  
+> → CAE-SDB Result  
+> → Arbitration  
+> → Multipath Control  
 > → PCN Trace
 
 其中：
@@ -331,12 +339,12 @@ PCN Trace 则记录：
 
 所以 TPCA 是一条完整的工程链：
 
-> 状态迁移入口
-> → 状态整理
-> → 结构化判定
-> → 判定结果
-> → 控制仲裁
-> → 多路径控制
+> 状态迁移入口  
+> → 状态整理  
+> → 结构化判定  
+> → 判定结果  
+> → 控制仲裁  
+> → 多路径控制  
 > → 判定履历。
 
 ---
@@ -359,27 +367,51 @@ TPCA 因此把分析对象收缩到一个明确的位置：
 
 再通过：
 
-> PCN Runtime
-> → C/A/E 状态映射
-> → S/D/B 判定
-> → CAE-SDB Result
-> → Arbitration
-> → Multipath Control
+> PCN Runtime  
+> → C/A/E 状态映射  
+> → S/D/B 判定  
+> → CAE-SDB Result  
+> → Arbitration  
+> → Multipath Control  
 > → PCN Trace
 
 把一次状态迁移判断变成可设计、可判定、可执行、可记录和可复用的工程对象。
 
 ---
 
+## 参考文献与外部依据
+
+以下资料主要用于说明本文所述五个工程基础并非凭空出现，而是建立在既有自动化、状态控制和安全控制体系之上。
+
+这些资料**不是 TPCA / PCN 的理论来源，也不用于直接证明 TPCA / PCN 的专利新颖性或创造性**。
+
+1. **PLCopen — IEC 61131-3**  
+   公开说明 IEC 61131-3 的 PLC 编程语言体系，并说明 Sequential Function Chart（SFC）用于组织程序中的步骤和迁移。  
+   https://www.plcopen.org/standards/logic/iec-61131-3/
+
+2. **ISA — ISA-88 Series of Standards: Batch Process Control**  
+   ISA-88 对批处理控制中的物理模型、功能模型、顺序控制、设备状态以及机器 / 单元状态进行了标准化说明。  
+   https://www.isa.org/standards-and-publications/isa-standards/isa-88-standards
+
+3. **ISO 13849-1:2023 — Safety of machinery — Safety-related parts of control systems — Part 1: General principles for design**  
+   ISO 官方摘要页，用于说明安全相关控制系统的设计与集成原则。  
+   https://www.iso.org/standard/73481.html
+
+4. **OPC Foundation — OPC UA Online Reference, State Machine**  
+   OPC UA 信息模型中关于有限状态机、状态变量和状态迁移的公开参考。  
+   https://reference.opcfoundation.org/search?t=State
+
+---
+
 ## 文档信息
 
-题目：TPCA / PCN 建立在什么工程基础上？——五个基础工程共识
-文档类型：技术札记
-版本：Public Note Version 1.0
-发布日期：2026-08-18
-作者：全野南政 / Nansei Zenno
+题目：TPCA / PCN 建立在什么工程基础上？——五个基础工程共识  
+文档类型：技术札记  
+版本：Public Note Version 1.0  
+发布日期：2026-08-18  
+作者：全野南政 / Nansei Zenno  
 当前 URL：https://zennns.com/zh/notes/engineering-foundations-of-tpca-pcn/
 
 ---
 
-本文属于 TPCA / CAE-SDB 状态迁移前置控制架构的公开说明内容。
+本文属于 TPCA / PCN 状态迁移前置控制架构的公开说明内容。
