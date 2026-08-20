@@ -280,12 +280,12 @@ TPCA / PCN 关注的是将这类原本分散的状态迁移判断显式化，使
 
 ## 文档信息
 
-题目："为什么 MES / WCS 能记录，却不能解释停滞？"
-文档类型：工程问题
-问题类型：多系统联动问题
-版本：Public Question Version 1.2
-首次发布日期：2026-07-04
-最后更新：2026-08-20
-作者：全野南政 / Nansei Zenno
-当前 URL：https://zennns.com/zh/questions/why-mes-records-but-cannot-explain/
+题目："为什么 MES / WCS 能记录，却不能解释停滞？" 
+文档类型：工程问题 
+问题类型：多系统联动问题 
+版本：Public Question Version 1.2 
+首次发布日期：2026-07-04 
+最后更新：2026-08-20 
+作者：全野南政 / Nansei Zenno 
+当前 URL：https://zennns.com/zh/questions/why-mes-records-but-cannot-explain/ 
 
