@@ -49,7 +49,7 @@ draft: false
 - [Engineering Questions｜工程问题](/zh/questions/)：从 Ready、Waiting、状态协同和状态迁移问题进入；
 - [Concepts｜核心概念](/zh/concepts/)：理解 TPCA、PCN、CAE-SDB、多路径控制和 PCN Trace；
 - [Cases｜应用案例](/zh/cases/)：查看自动化执行单元、MES / WCS 协同停滞和生产 DX 状态迁移三个层面的公开案例；
-- [TPCA / CAE-SDB 白皮书](/zh/whitepaper/)：系统理解整体架构和工程定位；
+- [TPCA / PCN 白皮书](/zh/whitepaper/)：系统理解整体架构和工程定位；
 - [Technical Notes｜技术札记](/zh/notes/)：阅读状态迁移条件、PCN、Trace、Network 和适用场景等专题说明。
 
 ---
