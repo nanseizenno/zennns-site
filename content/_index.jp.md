@@ -1,5 +1,5 @@
 ---
-title: "状態遷移知識体系｜TPCA / CAE-SDB"
+title: "工学システムの状態遷移前置制御｜TPCA / PCN"
 summary: "複雑な工学システムが Target State へ入る前の判定問題を中心に、Ready、Waiting、PLC Ready、MES / WCS 協調停滞、生産 DX における状態遷移、タスク実行、資源許可、状態協調などの代表的な問題を整理する。"
 description: "工学システムの状態遷移知識体系。TPCA（Transition Pre-Control Architecture）/ PCN 状態遷移前制御体系および CAE-SDB 構造化判定ロジックを中心に、製造現場、自動化実行ユニット、PLC / HMI、ロボットシステム、MES / WCS、AGV / AMR 群制御システム、生産 DX における Target State 進入前判定、複数経路制御、状態遷移履歴の問題を扱う。"
 draft: false
