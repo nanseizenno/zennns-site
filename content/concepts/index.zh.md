@@ -14,7 +14,7 @@ TocOpen: true
 本页整理 TPCA / PCN 状态迁移前置控制体系中的基础术语。  
 术语以工程使用为主，用于统一公开说明、案例资料、合作沟通和后续技术文档中的表达。
 
-[TPCA / CAE-SDB 与既有工业自动化理论的关系](/zh/notes/tpca-existing-theories/)
+[TPCA / PCN 与既有工业自动化方法和控制机制的关系](/zh/notes/tpca-existing-theories/)
 
 > 用于理解 TPCA / CAE-SDB 与状态机、安全互锁、报警诊断、AI 诊断、MES / WCS 调度和形式化验证之间的边界关系。
 
@@ -684,4 +684,4 @@ TPCA
 ---
 
 本文属于 TPCA / PCN 状态迁移前置控制体系的公开说明内容。  
-TPCA、CAE-SDB 与 PCN 为本站作者围绕复杂工程系统目标状态进入前判定问题所整理的术语体系。
+
