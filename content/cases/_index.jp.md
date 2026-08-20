@@ -10,7 +10,7 @@ ShowReadingTime: false
 
 ## 事例一覧
 
-### [自動化実行ユニット前置判定事例](/jp/cases/automation-execution-unit-pre-control/)
+### [自動化実行ユニット前制御判定事例](/jp/cases/automation-execution-unit-pre-control/)
 
 > 画像認識搬送ラインのロボットユニットを代表例として、PLC / PCN がロボットのピックアップ段階へ入る前に、画像認識、ロボット、安全装置、搬送コンベヤ、下流受入、上位システムの各信号を C / A / E にマッピングし、S / D / B 判定を行ったうえで、通常ピックアップ、回流、異常分流、待機、進入禁止、安全ロックなどの制御経路を出力する方法を説明する。
 
