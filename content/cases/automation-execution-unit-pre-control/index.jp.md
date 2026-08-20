@@ -1,5 +1,5 @@
 ---
-title: "自動化実行ユニット前置判定事例"
+title: "自動化実行ユニット前制御判定事例"
 summary: "画像認識搬送ラインのロボットユニットを代表例として、なぜ Robot Ready だけではピックアップ段階へ移行できることを意味しないのか、また PLC / PCN が目標物理実行段階へ入る前に構造化判定、Arbitration、Multipath Control をどのように行うのかを説明する。"
 description: "TPCA / PCN の自動化実行ユニットへの適用方法を公開説明する。画像認識搬送ラインのロボットユニットを代表例として、PLC / PCN がロボットのピックアップ段階へ入る前に C / A / E 状態マッピング、S / D / B 判定を行い、CAE-SDB Result を形成し、Arbitration を経て Multipath Control を出力するとともに、PCN Trace を記録する方法を説明する。"
 date: 2026-06-30
@@ -8,7 +8,7 @@ author: "全野南政 / Nansei Zenno"
 document_type: "公開事例"
 case_type: "自動化実行ユニット層"
 version: "Public Case Version 1.1"
-citation_title: "自動化実行ユニット前置判定事例：なぜ Robot Ready だけではピックアップ段階へ移行できることを意味しないのか"
+citation_title: "自動化実行ユニット前制御判定事例：なぜ Robot Ready だけではピックアップ段階へ移行できることを意味しないのか"
 citation_url: "https://zennns.com/jp/cases/automation-execution-unit-pre-control/"
 draft: false
 weight: 1
