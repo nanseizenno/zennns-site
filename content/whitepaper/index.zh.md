@@ -44,7 +44,7 @@ PCN 是部署在目标状态、目标执行路径或目标物理执行阶段进�
 
 > **当系统不能进入目标状态时，现场仍然需要判断问题来自哪里，以及下一步应进入哪一条控制路径。**
 
-这些具体问题已经在 [Engineering Questions｜工程问题](/zh/questions/) 中展开。
+这些具体问题已经在 [工程问题](/zh/questions/) 中展开。
 
 本文关注它们背后的共同结构：
 
@@ -111,25 +111,22 @@ Waiting / Pending / Blocked
 - 某个报警是源头问题还是后续结果；
 - 下一步应等待、重识别、回流、协调、降级、禁止，还是人工确认。
 
-[Engineering Questions｜工程问题](/zh/questions/) 已整理了代表性现场问题。
+[工程问题](/zh/questions/) 已整理了代表性现场问题。
 
 ## 1.1 单元与现场执行问题
 
 - [为什么 Ready 不够？](/zh/questions/why-ready-is-not-enough/)
 - [为什么 Waiting 越来越难排查？](/zh/questions/why-waiting-is-hard-to-trace/)
-- [为什么 PLC Ready 仍不能运行？](/zh/questions/why-plc-ready-does-not-run/)
-- [为什么报警越来越多，排查时间没有明显缩短？](/zh/questions/why-alarms-do-not-reduce-troubleshooting/)
 
 ## 1.2 多系统联动问题
 
 - [为什么 MES / WCS 能记录，却不能解释停滞？](/zh/questions/why-mes-records-but-cannot-explain/)
-- [为什么 Ready 成立，系统仍可能被许可和执行链阻断？](/zh/questions/why-authority-is-more-critical-than-ready/)
 - [为什么任务存在，不代表任务可以执行？](/zh/questions/why-task-exists-but-cannot-execute/)
-- [为什么系统记录很多状态，却不能形成协同判断？](/zh/questions/why-status-records-cannot-form-coordination-judgment/)
 
 ## 1.3 状态迁移设计问题
 
 - [为什么状态迁移设计长期依赖个人经验？](/zh/questions/why-state-transition-depends-on-experience/)
+- [为什么状态都有了，系统仍没有形成明确的状态迁移判断？](/zh/questions/why-status-records-cannot-form-coordination-judgment/)
 
 大量状态迁移判断长期存在于工程师经验、梯形图、调试记录、HMI 画面、设备接口和现场习惯中。
 
@@ -787,8 +784,8 @@ PCN 设置在目标物理执行阶段进入之前，对多源状态进行 C / A 
 相关阅读：
 
 - [自动化执行单元前置判定案例](/zh/cases/automation-execution-unit-pre-control/)
-- [为什么 PLC Ready 仍不能运行？](/zh/questions/why-plc-ready-does-not-run/)
 - [为什么 Ready 不够？](/zh/questions/why-ready-is-not-enough/)
+- [为什么 Waiting 越来越难排查？](/zh/questions/why-waiting-is-hard-to-trace/)
 
 ## 6.2 MES / WCS 协同停滞
 
@@ -826,7 +823,7 @@ PCN 设置在目标物理执行阶段进入之前，对多源状态进行 C / A 
 
 - [MES / WCS 协同停滞诊断模块案例](/zh/cases/collaborative-stagnation-diagnosis/)
 - [为什么 MES / WCS 能记录，却不能解释停滞？](/zh/questions/why-mes-records-but-cannot-explain/)
-- [为什么系统记录很多状态，却不能形成协同判断？](/zh/questions/why-status-records-cannot-form-coordination-judgment/)
+- [为什么状态都有了，系统仍没有形成明确的状态迁移判断？](/zh/questions/why-status-records-cannot-form-coordination-judgment/)
 
 ## 6.3 生产 DX
 
@@ -961,19 +958,19 @@ TPCA / PCN 不替代 PLC、SFC、Interlock、安全系统、MES 或 WCS。
 
 如果希望从现场问题进入：
 
-[Engineering Questions｜工程问题](/zh/questions/)
+[工程问题](/zh/questions/)
 
 如果希望确认术语定义：
 
-[Concepts｜核心概念](/zh/concepts/)
+[核心概念](/zh/concepts/)
 
 如果希望了解工程应用：
 
-[Cases｜应用案例](/zh/cases/)
+[应用案例](/zh/cases/)
 
 如果希望继续阅读外部理论关系、PCN 工程结构和理解测试：
 
-[Technical Notes｜技术札记](/zh/notes/)
+[技术札记](/zh/notes/)
 
 如果希望了解作者与网站定位：
 
