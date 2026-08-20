@@ -1,7 +1,7 @@
 ---
 title: "自动化执行单元前置判定案例"
 summary: "以视觉识别输送线机器人单元为代表例，说明为什么 Robot Ready 不代表可以进入抓取阶段，以及 PLC / PCN 如何在目标物理执行阶段进入前进行前置判定和多路径控制。"
-description: "公开说明 TPCA / CAE-SDB 在自动化执行单元中的应用方式。以视觉识别输送线机器人单元为代表例，说明 PLC / PCN 如何在机器人进入抓取阶段前进行 C / A / E 状态映射、S / D / B 判定和多路径控制。"
+description: "公开说明 TPCA / PCN 在自动化执行单元中的应用方式。以视觉识别输送线机器人单元为代表例，说明 PLC / PCN 如何在机器人进入抓取阶段前进行 C / A / E 状态映射、S / D / B 判定和多路径控制。"
 date: 2026-06-30
 lastmod: 2026-08-18
 author: "全野南政 / Nansei Zenno"
@@ -27,13 +27,13 @@ TocOpen: true
 
 建议引用方式
 ```
-全野南政，《自动化执行单元前置判定案例：为什么 Robot Ready 不代表可以进入抓取阶段》，TPCA / CAE-SDB 公开案例，Public Case Version 1.1，2026-08-18，https://zennns.com/zh/cases/automation-execution-unit-pre-control/
+全野南政，《自动化执行单元前置判定案例：为什么 Robot Ready 不代表可以进入抓取阶段》，TPCA / PCN 公开案例，Public Case Version 1.1，2026-08-18，https://zennns.com/zh/cases/automation-execution-unit-pre-control/
 ```
 
 本案例中的 PCN、C / A / E、S / D / B、多路径控制等术语，可先参见：
 
 - [Concepts｜核心概念](/zh/concepts/)
-- [TPCA / CAE-SDB 白皮书](/zh/whitepaper/)
+- [TPCA / PCN 白皮书](/zh/whitepaper/)
 - [为什么 Ready 不够？](/zh/questions/why-ready-is-not-enough/)
 - [为什么 PLC Ready 仍不能运行？](/zh/questions/why-plc-ready-does-not-run/)
 
@@ -365,7 +365,7 @@ B：当前状态处于哪个预设控制边界区间
 本案例中的术语可参见：
 
 - [Concepts｜核心概念](/zh/concepts/)
-- [TPCA / CAE-SDB 白皮书](/zh/whitepaper/)
+- [TPCA / PCN 白皮书](/zh/whitepaper/)
 - [为什么 Ready 不够？](/zh/questions/why-ready-is-not-enough/)
 - [为什么 PLC Ready 仍不能运行？](/zh/questions/why-plc-ready-does-not-run/)
 
@@ -373,7 +373,7 @@ B：当前状态处于哪个预设控制边界区间
 
 ## 9. 版本说明
 
-本文为 TPCA / CAE-SDB 状态迁移前置控制架构在自动化执行单元中的公开案例版本。
+本文为 TPCA / PCN 状态迁移前置控制架构在自动化执行单元中的公开案例版本。
 
 - Public Case Version 1.0 发布于 2026-06-30
 - Public Case Version 1.1 更新于 2026-08-18
