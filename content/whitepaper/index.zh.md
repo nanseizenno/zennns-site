@@ -1,30 +1,32 @@
 ---
 title: "TPCA / PCN 状态迁移前置控制架构"
-summary: "面向制造系统的前置判定、结构诊断与多路径控制"
-description: "介绍 TPCA / CAE-SDB 状态迁移前置控制架构，以及 PCN 前置控制节点、C / A / E 状态映射、S / D / B 判定、CAE-SDB 判定结果、控制仲裁、多路径控制、PCN Trace 和典型应用方向。"
+summary: "面向明确状态迁移入口的前置判定、多路径控制与判定履历架构"
+description: "介绍 TPCA 状态迁移前置控制架构及其工程节点 PCN，说明系统如何围绕明确的状态迁移入口，对多源状态信号进行 C / A / E 状态映射、S / D / B 判定、CAE-SDB 判定结果生成、Arbitration、多路径控制和 PCN Trace 记录，并介绍 PCN Network 与典型应用方向。"
 date: 2026-07-01
 lastmod: 2026-08-18
 author: "全野南政"
 document_type: "公开白皮书"
 version: "Public Version 1.1"
-citation_title: "TPCA / CAE-SDB 状态迁移前置控制架构"
+citation_title: "TPCA / PCN 状态迁移前置控制架构"
 citation_url: "https://zennns.com/zh/whitepaper/"
 draft: false
 ShowReadingTime: true
 ShowToc: true
 TocOpen: true
 ---
+
 ## 一句话定义
 
-
-介绍 TPCA 状态迁移前置控制架构及其工程实现单元 PCN，说明系统如何围绕明确的状态迁移入口，对多源状态信号进行 C / A / E 状态映射与 S / D / B 判定，形成 CAE-SDB 判定结果，经控制仲裁输出多路径控制，并通过 PCN Trace 记录状态迁移判定履历，同时介绍 PCN Network 与典型应用方向。
+TPCA 是面向明确状态迁移入口的前置控制架构。PCN 部署在目标状态、目标执行路径或目标物理执行阶段进入之前，对多源状态信号进行 C / A / E 状态映射与 S / D / B 判定，形成 CAE-SDB 判定结果，经 Arbitration 输出多路径控制，并通过 PCN Trace 记录本次状态迁移的判定与执行履历。多个 PCN 可进一步形成 PCN Network。
 
 它关注的核心问题是：
 
 - 为什么不能进入下一状态；
 - 问题来自条件、许可还是执行链；
 - 问题属于结构缺失、动态异常还是控制边界；
-- 下一步应允许进入、等待、重识别、重采样、重定位、回流、异常分流、下游协调、资源释放、降级执行、禁止进入、安全锁定、人工确认，还是增强记录。
+- 多个判定结果之间如何进行控制仲裁；
+- 下一步应进入哪一条控制路径；
+- 本次判定、控制与执行结果如何记录和追溯。
 
 ## 执行摘要
 
