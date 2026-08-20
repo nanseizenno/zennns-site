@@ -18,12 +18,14 @@ TocOpen: true
 
 基础概念可参见：
 
-- [Concepts｜核心概念](/zh/concepts/)
+- [核心概念](/zh/concepts/)
 - [TPCA / PCN 状态迁移前置控制架构｜白皮书](/zh/whitepaper/)
 - [为什么 PCN 是 TPCA 的最小工程节点？](/zh/notes/pcn-minimum-engineering-unit/)
 - [为什么状态迁移条件必须显式化？](/zh/notes/explicit-state-transition-conditions/)
 
 OEE、设备稼动数据、报警履历和保全数据，是制造现场数字化的重要基础。
+
+日本设备维护协会（JIPM）将 OEE 定位为面向自动化生产线设备效率改善的代表性 KPI，并说明其用于从更广范围识别生产损失、观察改善结果。[1] ISO 22400 系列则从制造运营管理角度对 KPI 的定义、构成、使用和时间特性进行了标准化整理。[2]
 
 它们能够帮助现场判断：
 
@@ -68,6 +70,8 @@ OEE 主要用于观察生产设备、生产单元或生产过程的运行绩效�
 - 质量损失；
 - 节拍变化；
 - 产量变化。
+
+JIPM 对 OEE 的公开说明同样强调，其主要用途是衡量和评价生产线整体设备效率，并通过损失识别支持改善。[1]
 
 它适合回答：
 
@@ -509,6 +513,22 @@ PCN 将这个入口组织为：
 还可以进一步回答：
 
 > **为什么系统当时没有进入下一状态？**
+
+---
+
+## 参考文献与外部依据
+
+以下资料仅用于说明 OEE 及制造运营 KPI 的既有工程定位。
+
+这些资料不是 TPCA / PCN 的理论来源，也不用于直接证明 TPCA / PCN 的专利新颖性或创造性。
+
+1. **Japan Institute of Plant Maintenance（JIPM）— TPM / Overall Equipment Efficiency（OEE）**  
+   JIPM 将 OEE 说明为面向自动化生产线设备效率改善的代表性 KPI，用于衡量整体设备效率、识别损失并支持改善。  
+   https://jipmglobal.com/tpm/about_us_en
+
+2. **ISO 22400-1:2014 — Automation systems and integration — Key performance indicators (KPIs) for manufacturing operations management — Part 1: Overview, concepts and terminology**  
+   ISO 官方摘要页，说明制造运营管理中 KPI 的定义、构成、使用和基本框架。  
+   https://www.iso.org/standard/56847.html
 
 ---
 
