@@ -1,5 +1,5 @@
 ---
-title: "工程系统状态迁移知识体系｜TPCA / CAE-SDB"
+title: "工程系统状态迁移前置控制架构｜TPCA / PCN"
 summary: "围绕复杂工程系统进入目标状态前的判定问题，整理 Ready、Waiting、PLC Ready、MES / WCS 协同停滞、生产 DX 状态迁移、任务执行、资源许可和状态协同等典型问题。"
 description: "工程系统状态迁移知识体系，围绕 TPCA（Transition Pre-Control Architecture）/ PCN 状态迁移前置控制体系及 CAE-SDB 结构化判定方法，面向制造现场、自动化执行单元、PLC / HMI、机器人系统、MES / WCS、AGV / AMR 群控系统和生产 DX 中的目标状态进入前判定、多路径控制与状态迁移履历问题。"
 draft: false
