@@ -1,5 +1,5 @@
 ---
-title: "TPCA / CAE-SDB 状态迁移前置控制架构"
+title: "TPCA / PCN 状态迁移前置控制架构"
 summary: "面向制造系统的前置判定、结构诊断与多路径控制"
 description: "介绍 TPCA / CAE-SDB 状态迁移前置控制架构，以及 PCN 前置控制节点、C / A / E 状态映射、S / D / B 判定、CAE-SDB 判定结果、控制仲裁、多路径控制、PCN Trace 和典型应用方向。"
 date: 2026-07-01
@@ -16,7 +16,6 @@ TocOpen: true
 ---
 ## 一句话定义
 
-TPCA / PCN 状态迁移前置控制架构
 
 介绍 TPCA 状态迁移前置控制架构及其工程实现单元 PCN，说明系统如何围绕明确的状态迁移入口，对多源状态信号进行 C / A / E 状态映射与 S / D / B 判定，形成 CAE-SDB 判定结果，经控制仲裁输出多路径控制，并通过 PCN Trace 记录状态迁移判定履历，同时介绍 PCN Network 与典型应用方向。
 
