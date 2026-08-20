@@ -16,7 +16,7 @@ TocOpen: true
 
 [TPCA / PCN 与既有工业自动化方法和控制机制的关系](/zh/notes/tpca-existing-theories/)
 
-> 用于理解 TPCA / CAE-SDB 与状态机、安全互锁、报警诊断、AI 诊断、MES / WCS 调度和形式化验证之间的边界关系。
+> 用于理解 TPCA / PCN 与状态机、安全互锁、报警诊断、AI 诊断、MES / WCS 调度和形式化验证之间的边界关系。
 
 ---
 
@@ -670,9 +670,6 @@ TPCA
 - **PCN Network**：多个 PCN 形成的状态迁移前置控制网络。
 
 ---
-
-相关索引：  
-[TPCA / CAE-SDB 术语索引](/zh/terms/)
 
 延伸阅读：
 
