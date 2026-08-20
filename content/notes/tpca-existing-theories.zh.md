@@ -19,7 +19,7 @@ TocOpen: true
 
 基础概念可参见：
 
-- [Concepts｜核心概念](/zh/concepts/)
+- [核心概念](/zh/concepts/)
 - [TPCA / PCN 状态迁移前置控制架构｜白皮书](/zh/whitepaper/)
 - [为什么 PCN 是 TPCA 的最小工程节点？](/zh/notes/pcn-minimum-engineering-unit/)
 - [为什么状态迁移条件必须显式化？](/zh/notes/explicit-state-transition-conditions/)
@@ -75,7 +75,7 @@ PCN 进一步围绕这一次状态迁移明确：
 
 ## 2. 与 FMEA、STPA、RCA、Process Mining 的关系
 
-这些方法都具有把复杂工程问题结构化的特点，但处理对象和使用阶段不同。
+这些方法都具有把复杂工程问题结构化的特点，但处理对象和使用阶段不同。FMEA、STPA、RCA 与 Process Mining 的基本定位可分别参见 ASQ 的 FMEA 公开说明、MIT 的 STPA Handbook 页面、ASQ 的 RCA 说明以及 van der Aalst 的 Process Mining 专著。[1][2][3][4]
 
 | 方法 | 主要处理对象 |
 |---|---|
@@ -118,6 +118,8 @@ PCN 则在实际运行时，把相关许可作为本次目标状态进入前的�
 ## 3. 与状态机、SFC、Interlock、安全控制和报警管理的关系
 
 ### 3.1 状态机、SFC 与 PCN
+
+状态机和 SFC 本来就可以定义状态、迁移及顺序组织。状态图 / Statecharts 的经典形式化工作可参见 Harel；SFC 的工业标准化背景可参见 IEC 61131-3，公开说明可参见 PLCopen。[5][6]
 
 状态机和 SFC 本来就可以定义：
 
@@ -193,7 +195,7 @@ Interlock = FALSE
 
 ### 3.3 安全控制与 PCN
 
-安全 PLC、安全继电器、安全门、光栅、急停和安全扫描器负责实现安全功能。
+安全 PLC、安全继电器、安全门、光栅、急停和安全扫描器负责实现安全功能。机械安全相关控制系统的设计原则可参见 ISO 13849-1。[7]
 
 PCN 可以读取安全系统提供的许可状态，并把关键安全许可作为目标状态进入前的必要约束。
 
@@ -214,6 +216,8 @@ PCN 可以读取安全系统提供的许可状态，并把关键安全许可作�
 ---
 
 ### 3.4 报警管理、故障诊断与 PCN
+
+报警管理本身已有成熟标准体系。IEC 62682 与 ISA-18.2 共同构成过程工业报警管理的重要标准体系，公开说明可参见 ISA 的 ISA-18.2 资料。[8]
 
 报警管理可以处理：
 
@@ -251,6 +255,8 @@ PCN 关注的是：
 ## 4. 与 MES / WCS、AI 分析和形式化验证的关系
 
 ### 4.1 MES / WCS 与 PCN
+
+MES、WCS 和群控系统本身已经包含大量任务、资源、执行和信息交换机制。制造运营与企业控制系统之间的信息模型和集成边界，可参见 ISA-95 / IEC 62264 系列。[9]
 
 MES、WCS 和群控系统本身已经包含大量：
 
@@ -327,6 +333,8 @@ PCN Trace 积累以后，AI 可以进一步辅助分析：
 ---
 
 ### 4.3 形式化验证和运行时验证
+
+形式化验证、模型检查和运行时验证同样会处理状态、性质和运行事件。模型检查的经典体系可参见 Clarke 等人的《Model Checking》，运行时验证的基本定位可参见 Leucker 与 Schallhart 的综述。[10][11]
 
 形式化验证、模型检查和运行时验证同样会处理：
 
@@ -457,6 +465,58 @@ TPCA / PCN 则围绕一个明确的状态迁移入口，把这些能力组织成
 这就是 TPCA / PCN 与既有工业自动化方法和控制机制之间的基本关系。
 
 ---
+
+
+## 参考文献与外部依据
+
+本节参考文献主要用于说明本文所比较的**既有工业自动化方法、标准和理论的原始定位**。
+
+考虑到部分 IEC / ISO 标准正文需要购买或在部分地区访问受限，下面优先提供**可公开访问的官方机构页面、学术出版页面或稳定书目页面**。正式标准号仍在条目中保留，便于进一步检索。
+
+这些资料不是 TPCA / PCN 的理论来源，也不用于直接证明 TPCA / PCN 的专利新颖性、创造性或法律上的权利边界。
+
+1. **ASQ — What is FMEA? Failure Mode & Effects Analysis**  
+   公开说明 FMEA 的基本对象、用途和分析方式。正式标准可进一步参见 IEC 60812:2018。  
+   https://asq.org/quality-resources/fmea
+
+2. **MIT Partnership for Systems Approaches to Safety and Security — Books and Handbooks**  
+   页面提供 *STPA Handbook* 的公开入口，并介绍 STPA / CAST 相关资料。  
+   https://psas.scripts.mit.edu/home/books-and-handbooks/
+
+3. **ASQ — What is Root Cause Analysis (RCA)?**  
+   用于说明 RCA 作为问题发生后的原因分析方法的基本定位。  
+   https://asq.org/quality-resources/root-cause-analysis
+
+4. **Wil van der Aalst — *Process Mining: Data Science in Action*, 2nd ed., Springer, 2016**  
+   Process Mining 的代表性系统专著。  
+   DOI: 10.1007/978-3-662-49851-4  
+   https://link.springer.com/book/10.1007/978-3-662-49851-4
+
+5. **David Harel — “Statecharts: A Visual Formalism for Complex Systems,” 1987**  
+   状态图 / Statecharts 的经典论文。  
+   DOI: 10.1016/0167-6423(87)90035-9  
+   https://doi.org/10.1016/0167-6423(87)90035-9
+
+6. **PLCopen — IEC 61131-3**  
+   公开说明 IEC 61131-3 的编程语言体系，并明确说明 SFC 用于组织 PLC 程序与功能块中的步骤和迁移。正式标准可进一步参见 IEC 61131-3。  
+   https://www.plcopen.org/standards/logic/iec-61131-3/
+
+7. **ISO 13849-1:2023 — Safety of machinery — Safety-related parts of control systems**  
+   ISO 官方摘要页，用于说明机械安全相关控制系统的设计原则。  
+   https://www.iso.org/standard/73481.html
+
+8. **ISA — ISA-18.2, Management of Alarm Systems for the Process Industries**  
+   ISA 对报警管理标准体系的公开说明，并说明 ISA-18.2 与 IEC 62682 的关系。  
+   https://www.isa.org/intech/2020/september-october/isa-18-2-management-of-alarm-systems-for-the-proce
+
+9. **ISA — ISA-95 Series of Standards: Enterprise-Control System Integration**  
+   ISA 官方公开页面，说明 ISA-95 / IEC 62264 的层级、对象和企业系统与制造控制系统之间的信息集成边界。  
+   https://www.isa.org/standards-and-publications/isa-standards/isa-95-standard
+
+10. **Martin Leucker, Christian Schallhart — “A brief account of runtime verification,” 2009**  
+    运行时验证的代表性综述。  
+    DOI: 10.1016/j.jlap.2008.08.004  
+    https://doi.org/10.1016/j.jlap.2008.08.004
 
 ## 文档信息
 
