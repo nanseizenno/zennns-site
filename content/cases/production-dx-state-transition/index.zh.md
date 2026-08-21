@@ -879,6 +879,6 @@ PCN 不替代安全 PLC、安全继电器、硬件安全回路及企业现有强
 
 Public Case Version 1.0：2026-08-18 发布  
 Public Case Version 1.1：2026-08-20 统一 PCN、CAE-SDB 判定结果、控制仲裁、多路径控制和 PCN Trace 的表达  
-Public Case Version 1.2：2026-08-21，补充时间信息 T 与状态迁移单向性的相关说明  
+Public Case Version 1.2：2026-08-21 补充时间信息 T 与状态迁移单向性的相关说明  
 
 作者：全野南政 / Nansei Zenno
