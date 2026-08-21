@@ -4,7 +4,7 @@ summary: "从 Ready、Waiting、MES / WCS 协同停滞、任务执行和状态�
 description: "整理复杂自动化和制造系统在目标状态进入前的典型工程问题，并作为理解 TPCA / PCN 核心概念、应用案例和白皮书的问题入口。"
 draft: false
 date: 2026-07-04
-lastmod: 2026-08-20
+lastmod: 2026-08-21
 author: "全野南政 / Nansei Zenno"
 ShowReadingTime: false
 ShowToc: true
@@ -38,7 +38,7 @@ layout: "questions"
 
 ### [为什么 Waiting 越来越难排查？](/zh/questions/why-waiting-is-hard-to-trace/)
 
-> Waiting 只说明系统尚未进入下一状态，并不能直接说明当前究竟在等待条件、许可、执行链，还是某个动态状态恢复。
+> Waiting 只说明系统尚未进入下一状态，并不能直接说明当前究竟在等待条件、许可、执行链，还是相关状态重新满足进入要求。
 
 ---
 
@@ -55,6 +55,10 @@ layout: "questions"
 ---
 
 ## 状态迁移设计问题
+
+TPCA 将实际状态迁移理解为沿时间方向持续发生的过程。即使系统再次出现与过去相同的状态内容，也属于新的状态实例。
+
+因此，每一次目标状态入口都需要被明确设计、判定和记录。
 
 ### [为什么状态迁移设计长期依赖个人经验？](/zh/questions/why-state-transition-depends-on-experience/)
 
@@ -73,6 +77,7 @@ layout: "questions"
 - [Concepts｜核心概念](/zh/concepts/)
 - [应用案例](/zh/cases/)
 - [TPCA / PCN 状态迁移前置控制架构｜白皮书](/zh/whitepaper/)
+- [TPCA 的状态迁移单向性——为什么真实工程系统不存在状态回退？](/zh/notes/tpca-unidirectional-state-transition/)
 
 ---
 
