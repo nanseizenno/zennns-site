@@ -467,7 +467,7 @@ MES / WCS 协同停滞诊断模块的核心作用，不是增加日志数量，�
 本文为 TPCA / PCN 在 MES / WCS 协同停滞诊断中的公开案例。
 
 - Public Case Version 1.0：2026-06-30 发布
-- Public Case Version 1.2：2026-08-20，统一 PCN、CAE-SDB 判定结果、控制仲裁、多路径控制和 PCN Trace 的表达
-- Public Case Version 1.3：2026-08-21，补充时间信息 T 与状态迁移单向性的相关说明
+- Public Case Version 1.2：2026-08-20 统一 PCN、CAE-SDB 判定结果、控制仲裁、多路径控制和 PCN Trace 的表达
+- Public Case Version 1.3：2026-08-21 补充时间信息 T 与状态迁移单向性的相关说明
 
 作者：全野南政 / Nansei Zenno
