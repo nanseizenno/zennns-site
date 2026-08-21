@@ -43,7 +43,7 @@ PLC 有状态位，机器人有 Ready，视觉有 OK / NG，安全系统有许�
 基础概念可参见：
 
 - [Concepts｜核心概念](/zh/concepts/)
-- [TPCA / CAE-SDB 白皮书](/zh/whitepaper/)
+- [TPCA / TCN 白皮书](/zh/whitepaper/)
 - [为什么 PCN 是 TPCA 的最小工程单元？](/zh/notes/pcn-minimum-engineering-unit/)
 
 ---
