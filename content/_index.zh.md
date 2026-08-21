@@ -38,7 +38,7 @@ ShowToc: false
 
 TPCA / PCN 不替代 PLC、状态机、SFC、Interlock、安全控制或 MES / WCS。
 
-它关注的是：当多个已有机制共同决定一次状态迁移时，如何把这一次目标状态入口本身变成明确的工程对象。
+它关注的是：当多个已有机制共同决定一次状态迁移时，如何围绕同一个目标状态入口形成明确的前置判定、控制和履历。
 
 ---
 
@@ -54,7 +54,7 @@ TPCA / PCN 不替代 PLC、状态机、SFC、Interlock、安全控制或 MES / W
 
 ### [应用案例](/zh/cases/)
 
-查看 TPCA / PCN 在自动化执行单元、MES / WCS 协同和生产 DX 中的公开应用。
+查看 TPCA / PCN 在自动化执行单元、MES / WCS 协同停滞和生产 DX 跨系统状态迁移中的应用。
 
 ### [白皮书](/zh/whitepaper/)
 
