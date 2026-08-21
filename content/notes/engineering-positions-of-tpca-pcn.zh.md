@@ -1,12 +1,12 @@
 ---
 title: "TPCA / PCN 面对已有技术分歧，它站在哪里？——三个典型工程争议"
 summary: "从确定性控制与 AI、集中控制与分布式自治、保守阻断与受控继续三个典型工程争议出发，说明 TPCA / PCN 的基本技术立场。"
-description: "结合系统安全、强化学习、分布式控制、故障容错与 Graceful Degradation 等代表性研究，说明 TPCA / PCN 在运行时控制、节点部署和异常处置方面的工程立场与架构选择。"
+description: "结合系统安全、强化学习、分布式控制、故障容错与 Graceful Degradation 等代表性研究，说明 TPCA / PCN 在运行时控制、节点部署、时间信息、异常处置和后续目标状态选择方面的工程立场与架构选择。"
 date: 2026-08-18
-lastmod: 2026-08-18
+lastmod: 2026-08-21
 author: "全野南政 / Nansei Zenno"
 document_type: "技术札记"
-version: "Public Note Version 1.0"
+version: "Public Note Version 1.1"
 citation_url: "https://zennns.com/zh/notes/engineering-positions-of-tpca-pcn/"
 draft: false
 ShowReadingTime: true
@@ -56,11 +56,14 @@ PCN Runtime 面向当前目标状态入口，承担在线状态处理、结构�
 - 控制结果可追溯；
 - 工程变更可以按照既有流程审核和确认。
 
-AI 则更适合基于 PCN Trace 开展：
+PCN Trace 则记录一次状态迁移判定中的当前状态、目标状态、关键输入、CAE-SDB Result、时间信息 T、控制仲裁、多路径控制和执行结果。
+
+在这一基础上，AI 更适合开展：
 
 - 履历比较；
 - 模式识别；
 - 重复问题发现；
+- 时间序列和持续状态分析；
 - 改善候选整理；
 - 控制结果效果比较；
 - 工程报告生成。
@@ -68,6 +71,8 @@ AI 则更适合基于 PCN Trace 开展：
 因此，本体系的基本边界是：
 
 > **AI 可以辅助发现问题和提出改善候选，但不绕过 PCN 及既有安全与控制机制直接承担现场确定性控制职责。**
+
+这里的 T 仅表示与状态和判定结果一起保留的时间信息，用于确定事件先后关系、支持动态时序有效性判断并形成可追溯的 PCN Trace。工业数据模型和分布式系统研究中，将状态值、事件与时间信息关联已有成熟工程基础。[8][9]
 
 这并不否定未来 AI 在工业控制中的进一步应用，而是明确当前 TPCA / PCN 的工程责任边界。
 
@@ -97,7 +102,7 @@ TPCA / PCN 采用：
 
 该 PCN 负责组织与本次状态迁移直接相关的状态，并完成本节点的前置判定和控制输出。
 
-多个 PCN 按实际状态迁移关系连接后，可以形成 PCN Network。
+多个 PCN 按实际状态迁移关系以及必要的许可、资源和执行依赖关系连接后，可以形成 PCN Network。
 
 当问题涉及：
 
@@ -115,6 +120,25 @@ TPCA / PCN 采用：
 其架构选择可以概括为：
 
 > **目标状态入口在局部形成明确 PCN，跨节点关系按照实际系统层级进行协调。**
+
+PCN Network 可以存在状态类型上的循环关系。
+
+例如某个生产流程可能反复出现：
+
+```text
+等待
+→ 执行
+→ 检测
+→ 再次等待
+```
+
+但实际运行中的状态实例仍然沿时间方向持续生成。
+
+因此：
+
+> **状态类型关系可以循环，实际状态实例不存在时间回退。**
+
+这一点使 PCN Network 既可以表达循环工艺、返工、回流和重新投入等实际工程结构，又不需要把系统解释为“回到过去的状态实例”。
 
 这一结构的重点不是“分布式”这一名称本身，而是让每一次状态迁移判定具有明确的工程责任边界，同时保留系统级协同能力。
 
@@ -142,7 +166,7 @@ TPCA / PCN 不预先将所有异常统一映射为“停止”，也不将“继
 
 其基本原则是：
 
-> **先形成结构化判定，再根据关键约束和完整判定结果进行控制仲裁。**
+> **先形成结构化判定，再根据关键约束和完整判定结果进行控制仲裁，并确定后续目标状态或目标执行路径。**
 
 其中，关键 Authority 可以构成独立必要约束。
 
@@ -153,16 +177,18 @@ TPCA / PCN 不预先将所有异常统一映射为“停止”，也不将“继
 基本关系为：
 
 ```text
-CAE-SDB Result
+CAE-SDB Result + T
 → Arbitration
 → Multipath Control
+→ New Target State / Target Path
 ```
 
-也就是说：
+其中：
 
 - CAE-SDB Result 用于描述本次目标状态入口形成的结构化判定结果；
+- T 用于标识本次状态和判定所处的时间位置；
 - Arbitration 根据关键许可、控制约束和多个判定结果处理控制优先关系；
-- Multipath Control 最终形成相应的工程控制路径。
+- Multipath Control 最终确定系统下一步进入的目标状态或目标执行路径。
 
 代表性控制路径可以包括：
 
@@ -177,7 +203,20 @@ CAE-SDB Result
 - Safety Lock；
 - 其他预先定义的处理路径。
 
-因此，TPCA / PCN 在“保守阻断”与“受控继续”之间的选择，不由单一异常标签直接决定，而由目标状态入口上的完整判定与控制约束共同决定。
+这些名称用于描述不同工程用途的控制路径。
+
+从 TPCA 的状态迁移视角看，无论是 Retry、Return、Degrade 还是 Safety Lock，实际控制都表现为：
+
+```text
+Current State
+→ New Target State / Target Path
+```
+
+即使新的目标状态与历史某一状态具有相同或相似的工程内容，由于发生时间和迁移历史不同，仍属于新的状态实例。
+
+因此，TPCA / PCN 在“保守阻断”与“受控继续”之间的选择，不由单一异常标签直接决定，也不存在通过控制路径“回到过去状态”的处理逻辑。
+
+系统始终基于当前状态和当前判定，选择下一目标状态。
 
 ---
 
@@ -187,31 +226,43 @@ CAE-SDB Result
 
 ### 运行时确定性控制与 AI
 
-> **PCN Runtime 承担运行时前置判定与确定性控制职责；AI 主要基于 PCN Trace 开展辅助分析和改善候选整理。**
+> **PCN Runtime 承担运行时前置判定与确定性控制职责；AI 主要基于包含状态、判定结果、时间信息 T、控制输出和执行结果的 PCN Trace 开展辅助分析。**
 
 ### 集中式控制与分布式自治
 
-> **目标状态入口的判定通过 PCN 节点化；跨节点资源、许可和协同问题按照实际系统层级处理。**
+> **目标状态入口的判定通过 PCN 节点化；跨节点资源、许可和协同问题按照实际系统层级处理。状态类型关系可以循环，但实际状态实例沿时间方向持续生成。**
 
 ### 保守阻断与受控继续
 
-> **不预先将异常统一定义为停止或继续，而是在结构化判定基础上，通过控制仲裁形成最终控制路径。**
+> **不预先将异常统一定义为停止或继续，而是在结构化判定基础上，通过控制仲裁确定后续目标状态或目标执行路径。**
 
 TPCA / PCN 不替代系统安全、强化学习、分布式控制或故障容错理论。
 
-这些理论和方法分别解决安全分析、学习型决策、多主体协同、故障恢复等不同问题。
+这些理论和方法分别解决安全分析、学习型决策、多主体协同、故障容错与退化运行等不同问题。
 
 TPCA / PCN 关注的是：
 
 > **当这些不同技术要求共同参与一次目标状态进入时，如何将它们放到明确的工程位置，并围绕同一个目标状态入口形成可判定、可控制和可记录的工程关系。**
 
+其基本工程关系可以进一步概括为：
+
+```text
+Target State Entry
+→ PCN
+→ CAE-SDB Result + T
+→ Arbitration
+→ Multipath Control
+→ New Target State / Target Path
+→ PCN Trace
+```
+
 ---
 
 ## 参考文献与外部依据
 
-以下资料用于说明本文涉及的系统安全、学习型决策、分布式控制、故障容错和渐进式降级等技术路线。
+以下资料用于说明本文涉及的系统安全、学习型决策、分布式控制、故障容错、渐进式降级以及状态时间信息与事件顺序等已有技术背景。
 
-这些资料用于说明 TPCA / PCN 所面对的既有工程分歧及技术背景，**不构成 TPCA / PCN 的理论来源说明，也不用于直接证明相关专利的新颖性或创造性。**
+这些资料用于说明 TPCA / PCN 所面对的既有工程分歧及其工程基础，**不构成 TPCA / PCN 的理论来源说明，也不用于直接证明相关专利的新颖性或创造性。**
 
 1. **LEVESON N G.**  
    *Engineering a Safer World: Systems Thinking Applied to Safety*.  
@@ -251,14 +302,27 @@ TPCA / PCN 关注的是：
    AIAA Aviation Forum, 2018. NASA Technical Reports Server, Document ID 20180006863.  
    https://ntrs.nasa.gov/citations/20180006863
 
+8. **OPC Foundation.**  
+   *OPC Unified Architecture — Part 4: Services, DataValue.*  
+   OPC UA Specification.  
+   DataValue 将 Value、StatusCode 与 SourceTimestamp、ServerTimestamp 等信息关联，用于表示工业数据值及其时间信息。  
+   https://reference.opcfoundation.org/specs/OPC-10000-4/7.11
+
+9. **LAMPORT L.**  
+   Time, Clocks, and the Ordering of Events in a Distributed System.  
+   *Communications of the ACM*, 1978, 21(7): 558–565.  
+   DOI: 10.1145/359545.359563  
+   https://www.microsoft.com/en-us/research/publication/time-clocks-ordering-events-distributed-system/
+
 ---
 
 ## 文档信息
 
 题目：TPCA / PCN 面对已有技术分歧，它站在哪里？——三个典型工程争议  
 文档类型：技术札记  
-版本：Public Note Version 1.0  
-发布日期：2026-08-18  
+版本：Public Note Version 1.1  
+首次发布日期：2026-08-18  
+最后更新：2026-08-21  
 作者：全野南政 / Nansei Zenno  
 当前 URL：https://zennns.com/zh/notes/engineering-positions-of-tpca-pcn/
 
