@@ -456,7 +456,7 @@ TPCA / PCN 将这些原本分散在 PLC 程序、视觉接口、机器人控制�
 本文为 TPCA / PCN 状态迁移前置控制架构在自动化执行单元中的公开案例。
 
 - Public Case Version 1.0：2026-06-30
-- Public Case Version 1.1：2026-08-20，按当前 TPCA / PCN 层级统一 PCN、CAE-SDB 判定结果、控制仲裁、多路径控制与 PCN Trace 的表达
-- Public Case Version 1.2：2026-08-21，补充时间信息 T 与状态迁移单向性的相关说明
+- Public Case Version 1.1：2026-08-20 按当前 TPCA / PCN 层级统一 PCN、CAE-SDB 判定结果、控制仲裁、多路径控制与 PCN Trace 的表达
+- Public Case Version 1.2：2026-08-21 补充时间信息 T 与状态迁移单向性的相关说明
 
 作者：全野南政 / Nansei Zenno
