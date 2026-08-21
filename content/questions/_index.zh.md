@@ -1,7 +1,7 @@
 ---
 title: "工程问题"
-summary: "从制造现场常见的 Ready、Waiting、MES / WCS 协同停滞、任务执行和状态迁移设计问题出发，理解为什么系统在进入目标状态前仍需要结构化前置判定。"
-description: "整理复杂自动化和制造系统在目标状态、目标执行路径或目标物理执行阶段进入前的典型工程问题，并作为 TPCA / PCN 核心概念、应用案例和白皮书的阅读入口。"
+summary: "从 Ready、Waiting、MES / WCS 协同停滞、任务执行和状态迁移设计问题出发，理解为什么一次明确的目标状态入口需要被作为独立工程对象进行设计和判断。"
+description: "整理复杂自动化和制造系统在目标状态进入前的典型工程问题，并作为理解 TPCA / PCN 核心概念、应用案例和白皮书的问题入口。"
 draft: false
 date: 2026-07-04
 lastmod: 2026-08-20
@@ -20,7 +20,9 @@ layout: "questions"
 
 表面现象不同，背后往往都涉及同一个问题：
 
-在系统进入下一目标状态之前，究竟需要确认哪些条件，哪些许可必须成立，后续执行链是否已经具备接续条件？
+> **这一次目标状态入口，为什么可以进入，或者为什么还不能进入？**
+
+当这种判断分散在不同设备、系统和工程师经验中时，Ready、Waiting、任务状态和系统记录就很难单独解释一次状态迁移。
 
 以下内容分别从单元与现场执行、多系统联动和状态迁移设计三个层级展开。
 
@@ -69,8 +71,7 @@ layout: "questions"
 如果这些现象与你的现场问题接近，可以继续阅读：
 
 - [Concepts｜核心概念](/zh/concepts/)
-- [自动化执行单元前置判定案例](/zh/cases/automation-execution-unit-pre-control/)
-- [MES / WCS 协同停滞诊断模块案例](/zh/cases/collaborative-stagnation-diagnosis/)
+- [应用案例](/zh/cases/)
 - [TPCA / PCN 状态迁移前置控制架构｜白皮书](/zh/whitepaper/)
 
 ---
