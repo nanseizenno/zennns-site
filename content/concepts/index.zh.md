@@ -1,7 +1,7 @@
 ---
 title: "概念术语"
-summary: "整理 TPCA / PCN 状态迁移前置控制体系中的核心术语，包括当前状态、目标状态、目标状态入口、前置控制、TPCA、PCN、PCN Runtime、PCN Network、多源状态信号、C / A / E、S / D / B、CAE-SDB Result、Arbitration、Multipath Control 和 PCN Trace。"
-description: "用于统一 TPCA / PCN 状态迁移前置控制体系中的核心术语，说明目标状态入口、PCN 前置控制节点、C / A / E 状态映射、S / D / B 判定、CAE-SDB Result、Arbitration、Multipath Control、PCN Trace、PCN Runtime 和 PCN Network 之间的关系。"
+summary: "整理 TPCA / PCN 状态迁移前置控制体系中的核心术语，包括当前状态、目标状态、目标状态入口、前置控制、TPCA、PCN、PCN Runtime、PCN Network、多源状态信号、C / A / E、S / D / B、CAE-SDB Result、时间信息 T、Arbitration、Multipath Control 和 PCN Trace。"
+description: "用于统一 TPCA / PCN 状态迁移前置控制体系中的核心术语，说明目标状态入口、PCN 前置控制节点、C / A / E 状态映射、S / D / B 判定、CAE-SDB Result、时间信息 T、Arbitration、Multipath Control、PCN Trace、PCN Runtime 和 PCN Network 之间的关系。"
 draft: false
 date: 2026-07-04
 lastmod: 2026-08-21
@@ -42,11 +42,12 @@ TPCA / PCN 的核心命题是：
 | B | Boundary / 控制边界 | 判断相关状态是否已经进入预先定义的控制边界 |
 | CAE-SDB | 结构化判定逻辑 | 将 C / A / E 状态变量域与 S / D / B 判定性质组合分析 |
 | CAE-SDB Result | CAE-SDB 判定结果 | 一次前置判定形成的一个或多个结构化判定结果 |
+| T | 时间信息 | 与状态和判定一起保留的时间信息，用于状态先后关系、动态判定和 PCN Trace |
 | Arbitration | 控制仲裁 | 根据完整判定结果和预先定义的控制约束确定控制优先关系 |
-| Multipath Control | 多路径控制 | 将仲裁结果转化为允许、等待、回流、降级、禁止、人工确认等控制路径 |
-| PCN Trace | PCN 状态迁移判定履历 | 记录一次目标状态入口的输入、判定、控制输出和执行结果 |
+| Multipath Control | 多路径控制 | 根据仲裁结果确定下一目标状态或目标执行路径 |
+| PCN Trace | PCN 状态迁移判定履历 | 记录一次目标状态入口的输入、判定、时间信息、控制输出和执行结果 |
 | PCN Runtime | PCN 运行时 | 承载 PCN 在线判定、仲裁、控制输出和履历生成的运行部分 |
-| PCN Network | PCN 网络 | 多个 PCN 按实际状态迁移关系连接形成的前置控制结构 |
+| PCN Network | PCN 网络 | 多个 PCN 按实际状态迁移关系及必要依赖关系形成的前置控制结构 |
 
 TPCA / PCN 的基本工程关系为：
 
@@ -56,7 +57,7 @@ TPCA / PCN 的基本工程关系为：
 → PCN
 → C / A / E 状态映射
 → S / D / B 判定
-→ CAE-SDB Result
+→ CAE-SDB Result + T
 → Arbitration
 → Multipath Control
 → PCN Trace
@@ -91,6 +92,15 @@ TPCA / PCN 关注的问题发生在目标状态真正进入之前。
 
 返工、回流、回退、异常分流、重新投入、备用路径或其他需要重新进行进入判定的状态，同样可以成为目标状态。
 
+在 TPCA 的实际运行视角中，这些路径都表现为：
+
+```text
+Current State
+→ New Target State
+```
+
+即使新的目标状态与历史状态具有相同或相似的工程内容，也属于新的状态实例。
+
 如果当前状态、目标状态和目标状态入口不明确，PCN 就缺少稳定的工程对象。
 
 ---
@@ -110,7 +120,7 @@ TPCA / PCN 关注的问题发生在目标状态真正进入之前。
 - 当前状态是否具有动态时序有效性；
 - 是否进入预先定义的控制边界；
 - 多个判定结果同时存在时如何进行控制仲裁；
-- 最终应进入哪一条控制路径。
+- 最终应进入哪一个目标状态或目标执行路径。
 
 ---
 
@@ -132,7 +142,7 @@ TPCA 是围绕明确目标状态入口建立的总体前置控制架构。
 → PCN
 → C / A / E 状态映射
 → S / D / B 判定
-→ CAE-SDB Result
+→ CAE-SDB Result + T
 → Arbitration
 → Multipath Control
 → PCN Trace
@@ -144,6 +154,14 @@ TPCA 不替代 PLC、状态机、SFC、Interlock、安全控制或 MES / WCS。
 
 它关注的是：当多个已有机制共同决定一次状态迁移时，如何围绕同一个目标状态入口形成明确的前置判定、控制输出和判定履历。
 
+TPCA 同时保留状态与判定的时间信息。
+
+真实运行中的状态迁移始终沿时间方向发生。后续状态即使与历史状态具有相同工程内容，也属于新的状态实例。
+
+详细说明可参见：
+
+[TPCA 的状态迁移单向性——为什么真实工程系统不存在状态回退？](/zh/notes/tpca-unidirectional-state-transition/)
+
 ---
 
 ## PCN
@@ -154,13 +172,14 @@ TPCA 不替代 PLC、状态机、SFC、Interlock、安全控制或 MES / WCS。
 
 PCN 部署在一个明确的目标状态入口前，是 TPCA 在具体状态迁移入口上的工程节点。
 
-一个 PCN 对应一次明确的状态迁移，并围绕该入口完成：
+一个 PCN 对应一次明确的目标状态进入，并围绕该入口完成：
 
 - 当前状态与目标状态确认；
 - 多源状态获取与整理；
 - C / A / E 状态映射；
 - S / D / B 判定；
 - CAE-SDB Result 生成；
+- 时间信息 T 保留；
 - Arbitration；
 - Multipath Control 输出；
 - PCN Trace 生成。
@@ -185,6 +204,7 @@ PCN Runtime 是 PCN 在实际系统中执行在线状态处理、判定、控制
 - C / A / E 状态映射；
 - S / D / B 判定；
 - CAE-SDB Result 生成；
+- 时间信息记录；
 - Arbitration；
 - Multipath Control 输出；
 - PCN Trace 生成。
@@ -201,7 +221,7 @@ PCN Runtime 描述的是运行角色，不限定具体的软件、PLC、工业�
 
 中文：PCN 网络。
 
-PCN Network 是多个 PCN 按实际状态迁移关系连接形成的前置控制结构。
+PCN Network 是多个 PCN 按实际状态迁移关系以及必要的许可、资源和执行依赖关系连接形成的前置控制结构。
 
 单个 PCN 对应一个明确的目标状态入口；多个 PCN 可以分布在设备单元、产线、MES / WCS、AGV / AMR 群控层、生产 DX 系统或数字系统中。
 
@@ -217,9 +237,18 @@ PCN Network 关注的是目标状态入口之间的工程关系，而不是设�
 → 状态 C
 ```
 
-如果系统进入返工、回流、异常分流或其他执行路径，也可以形成新的目标状态入口和相应 PCN。
+如果系统进入返工、回流、异常分流、重新投入或其他执行路径，也可以形成新的目标状态入口和相应 PCN。
 
-PCN Network 可用于观察不同目标状态入口之间的状态推进、许可依赖、执行链接续和判定履历关系。
+PCN Network 的状态类型关系可以形成循环，但实际运行中的状态实例仍然沿时间方向继续生成。
+
+PCN Network 可用于观察不同目标状态入口之间的：
+
+- 状态推进；
+- 许可依赖；
+- 资源依赖；
+- 执行链接续；
+- 状态回写；
+- 判定履历关系。
 
 详细说明可参见：
 
@@ -252,7 +281,16 @@ PCN 不按信号来源直接划分问题，而是根据这些状态在具体目�
 
 因此，多源状态必须结合当前状态、目标状态和目标状态入口理解。
 
-根据具体系统，状态信息还可以包含时间戳、更新时间、状态版本、序列信息、批次号、对象 ID、事件 ID 或其他与本次状态迁移有关的追溯信息。
+根据具体系统，状态信息还可以包含：
+
+- 时间戳；
+- 更新时间；
+- 状态版本；
+- 序列信息；
+- 批次号；
+- 对象 ID；
+- 事件 ID；
+- 其他与本次状态迁移有关的追溯信息。
 
 ---
 
@@ -281,10 +319,12 @@ CAE-SDB 是 PCN 内部的结构化判定逻辑。
 
 一次前置判定可以形成一个或多个 CAE-SDB Result。
 
+每次判定同时保留相应的时间信息 T。
+
 当多个判定结果同时存在时，需要进一步进入：
 
 ```text
-CAE-SDB Result
+CAE-SDB Result + T
 → Arbitration
 → Multipath Control
 ```
@@ -357,6 +397,7 @@ E 不等同于单体设备 Ready。
 - 下游承接；
 - 正常执行路径；
 - 替代路径；
+- 回流路径；
 - 回退路径；
 - 异常排出路径；
 - 结果上传或回写链路；
@@ -429,6 +470,8 @@ D 判断运行中的相关状态是否仍然有效、同步、稳定和可信。
 
 如果该状态长时间未刷新，或产生于下游状态切换之前，就不能仅依据当前读取值判断执行链仍然有效。
 
+D 可以结合时间戳、更新时间、序列、版本和对象关联等信息进行判断。
+
 D 关注的是：
 
 > **当前状态是否仍可作为本次目标状态进入的有效判定依据。**
@@ -498,7 +541,37 @@ CAE-SDB Result 用于说明：
 
 > **问题发生在哪个状态变量域，以及属于什么判定性质。**
 
+每次判定同时保留相应的时间信息 T。
+
 CAE-SDB Result 不是最终控制指令，仍需要进入 Arbitration。
+
+---
+
+## 时间信息 T
+
+T 表示与本次状态和 CAE-SDB Result 一起保留的时间信息。
+
+根据具体系统，可以表现为：
+
+- Timestamp；
+- 更新时间；
+- 事件时间；
+- 序列时间；
+- 批次时间；
+- 其他能够确定状态先后关系的时间信息。
+
+T 主要用于：
+
+- 标识本次状态与判定所处的时间位置；
+- 判断不同状态之间的先后关系；
+- 支持动态时序有效性判定；
+- 形成 PCN Trace。
+
+在 TPCA 的实际运行视角中，后续状态即使与历史状态具有相同工程内容，只要发生时间不同，仍属于新的状态实例。
+
+详细说明可参见：
+
+[TPCA 的状态迁移单向性——为什么真实工程系统不存在状态回退？](/zh/notes/tpca-unidirectional-state-transition/)
 
 ---
 
@@ -513,7 +586,7 @@ CAE-SDB Result 不是最终控制指令，仍需要进入 Arbitration。
 Arbitration 的工程位置为：
 
 ```text
-CAE-SDB Result
+CAE-SDB Result + T
 → Arbitration
 → Multipath Control
 ```
@@ -538,6 +611,8 @@ CAE-SDB Result
 - 重采样；
 - 重定位；
 - 回流；
+- 返回；
+- 回退；
 - 异常分流；
 - 下游协调；
 - 资源释放；
@@ -549,9 +624,15 @@ CAE-SDB Result
 - 异常隔离；
 - 增强记录。
 
+这些术语表示不同的工程处理路径。
+
+从 TPCA 的状态迁移视角看，它们最终都在回答：
+
+> **当前状态下一步应进入哪个目标状态或目标执行路径。**
+
 因此：
 
-> **CAE-SDB Result 描述结构化判定结果，Arbitration 处理控制优先关系，Multipath Control 形成最终工程输出。**
+> **CAE-SDB Result 描述结构化判定结果，Arbitration 处理控制优先关系，Multipath Control 形成下一目标状态或目标执行路径。**
 
 ---
 
@@ -570,7 +651,8 @@ PCN Trace 是对一次状态迁移前置判定及其控制结果进行结构化�
 - 当前状态；
 - 目标状态；
 - 参与本次判定的多源状态；
-- 与状态有关的时间、版本、序列或对象信息；
+- 时间信息 T；
+- 与状态有关的版本、序列或对象信息；
 - C / A / E Mapping；
 - S / D / B Evaluation；
 - CAE-SDB Result；
@@ -588,10 +670,12 @@ PCN Trace 可以用于现场复盘、问题追溯、状态迁移设计审核、�
 → 当时依据哪些状态
 → 为什么这样判定
 → 最终形成什么控制结果
-→ 实际是否完成迁移
+→ 实际进入了什么状态或路径
 ```
 
 组织成一次完整的状态迁移判定记录。
+
+时间信息使 PCN Trace 能够进一步区分状态内容相同、但发生在不同时间位置的状态实例。
 
 具体 PCN Trace 数据结构不属于本站一般公开范围。
 
@@ -610,7 +694,7 @@ TPCA
 │   │   │
 │   │   ├─ C / A / E Mapping
 │   │   ├─ S / D / B Evaluation
-│   │   ├─ CAE-SDB Result
+│   │   ├─ CAE-SDB Result + T
 │   │   ├─ Arbitration
 │   │   ├─ Multipath Control
 │   │   └─ PCN Trace
@@ -630,8 +714,9 @@ TPCA
 - **C / A / E**：状态变量域；
 - **S / D / B**：判定性质；
 - **CAE-SDB Result**：结构化判定结果；
+- **T**：与状态和判定一起保留的时间信息；
 - **Arbitration**：控制仲裁；
-- **Multipath Control**：最终控制路径；
+- **Multipath Control**：下一目标状态或目标执行路径；
 - **PCN Trace**：一次状态迁移判定履历；
 - **PCN Network**：多个 PCN 形成的状态迁移前置控制网络。
 
@@ -639,10 +724,10 @@ TPCA
 
 ## 延伸阅读
 
+- [TPCA 的状态迁移单向性——为什么真实工程系统不存在状态回退？](/zh/notes/tpca-unidirectional-state-transition/)
 - [TPCA / PCN 建立在什么工程基础上？——五个基础工程共识](/zh/notes/engineering-foundations-of-tpca-pcn/)
 - [TPCA / PCN 面对已有技术分歧，它站在哪里？——三个典型工程争议](/zh/notes/engineering-positions-of-tpca-pcn/)
 - [你真的理解 TPCA / PCN 了吗？——十个工程问题](/zh/notes/tpca-pcn-understanding-test/)
-- [从迁移后恢复到迁移前判定](/zh/notes/pre-transition-judgment-vs-post-transition-recovery/)
 
 ---
 
