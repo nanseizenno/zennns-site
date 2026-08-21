@@ -1,12 +1,12 @@
 ---
 title: "TPCA / PCN 状态迁移前置控制架构"
-summary: "面向明确状态迁移入口的前置判定、控制仲裁、多路径控制与判定履历架构"
+summary: "将明确的目标状态入口作为可独立设计、判定、控制和记录的工程对象，并通过 PCN 形成前置判定、控制仲裁、多路径控制与判定履历架构"
 description: "介绍 TPCA 状态迁移前置控制架构及其工程节点 PCN，说明系统如何围绕明确的状态迁移入口，对多源状态信号进行 C / A / E 状态映射、S / D / B 判定，形成 CAE-SDB 判定结果，经控制仲裁输出多路径控制，并通过 PCN Trace 记录状态迁移判定履历，同时介绍 PCN 网络与典型应用方向。"
 date: 2026-07-01
-lastmod: 2026-08-20
+lastmod: 2026-08-21
 author: "全野南政"
 document_type: "公开白皮书"
-version: "Public Version 1.1"
+version: "Public Version 1.2"
 citation_title: "TPCA / PCN 状态迁移前置控制架构"
 citation_url: "https://zennns.com/zh/whitepaper/"
 draft: false
@@ -17,9 +17,13 @@ TocOpen: true
 
 ## 一句话定义
 
-TPCA 是面向明确状态迁移入口的前置控制架构。
+TPCA / PCN 的核心命题是：
 
-PCN 是部署在目标状态、目标执行路径或目标物理执行阶段进入之前的前置控制节点。PCN 围绕一次明确的状态迁移，组织多源状态信号，进行 C / A / E 状态映射与 S / D / B 判定，形成 CAE-SDB 判定结果，经控制仲裁输出多路径控制，并通过 PCN Trace 记录本次判定与执行履历。
+> **一次明确的目标状态入口，应当成为可以被独立设计、判定、控制和记录的工程对象。**
+
+TPCA 是状态迁移前置控制的总体架构。
+
+PCN 是部署在一个具体目标状态入口前的前置控制节点，是这一工程对象在实际系统中的工程节点。PCN 围绕一次明确的状态迁移，组织多源状态信号，进行 C / A / E 状态映射与 S / D / B 判定，形成 CAE-SDB 判定结果，经控制仲裁输出多路径控制，并通过 PCN Trace 记录本次判定与执行履历。
 
 多个 PCN 按实际状态迁移关系连接后，可以进一步形成 PCN 网络。
 
@@ -48,7 +52,7 @@ PCN 是部署在目标状态、目标执行路径或目标物理执行阶段进�
 
 本文关注它们背后的共同结构：
 
-> **一次明确的目标状态迁移，需要被作为独立的工程判定对象。**
+> **一次明确的目标状态入口，应当成为可以被独立设计、判定、控制和记录的工程对象。**
 
 ![复杂工程系统中的共通状态迁移问题](/images/tpca/01-common-state-transition-problem.png)
 
@@ -130,7 +134,7 @@ Waiting / Pending / Blocked
 
 大量状态迁移判断长期存在于工程师经验、梯形图、调试记录、HMI 画面、设备接口和现场习惯中。
 
-TPCA / PCN 的目标，是把其中需要明确管理的状态迁移入口转化为可描述、可判定、可控制、可记录和可复用的工程结构。
+TPCA / PCN 的目标，是把其中需要明确管理的目标状态入口转化为可独立设计、判定、控制、记录和复用的工程对象。
 
 ---
 
@@ -140,7 +144,7 @@ TPCA / PCN 的目标，是把其中需要明确管理的状态迁移入口转化
 
 TPCA，Transition Pre-Control Architecture，即状态迁移前置控制架构。
 
-TPCA 面向系统进入目标状态、目标执行路径或目标物理执行阶段之前的前置判定与多路径控制。
+TPCA 面向系统进入目标状态、目标执行路径或目标物理执行阶段之前的前置判定与多路径控制，并把明确的目标状态入口作为前置控制的基本工程对象。
 
 目标状态可以是：
 
@@ -784,8 +788,6 @@ PCN 设置在目标物理执行阶段进入之前，对多源状态进行 C / A 
 相关阅读：
 
 - [自动化执行单元前置判定案例](/zh/cases/automation-execution-unit-pre-control/)
-- [为什么 Ready 不够？](/zh/questions/why-ready-is-not-enough/)
-- [为什么 Waiting 越来越难排查？](/zh/questions/why-waiting-is-hard-to-trace/)
 
 ## 6.2 MES / WCS 协同停滞
 
@@ -822,8 +824,6 @@ PCN 设置在目标物理执行阶段进入之前，对多源状态进行 C / A 
 相关阅读：
 
 - [MES / WCS 协同停滞诊断模块案例](/zh/cases/collaborative-stagnation-diagnosis/)
-- [为什么 MES / WCS 能记录，却不能解释停滞？](/zh/questions/why-mes-records-but-cannot-explain/)
-- [为什么状态都有了，系统仍没有形成明确的状态迁移判断？](/zh/questions/why-status-records-cannot-form-coordination-judgment/)
 
 ## 6.3 生产 DX
 
@@ -842,6 +842,8 @@ TPCA / PCN 进一步关注：
 - 多系统状态是否已经形成可接续执行链。
 
 PCN 可以把原本分散在设备、系统、人员和流程中的状态迁移条件显式化，并形成判定、控制和履历。
+
+[生产 DX 状态迁移条件设计与履历分析案例](/zh/cases/production-dx-state-transition/)
 
 ## 6.4 数字调用治理扩展
 
@@ -869,6 +871,8 @@ TPCA / PCN 也可以扩展到数字调用治理场景。
 这一方向属于 TPCA / PCN 的扩展应用。
 
 制造系统中的主要应用仍然是自动化执行单元前置控制和 MES / WCS 协同停滞诊断。
+
+[TPCA / PCN 适用场景分析](/zh/notes/tpca-pcn-applicable-scenarios/)
 
 ---
 
@@ -902,7 +906,9 @@ TPCA / PCN 不替代 PLC、SFC、Interlock、安全系统、MES 或 WCS。
 
 它补充的是：
 
-> **一次明确目标状态进入之前，如何把分散状态组织成可判定、可控制和可追溯的工程结构。**
+> **一次明确的目标状态入口，应当成为可以被独立设计、判定、控制和记录的工程对象。**
+
+围绕这个工程对象，TPCA / PCN 将原本分散的状态组织为可判定、可控制和可追溯的前置控制结构。
 
 单个 PCN 可以独立设计、部署和复盘。
 
@@ -912,45 +918,52 @@ TPCA / PCN 不替代 PLC、SFC、Interlock、安全系统、MES 或 WCS。
 
 # 相关技术札记
 
-## [TPCA / PCN 与既有工业自动化方法和控制机制的关系](/zh/notes/tpca-existing-theories/)
+技术札记用于补充白皮书中的专题问题，不替代 TPCA / PCN 的总体定义。
 
-说明 TPCA / PCN 与 FMEA、STPA、RCA、Process Mining、状态机、SFC、Interlock、安全控制、报警管理、MES / WCS、AI 分析及形式化验证之间的边界。
+## 一、与既有理论、方法和工程机制的关系
 
-## [TPCA / PCN 建立在什么工程基础上？——五个基础工程共识](/zh/notes/engineering-foundations-of-tpca-pcn/)
+用于理解 TPCA / PCN 建立在什么工程基础上，以及它与现有控制、分析和运行机制之间的边界。
 
-从状态迁移、许可约束、执行链接续、动态时序有效性和控制边界理解 TPCA / PCN 的工程基础。
+- [TPCA / PCN 与既有工业自动化方法和控制机制的关系](/zh/notes/tpca-existing-theories/)  
+  与 FMEA、STPA、RCA、Process Mining、状态机、SFC、Interlock、安全控制、报警管理、MES / WCS、AI 分析及形式化验证进行边界比较。
 
-## [TPCA / PCN 面对已有技术分歧，它站在哪里？——三个典型工程争议](/zh/notes/engineering-positions-of-tpca-pcn/)
+- [从迁移后恢复到迁移前判定](/zh/notes/pre-transition-judgment-vs-post-transition-recovery/)  
+  区分必要的运行中恢复与可以在目标状态进入前识别的问题。
 
-从确定性控制与 AI、集中控制与分布式自治、保守阻断与受控继续三个典型工程争议理解 TPCA / PCN 的技术立场。
+- [TPCA / PCN 建立在什么工程基础上？——五个基础工程共识](/zh/notes/engineering-foundations-of-tpca-pcn/)  
+  从状态迁移、许可约束、执行链接续、动态时序有效性和控制边界理解 TPCA / PCN 的工程基础。
 
-## [为什么状态迁移条件必须显式化？](/zh/notes/explicit-state-transition-conditions/)
+- [TPCA / PCN 面对已有技术分歧，它站在哪里？——三个典型工程争议](/zh/notes/engineering-positions-of-tpca-pcn/)  
+  说明 TPCA / PCN 在确定性控制与 AI、集中控制与分布式自治、保守阻断与受控继续等问题上的基本技术立场。
 
-说明为什么需要把隐含在程序、接口、许可、设备联动和工程师经验中的状态迁移条件转化为显式工程对象。
+- [为什么 OEE 之后还需要 PCN？](/zh/notes/why-oee-pcn/)  
+  说明 OEE、设备数据与 PCN 在运行绩效观察和状态迁移判定中的互补关系。
 
-## [为什么 PCN 是 TPCA 的最小工程节点？](/zh/notes/pcn-minimum-engineering-unit/)
+## 二、PCN 的工程结构与扩展
 
-说明一个 PCN 如何围绕明确状态迁移入口形成完整的前置控制闭环。
+用于进一步理解目标状态入口为什么需要被独立设计，以及 PCN 如何形成可判定、可控制、可记录的工程结构。
 
-## [为什么 PCN Trace 是一种新的工程数据？](/zh/notes/why-pcn-trace-is-engineering-data/)
+- [为什么状态迁移条件必须显式化？](/zh/notes/explicit-state-transition-conditions/)  
+  说明为什么需要把隐含在程序、接口、许可、设备联动和工程师经验中的状态迁移条件显式化。
 
-说明 PCN Trace 与设备数据、生产数据和报警履历之间的区别。
+- [为什么 PCN 是 TPCA 的最小工程节点？](/zh/notes/pcn-minimum-engineering-unit/)  
+  说明一个 PCN 如何围绕明确的目标状态入口形成完整前置控制闭环。
 
-## [为什么 OEE 之后还需要 PCN？](/zh/notes/why-oee-pcn/)
+- [为什么 PCN Trace 是一种新的工程数据？](/zh/notes/why-pcn-trace-is-engineering-data/)  
+  说明一次完整的状态迁移判定为什么可以成为独立记录、比较和复盘的工程数据对象。
 
-说明 OEE 与 PCN 的互补关系。
+- [TPCA / PCN 适用场景分析](/zh/notes/tpca-pcn-applicable-scenarios/)  
+  说明什么对象适合设置 PCN，以及 TPCA / PCN 的工程适用边界。
 
-## [TPCA / PCN 适用场景分析](/zh/notes/tpca-pcn-applicable-scenarios/)
+- [多个 PCN 如何形成状态迁移前置控制网络？](/zh/notes/pcn-network-structure/)  
+  说明多个 PCN 如何按照实际状态迁移关系形成 PCN Network。
 
-说明什么对象适合设置 PCN，以及工程适用边界。
+## 三、理解测试
 
-## [多个 PCN 如何形成状态迁移前置控制网络？](/zh/notes/pcn-network-structure/)
+用于检查是否真正理解 TPCA / PCN 的工程逻辑，不增加新的概念。
 
-说明多个 PCN 如何按照状态迁移入口形成 PCN 网络。
-
-## [你真的理解 TPCA / PCN 了吗？——十个工程问题](/zh/notes/tpca-pcn-understanding-test/)
-
-通过具体工程问题检查对状态迁移入口、PCN、C/A/E、S/D/B、控制仲裁、多路径控制和 PCN Trace 的理解。
+- [你真的理解 TPCA / PCN 了吗？——十个工程问题](/zh/notes/tpca-pcn-understanding-test/)  
+  通过具体工程问题检查对目标状态入口、PCN、C / A / E、S / D / B、控制仲裁、多路径控制和 PCN Trace 的理解。
 
 ---
 
@@ -984,12 +997,14 @@ TPCA / PCN 不替代 PLC、SFC、Interlock、安全系统、MES 或 WCS。
 
 Public Version 1.0 发布于 2026-07-01。
 
-Public Version 1.1 更新于 2026-08-20 ，明确 CAE-SDB 判定结果、控制仲裁、多路径控制和 PCN Trace 的层级关系。
+Public Version 1.1 更新于 2026-08-20，明确 CAE-SDB 判定结果、控制仲裁、多路径控制和 PCN Trace 的层级关系。
+
+Public Version 1.2 更新于 2026-08-21，明确 TPCA 与 PCN 的总体架构和工程节点关系。
 
 作者：全野南政 / Nansei Zenno
 
 建议引用：
 
 ```text
-全野南政 / Nansei Zenno，《TPCA / PCN 状态迁移前置控制架构》，公开白皮书，Public Version 1.1，2026-08-20，https://zennns.com/zh/whitepaper/
+全野南政 / Nansei Zenno，《TPCA / PCN 状态迁移前置控制架构》，公开白皮书，Public Version 1.2，2026-08-21，https://zennns.com/zh/whitepaper/
 ```
