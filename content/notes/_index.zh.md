@@ -101,7 +101,7 @@ draft: false
 
 ### [Engineering Questions｜工程问题](/zh/questions/)
 
-从 Ready、Waiting、PLC Ready、MES / WCS 状态记录、任务存在但不能执行等制造现场问题进入 TPCA / PCN。
+从 Ready、Waiting、任务执行、多系统协同和状态迁移设计等制造现场问题进入 TPCA / PCN。
 
 ### [应用案例](/zh/cases/)
 
