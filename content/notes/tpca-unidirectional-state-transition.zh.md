@@ -23,9 +23,7 @@ TocOpen: true
 例如：
 
 ```text
-A
-→ B
-→ A
+A → B → A
 ```
 
 从控制程序或状态图角度看，这种表达是成立的。
@@ -82,10 +80,7 @@ Sᵢ = (Xᵢ, Tᵢ)
 对于连续发生的实际状态：
 
 ```text
-S₀
-→ S₁
-→ S₂
-→ ...
+S₀ → S₁ → S₂ → ...
 ```
 
 其时间关系始终满足：
@@ -148,9 +143,7 @@ Ready = TRUE
 传统状态图可以再次把这一状态标记为 A：
 
 ```text
-A
-→ B
-→ A
+A → B → A
 ```
 
 TPCA 在描述**实际状态实例**时，不采用这种表示。
@@ -158,9 +151,7 @@ TPCA 在描述**实际状态实例**时，不采用这种表示。
 真实运行过程应表示为：
 
 ```text
-A
-→ B
-→ C
+A → B → C
 ```
 
 其中：
@@ -235,15 +226,7 @@ Restore
 例如：
 
 ```text
-A：正常运行
-→
-B：执行异常
-→
-C：安全停止
-→
-D：复归准备
-→
-E：重新进入正常运行
+A：正常运行 → B：执行异常 → C：安全停止 → D：复归准备 → E：重新进入正常运行
 ```
 
 即使：
@@ -267,11 +250,7 @@ E ≠ A
 整个实际过程始终是：
 
 ```text
-A
-→ B
-→ C
-→ D
-→ E
+A → B → C → D → E
 ```
 
 没有任何一步真正沿时间方向返回 A。
@@ -285,8 +264,7 @@ Recovery、复归、回流和重新投入也是同样的关系。
 从架构层看，它们都可以统一为：
 
 ```text
-Current State
-→ Target State
+Current State → Target State
 ```
 
 ---
@@ -296,10 +274,7 @@ Current State
 运行过程中发生异常时，传统工程语言经常表示为：
 
 ```text
-Normal
-→ Fault
-→ Recovery
-→ Normal
+Normal → Fault → Recovery → Normal
 ```
 
 TPCA 不需要把 Recovery 建立为与正常状态迁移相反的另一套时间过程。
@@ -311,19 +286,13 @@ TPCA 不需要把 Recovery 建立为与正常状态迁移相反的另一套时�
 例如机器人抓取过程中真空丢失：
 
 ```text
-S₁：
-抓取执行中
+S₁：抓取执行中
 ```
 
 异常发生后形成新的现实状态：
 
 ```text
-S₂：
-抓取执行已中断
-+
-工件保持状态不可确认
-+
-当前设备与安全状态已更新
+S₂：抓取执行已中断 + 工件保持状态不可确认 + 当前设备与安全状态已更新
 ```
 
 此时：
@@ -351,10 +320,7 @@ Target State = ?
 随后仍然按照同一条状态迁移关系处理：
 
 ```text
-Current State
-→ Target State Entry
-→ PCN
-→ Selected Target State
+Current State → Target State Entry → PCN → Selected Target State
 ```
 
 因此：
@@ -393,8 +359,7 @@ Current State
 例如当前状态为：
 
 ```text
-Current State:
-抓取失败后的对象保持不确定状态
+Current State: 抓取失败后的对象保持不确定状态
 ```
 
 可以存在多个候选目标状态：
@@ -410,9 +375,7 @@ T₅ = 回流状态
 经过：
 
 ```text
-CAE-SDB Result
-→ Arbitration
-→ Multipath Control
+CAE-SDB Result → Arbitration → Multipath Control
 ```
 
 最终确定：
@@ -424,15 +387,13 @@ Selected Target State = T₃
 然后发生新的状态迁移：
 
 ```text
-Current State
-→ T₃
+Current State → T₃
 ```
 
 如果选择回流，同样只是：
 
 ```text
-Current State
-→ T₅
+Current State → T₅
 ```
 
 并不存在一个特殊的“反方向”。
@@ -456,8 +417,7 @@ TPCA 的核心命题是：
 因为一旦状态迁移实际发生：
 
 ```text
-Sᵢ
-→ Sᵢ₊₁
+Sᵢ → Sᵢ₊₁
 ```
 
 系统就已经进入新的时间位置：
@@ -505,18 +465,13 @@ Ready = TRUE
 就无法判断这个状态是：
 
 ```text
-A：
-任务尚未开始
+A： 任务尚未开始
 ```
 
 还是：
 
 ```text
-C：
-已经执行
-→ 发生异常
-→ 完成后续状态迁移
-→ 再次形成 Home / Auto / Ready
+C：已经执行 → 发生异常 → 完成后续状态迁移 → 再次形成 Home / Auto / Ready
 ```
 
 A 与 C 的工程状态内容可以完全相同：
@@ -536,11 +491,7 @@ T_A ≠ T_C
 PCN Trace 进一步记录：
 
 ```text
-S₀
-→ S₁
-→ S₂
-→ S₃
-→ ...
+S₀ → S₁ → S₂ → S₃ → ...
 ```
 
 以及每一次状态迁移中的：
@@ -576,17 +527,13 @@ S₀
 在系统设计阶段，可以存在：
 
 ```text
-AUTO
-→ FAULT
-→ AUTO
+AUTO → FAULT → AUTO
 ```
 
 或者：
 
 ```text
-WAIT
-→ EXECUTE
-→ WAIT
+WAIT → EXECUTE → WAIT
 ```
 
 这些关系描述的是：
@@ -602,11 +549,7 @@ WAIT
 真实运行时则只能形成：
 
 ```text
-S₀
-→ S₁
-→ S₂
-→ S₃
-→ ...
+S₀ → S₁ → S₂ → S₃ → ...
 ```
 
 并满足：
@@ -618,11 +561,7 @@ T₀ < T₁ < T₂ < T₃ < ...
 例如：
 
 ```text
-A：AUTO，T₁
-→
-B：FAULT，T₂
-→
-C：AUTO，T₃
+A：AUTO，T₁ → B：FAULT，T₂ → C：AUTO，T₃
 ```
 
 虽然：
@@ -669,12 +608,7 @@ Return Logic
 所有控制都可以统一为：
 
 ```text
-Current State
-→ Candidate Target States
-→ PCN
-→ Arbitration
-→ Selected Target State
-→ State Transition
+Current State → Candidate Target States → PCN → Arbitration → Selected Target State → State Transition
 ```
 
 这样，正常执行、异常处置、复归、回流、降级和重新投入可以使用同一个状态迁移语义：
@@ -745,8 +679,7 @@ Tᵢ ≠ Tⱼ
 对于实际发生的连续状态迁移：
 
 ```text
-Sᵢ
-→ Sᵢ₊₁
+Sᵢ → Sᵢ₊₁
 ```
 
 始终满足：
@@ -776,19 +709,14 @@ Reset
 本质上都只是：
 
 ```text
-Current State
-→ New Target State
+Current State → New Target State
 ```
 
 新的 Target State 可以与历史状态具有相同的工程状态内容，但由于时间分量不同，它仍然是新的状态实例。
 
-因此：
+因此： **系统没有回退，只有继续迁移。**
 
-> **系统没有回退，只有继续迁移。**
-
-也可以进一步表述为：
-
-> **状态类型可以循环，状态实例只能向前。**
+也可以进一步表述为： **状态类型可以循环，状态实例只能向前。**
 
 这使 TPCA 可以用统一的状态迁移模型解释正常执行、异常处置、复归、回流、降级和重新投入，并为 PCN、Multipath Control、PCN Trace 和 PCN Network 提供统一的状态基础。
 
