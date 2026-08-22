@@ -208,8 +208,7 @@ CAE-SDB Result + T
 从 TPCA 的状态迁移视角看，无论是 Retry、Return、Degrade 还是 Safety Lock，实际控制都表现为：
 
 ```text
-Current State
-→ New Target State / Target Path
+Current State → New Target State / Target Path
 ```
 
 即使新的目标状态与历史某一状态具有相同或相似的工程内容，由于发生时间和迁移历史不同，仍属于新的状态实例。
