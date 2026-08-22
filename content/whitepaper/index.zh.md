@@ -267,9 +267,7 @@ TPCA 面向真实运行中的状态迁移。
 例如：
 
 ```text
-A
-→ B
-→ C
+A → B → C
 ```
 
 如果 C 的工程状态内容与 A 相同，也不表示系统真正回到了 A。
@@ -295,8 +293,7 @@ A
 但从 TPCA 的状态迁移视角看，它们都属于：
 
 ```text
-Current State
-→ New Target State
+Current State → New Target State
 ```
 
 新的目标状态可以与历史状态具有相同或相似的工程内容，但仍然是新的状态实例。
@@ -349,9 +346,7 @@ PCN 将 TPCA 从总体架构落实为可配置、可部署、可显示、可记�
 PCN 位于当前状态与目标状态之间：
 
 ```text
-当前状态
-→ PCN
-→ 目标状态
+当前状态 → PCN → 目标状态
 ```
 
 ![PCN 前置控制节点的位置与工作方式](/images/tpca/04-pcn-node-position.png)
@@ -456,8 +451,7 @@ E 执行链状态可以包括：
 当系统实际进入这些路径时，在 TPCA 中仍然表现为：
 
 ```text
-当前状态
-→ 新的目标状态 / 目标执行路径
+当前状态 → 新的目标状态 / 目标执行路径
 ```
 
 随后对相关状态进行 S / D / B 判定，形成 CAE-SDB Result，并经控制仲裁生成最终多路径控制。
@@ -752,11 +746,7 @@ CAE-SDB Result 不是最终控制动作。
 PCN 内部形成的控制链为：
 
 ```text
-CAE-SDB Result + T
-→ 控制仲裁
-→ 多路径控制
-→ 执行结果
-→ PCN Trace
+CAE-SDB Result + T → 控制仲裁 → 多路径控制 → 执行结果 → PCN Trace
 ```
 
 CAE-SDB Result 说明：
@@ -1066,8 +1056,7 @@ TPCA 同时保留状态与判定的时间信息。
 这使正常执行、回流、回退、复归、降级、异常处理和重新投入可以在不改变现场工程术语的前提下，被统一理解为：
 
 ```text
-Current State
-→ New Target State
+Current State → New Target State
 ```
 
 单个 PCN 可以独立设计、部署和复盘。
