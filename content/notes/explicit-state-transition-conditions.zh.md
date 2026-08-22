@@ -347,8 +347,7 @@ PCN
 但从 TPCA 的状态迁移视角看，这些路径实际都表示：
 
 ```text
-Current State
-→ New Target State / Target Path
+Current State → New Target State / Target Path
 ```
 
 即使新的目标状态与历史某一状态具有相同或相似的工程内容，由于其时间位置和迁移历史不同，仍然属于新的状态实例。
@@ -379,11 +378,9 @@ Current State
 例如：
 
 ```text
-当前状态：
-识别完成 / 等待抓取
+当前状态： 识别完成 / 等待抓取
 
-目标状态：
-进入抓取阶段
+目标状态： 进入抓取阶段
 ```
 
 围绕这一目标状态入口，工程师可以继续定义：
