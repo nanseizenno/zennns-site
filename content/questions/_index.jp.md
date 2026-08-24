@@ -26,17 +26,17 @@ layout: "questions"
 
 以下では、ユニット・現場実行、複数システム連携、状態遷移設計の 3 つの観点から整理する。
 
-TPCA、PCN、C / A / E、S / D / B、Arbitration、PCN Trace については、[Concepts｜中核概念](/zh/concepts/) を参照。
+TPCA、PCN、C / A / E、S / D / B、Arbitration、PCN Trace については、[Concepts｜中核概念](/jp/concepts/) を参照。
 
 ---
 
 ## ユニット・現場実行に関する問題
 
-### [なぜ Ready だけでは不十分なのか？](/zh/questions/why-ready-is-not-enough/)
+### [なぜ Ready だけでは不十分なのか？](/jp/questions/why-ready-is-not-enough/)
 
 > 単体設備の Ready は、局所的な運転条件が成立していることを示すにすぎず、Target State への進入に必要な Condition、Authority、Execution Chain がすべて成立していることを意味しない。
 
-### [なぜ Waiting は原因を追いにくいのか？](/zh/questions/why-waiting-is-hard-to-trace/)
+### [なぜ Waiting は原因を追いにくいのか？](/jp/questions/why-waiting-is-hard-to-trace/)
 
 > Waiting は、システムがまだ次の状態へ進んでいないことを示すが、現在待っている対象が Condition、Authority、Execution Chain のどれであるか、または関連状態が再び進入条件を満たすのを待っているのかを直接示すものではない。
 
@@ -44,11 +44,11 @@ TPCA、PCN、C / A / E、S / D / B、Arbitration、PCN Trace については、[
 
 ## 複数システム連携に関する問題
 
-### [なぜ MES / WCS は状態を記録できても、停滞の理由を説明できないのか？](/zh/questions/why-mes-records-but-cannot-explain/)
+### [なぜ MES / WCS は状態を記録できても、停滞の理由を説明できないのか？](/jp/questions/why-mes-records-but-cannot-explain/)
 
 > MES、WCS、設備、搬送システムはそれぞれ状態を記録できるが、それらの記録だけで 1 回の協調停滞に対する統一的な判定が形成されるわけではない。
 
-### [なぜタスクが存在していても、実行できるとは限らないのか？](/zh/questions/why-task-exists-but-cannot-execute/)
+### [なぜタスクが存在していても、実行できるとは限らないのか？](/jp/questions/why-task-exists-but-cannot-execute/)
 
 > タスクの存在は実行判定の起点にすぎない。Target State または目標実行経路へ進む前に、Condition、Authority、Execution Chain が成立している必要がある。
 
@@ -62,11 +62,11 @@ TPCA では、実システムの状態遷移を、時間方向に継続して進
 
 したがって、各 Target State Entry は、明確に設計・判定・記録する必要がある。
 
-### [なぜ状態遷移設計は長年、個人の経験に依存してきたのか？](/zh/questions/why-state-transition-depends-on-experience/)
+### [なぜ状態遷移設計は長年、個人の経験に依存してきたのか？](/jp/questions/why-state-transition-depends-on-experience/)
 
 > 蓄積しにくいのはプログラムそのものではなく、「どの条件で次の状態へ進めるのか」「進めない場合にどのように処理するのか」という判定構造である。
 
-### [なぜ状態が記録されていても、明確な状態遷移判定にならないのか？](/zh/questions/why-status-records-cannot-form-coordination-judgment/)
+### [なぜ状態が記録されていても、明確な状態遷移判定にならないのか？](/jp/questions/why-status-records-cannot-form-coordination-judgment/)
 
 > 複数のシステムがそれぞれ状態を保持していても、それらの状態が同一の Target State Entry を中心として、判定、制御、履歴の構造を形成しているとは限らない。
 
@@ -76,9 +76,9 @@ TPCA では、実システムの状態遷移を、時間方向に継続して進
 
 上記の問題が実際の現場課題に近い場合は、以下を参照。
 
-- [Concepts｜中核概念](/zh/concepts/)
-- [適用事例](/zh/cases/)
-- [TPCA / PCN 状態遷移前制御アーキテクチャ｜ホワイトペーパー](/zh/whitepaper/)
-- [TPCA の状態遷移単方向性 ― なぜ実際のエンジニアリングシステムに状態の巻き戻しは存在しないのか？](/zh/notes/tpca-unidirectional-state-transition/)
+- [Concepts｜中核概念](/jp/concepts/)
+- [適用事例](/jp/cases/)
+- [TPCA / PCN 状態遷移前制御アーキテクチャ｜ホワイトペーパー](/jp/whitepaper/)
+- [TPCA の状態遷移単方向性 ― なぜ実際のエンジニアリングシステムに状態の巻き戻しは存在しないのか？](/jp/notes/tpca-unidirectional-state-transition/)
 
 ---
