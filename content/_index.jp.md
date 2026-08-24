@@ -48,33 +48,33 @@ TPCA / PCN 状態遷移前制御体系について、著者は複数のエンジ
 
 本サイトで公開する内容は、技術説明および技術交流を目的としたものであり、特許の実施許諾または技術移転を意味するものではない。
 
-[権利に関する記載を見る](/ja/about/legal/)
+[権利に関する記載を見る](/jp/about/legal/)
 
 ---
 
 ## コンテンツ案内
 
-### [エンジニアリング問題](/ja/questions/)
+### [エンジニアリング問題](/jp/questions/)
 
 Ready、Waiting、タスク実行、複数システム間の協調、状態遷移設計など、実際のエンジニアリング問題から TPCA / PCN を理解する。
 
-### [Concepts｜中核概念](/ja/concepts/)
+### [Concepts｜中核概念](/jp/concepts/)
 
 TPCA、PCN、C / A / E、S / D / B、CAE-SDB Result、Arbitration、PCN Trace、PCN Network などの中核概念を確認する。
 
-### [適用事例](/ja/cases/)
+### [適用事例](/jp/cases/)
 
 TPCA / PCN を、自動化実行ユニット、MES / WCS 協調停滞、生産 DX における複数システム横断の状態遷移へ適用した事例を紹介する。
 
-### [ホワイトペーパー](/ja/whitepaper/)
+### [ホワイトペーパー](/jp/whitepaper/)
 
 TPCA / PCN の全体アーキテクチャと、基本的なエンジニアリングの流れを体系的に整理する。
 
-### [技術ノート](/ja/notes/)
+### [技術ノート](/jp/notes/)
 
 既存手法との関係、適用範囲、PCN のエンジニアリング上の位置付け、PCN Trace、PCN Network などの個別テーマを扱う。
 
-### [協業について](/ja/about/cooperation/)
+### [協業について](/jp/about/cooperation/)
 
 明確な Target State Entry を対象として、技術交流、PoC、協業検討を行うための窓口。
 
