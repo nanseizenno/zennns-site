@@ -222,9 +222,7 @@ PCN は、C / A / E 状態に対して S / D / B 判定を行い、1 つまた�
 基本的な制御チェーンは次のとおりである。
 
 ```text
-CAE-SDB Result + T
-→ Arbitration
-→ Multipath Control
+CAE-SDB Result + T → Arbitration → Multipath Control
 ```
 
 Arbitration は、完全な判定結果と事前に定義された制御制約に基づいて制御上の優先関係を処理する。
@@ -321,32 +319,23 @@ Arbitration の結果、今回の Target State Entry に対してピックアッ
 PCN Trace には、例えば次の内容を記録する。
 
 ```text
-Current State：
-認識完了 / ピック待ち
+Current State： 認識完了 / ピック待ち
 
-Target State：
-ピックアップ段階
+Target State： ピックアップ段階
 
-時間情報：
-T
+時間情報： T
 
-CAE-SDB Result：
-C-D
+CAE-SDB Result： C-D
 
-判定内容：
-画像認識結果が失効
+判定内容： 画像認識結果が失効
 
-Arbitration Result：
-ピックアップ段階への進入を許可しない
+Arbitration Result： ピックアップ段階への進入を許可しない
 
-Multipath Control：
-回流 → 再認識
+Multipath Control： 回流 → 再認識
 
-実行結果：
-ワークが戻り経路へ進入
+実行結果： ワークが戻り経路へ進入
 
-Trace ID：
-PCN-PICK-XXXX
+Trace ID： PCN-PICK-XXXX
 ```
 
 また、重要な安全許可が成立していない場合は、C および E に関係する状態が成立していても、Target State へ進入してはならない。
