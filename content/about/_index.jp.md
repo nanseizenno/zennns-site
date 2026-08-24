@@ -33,7 +33,7 @@ TPCA / PCN は、このエンジニアリング対象を中心として構成さ
 
 詳細については、以下を参照。
 
-[著者について](/ja/about/author/)
+[著者について](/jp/about/author/)
 
 ---
 
@@ -45,7 +45,7 @@ TPCA / PCN は、このエンジニアリング対象を中心として構成さ
 
 具体的な協業窓口、初回連絡方法、非公開技術の範囲については、以下を参照。
 
-[協業について](/ja/about/cooperation/)
+[協業について](/jp/about/cooperation/)
 
 ---
 
@@ -69,7 +69,7 @@ TPCA / PCN および関連するエンジニアリング適用について、著
 
 詳細については、以下を参照。
 
-[権利に関する記載](/ja/about/legal/)
+[権利に関する記載](/jp/about/legal/)
 
 ---
 
@@ -77,11 +77,11 @@ TPCA / PCN および関連するエンジニアリング適用について、著
 
 本サイトを初めて閲覧する場合は、目的に応じて以下から参照できる。
 
-- [Engineering Questions｜エンジニアリング問題](/ja/questions/)：Ready、Waiting、タスク実行、複数システム協調、状態遷移設計などの問題から理解する；
-- [Concepts｜中核概念](/ja/concepts/)：TPCA、PCN、CAE-SDB、Arbitration、Multipath Control、PCN Trace を理解する；
-- [Cases｜適用事例](/ja/cases/)：自動化実行ユニット、MES / WCS 協調停滞、生産 DX における複数システム横断の状態遷移という 3 つの公開事例を確認する；
-- [TPCA / PCN ホワイトペーパー](/ja/whitepaper/)：全体アーキテクチャとエンジニアリングの基本的な流れを体系的に理解する；
-- [Technical Notes｜技術ノート](/ja/notes/)：既存手法との関係、状態遷移条件、PCN、PCN Trace、PCN Network、適用範囲などの個別テーマをさらに読む。
+- [Engineering Questions｜エンジニアリング問題](/jp/questions/)：Ready、Waiting、タスク実行、複数システム協調、状態遷移設計などの問題から理解する；
+- [Concepts｜中核概念](/jp/concepts/)：TPCA、PCN、CAE-SDB、Arbitration、Multipath Control、PCN Trace を理解する；
+- [Cases｜適用事例](/jp/cases/)：自動化実行ユニット、MES / WCS 協調停滞、生産 DX における複数システム横断の状態遷移という 3 つの公開事例を確認する；
+- [TPCA / PCN ホワイトペーパー](/jp/whitepaper/)：全体アーキテクチャとエンジニアリングの基本的な流れを体系的に理解する；
+- [Technical Notes｜技術ノート](/jp/notes/)：既存手法との関係、状態遷移条件、PCN、PCN Trace、PCN Network、適用範囲などの個別テーマをさらに読む。
 
 ---
 
