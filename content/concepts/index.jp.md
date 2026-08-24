@@ -1,4 +1,3 @@
-````markdown
 ---
 title: "概念・用語"
 summary: "TPCA / PCN 状態遷移前制御体系における中核用語を整理する。Current State、Target State、Target State Entry、前制御、TPCA、PCN、PCN Runtime、PCN Network、複数ソース状態信号、C / A / E、S / D / B、CAE-SDB Result、時間情報 T、Arbitration、Multipath Control、PCN Trace を含む。"
@@ -762,5 +761,3 @@ TPCA
 
 本ページは、TPCA / PCN 状態遷移前制御体系の公開説明資料である。
 
-```
-```
