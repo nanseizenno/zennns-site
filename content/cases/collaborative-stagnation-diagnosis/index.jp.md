@@ -9,7 +9,7 @@ document_type: "公開事例"
 case_type: "群制御・協調層 / MES-WCS 協調停滞診断"
 version: "Public Case Version 1.3"
 citation_title: "MES / WCS 協調停滞診断モジュール事例：なぜ MES に状態が記録されていても、製造現場が停止する理由を説明できないのか"
-citation_url: "https://zennns.com/ja/cases/collaborative-stagnation-diagnosis/"
+citation_url: "https://zennns.com/jp/cases/collaborative-stagnation-diagnosis/"
 draft: false
 weight: 2
 ShowReadingTime: true
@@ -33,9 +33,9 @@ TocOpen: true
 
 基本概念については、以下を参照。
 
-- [Concepts｜中核概念](/ja/concepts/)
-- [TPCA / PCN 状態遷移前制御アーキテクチャ｜ホワイトペーパー](/ja/whitepaper/)
-- [なぜ MES / WCS は状態を記録できても、停滞の理由を説明できないのか？](/ja/questions/why-mes-records-but-cannot-explain/)
+- [Concepts｜中核概念](/jp/concepts/)
+- [TPCA / PCN 状態遷移前制御アーキテクチャ｜ホワイトペーパー](/jp/whitepaper/)
+- [なぜ MES / WCS は状態を記録できても、停滞の理由を説明できないのか？](/jp/questions/why-mes-records-but-cannot-explain/)
 
 ---
 
@@ -421,10 +421,10 @@ PCN Trace の目的は、単純な停止ログを追加することではない�
 
 関連資料：
 
-- [なぜ PCN Trace は新しいエンジニアリングデータなのか？](/ja/notes/why-pcn-trace-is-engineering-data/)
-- [複数の PCN はどのように状態遷移前制御ネットワークを形成するのか？](/ja/notes/pcn-network-structure/)
-- [なぜ OEE の後にも PCN が必要なのか？](/ja/notes/why-oee-pcn/)
-- [TPCA の状態遷移単方向性 ― なぜ実際のエンジニアリングシステムに状態の巻き戻しは存在しないのか？](/ja/notes/tpca-unidirectional-state-transition/)
+- [なぜ PCN Trace は新しいエンジニアリングデータなのか？](/jp/notes/why-pcn-trace-is-engineering-data/)
+- [複数の PCN はどのように状態遷移前制御ネットワークを形成するのか？](/jp/notes/pcn-network-structure/)
+- [なぜ OEE の後にも PCN が必要なのか？](/jp/notes/why-oee-pcn/)
+- [TPCA の状態遷移単方向性 ― なぜ実際のエンジニアリングシステムに状態の巻き戻しは存在しないのか？](/jp/notes/tpca-unidirectional-state-transition/)
 
 ---
 
