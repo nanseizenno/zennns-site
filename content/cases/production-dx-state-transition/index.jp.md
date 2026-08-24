@@ -581,14 +581,11 @@ CAE-SDB Result は Arbitration を経て Multipath Control を形成する。
 例えば、
 
 ```text
-CAE-SDB Result：
-C-D
+CAE-SDB Result： C-D
 
-判定内容：
-作業指示は切り替わっているが、PLC レシピが未同期
+判定内容： 作業指示は切り替わっているが、PLC レシピが未同期
 
-Multipath Control：
-再読込み / 同期待ち
+Multipath Control： 再読込み / 同期待ち
 ```
 
 また、
