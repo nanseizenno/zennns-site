@@ -7,7 +7,7 @@ lastmod: 2026-08-21
 author: "全野南政 / Nansei Zenno"
 document_type: "公開事例"
 version: "Public Case Version 1.2"
-citation_url: "https://zennns.com/ja/cases/production-dx-state-transition/"
+citation_url: "https://zennns.com/jp/cases/production-dx-state-transition/"
 draft: false
 ShowReadingTime: false
 ShowToc: true
@@ -30,12 +30,12 @@ TocOpen: true
 
 関連資料：
 
-- [中核概念](/ja/concepts/)
-- [TPCA / PCN 状態遷移前制御アーキテクチャ｜ホワイトペーパー](/ja/whitepaper/)
-- [なぜ状態遷移条件を明示化する必要があるのか？](/ja/notes/explicit-state-transition-conditions/)
-- [なぜ PCN Trace は新しいエンジニアリングデータなのか？](/ja/notes/why-pcn-trace-is-engineering-data/)
-- [複数の PCN はどのように状態遷移前制御ネットワークを形成するのか？](/ja/notes/pcn-network-structure/)
-- [TPCA の状態遷移単方向性 ― なぜ実際のエンジニアリングシステムに状態の巻き戻しは存在しないのか？](/ja/notes/tpca-unidirectional-state-transition/)
+- [中核概念](/jp/concepts/)
+- [TPCA / PCN 状態遷移前制御アーキテクチャ｜ホワイトペーパー](/jp/whitepaper/)
+- [なぜ状態遷移条件を明示化する必要があるのか？](/jp/notes/explicit-state-transition-conditions/)
+- [なぜ PCN Trace は新しいエンジニアリングデータなのか？](/jp/notes/why-pcn-trace-is-engineering-data/)
+- [複数の PCN はどのように状態遷移前制御ネットワークを形成するのか？](/jp/notes/pcn-network-structure/)
+- [TPCA の状態遷移単方向性 ― なぜ実際のエンジニアリングシステムに状態の巻き戻しは存在しないのか？](/jp/notes/tpca-unidirectional-state-transition/)
 
 ---
 
