@@ -1,6 +1,6 @@
 ---
 title: "概念・用語"
-summary: "TPCA / PCN 状態遷移前制御体系における中核用語を整理する。Current State、Target State、Target State Entry、前制御、TPCA、PCN、PCN Runtime、PCN Network、複数ソース状態信号、C / A / E、S / D / B、CAE-SDB Result、時間情報 T、Arbitration、Multipath Control、PCN Trace を含む。"
+summary: "TPCA / PCN 状態遷移前制御体系における中核用語を整理する。Current State、Target State、Target State Entry、前制御、TPCA、PCN、PCN Runtime、PCN Network、複数の情報源から取得する状態信号、C / A / E、S / D / B、CAE-SDB Result、時間情報 T、Arbitration、Multipath Control、PCN Trace を含む。"
 description: "TPCA / PCN 状態遷移前制御体系における中核用語を統一し、Target State Entry、PCN 前制御ノード、C / A / E 状態マッピング、S / D / B 判定、CAE-SDB Result、時間情報 T、Arbitration、Multipath Control、PCN Trace、PCN Runtime、PCN Network の関係を説明する。"
 draft: false
 date: 2026-07-04
@@ -107,7 +107,7 @@ Current State、Target State、Target State Entry が明確でなければ、PCN
 
 ## 前制御
 
-前制御とは、システムが Target State、目標実行経路、または目標物理実行段階へ入る前に、関連する複数ソース状態を構造化して判定し、その完全な判定結果に基づいて、移行可否と移行すべき経路を決定する考え方である。
+前制御とは、システムが Target State、目標実行経路、または目標物理実行段階へ入る前に、関連する複数情報源から取得した状態信号構造化して判定し、その完全な判定結果に基づいて、移行可否と移行すべき経路を決定する考え方である。
 
 対象になるのは Target State へ入る前のエンジニアリング判断であり、動作失敗後の事後診断や、単純なアラーム分類とは異なる。
 
@@ -173,7 +173,7 @@ PCN は、明確な Target State Entry の前に配置される、TPCA の具体
 1 つの PCN は 1 つの明確な Target State Entry に対応し、その入口を中心として次の処理を行う。
 
 * Current State と Target State の確認
-* 複数ソース状態の取得と整理
+* 複数系統の状態信号の取得と整理
 * C / A / E 状態マッピング
 * S / D / B 判定
 * CAE-SDB Result の生成
@@ -256,9 +256,9 @@ PCN Network では、複数の Target State Entry 間に存在する次のよう
 
 ---
 
-## 複数ソース状態信号
+## 複数系統の状態信号
 
-複数ソース状態信号とは、1 回の Target State Entry に関係する入力情報を指す。
+複数系統の状態信号とは、1 回の Target State Entry に関係する入力情報を指す。
 
 信号源には、次のようなものが含まれる。
 
@@ -281,7 +281,7 @@ PCN は、信号を取得元によって直接分類するのではない。
 
 同じ状態でも、Target State Entry が変われば異なる役割を持つ場合がある。
 
-したがって、複数ソース状態は Current State、Target State、Target State Entry と組み合わせて理解する必要がある。
+したがって、複数系統の信号状態は Current State、Target State、Target State Entry と組み合わせて理解する必要がある。
 
 システムに応じて、状態情報には次のような情報を含めることもできる。
 
@@ -668,7 +668,7 @@ PCN Trace は、1 回の状態遷移前置判定と、その制御結果を構�
 
 * Current State
 * Target State
-* 本判定に使用した複数ソース状態
+* 本判定に使用した複数系統の信号状態
 * 時間情報 T
 * 状態に関係するバージョン、シーケンス、対象情報
 * C / A / E Mapping
