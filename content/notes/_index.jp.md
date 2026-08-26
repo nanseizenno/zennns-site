@@ -114,7 +114,7 @@ TPCA、PCN、Current State、Target State、Target State Entry、C / A / E、S /
 
 TPCA / PCN の全体的なエンジニアリングの流れ、中核構造、代表的な適用方向を体系的に理解する。
 
-### [Engineering Questions｜エンジニアリング問題](/jp/questions/)
+### [Engineering Questions｜エンジニアリング課題](/jp/questions/)
 
 Ready、Waiting、タスク実行、複数システム協調、状態遷移設計など、製造現場の問題から TPCA / PCN へ入る。
 
