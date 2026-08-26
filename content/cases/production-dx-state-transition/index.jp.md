@@ -1,7 +1,7 @@
 ---
 title: "製造 DX 状態遷移条件設計・履歴分析事例"
-summary: "MES、品質、設備、人、保全、下流システムをまたぐ生産状態遷移を対象として、明確な Target State Entry を中心に PCN が複数ソース状態を整理し、C / A / E 状態マッピング、S / D / B 判定、Arbitration、Multipath Control、PCN Trace へ展開する方法を説明する。"
-description: "TPCA / PCN を製造 DX の状態遷移条件設計と履歴分析へ適用する方法を公開事例として説明する。明確な生産上の Target State Entry を対象として、複数ソース状態を C / A / E へマッピングし、S / D / B 判定によって CAE-SDB Result を形成するとともに時間情報 T を保持する。判定結果を Arbitration で処理して Multipath Control を形成し、PCN Trace として記録する。"
+summary: "MES、品質、設備、人、保全、下流システムをまたぐ生産状態遷移を対象として、明確な Target State Entry を中心に PCN が複数系統の状態を整理し、C / A / E 状態マッピング、S / D / B 判定、Arbitration、Multipath Control、PCN Trace へ展開する方法を説明する。"
+description: "TPCA / PCN を製造 DX の状態遷移条件設計と履歴分析へ適用する方法を公開事例として説明する。明確な生産上の Target State Entry を対象として、複数系統の状態を C / A / E へマッピングし、S / D / B 判定によって CAE-SDB Result を形成するとともに時間情報 T を保持する。判定結果を Arbitration で処理して Multipath Control を形成し、PCN Trace として記録する。"
 date: 2026-08-18
 lastmod: 2026-08-25
 author: "全野南政 / Nansei Zenno"
@@ -128,7 +128,7 @@ PCN は、Current State から明確な Target State へ入る Target State Entr
 Current State
 → Target State
 → PCN
-→ 複数ソース状態
+→ 複数系統の状態
 → C / A / E Mapping
 → S / D / B Evaluation
 → CAE-SDB Result + T
@@ -147,7 +147,7 @@ PCN の実装は、MES、製造実行用ミドルウェア、産業用エッジ�
 
 ---
 
-## 3. 複数ソース状態と C / A / E 状態マッピング
+## 3. 複数系統の状態と C / A / E 状態マッピング
 
 代表的な状態を次に示す。
 
@@ -693,7 +693,7 @@ CAE-SDB Result：A-D
 
 * Current State / Target State
 * 生産状態遷移における PCN の配置位置
-* 代表的な複数ソース状態
+* 代表的な複数系統の状態
 * C / A / E 状態マッピング
 * S / D / B 判定
 * CAE-SDB Result
