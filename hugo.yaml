@@ -26,7 +26,7 @@ languages:
         - name: "ホーム"
           url: "/jp/"
           weight: 10
-        - name: "工程課題"
+        - name: "エンジニアリング課題"
           url: "/jp/questions/"
           weight: 20
         - name: "基本概念"
@@ -45,7 +45,7 @@ languages:
           url: "/jp/about/"
           weight: 70
 
-        - name: "協力について"
+        - name: "協業について"
           url: "/jp/about/cooperation/"
           parent: "このサイト"
           weight: 71
