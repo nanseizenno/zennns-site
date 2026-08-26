@@ -1,7 +1,7 @@
 ---
 title: "TPCA / PCN 状態遷移前制御アーキテクチャ"
 summary: "明確な Target State Entry を、独立して設計・判定・制御・記録可能なエンジニアリング対象として扱い、PCN によって前判定、Arbitration、Multipath Control、状態遷移判定履歴を構成する。"
-description: "TPCA 状態遷移前制御アーキテクチャと、そのエンジニアリングノードである PCN について説明する。明確な Target State Entry を中心として複数ソース状態信号を整理し、C / A / E 遷移機能役割マッピングと S / D / B 状態判定を行って CAE-SDB Result を形成する。さらに、Arbitration を経て Multipath Control を出力し、PCN Trace に状態遷移判定履歴を記録する一連の構造を示す。"
+description: "TPCA 状態遷移前制御アーキテクチャと、そのエンジニアリングノードである PCN について説明する。明確な Target State Entry を中心として複数系統の状態信号を整理し、C / A / E 遷移機能役割マッピングと S / D / B 状態判定を行って CAE-SDB Result を形成する。さらに、Arbitration を経て Multipath Control を出力し、PCN Trace に状態遷移判定履歴を記録する一連の構造を示す。"
 date: 2026-07-01
 lastmod: 2026-08-25
 author: "全野南政 / Nansei Zenno"
@@ -25,7 +25,7 @@ TPCA / PCN の中核命題は、次のとおりである。
 
 **PCN（Pre-Control Node）** は、具体的な Target State Entry の前に配置する前制御ノードであり、このエンジニアリング対象を実システム上で扱うためのエンジニアリングノードである。
 
-PCN は、明確な Target State Entry を中心として複数ソース状態信号を整理し、C / A / E 遷移機能役割マッピングと S / D / B 状態判定を行って CAE-SDB Result を形成する。その後、Arbitration を経て Multipath Control を出力し、PCN Trace に本判定および実行の履歴を記録する。
+PCN は、明確な Target State Entry を中心として複数系統の状態信号を整理し、C / A / E 遷移機能役割マッピングと S / D / B 状態判定を行って CAE-SDB Result を形成する。その後、Arbitration を経て Multipath Control を出力し、PCN Trace に本判定および実行の履歴を記録する。
 
 複数の PCN を、実際の状態遷移関係および必要な許可、リソース、実行依存関係に基づいて接続することで、PCN Network を形成できる。
 
@@ -62,7 +62,7 @@ TPCA / PCN が主に扱う問題は、次のとおりである。
 
 TPCA は、状態遷移前制御の全体アーキテクチャを定義する。
 
-PCN は、明確な Target State Entry の前に配置し、複数ソース状態信号を取得して C / A / E 遷移機能役割マッピング、S / D / B 状態判定、CAE-SDB Result の形成を行う。その後、Arbitration を経て対応する Multipath Control を出力し、PCN Trace を記録する。
+PCN は、明確な Target State Entry の前に配置し、複数系統の状態信号を取得して C / A / E 遷移機能役割マッピング、S / D / B 状態判定、CAE-SDB Result の形成を行う。その後、Arbitration を経て対応する Multipath Control を出力し、PCN Trace を記録する。
 
 基本的な判定・制御チェーンは、次のとおりである。
 
@@ -70,7 +70,7 @@ PCN は、明確な Target State Entry の前に配置し、複数ソース状�
 Current State
 → Target State
 → PCN
-→ 複数ソース状態信号
+→ 複数系統の状態信号
 → C / A / E 遷移機能役割マッピング
 → S / D / B 状態判定
 → CAE-SDB Result + T
@@ -255,7 +255,7 @@ TPCA / PCN の基本エンジニアリングチェーンは、次のとおりで
 Current State / 現在段階
 → Target State / 目標段階
 → PCN
-→ 複数ソース状態信号
+→ 複数系統の状態信号
 → C / A / E 遷移機能役割マッピング
 → S / D / B 状態判定
 → CAE-SDB Result + T
@@ -267,7 +267,7 @@ Current State / 現在段階
 
 ![TPCA の基本処理チェーン](/images/tpca/02-tpca-process-chain.png)
 
-図2：TPCA は、Current State、Target State、複数ソース状態から開始し、PCN 内で構造化判定、Arbitration、Multipath Control、PCN Trace の記録を行う。
+図2：TPCA は、Current State、Target State、複数系統の状態から開始し、PCN 内で構造化判定、Arbitration、Multipath Control、PCN Trace の記録を行う。
 
 このチェーンでは、False、NG、Not Ready、Pending などを判定の終点としない。
 
@@ -347,7 +347,7 @@ PCN は、明確な Target State Entry の前に配置する前制御ノード�
 主な役割は、次のとおりである。
 
 - Current State と Target State を取得する。
-- 本状態遷移に関係する複数ソース状態信号を取得する。
+- 本状態遷移に関係する複数系統の状態信号を取得する。
 - 必要な時間情報、対象情報、バージョン情報を取得する。
 - 状態を必要に応じて標準化・整理する。
 - C / A / E 遷移機能役割マッピングを行う。
@@ -405,7 +405,7 @@ PCN の配置位置は、設備名称やシステム種別ではなく、Target 
 | Target State / 目標段階 | システムが次にどの状態へ進もうとしているか |
 | PCN 配置位置 | どの Target State Entry の前に PCN を配置するか |
 | トリガ条件 | どの時点で本前判定を開始するか |
-| 複数ソース状態信号 | 本状態遷移の判定に使用する状態 |
+| 複数系統の状態信号 | 本状態遷移の判定に使用する状態 |
 | 時間 / バージョン / 対象情報 | 状態が本対象、本時系列、本バージョンに対応しているか |
 | C：Condition | どの状態を移行条件の判定に使用するか |
 | A：Authority | どの状態を移行許可の判定に使用するか |
@@ -743,7 +743,7 @@ B：Boundary の具体的なしきい値または境界は、Target State、設�
 
 PCN が使用する状態は、固定された静的情報ではない。
 
-Target State へ進むまでの間、複数ソース状態は継続して更新される。
+Target State へ進むまでの間、複数系統の状態は継続して更新される。
 
 例えば、次のように変化する。
 
@@ -969,7 +969,7 @@ AI は、PCN Trace に基づく履歴比較、パターン分析、改善候補�
 - 下流は Ready を表示しているが、実際には受入不能である。
 - 回流経路または異常経路は存在するが、Target State Entry の判定に含まれていない。
 
-PCN は、目標物理実行段階へ進む前に配置し、複数ソース状態に対して C / A / E 遷移機能役割マッピングと S / D / B 状態判定を行って CAE-SDB Result を形成する。その後、Arbitration を経て Multipath Control を出力する。
+PCN は、目標物理実行段階へ進む前に配置し、複数系統の状態に対して C / A / E 遷移機能役割マッピングと S / D / B 状態判定を行って CAE-SDB Result を形成する。その後、Arbitration を経て Multipath Control を出力する。
 
 安全停止、退避、回流、再認識、再投入などの経路へ進む場合も、それぞれ新しい Target State Entry を中心として整理できる。
 
@@ -992,7 +992,7 @@ AGV / AMR、複数設備、WCS、MES、バッファ、ステーション、共�
 - エネルギー補給が集中し、実行可能主体の比率が低下する。
 - MES / WCS に記録はあるが、現場では依然として複数システムのログ確認が必要である。
 
-群制御協調層の PCN は、複数ソース状態を取得し、C / A / E 遷移機能役割マッピング、S / D / B 状態判定を行う。さらに、群全体の指標を用いて停滞識別と構造分析を行う。
+群制御協調層の PCN は、複数系統の状態を取得し、C / A / E 遷移機能役割マッピング、S / D / B 状態判定を行う。さらに、群全体の指標を用いて停滞識別と構造分析を行う。
 
 代表的な診断結果または制御出力には、次のものがある。
 
@@ -1081,7 +1081,7 @@ TPCA / PCN は、デジタル呼出しガバナンスにも拡張できる。
 
 TPCA は、状態遷移前制御の全体アーキテクチャを定義する。
 
-PCN は、明確な Target State Entry の前に配置し、本状態遷移に関係する複数ソース状態を C / A / E の遷移機能役割に基づいて整理し、S / D / B 状態判定を行って CAE-SDB Result を形成する。その後、Arbitration を経て最終的な Multipath Control を出力し、PCN Trace に本状態遷移の履歴を記録する。
+PCN は、明確な Target State Entry の前に配置し、本状態遷移に関係する複数系統の状態を C / A / E の遷移機能役割に基づいて整理し、S / D / B 状態判定を行って CAE-SDB Result を形成する。その後、Arbitration を経て最終的な Multipath Control を出力し、PCN Trace に本状態遷移の履歴を記録する。
 
 現在の体系における中核関係は、次のように整理できる。
 
