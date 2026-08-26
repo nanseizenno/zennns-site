@@ -249,7 +249,7 @@ Arbitration は、今回の Target State Entry に関する判定結果と事前
 * 再認識
 * 再サンプリング
 * 再位置決め
-* 回流
+* リターン
 * 異常分流
 * 下流調整
 * 手動確認
@@ -317,7 +317,7 @@ Arbitration では、現在の Target State Entry に対する CAE-SDB Result、
 その結果、例えば次の Multipath Control が形成される。
 
 ```text
-ピックアップ段階への移行を保留　→ ワークを回流　→ 再認識
+ピックアップ段階への移行を保留　→ ワークリターン　→ 再認識
 ```
 
 PCN Trace には、例えば次の内容を記録できる。
@@ -327,8 +327,8 @@ Current State：認識完了 / ピックアップ待ち
 Target State：ピックアップ段階
 時間情報：T
 主要な CAE-SDB Result：C-D：画像認識結果が無効
-Arbitration Result：回流 / 再認識経路を選択
-Multipath Control：回流 / 再認識
+Arbitration Result：リターン / 再認識経路を選択
+Multipath Control：リターン / 再認識
 実行結果：ワークが戻り経路へ移行
 Trace ID：PCN-PICK-XXXX
 ```
