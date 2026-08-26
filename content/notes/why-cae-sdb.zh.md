@@ -1,7 +1,8 @@
 ---
+
 title: "为什么是 CAE-SDB？——状态迁移功能角色与状态验证的双轴结构"
-summary: "说明 CAE 与 SDB 在明确目标状态入口前的作用分工。CAE 用于映射相关状态在状态迁移中的功能角色，分别对应条件、许可和执行链；SDB 用于组织结构完整性、动态时序有效性和边界验证，并可复用已有成熟工程验证机制。"
-description: "说明 TPCA / PCN 中 CAE-SDB 的双轴结构。CAE 作为状态迁移功能角色轴，将与目标状态进入有关的状态映射为 C 条件、A 许可和 E 执行链；SDB 作为状态验证轴，从 S 结构完整性、D 动态时序有效性和 B 边界三个性质进行验证。CAE-SDB 判定结果进一步进入控制仲裁、多路径控制与 PCN Trace。"
+summary: "说明 CAE 与 SDB 在明确目标状态入口前的作用分工。CAE 用于确定相关状态在状态迁移中的功能角色，SDB 用于验证相关状态的结构完整性、动态时序有效性和边界状态。"
+description: "说明 TPCA / PCN 中 CAE-SDB 的双轴结构。CAE 将与目标状态进入有关的状态映射为 C 条件、A 许可和 E 执行链；SDB 从 S 结构完整性、D 动态时序有效性和 B 边界三个性质进行验证。判定结果经 Arbitration 形成 Multipath Control，并记录于 PCN Trace。"
 date: 2026-08-25
 lastmod: 2026-08-26
 author: "全野南政 / Nansei Zenno"
@@ -12,20 +13,17 @@ draft: false
 ShowReadingTime: true
 ShowToc: true
 TocOpen: true
----
-
+-------------
 
 ## 为什么是 CAE-SDB？
 
-TPCA / PCN 关注系统由当前状态进入明确目标状态之前的前置判定。
+TPCA / PCN 面向一个明确的工程位置：系统由当前状态准备进入目标状态之前。
 
-在这一工程位置，系统通常已经具有设备 Ready、视觉结果、安全许可、任务状态、服务健康状态、数据库状态等多种状态信息。各状态分别存在，并不能直接形成对同一目标状态入口的完整判定。
+在这一位置，系统通常已经具有设备 Ready、视觉结果、安全许可、任务状态、服务状态、数据库状态等信息。这些状态分别存在，并不能直接回答：
 
-需要判定的问题是：
+> **本次 Target State Entry 是否成立？**
 
-> 本次 Target State Entry 是否成立？
-
-CAE-SDB 分别处理状态的功能角色和状态的验证性质。
+CAE-SDB 从两个维度组织与本次状态迁移有关的状态：
 
 ```text
 CAE：状态在本次迁移中承担什么功能角色？
@@ -45,15 +43,13 @@ D = Dynamics          动态时序有效性
 B = Boundary          边界
 ```
 
-CAE 构成状态迁移功能角色轴，SDB 构成状态验证轴。两者组合，用于形成明确 Target State Entry 前的结构化判定。
+CAE 构成状态迁移功能角色轴，SDB 构成状态验证轴。二者共同用于 Target State Entry 前的结构化判定。
 
 ---
 
 ## 1. CAE：状态迁移功能角色
 
-CAE 不按 PLC、机器人、MES、数据库或 API 等信号来源划分状态，而是根据状态在本次 Target State Entry 中承担的工程作用进行映射。
-
-C、A、E 分别回答以下问题：
+CAE 不按照 PLC、机器人、MES、数据库或 API 等信号来源划分状态，而是根据状态在本次 Target State Entry 中承担的作用进行映射。
 
 ```text
 C：具不具备？
@@ -70,28 +66,26 @@ E：接不接得住？
 条件                         许可                       执行链
 ```
 
-“进入前—入口—进入后”用于说明 C、A、E 在状态迁移中的功能位置，不表示 E 在系统进入目标状态后才进行判断。C、A、E 均在目标状态入口之前进入 PCN 的前置判定。
+该表示用于说明 C、A、E 的功能位置。C、A、E 均在目标状态入口之前进入 PCN 判定，不表示 E 在进入目标状态后才进行检查。
 
 ### 1.1 C：Condition
 
-C 用于判断进入目标状态所需的事实条件是否已经具备。
+C 表示进入目标状态所需的事实条件是否成立。
 
-典型条件包括：
+例如：
 
 * 工件是否存在；
-* 对象和位置是否正确；
+* 对象、位置或姿态是否满足要求；
 * 识别结果是否已经取得；
 * 请求参数是否完整；
 * 前序工序或业务状态是否完成；
 * 必要数据是否存在。
 
-C 所描述的是与本次目标状态进入直接相关的条件状态。
-
 ### 1.2 A：Authority
 
-A 用于判断系统是否被允许进入目标状态。
+A 表示系统是否被允许进入目标状态。
 
-典型许可包括：
+例如：
 
 * 安全许可；
 * 区域许可；
@@ -101,11 +95,11 @@ A 用于判断系统是否被允许进入目标状态。
 * 用户或租户权限；
 * 预算许可。
 
-关键 A 可以构成独立必要约束。对于不可绕过的关键许可，即使 C 与 E 均成立，只要关键 A 不成立，系统仍不得进入当前目标状态。
+关键 A 可以构成独立必要约束。不可绕过的关键许可不成立时，即使 C 与 E 均满足，也不得允许进入当前目标状态。
 
 ### 1.3 E：Execution Chain
 
-E 用于判断系统进入目标状态后，完成该目标状态所依赖的必要执行链是否能够继续接续。
+E 表示进入目标状态后，完成该阶段所依赖的执行链是否能够继续接续。
 
 E 不等于单个设备或服务的 Ready。
 
@@ -115,7 +109,7 @@ E 不等于单个设备或服务的 Ready。
 Robot Ready = TRUE
 ```
 
-只能说明机器人自身处于相应就绪状态，不能据此确认夹爪、下游承接、异常排出和结果回写链均能够继续。
+只能说明机器人自身处于相应就绪状态，不能据此确认夹爪、下游承接、异常排出和结果回写等执行链状态。
 
 同样：
 
@@ -123,17 +117,17 @@ Robot Ready = TRUE
 Service Healthy = TRUE
 ```
 
-不能据此确认数据库、消息队列、下游 API、Callback 和业务回写链均能够正常接续。
+不能据此确认数据库、消息队列、下游 API、Callback 和业务回写链均可继续执行。
 
-E 可以包括本体设备、末端执行机构、下游承接、备用或回退路径、异常处理路径、结果上传及回写链路等。
+E 可涉及本体设备、末端执行机构、下游承接、替代或回退路径、异常处理路径、结果上传及回写链路等与后续执行有关的状态。
 
-CAE 的作用，是将分散状态按本次状态迁移中的功能角色进行组织，使不同设备和系统中的状态能够采用一致的迁移关系进行描述。
+CAE 将分散在不同设备和系统中的状态，按照本次状态迁移中的功能作用进行组织。
 
 ---
 
-## 2. SDB：状态验证轴
+## 2. SDB：状态验证性质
 
-完成 C/A/E 功能角色映射后，还需要判断相关状态是否能够作为本次 Target State Entry 的有效判定依据。
+完成 C/A/E 映射后，需要进一步验证相关状态能否作为本次 Target State Entry 的判定依据。
 
 例如：
 
@@ -141,12 +135,12 @@ CAE 的作用，是将分散状态按本次状态迁移中的功能角色进行�
 VisionOK = TRUE
 ```
 
-还需要确认：
+除状态值本身外，还需要确认：
 
-* 该状态是否已经正确定义并接入；
-* 该结果是否对应当前工件；
-* 该结果是否已经超时或失效；
-* 当前值是否仍处于本次允许边界内。
+* 信号及接口是否已正确定义和接入；
+* 结果是否对应当前对象；
+* 结果是否已经超时；
+* 当前值是否处于预先定义的允许边界内。
 
 S、D、B 分别对应：
 
@@ -156,28 +150,26 @@ D：当前状态有效吗？
 B：当前状态在界内吗？
 ```
 
-SDB 使用的底层检查机制在现有自动化系统和软件系统中已经普遍存在。SDB 的作用是按照统一的验证性质对这些机制进行组织。
-
 ### 2.1 S：Structure
 
-S 用于判断支撑本次迁移判定所需的工程结构是否已经建立。
+S 用于验证支撑本次迁移判定所需的工程结构是否完整。
 
-主要检查对象包括：
+主要包括：
 
 * 信号或字段是否定义；
 * 接口是否接入；
-* 映射关系是否正确；
+* 映射关系是否建立；
 * 许可来源是否明确；
 * 执行链关系是否定义；
 * 必要对象是否可观测。
 
-在自动化系统中，这些内容通常体现在 I/O 配置、变量定义、通信映射和设备参数中；在软件系统中，可以表现为 Schema、Contract、Configuration、Dependency Definition 或 Permission Mapping。
+在自动化系统中，这些内容通常体现于 I/O 配置、变量定义、通信映射和设备参数；在软件系统中，可体现为 Schema、Contract、Configuration、Dependency Definition 或 Permission Mapping。
 
 ### 2.2 D：Dynamics
 
-D 用于判断当前取得的状态是否仍具有本次 Target State Entry 的判定效力。
+D 用于验证当前状态在时间和运行过程中是否仍具有本次迁移的判定效力。
 
-典型检查内容包括：
+主要包括：
 
 * 是否超时；
 * 是否长时间未刷新；
@@ -189,15 +181,13 @@ D 用于判断当前取得的状态是否仍具有本次 Target State Entry 的�
 
 相关实现可采用 Timer、Timeout、Timestamp、Heartbeat、Debounce、Freshness、Version Check、Synchronization 等现有机制。
 
-因此：
-
 ```text
 状态存在 ≠ 状态当前有效
 ```
 
 ### 2.3 B：Boundary
 
-B 用于判断当前有效状态是否处于本次迁移预先定义的工程边界内。
+B 用于验证相关状态是否处于本次迁移预先定义的允许范围、阈值或控制边界内。
 
 典型边界包括：
 
@@ -222,97 +212,86 @@ Retry Limit
 则：
 
 ```text
-20.06 mm → 在界内
-20.18 mm → 超出边界
+20.06 mm → 在允许范围内
+20.18 mm → 超出允许范围
 ```
 
-B 判断状态与预定义边界之间的位置关系。等待、回流、人工确认、安全锁定等属于后续控制动作，不属于 B 本身。
-
-S、D、B 是三类验证性质，不要求 Runtime 必须严格按照 S → D → B 的固定顺序依次执行。实际 Runtime 可以根据规则采用短路或其他执行方式，具体实现方式不改变 S/D/B 的定义。
+S、D、B 是三类验证性质，不要求 Runtime 按照固定的 S → D → B 顺序执行。具体执行顺序、短路条件和实现方式由工程规则确定，不改变三者的定义。
 
 ---
 
-## 3. CAE 与 SDB 的组合关系
+## 3. CAE 与 SDB 的组合
 
-CAE 与 SDB 分别描述状态迁移中的功能角色和验证性质。
+CAE 确定状态在本次迁移中的功能角色，SDB 对该状态执行所需的验证。
 
-以视觉结果过期为例。如果视觉结果用于证明当前工件满足抓取条件，则该状态在本次迁移中的功能角色属于 C；如果该结果已经失去时间有效性，则需要进行 D 判定，并可形成：
+例如，某视觉结果用于证明当前工件满足抓取条件，则该状态映射为 C。若 D 验证确认该结果已经超时，则可形成：
 
 ```text
 C-D
 ```
 
-C-D 表示本次目标状态进入所依赖的条件状态在动态时序有效性方面存在判定结果。
+其含义是：本次目标状态进入所依赖的条件状态存在动态时序有效性问题。
 
-同类组合还包括：
-
-```text
-A-D：本次迁移所需的许可状态发生动态失效
-
-E-B：本次迁移所依赖的执行链状态达到预定义承接边界
-
-C-S：本次迁移所需的条件状态缺少必要结构定义或接入
-```
-
-因此：
+其他组合例如：
 
 ```text
-CAE：说明状态为什么参与本次迁移
+A-D
+本次迁移所需的许可状态发生动态失效。
 
-SDB：说明状态需要从哪一种验证性质进行判定
+E-B
+本次迁移所依赖的执行链状态超出预定义承接边界。
+
+C-S
+本次迁移所需的条件状态缺少必要结构定义或接入。
 ```
 
-CAE-SDB 不是设备分类表，也不是将现场信号静态划分为九种固定标签。其判定对象是一次明确 Target State Entry 前，与本次状态迁移有关的状态关系。
+只有在对应的 S、D 或 B 验证实际产生判定结果后，才能形成相应的 CAE-SDB Result。不能仅根据现场现象直接赋予 C-S、A-D、E-B 等结果。
+
+CAE-SDB 的判定对象是一次明确 Target State Entry 前的状态关系，不是设备分类，也不是固定的九类异常标签。
 
 ---
 
-## 4. PCN 对现有工程机制的组织
+## 4. 与现有工程机制的关系
 
-CAE-SDB 所使用的底层判断，大部分已经存在于现有工程系统中。
+CAE-SDB 使用的多数底层验证机制已经存在于自动化系统和软件系统中。
 
-在 PLC 或自动化控制系统中，典型机制包括：
+在 PLC 或自动化控制系统中：
 
 ```text
 S：信号定义、接口映射、配置检查
-
 D：去抖、超时、时间窗、心跳、稳定性判断
-
 B：上下限、范围、阈值、允许窗口
 ```
 
-在业务系统或后端服务中，典型机制包括：
+在业务系统或后端服务中：
 
 ```text
 S：Schema、Contract、Dependency、Permission Mapping
-
 D：TTL、Timeout、Heartbeat、Version、Freshness
-
 B：Rate Limit、Quota、Amount Limit、Capacity、Retry Limit
 ```
 
-因此，PCN 不需要重新实现定时器、比较指令、接口检查或范围判断等底层机制。
-
-PCN 需要明确以下工程关系：
+PCN 不要求重新实现这些底层机制。其主要工作是围绕同一个 Target State Entry，明确以下关系：
 
 ```text
-本次 Target State Entry 是什么？
+Current State 是什么？
 
-哪些状态与本次迁移有关？
+Target State 是什么？
+
+哪些状态与本次 Target State Entry 有关？
 
 这些状态分别承担什么 C / A / E 角色？
 
-需要进行哪些 S / D / B 验证？
+需要对哪些状态执行 S / D / B 验证？
 
-多个判定结果之间如何进行 Arbitration？
+CAE-SDB Result 如何进入 Arbitration？
 
-当前 Target State Entry 允许哪些 Multipath Control？
+当前 Target State Entry 可以输出哪些 Multipath Control？
 
-本次判定和控制依据是什么？
-
-相关结果如何形成 Trace？
+判定依据和控制结果如何形成 PCN Trace？
 ```
 
-其基本处理关系为：
+基本处理链如下：
 
 ```text
 Current State
@@ -334,27 +313,21 @@ Multipath Control
 PCN Trace
 ```
 
-PCN 的工程作用，是围绕明确的状态迁移入口，对原本分散在不同程序、设备和系统中的判断机制进行组织，并将判定结果、控制结果及其依据形成可追溯的工程履历。
-
-这些判断机制本身大多来自成熟工程实践。PCN 所增加的是面向 Target State Entry 的统一组织关系。
+PCN 将原本分散在设备程序、接口配置和工程经验中的状态迁移判断，组织到明确的目标状态入口，并保留相应的判定和控制履历。
 
 ---
 
 ## 5. CAE-SDB 的适用对象
 
-PLC 是 CAE-SDB 较容易落地的工程对象之一，但不是其适用边界。
+CAE-SDB 不限定于 PLC。
 
-具备以下条件的系统，可以作为 TPCA / PCN 的候选对象：
+具备以下基本条件的系统，可以作为 TPCA / PCN 的候选对象：
 
 ```text
 明确的 Current State
-
 明确的 Target State Entry
-
 可观测的迁移相关状态
-
 进入目标状态前的判定需求
-
 可以定义的后续控制路径
 ```
 
@@ -365,11 +338,9 @@ PLC 是 CAE-SDB 较容易落地的工程对象之一，但不是其适用边界�
 ```text
 Waiting Stage → Pick Stage
 
-C：目标存在、位姿成立
-
+C：目标存在、位姿满足要求
 A：安全许可、区域许可、上位放行
-
-E：机器人、夹爪、下游承接、异常路径
+E：机器人、夹爪及相关执行链接续状态
 ```
 
 ### 5.2 业务系统
@@ -380,10 +351,8 @@ E：机器人、夹爪、下游承接、异常路径
 订单待提交 → 正式提交
 
 C：参数完整、业务对象存在、前序流程完成
-
 A：用户权限、审批、预算许可
-
-E：数据库可写、库存服务可承接、消息可发布
+E：数据库写入、库存服务、消息发布等执行链状态
 ```
 
 ### 5.3 API 或 AI 工具调用
@@ -392,23 +361,19 @@ E：数据库可写、库存服务可承接、消息可发布
 
 ```text
 C：请求目标明确、参数完整、必要上下文存在
-
 A：联网、知识库、工具和租户授权成立
-
 E：模型、工具链、目标 API 和返回链路可用
 ```
 
-不同领域可以采用各自已有的 S/D/B 验证机制。
+不同领域可继续使用各自已有的结构检查、时序检查和边界检查机制。
 
-CAE-SDB 描述的是面向明确 Target State Entry 的状态功能角色组织与状态验证结构，不限定具体控制器类型。
+CAE-SDB 描述的是面向明确 Target State Entry 的状态功能角色与状态验证结构，不限定具体控制器或软件平台。
 
 ---
 
-## 6. CAE-SDB Result、控制仲裁与 PCN Trace
+## 6. CAE-SDB Result、Arbitration 与 Multipath Control
 
-CAE-SDB Evaluation 输出结构化判定结果，不直接等同于最终控制动作。
-
-其关系为：
+CAE-SDB Evaluation 输出结构化判定结果，不直接输出最终控制动作。
 
 ```text
 CAE-SDB Result
@@ -420,7 +385,7 @@ CAE-SDB Result
     PCN Trace
 ```
 
-一次 Target State Entry 可能同时产生多个判定结果。Arbitration 根据关键许可、安全约束、控制优先级、边界规则和合法候选路径形成最终控制结果。
+一次 Target State Entry 可能同时存在多个判定结果。Arbitration 根据关键许可、安全约束、控制优先级、边界规则和合法候选路径形成最终控制结果。
 
 代表性的 Multipath Control 包括：
 
@@ -440,21 +405,29 @@ CAE-SDB Result
 异常隔离
 ```
 
-CAE-SDB Result 与控制动作之间不存在固定的一一对应关系。
-
-例如：
+CAE-SDB Result 与 Multipath Control 之间不存在固定的一一对应关系。
 
 ```text
 C-D ≠ WAIT
-
 E-B ≠ RETURN
-
 A-S ≠ SAFETY LOCK
 ```
 
-CAE-SDB Result 记录本次前置判定中状态所对应的功能角色及验证性质；Multipath Control 表示经过控制仲裁后实际采用的控制路径。
+相同的 CAE-SDB Result 在不同 Target State Entry、不同安全约束和不同控制规则下，可以对应不同的合法控制路径。
 
-PCN Trace 用于记录本次 Current State、Target State、参与判断的状态、CAE Mapping、SDB Evaluation、Arbitration Result、Multipath Control、时间信息和执行结果。
+所有 Allow、Prohibit 和其他 Multipath Control 均绑定当前明确的 Target State Entry。替代路径、回退路径或回流路径可以作为候选控制路径，但其存在本身不构成当前 Target State 的 E 成立条件，也不能据此直接输出 Allow。
+
+PCN Trace 记录本次状态迁移的主要判定与控制信息，包括：
+
+* Current State；
+* Target State；
+* 参与判断的状态及时间信息；
+* CAE Mapping；
+* SDB Evaluation；
+* CAE-SDB Result；
+* Arbitration Result；
+* Multipath Control；
+* 执行结果。
 
 这些记录可用于现场排查、工程交接、规则审查、版本比较和后续改善。
 
@@ -466,62 +439,49 @@ CAE-SDB 是当前 TPCA / PCN 用于 Target State Entry 前置判定的工程结�
 
 现阶段不主张已经通过数学方法证明 C/A/E 或 S/D/B 在所有工程系统中不存在扩展空间。
 
-后续验证可以继续检查以下两类问题：
+后续验证仍可继续检查：
 
 ```text
 是否存在 C / A / E 之外，
-同时又是明确 Target State Entry 不可缺少的第四种独立迁移功能角色？
+又是明确 Target State Entry 不可缺少的独立迁移功能角色？
 
 是否存在 S / D / B 之外，
-同时又是参与本次迁移判定状态不可缺少的第四种独立验证性质？
+又是迁移相关状态不可缺少的独立验证性质？
 ```
 
-如果在跨行业、跨设备或跨系统验证中持续出现现有结构无法自然表达的对象，应作为新的理论问题处理。
+如果在跨行业、跨设备或跨系统案例中稳定出现当前结构不能自然表达的对象，应单独进行验证。
 
-现阶段主要验证以下三个方面：
+现阶段主要验证以下关系：
 
 ```text
 CAE 是否能够稳定组织 Target State Entry 所需的迁移功能角色；
 
-SDB 是否能够稳定组织各领域已有的状态验证逻辑；
+SDB 是否能够稳定组织各领域已有的状态验证机制；
 
-二者组合后是否能够持续支撑 Arbitration、Multipath Control 和 Trace。
+CAE-SDB 是否能够持续支撑 Arbitration、Multipath Control 和 PCN Trace。
 ```
 
 ---
 
 ## 参考文献与外部依据
 
-以下资料用于说明状态建模、工业状态值及时间信息、复杂系统事件顺序等已有工程基础。
-
-这些资料用于提供相邻工程背景，不表示既有框架与 CAE-SDB 存在一一对应关系，也不用于证明 CAE-SDB 的完备性。
+以下资料用于说明状态建模、工业状态信息以及复杂系统事件时序等相关工程基础，不表示既有框架与 CAE-SDB 存在一一对应关系，也不用于证明 CAE-SDB 的完备性。
 
 1. **HAREL D.**
-
    *Statecharts: A Visual Formalism for Complex Systems.*
-
    *Science of Computer Programming*, 1987, 8(3): 231–274.
-
    DOI: 10.1016/0167-6423(87)90035-9
-
    https://www.sciencedirect.com/science/article/pii/0167642387900359
 
 2. **OPC Foundation.**
-
    *OPC Unified Architecture — Part 4: Services.*
-
    OPC UA DataValue 将 Value、StatusCode、SourceTimestamp、ServerTimestamp 等信息关联，可作为理解工业状态值、状态质量和时间信息关系的参考。
-
    https://reference.opcfoundation.org/specs/OPC-10000-4/full
 
 3. **LAMPORT L.**
-
    *Time, Clocks, and the Ordering of Events in a Distributed System.*
-
    *Communications of the ACM*, 1978, 21(7): 558–565.
-
    DOI: 10.1145/359545.359563
-
    https://www.microsoft.com/en-us/research/publication/time-clocks-ordering-events-distributed-system/
 
 ---
