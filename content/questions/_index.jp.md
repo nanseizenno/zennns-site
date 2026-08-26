@@ -1,5 +1,5 @@
 ---
-title: "エンジニアリング問題"
+title: "エンジニアリング課題"
 summary: "Ready、Waiting、MES / WCS 協調停滞、タスク実行、状態遷移設計に関する問題から、明確な Target State Entry を独立したエンジニアリング対象として設計・判定する必要性を整理する。"
 description: "複雑なオートメーションシステムおよび製造システムにおいて、Target State へ進む前に発生する代表的なエンジニアリング問題を整理し、TPCA / PCN の中核概念、適用事例、ホワイトペーパーを理解するための入口とする。"
 draft: false
@@ -76,7 +76,7 @@ TPCA では、実システムの状態遷移を、時間方向に継続して進
 
 上記の問題が実際の現場課題に近い場合は、以下を参照。
 
-- [Concepts｜中核概念](/jp/concepts/)
+- [Concepts｜基本概念](/jp/concepts/)
 - [適用事例](/jp/cases/)
 - [TPCA / PCN 状態遷移前制御アーキテクチャ｜ホワイトペーパー](/jp/whitepaper/)
 - [TPCA の状態遷移単方向性 ― なぜ実際のエンジニアリングシステムに状態の巻き戻しは存在しないのか？](/jp/notes/tpca-unidirectional-state-transition/)
