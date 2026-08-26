@@ -14,7 +14,7 @@ draft: false
 
 まず全体像を把握する場合は、以下を先に参照。
 
-- [Concepts｜中核概念](/jp/concepts/)
+- [Concepts｜基本概念](/jp/concepts/)
 - [TPCA / PCN 状態遷移前制御アーキテクチャ｜ホワイトペーパー](/jp/whitepaper/)
 
 ---
@@ -106,7 +106,7 @@ OEE、設備データ、PCN の補完関係を説明する。OEE は主に運転
 
 ## 関連コンテンツ
 
-### [Concepts｜中核概念](/jp/concepts/)
+### [Concepts｜基本概念](/jp/concepts/)
 
 TPCA、PCN、Current State、Target State、Target State Entry、C / A / E、S / D / B、CAE-SDB Result、時間情報 T、Arbitration、Multipath Control、PCN Trace、PCN Network などの中核用語を確認する。
 
