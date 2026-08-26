@@ -47,15 +47,15 @@ languages:
 
         - name: "協業について"
           url: "/jp/about/cooperation/"
-          parent: "このサイト"
+          parent: "本サイトについて"
           weight: 71
         - name: "権利について"
           url: "/jp/about/legal/"
-          parent: "このサイト"
+          parent: "本サイトについて"
           weight: 72
         - name: "著者について"
           url: "/jp/about/author/"
-          parent: "このサイト"
+          parent: "本サイトについて"
           weight: 73
 
   zh:
