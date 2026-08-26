@@ -1,7 +1,7 @@
 ---
 title: "MES / WCS 協調停滞診断モジュール事例"
 summary: "製造現場の協調停滞を対象として、タスク、設備、搬送主体などの状態が記録されていても実行が継続しない場合に、MES / WCS が PCN を用いて関連状態を構造化し、停滞識別、構造分析、Arbitration、Multipath Control へ展開する方法を説明する。"
-description: "TPCA / PCN を MES / WCS の協調停滞診断へ適用する方法を公開事例として説明する。製造現場が持続可能な協調実行状態へ入る Target State Entry を対象として、PCN が複数ソース状態を取得し、状態遷移における機能役割に基づいて C / A / E へマッピングした後、S / D / B 判定と群全体の指標を用いて停滞識別と構造分析を行う。CAE-SDB Result と時間情報 T を Arbitration へ渡し、Multipath Control を出力するとともに PCN Trace を記録する。"
+description: "TPCA / PCN を MES / WCS の協調停滞診断へ適用する方法を公開事例として説明する。製造現場が持続可能な協調実行状態へ入る Target State Entry を対象として、PCN が複数系統の状態を取得し、状態遷移における機能役割に基づいて C / A / E へマッピングした後、S / D / B 判定と群全体の指標を用いて停滞識別と構造分析を行う。CAE-SDB Result と時間情報 T を Arbitration へ渡し、Multipath Control を出力するとともに PCN Trace を記録する。"
 date: 2026-06-30
 lastmod: 2026-08-25
 author: "全野南政 / Nansei Zenno"
@@ -66,7 +66,7 @@ HMI には、Ready、Waiting、Blocked、Pending などの運転状態が表示�
 
 TPCA / PCN では、これを明確な Target State Entry として扱う。
 
-PCN は、「持続可能な協調実行状態」を Target State とし、今回の状態遷移に関係する複数ソース状態を取得する。
+PCN は、「持続可能な協調実行状態」を Target State とし、今回の状態遷移に関係する複数系統の状態を取得する。
 
 取得した状態は、状態遷移における機能役割に基づいて C / A / E へマッピングする。
 
@@ -128,7 +128,7 @@ AGV / AMR 群制御搬送を代表的な適用場面とし、次のような協�
 
 ![MES / WCS 協調停滞診断モジュール概念図](/images/tpca/08-mes-wcs-collaborative-stagnation-module.png)
 
-図：MES / WCS 協調停滞診断モジュールは製造現場の協調層に配置し、MES、WCS、AGV / AMR、バッファ、加工設備、経路資源、自動扉、エレベータ、充電エリア、安全・許可システム、監視システムなどから複数ソース状態を取得する。
+図：MES / WCS 協調停滞診断モジュールは製造現場の協調層に配置し、MES、WCS、AGV / AMR、バッファ、加工設備、経路資源、自動扉、エレベータ、充電エリア、安全・許可システム、監視システムなどから複数系統の状態を取得する。
 
 本事例における Current State は、例えば次のような状態である。
 
@@ -160,13 +160,13 @@ Target State
 持続可能な協調実行状態
 ```
 
-PCN は、この Target State Entry に対して複数ソース状態を取得し、C / A / E 状態マッピング、S / D / B 判定、停滞識別、構造分析、Arbitration、Multipath Control を行う。
+PCN は、この Target State Entry に対して複数系統の状態を取得し、C / A / E 状態マッピング、S / D / B 判定、停滞識別、構造分析、Arbitration、Multipath Control を行う。
 
 その後、システムに過去と同じ状態内容が現れた場合も、その時点で新しい状態インスタンスが形成される。
 
 ---
 
-## 3. 複数ソース状態と C / A / E 状態マッピング
+## 3. 複数系統の状態と C / A / E 状態マッピング
 
 協調停滞の判定では、タスク、実行主体、資源、経路、ステーション、許可、下流受入など、複数の対象に関係する状態を使用する。
 
@@ -289,7 +289,7 @@ X % を超過
 
 ![協調停滞識別と Multipath Control の処理フロー](/images/tpca/09-collaborative-stagnation-control-flow.png)
 
-図：モジュールは複数ソース状態を取得し、C / A / E 状態マッピング、S / D / B 判定、群全体の指標算出を行う。これらの結果を用いて停滞識別と構造分析を行い、Arbitration、Multipath Control、PCN Trace へ展開する。
+図：モジュールは複数系統の状態を取得し、C / A / E 状態マッピング、S / D / B 判定、群全体の指標算出を行う。これらの結果を用いて停滞識別と構造分析を行い、Arbitration、Multipath Control、PCN Trace へ展開する。
 
 ---
 
@@ -496,7 +496,7 @@ MES / WCS 協調停滞診断モジュールは、タスク、スケジューリ�
 本稿で公開する内容は、次の範囲である。
 
 * モジュールの位置付け
-* 複数ソース状態
+* 複数系統の状態
 * C / A / E 状態マッピング
 * S / D / B 判定
 * 群全体の状態および指標
