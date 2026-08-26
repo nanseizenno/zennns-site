@@ -24,13 +24,13 @@ layout: "questions"
 
 当这种判断分散在不同设备、系统和工程师经验中时，Ready、Waiting、任务状态和系统记录就很难单独解释一次状态迁移。
 
-以下内容分别从单元与现场执行、多系统联动和状态迁移设计三个层级展开。
+以下内容分别从自动化单元与现场执行、多系统联动和状态迁移设计三个层级展开。
 
 如需了解 TPCA、PCN、C / A / E、S / D / B、控制仲裁与 PCN Trace，可参见 [Concepts｜核心概念](/zh/concepts/)。
 
 ---
 
-## 单元与现场执行问题
+## 自动化单元与现场执行问题
 
 ### [为什么 Ready 不够？](/zh/questions/why-ready-is-not-enough/)
 
