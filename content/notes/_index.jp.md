@@ -37,7 +37,7 @@ draft: false
 
 状態遷移、許可制約、実行チェーンの接続、動的時系列有効性、制御境界という 5 つの基本的な工学的共通認識から、TPCA / PCN がどのような既存のエンジニアリング事実を基盤としているかを説明する。
 
-### [TPCA / PCN と既存の産業オートメーション方法・制御メカニズムとの関係](/jp/notes/tpca-existing-theories/)
+### [TPCA / PCN と既存の産業オートメーション手法・制御メカニズムとの関係](/jp/notes/tpca-existing-theories/)
 
 TPCA / PCN と、ステートマシン、SFC、Interlock、安全制御、アラーム管理、FMEA、STPA、RCA、Process Mining、MES / WCS、AI 分析、形式検証との境界関係を説明する。
 
@@ -95,7 +95,7 @@ PCN Trace と設備データ、生産データ、アラーム履歴との違い�
 
 どのような Target State Entry に PCN を配置することが適切か、どのような問題を PCN に含めるべきではないかを説明し、自動化実行ユニット、MES / WCS、群制御協調、生産 DX、人による確認などの場面における適用範囲を整理する。
 
-### [なぜ OEE の後にも PCN が必要なのか？](/jp/notes/why-oee-pcn/)
+### [なぜ OEE の後に PCN が必要なのか？](/jp/notes/why-oee-pcn/)
 
 OEE、設備データ、PCN の補完関係を説明する。OEE は主に運転パフォーマンスや損失を観察するためのものであり、PCN は明確な Target State Entry を中心として、なぜ進入できたのか、待機したのか、阻止されたのか、分流されたのかを記録する。
 
