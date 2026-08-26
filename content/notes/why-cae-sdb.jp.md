@@ -1,5 +1,4 @@
 ---
-
 title: "なぜ CAE-SDB なのか ― 状態遷移における機能役割と状態検証の二軸構造"
 summary: "明確な Target State Entry の前における CAE と SDB の役割分担を説明する。CAE は状態遷移に関係する状態の機能役割を整理し、SDB は各状態について構造完全性、動的時系列有効性、制御境界の観点から判定する。"
 description: "TPCA / PCN における CAE-SDB の二軸構造を説明する。CAE は Target State Entry に関係する状態を C 条件状態、A 許可状態、E 実行チェーン状態へマッピングし、SDB は S 構造完全性、D 動的時系列有効性、B 制御境界の各判定性質から評価する。CAE-SDB Result は Arbitration を経て Multipath Control となり、その判定・制御履歴を PCN Trace に記録する。"
@@ -13,7 +12,7 @@ draft: false
 ShowReadingTime: true
 ShowToc: true
 TocOpen: true
--------------
+---
 
 ## なぜ CAE-SDB なのか
 
