@@ -17,7 +17,7 @@ languages:
     languageCode: "ja-JP"
     languageName: "日本語"
     weight: 1
-    title: "エンジニアリングシステムの状態遷移ナレッジベース"
+    title: "状態遷移ナレッジベース"
     params:
       description: "製造システム、PLC / HMI、MES / WCS、AGV / AMR、ロボットユニット、デジタル呼び出しガバナンスを対象とする状態遷移前制御の技術ナレッジベース。"
       author: "全野南政 / Nansei Zenno"
@@ -106,7 +106,7 @@ languages:
     languageCode: "en-US"
     languageName: "English"
     weight: 3
-    title: "State Transition Engineering"
+    title: "State Transition Knowledge Base"
     params:
       description: "A knowledge system and common engineering language for state transitions in complex systems."
       author: "Nansei Zenno"
