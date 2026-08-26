@@ -21,7 +21,7 @@ TPCA / PCN の中核となる考え方は、次の通りである。
 
 TPCA / PCN と既存の産業オートメーション方法や制御メカニズムとの関係については、以下を参照。
 
-[TPCA / CAE-SDB と既存の産業オートメーション理論との関係](/ja/notes/tpca-existing-theories/)
+[TPCA / CAE-SDB と既存の産業オートメーション理論との関係](/jp/notes/tpca-existing-theories/)
 
 ---
 
@@ -752,10 +752,10 @@ TPCA
 
 ## 関連資料
 
-* [TPCA / PCN はどのようなエンジニアリング基盤の上に成り立つか ― 5 つの基本的な工学的共通認識](/ja/notes/engineering-foundations-of-tpca-pcn/)
-* [TPCA / PCN は既存技術との論点に対してどの位置を取るか ― 3 つの代表的なエンジニアリング論点](/ja/notes/engineering-positions-of-tpca-pcn/)
-* [TPCA / PCN を本当に理解しているか ― 10 のエンジニアリング問題](/ja/notes/tpca-pcn-understanding-test/)
-* [状態遷移後の復旧から、状態遷移前の判定へ](/ja/notes/pre-transition-judgment-vs-post-transition-recovery/)
+* [TPCA / PCN はどのようなエンジニアリング基盤の上に成り立つか ― 5 つの基本的な工学的共通認識](/jp/notes/engineering-foundations-of-tpca-pcn/)
+* [TPCA / PCN は既存技術との論点に対してどの位置を取るか ― 3 つの代表的なエンジニアリング論点](/jp/notes/engineering-positions-of-tpca-pcn/)
+* [TPCA / PCN を本当に理解しているか ― 10 のエンジニアリング問題](/jp/notes/tpca-pcn-understanding-test/)
+* [状態遷移後の復旧から、状態遷移前の判定へ](/jp/notes/pre-transition-judgment-vs-post-transition-recovery/)
 
 ---
 
