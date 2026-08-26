@@ -58,7 +58,7 @@ TPCA / PCN 状態遷移前制御体系について、著者は複数のエンジ
 
 Ready、Waiting、タスク実行、複数システム間の協調、状態遷移設計など、実際のエンジニアリング問題から TPCA / PCN を理解する。
 
-### [Concepts｜中核概念](/jp/concepts/)
+### [Concepts｜基本概念](/jp/concepts/)
 
 TPCA、PCN、C / A / E、S / D / B、CAE-SDB Result、Arbitration、PCN Trace、PCN Network などの中核概念を確認する。
 
@@ -80,4 +80,4 @@ TPCA / PCN の全体アーキテクチャと、基本的なエンジニアリン
 
 ---
 
-本サイトでは、TPCA / PCN のエンジニアリング上の位置付け、全体アーキテクチャ、中核概念、代表的な適用事例を中心に公開している。
+本サイトでは、TPCA / PCN のエンジニアリング上の位置付け、全体アーキテクチャ、基本概念、代表的な適用事例を中心に公開している。
