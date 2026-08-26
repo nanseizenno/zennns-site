@@ -1,5 +1,4 @@
 ---
-
 title: "自動化実行ユニット前判定事例"
 summary: "画像認識を用いたコンベヤロボットユニットを代表例として、Robot Ready が成立していてもピックアップ段階への進入判断には複数の状態確認が必要となる理由と、PLC / PCN が目標物理実行段階へ入る前に構造化判定、Arbitration、Multipath Control を行う方法を説明する。"
 description: "TPCA / PCN を自動化実行ユニットへ適用する方法を公開事例として説明する。画像認識を用いたコンベヤロボットユニットを代表例とし、ロボットがピックアップ段階へ入る前に、PLC / PCN が C / A / E 状態マッピングと S / D / B 判定を行い、CAE-SDB Result と時間情報 T を形成し、Arbitration を経て Multipath Control を出力し、PCN Trace に記録する流れを示す。"
@@ -16,7 +15,7 @@ weight: 1
 ShowReadingTime: true
 ShowToc: true
 TocOpen: true
--------------
+---
 
 ## なぜ Robot Ready だけではピックアップ段階へ入れないのか
 
