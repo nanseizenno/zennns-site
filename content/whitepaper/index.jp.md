@@ -1220,5 +1220,5 @@ Public Version 1.4：2026-08-25 更新。CAE-SDB の二軸基礎構造を明確�
 推奨引用形式：
 
 ```text
-全野南政 / Nansei Zenno，《TPCA / PCN 状態遷移前制御アーキテクチャ》，公開ホワイトペーパー，Public Version 1.4，2026-08-25，https://zennns.com/zh/whitepaper/
+全野南政 / Nansei Zenno，《TPCA / PCN 状態遷移前制御アーキテクチャ》，公開ホワイトペーパー，Public Version 1.4，2026-08-25，https://zennns.com/jp/whitepaper/
 ```
