@@ -1,7 +1,7 @@
 ---
 title: "なぜ PCN は TPCA の最小エンジニアリングノードなのか？"
-summary: "PCN が TPCA の最小エンジニアリングノードを構成する理由と、1 つの明確な Target State Entry に対して、複数ソース状態、構造化判定、Arbitration、Multipath Control、PCN Trace までの一連のエンジニアリング関係をどのように形成するかを説明する。"
-description: "TPCA 状態遷移前制御体系における PCN のエンジニアリング上の位置付けを説明する。PCN が明確な Target State Entry を中心として、Current State、Target State、複数ソース状態、C / A / E Mapping、S / D / B Evaluation、CAE-SDB Result、時間情報 T、Arbitration、Multipath Control、PCN Trace をどのように整理するかを示す。"
+summary: "PCN が TPCA の最小エンジニアリングノードを構成する理由と、1 つの明確な Target State Entry に対して、複数系統の状態、構造化判定、Arbitration、Multipath Control、PCN Trace までの一連のエンジニアリング関係をどのように形成するかを説明する。"
+description: "TPCA 状態遷移前制御体系における PCN のエンジニアリング上の位置付けを説明する。PCN が明確な Target State Entry を中心として、Current State、Target State、複数系統の状態、C / A / E Mapping、S / D / B Evaluation、CAE-SDB Result、時間情報 T、Arbitration、Multipath Control、PCN Trace をどのように整理するかを示す。"
 date: 2026-07-04
 lastmod: 2026-08-20
 author: "全野南政 / Nansei Zenno"
@@ -28,7 +28,7 @@ CAE-SDB は、PCN 内部で使用する構造化判定ロジックである。
 Current State
 → Target State
 → PCN
-    ├─ 複数ソース状態
+    ├─ 複数系統の状態
     ├─ C / A / E Mapping
     ├─ S / D / B Evaluation
     ├─ CAE-SDB Result + T
@@ -96,7 +96,7 @@ Current State → Target State
 | Current State | システムが現在位置している状態、工程段階、または実行位置 |
 | Target State | システムが次に入ろうとしている状態、目標実行経路、または目標物理実行段階 |
 | PCN の配置位置 | 今回の Target State Entry をどこに設定するか |
-| 複数ソース状態 | 今回の状態遷移に関係する入力状態 |
+| 複数系統の状態 | 今回の状態遷移に関係する入力状態 |
 | C / A / E Mapping | 関連状態を Condition、Authority、Execution Chain の状態変数領域へマッピングする |
 | S / D / B Evaluation | Structure、Dynamics、Boundary の判定性質から関連状態を評価する |
 | CAE-SDB Result | 1 回の前判定によって形成される 1 つまたは複数の構造化判定結果 |
@@ -143,7 +143,7 @@ PCN は、それらを今回の Target State Entry に対応付け、次の関�
 
 ```text
 Target State Entry
-→ 複数ソース状態
+→ 複数系統の状態
 → C / A / E Mapping
 → S / D / B Evaluation
 → CAE-SDB Result + T
@@ -300,7 +300,7 @@ PCN は、例えば次の Target State Entry に配置できる。
 Current State
 → Target State
 → PCN
-→ 複数ソース状態
+→ 複数系統の状態
 → C / A / E Mapping
 → S / D / B Evaluation
 → CAE-SDB Result + T
@@ -409,7 +409,7 @@ CAE-SDB は、PCN 内部で使用する構造化判定ロジックである。
 Current State
 → Target State
 → PCN
-    ├─ 複数ソース状態
+    ├─ 複数系統の状態
     ├─ C / A / E Mapping
     ├─ S / D / B Evaluation
     ├─ CAE-SDB Result + T
