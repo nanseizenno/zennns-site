@@ -1,5 +1,4 @@
 ---
-
 title: "为什么是 CAE-SDB？——状态迁移功能角色与状态验证的双轴结构"
 summary: "说明 CAE 与 SDB 在明确目标状态入口前的作用分工。CAE 用于确定相关状态在状态迁移中的功能角色，SDB 用于验证相关状态的结构完整性、动态时序有效性和边界状态。"
 description: "说明 TPCA / PCN 中 CAE-SDB 的双轴结构。CAE 将与目标状态进入有关的状态映射为 C 条件、A 许可和 E 执行链；SDB 从 S 结构完整性、D 动态时序有效性和 B 边界三个性质进行验证。判定结果经 Arbitration 形成 Multipath Control，并记录于 PCN Trace。"
@@ -13,7 +12,7 @@ draft: false
 ShowReadingTime: true
 ShowToc: true
 TocOpen: true
--------------
+---
 
 ## 为什么是 CAE-SDB？
 
