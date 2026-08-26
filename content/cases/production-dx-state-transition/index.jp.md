@@ -30,7 +30,7 @@ TocOpen: true
 
 関連資料：
 
-* [中核概念](/jp/concepts/)
+* [基本概念](/jp/concepts/)
 * [TPCA / PCN 状態遷移前制御アーキテクチャ｜ホワイトペーパー](/jp/whitepaper/)
 * [なぜ CAE-SDB なのか ― 状態遷移における機能役割と状態検証の二軸構造](/jp/notes/why-cae-sdb/)
 * [なぜ状態遷移条件を明示する必要があるのか？](/jp/notes/explicit-state-transition-conditions/)
