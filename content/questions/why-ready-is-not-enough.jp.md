@@ -1,7 +1,7 @@
 ---
 title: "なぜ Ready だけでは不十分なのか？"
-summary: "設備 Ready、Robot Ready、Downstream Ready などは局所的な運転可能状態を示すものであり、それだけではシステムが Target State へ入れることを意味しない理由を説明する。"
-description: "自動化実行ユニットが次の状態へ入る前のエンジニアリング課題を対象として、Ready が局所状態の一つであること、および一回の状態遷移では Current State、Target State、必要な Condition、Authority、Execution Chain と関連状態の有効性を組み合わせて判定する必要があることを説明する。"
+summary: "設備 Ready、Robot Ready、Downstream Ready などは局所的な運転可能状態を示すものであり、それだけではシステムが Target State へ移行できることを意味しない理由を説明する。"
+description: "自動化実行ユニットが次の状態へ移行する前のエンジニアリング課題を対象として、Ready が局所状態の一つであること、および1回の状態遷移では Current State、Target State、必要な Condition、Authority、Execution Chain と関連状態の有効性を組み合わせて判定する必要があることを説明する。"
 date: 2026-07-04
 lastmod: 2026-08-20
 author: "全野南政 / Nansei Zenno"
@@ -24,16 +24,16 @@ TocOpen: true
 
 - ワーク条件がまだ成立していない。
 - 必要な許可が成立していない。
-- 下流が現在受入できない。
+- 下流が現在受入可能な状態にない。
 - 関連状態は正常値を示しているが、長時間更新されていない。
 
 このような場合、現場では次の疑問が生じる。
 
-> **設備は Ready なのに、なぜ次の段階へ進まないのか？**
+> **設備は Ready なのに、なぜ次の段階へ移行しないのか？**
 
-Ready 自体が誤っているとは限らない。
+Ready は、対象設備の局所的な運転可能状態を正しく示している場合がある。
 
-> **Ready は、設備、機構、モジュールなどの局所的な運転可能状態を示す。今回の Target State Entry に必要な状態遷移判定全体を示すものではない。**
+> **Ready は、設備、機構、モジュールなどの局所的な運転可能状態を示す。今回の Target State Entry では、Ready を含む関連状態全体に基づいて状態遷移を判定する。**
 
 ---
 
@@ -57,14 +57,14 @@ Ready は、システムや設備の設計によって、例えば次のよう�
 
 を確認するための情報である。
 
-一方、実際の状態遷移では、複数の状態が同じ Target State Entry に関係する場合がある。
+実際の状態遷移では、複数の状態が同じ Target State Entry に関係する場合がある。
 
 例えば Robot Ready が成立していても、今回の Target State Entry に対しては、次の状態を別途確認する必要がある場合がある。
 
 - ワーク条件が成立しているか。
 - 必要な許可が成立しているか。
 - 対象エリアへの進入が許可されているか。
-- Target State へ入った後の実行チェーンが継続できるか。
+- Target State へ移行した後の実行チェーンが継続できるか。
 - 今回の判定に使用する関連状態が現在も有効か。
 
 したがって、Ready は Target State Entry に関係する入力状態の一つとして扱う。
@@ -81,9 +81,9 @@ Ready は、システムや設備の設計によって、例えば次のよう�
 Robot Ready = TRUE
 ```
 
-であっても、システムが次に入ろうとしている状態が「ピックアップ段階」である場合と、「原点復帰」「異常時退避」などの段階である場合では、Target State Entry に必要な判定内容は同一とは限らない。
+であっても、システムが次に移行しようとしている状態が「ピックアップ段階」である場合と、「原点復帰」「異常時退避」などの段階である場合では、各 Target State Entry に対応する判定内容が異なる場合がある。
 
-そのため、最初に確認する対象は Ready の値だけではない。
+最初に、
 
 ```text
 Current State
@@ -98,19 +98,19 @@ Current State
 
 Target State が変われば、今回の状態遷移に関係する Condition、Authority、Execution Chain の状態も変わる場合がある。
 
-Ready 信号は制御や表示を簡潔にする上で有用であるが、複数設備や複数システムが関係する状態遷移では、Target State Entry に必要なすべての状態関係を単一の Ready だけで表すことはできない。
+Ready 信号は、制御や表示を簡潔にする上で有用である。複数設備や複数システムが関係する状態遷移では、Target State Entry に必要な状態関係を複数の状態信号によって表す。
 
 ---
 
 ## 3. Target State Entry では複数の状態変数領域を確認する
 
-一回の Target State Entry では、設備自身の Ready に加えて、今回の状態遷移に関係する複数の状態を確認する。
+1回の状態遷移前判定では、設備自身の Ready に加えて、今回の状態遷移に関係する複数の状態を確認する。
 
 TPCA / PCN では、これらの状態を C / A / E の状態変数領域に整理する。
 
 ### C：Condition
 
-C は、Target State へ入るために必要な事実条件に関係する状態変数領域である。
+C は、Target State へ移行するために必要な事実条件に関係する状態変数領域である。
 
 例えば、
 
@@ -123,7 +123,7 @@ C は、Target State へ入るために必要な事実条件に関係する状�
 
 ### A：Authority
 
-A は、Target State への進入を許可する状態に関係する状態変数領域である。
+A は、Target State への移行を許可する状態に関係する状態変数領域である。
 
 例えば、
 
@@ -139,24 +139,24 @@ A は、Target State への進入を許可する状態に関係する状態変�
 
 ### E：Execution Chain
 
-E は、Target State へ入った後の実行チェーンに関係する状態変数領域である。
+E は、Target State へ移行した後の実行チェーンに関係する状態変数領域である。
 
 例えば、
 
-- 目標位置が受入可能か。
+- 目標位置で受入可能か。
 - 後続設備が実行を継続できるか。
-- 今回の実行チェーンとして定義された正常経路、代替経路、回流経路などの状態はどうか。
+- 今回の実行チェーンとして定義された正常経路、代替経路、リターン経路などの状態はどうか。
 - 実行結果を後続システムへ送信または書き戻せるか。
 
 などが該当する。
 
-したがって、Ready は今回の Target State Entry に関係する状態の一つであり、PCN は Ready を含む複数ソース状態を Target State Entry に対応付けて整理する。
+したがって、Ready は今回の Target State Entry に関係する状態の一つであり、PCN は Ready を含む複数系統の状態信号を Target State Entry に対応付けて整理する。
 
 ---
 
 ## 4. 状態値が正常でも、今回の判定に使用できるとは限らない
 
-複雑な自動化システムでは、状態値そのものに明確な異常がなくても、その状態を今回の Target State Entry の判定に使用できない場合がある。
+複雑な自動化システムでは、状態値そのものに明確な異常がない場合も、その状態を今回の Target State Entry の判定に使用できるかを別途確認する必要がある。
 
 例えば、
 
@@ -178,23 +178,23 @@ Target State Entry では、関連状態が今回の判定時点でも有効で�
 
 TPCA / PCN では、関連状態に対して必要な S / D / B Evaluation を行い、その判定結果を CAE-SDB Result として整理する。
 
-特に、状態のタイムアウト、未更新、取消、非同期、競合、切替中などの時間的・運転時の有効性は、D：Dynamics / 動的時系列有効性の判定対象となる。
+特に、状態のタイムアウト、未更新、取消、非同期、競合、切替中など、運転中における時間的な有効性は、D：Dynamics / 動的時系列有効性の判定対象となる。
 
 ---
 
 ## 5. Ready を Target State Entry の状態遷移判定に組み込む
 
-Ready、Interlock、Handshake、Alarm は、いずれも自動化システムで使用される重要な状態・制御情報である。
+Ready、インターロック、ハンドシェイク、アラームは、いずれも自動化システムで使用される重要な状態・制御情報である。
 
-複数の設備やシステムが一回の状態遷移に関係する場合、PCN はこれらの情報を、今回の Target State Entry に関係する複数ソース状態として扱う。
+複数の設備やシステムが1回の状態遷移に関係する場合、PCN はこれらの情報を、今回の Target State Entry に関係する複数系統の状態信号として扱う。
 
-基本的な処理関係は次の通りである。
+基本的な処理関係は次のとおりである。
 
 ```text
 Current State
 → Target State
 → PCN
-→ 複数ソース状態
+→ 複数系統の状態信号
 → C / A / E Mapping
 → S / D / B Evaluation
 → CAE-SDB Result + T
@@ -210,8 +210,8 @@ Current State
 - Ready を含め、どの状態が今回の状態遷移に関係するか。
 - 各状態は C / A / E のどの状態変数領域に属するか。
 - どの S / D / B Evaluation が必要か。
-- どの CAE-SDB Result が形成されたか。
-- Arbitration の結果、今回の Target State Entry に対してどの Multipath Control を形成するか。
+- どの CAE-SDB Result が生成されたか。
+- Arbitration の結果、今回の Target State Entry に対してどの Multipath Control を出力するか。
 - 判定と制御結果を PCN Trace にどのように記録するか。
 
 詳細な用語と構造については、以下を参照。
@@ -228,18 +228,18 @@ Current State
 
 Ready は、設備、機構、モジュールなどの局所的な運転可能状態を確認するための重要な情報である。
 
-一方、複雑な自動化システムでは、Target State Entry に対してさらに次の状態を確認する必要がある。
+複雑な自動化システムでは、Target State Entry に対してさらに次の状態を確認する必要がある。
 
 - C：Condition に関係する状態
 - A：Authority に関係する状態
 - E：Execution Chain に関係する状態
 - それらの状態に必要な S / D / B Evaluation
 
-したがって、PCN では Ready を単独の状態遷移結論として扱うのではなく、今回の Target State Entry に関係する複数ソース状態の一つとして使用する。
+PCN では、Ready を今回の Target State Entry に関係する複数系統の状態信号の一つとして使用し、関連状態全体に基づいて状態遷移を判定する。
 
 TPCA / PCN が対象とするのは、
 
-> **Current State から Target State へ入る前に、今回の Target State Entry に必要な状態関係をどのように判定し、Arbitration を経て Multipath Control へ接続するか。**
+> **Current State から Target State へ移行する前に、今回の Target State Entry に必要な状態関係をどのように判定し、Arbitration を経て Multipath Control を出力するか。**
 
 というエンジニアリング課題である。
 
