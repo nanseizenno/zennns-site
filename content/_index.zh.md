@@ -48,7 +48,7 @@ TPCA / PCN 不替代 PLC、状态机、SFC、Interlock、安全控制或 MES / W
 
 本站公开内容用于技术说明与交流，不构成专利实施许可或技术转让。
 
-[查看权利声明](/zh/about/legal/)
+[查看知识产权与专利](/zh/about)  
 
 ---
 
