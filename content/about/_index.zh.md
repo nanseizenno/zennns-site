@@ -57,6 +57,13 @@ TPCA、PCN、CAE-SDB、控制仲裁、多路径控制、PCN Trace 及相关工�
 - [国家知识产权局专利公布公告查询](https://app.gjzwfw.gov.cn/jmopen/webapp/html5/zlgbggcx/index.html)
 - [国家知识产权局专利检索及分析系统](https://pss-system.cponline.cnipa.gov.cn/conventionalSearch)
 
+### 外部专利信息
+
+- [CN122488584A – Patsnap Eureka](https://eureka.patsnap.com/patent/CN122488584A?patentId=633635dc-c6a8-4299-ac04-496ca4810af3)
+- [CN122451517A – Patsnap Eureka](https://eureka.patsnap.com/patent/CN122451517A?patentId=3b36ac7d-9ced-44d6-a03e-8c121d98a6b0)
+
+※ 上述链接为第三方专利信息页面，正式法律状态及著录信息以官方专利数据库为准。
+
 ---
 
 ## 公开目的、边界与使用说明
