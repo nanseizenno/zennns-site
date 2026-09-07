@@ -1,0 +1,48 @@
+body {
+  line-height: 1.68;
+  margin: 5%;
+  text-align: left;
+}
+
+h1 {
+  margin-top: 1.8em;
+  padding-bottom: 0.25em;
+  border-bottom: 1px solid #999;
+}
+
+h2 {
+  margin-top: 1.45em;
+}
+
+h3 {
+  margin-top: 1.2em;
+}
+
+blockquote {
+  margin-left: 0;
+  padding-left: 1em;
+  border-left: 0.22em solid #999;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #aaa;
+  padding: 0.35em 0.5em;
+  vertical-align: top;
+}
+
+pre,
+code {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
