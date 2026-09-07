@@ -36,13 +36,13 @@ TPCA、PCN、CAE-SDB、Arbitration、Multipath Control、PCN Trace および関�
 
 1. **一种多主体群控系统的停滞识别与结构分型方法及装置**  
    - 出願番号：CN2026105015699
-   - 公開番号：CN122488584A
+   - 公開番号：[CN122488584A](https://eureka.patsnap.com/patent/CN122488584A)
    - 公開日：2026年7月31日
    - 出願人・発明者：全野南政
 
 2. **一种生成式人工智能系统的推理调用前置控制方法及装置**  
    - 出願番号：CN2026105051905
-   - 公開番号：CN122451517A
+   - 公開番号：[CN122451517A](https://eureka.patsnap.com/patent/CN122451517A)
    - 公開日：2026年7月24日
    - 出願人・発明者：全野南政
 
