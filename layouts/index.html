@@ -1,56 +1,18 @@
 {{- define "main" }}
 
 <style>
-  /* 普通正文链接 */
-  .notes-index .post-content a {
+  .post-content a {
     text-decoration: underline;
     text-underline-offset: 3px;
     text-decoration-thickness: 1px;
   }
 
-  /* 大分类标题 */
-  .notes-index .post-content h2 {
-    margin-top: 42px;
-    margin-bottom: 18px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  /* 各技术 Note 标题 */
-  .notes-index .post-content h3 {
-    margin-top: 30px;
-    margin-bottom: 7px;
-    line-height: 1.45;
-  }
-
-  /* Note 标题不要一直显示下划线 */
-  .notes-index .post-content h3 a {
-    text-decoration: none;
-  }
-
-  .notes-index .post-content h3 a:hover {
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  /* 标题下面的介绍文字 */
-  .notes-index .post-content h3 + p {
-    margin-top: 0;
-    line-height: 1.75;
-    color: var(--secondary);
-  }
-
-  /* 普通列表稍微增加呼吸空间 */
-  .notes-index .post-content li {
-    margin-bottom: 5px;
-  }
-
-  .notes-index .post-content hr {
-    margin: 34px 0;
+  .post-content a:hover {
+    text-decoration-thickness: 2px;
   }
 </style>
 
-<article class="post-single notes-index">
+<article class="post-single">
   <header class="post-header">
     <h1 class="post-title">{{ .Title }}</h1>
   </header>
