@@ -18,7 +18,7 @@ TocOpen: true
 
 TPCA は、状態遷移前制御アーキテクチャである。
 
-PCN（Pre-Control Node / 前制御ノード）は、明確な Target State Entry の前に配置するエンジニアリングノードである。
+PCN（Pre-Control Node / 前制御ノード）は、Target State Entry(目標状態入口) の前に配置するエンジニアリングノードである。
 
 1つの PCN は、1つの明確な Target State Entry に対応する。
 
@@ -262,7 +262,7 @@ Target State Entry が存在するシステム階層に応じて配置できる�
 
 などに配置できる。
 
-### 生産 DX
+### 製造 DX
 
 例えば、
 
@@ -337,7 +337,7 @@ PCN の「最小」は、信号数やソフトウェアサイズの最小値を�
 
 という意味である。
 
-この単位を基準とすることで、TPCA の全体アーキテクチャを、具体的な設備、制御システム、MES / WCS、生産 DX などの Target State Entry へ展開できる。
+この単位を基準とすることで、TPCA の全体アーキテクチャを、具体的な設備、制御システム、MES / WCS、製造 DX などの Target State Entry へ展開できる。
 
 ---
 
