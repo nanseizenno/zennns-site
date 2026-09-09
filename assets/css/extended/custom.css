@@ -82,15 +82,16 @@
 /* ---------- Blockquote / definition block ---------- */
 
 .post-content blockquote {
-  margin: 1.4em 0;
-  padding: 13px 16px;
-  border-left: 4px solid var(--tertiary);
+  margin: 1.1em 0;
+  padding: 8px 14px;
+  border-left: 3px solid var(--tertiary);
   background: var(--code-bg);
   color: var(--content);
+  line-height: 1.55;
 }
 
 .post-content blockquote p {
-  margin: 0.35em 0;
+  margin: 0;
 }
 
 /* ---------- Code block ---------- */
