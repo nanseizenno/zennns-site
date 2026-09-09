@@ -1,12 +1,12 @@
 ---
 title: "製造 DX 状態遷移条件設計・履歴分析事例"
-summary: "MES、品質、設備、人、保全、下流システムをまたぐ生産状態遷移を対象として、明確な Target State Entry を中心に PCN が複数系統の状態を整理し、C / A / E 状態マッピング、S / D / B 判定、Arbitration、Multipath Control、PCN Trace へ展開する方法を説明する。"
-description: "TPCA / PCN を製造 DX の状態遷移条件設計と履歴分析へ適用する方法を公開事例として説明する。明確な生産上の Target State Entry を対象として、複数系統の状態を C / A / E へマッピングし、S / D / B 判定によって CAE-SDB Result を形成するとともに時間情報 T を保持する。判定結果を Arbitration で処理して Multipath Control を形成し、PCN Trace として記録する。"
+summary: "MES、品質、設備、人、保全、下流システムをまたぐ生産状態遷移を対象として、明確な Target State Entry を中心に PCN が関連状態を整理し、C / A / E 状態マッピング、S / D / B 判定、Arbitration、Multipath Control、PCN Trace へ展開する方法を説明する。"
+description: "TPCA / PCN を製造 DX の状態遷移条件設計と履歴分析へ適用する方法を公開事例として説明する。明確な生産上の Target State Entry を対象として、複数の情報源から取得した関連状態を C / A / E へマッピングし、S / D / B 判定によって CAE-SDB Result を形成するとともに時間情報 T を保持する。判定結果を Arbitration で処理して Multipath Control を形成し、PCN Trace として記録する。"
 date: 2026-08-18
-lastmod: 2026-08-25
+lastmod: 2026-09-09
 author: "全野南政 / Nansei Zenno"
 document_type: "公開事例"
-version: "Public Case Version 1.3"
+version: "Public Case Version 1.4"
 citation_url: "https://zennns.com/jp/cases/production-dx-state-transition/"
 draft: false
 ShowReadingTime: false
@@ -14,29 +14,29 @@ ShowToc: true
 TocOpen: true
 ---
 
-# なぜ製造 DX でデータを取得できても、状態遷移は経験に依存するのか？
+# なぜ製造 DX でデータを取得できても、状態遷移判断は経験に依存しやすいのか？
 
 > 適用階層：生産プロセス / システム間状態遷移
 > 代表対象：工程切替、品質判定、生産許可、手直し、工程戻し、廃棄処理、保全復旧、手動確認、下流受入
-> バージョン：Public Case Version 1.3
+> バージョン：Public Case Version 1.4
 > 初回公開日：2026-08-18
-> 最終更新日：2026-08-25
+> 最終更新日：2026-09-09
 
 推奨引用形式：
 
 ```text
-全野南政，「製造 DX 状態遷移条件設計・履歴分析事例：なぜ製造 DX でデータを取得できても、状態遷移は経験に依存するのか？」，TPCA / PCN 公開事例，Public Case Version 1.3，2026-08-25，https://zennns.com/jp/cases/production-dx-state-transition/
+全野南政，「製造 DX 状態遷移条件設計・履歴分析事例：なぜ製造 DX でデータを取得できても、状態遷移判断は経験に依存しやすいのか？」，TPCA / PCN 公開事例，Public Case Version 1.4，2026-09-09，https://zennns.com/jp/cases/production-dx-state-transition/
 ```
 
 関連資料：
 
 * [基本概念](/jp/concepts/)
 * [TPCA / PCN 状態遷移前制御アーキテクチャ｜ホワイトペーパー](/jp/whitepaper/)
-* [なぜ CAE-SDB なのか ― 状態遷移における機能役割と状態検証の二軸構造](/jp/notes/why-cae-sdb/)
+* [なぜ CAE-SDB なのか ― 状態変数領域と判定特性の二軸構造](/jp/notes/why-cae-sdb/)
 * [なぜ状態遷移条件を明示する必要があるのか？](/jp/notes/explicit-state-transition-conditions/)
 * [なぜ PCN Trace は新しいエンジニアリングデータなのか？](/jp/notes/why-pcn-trace-is-engineering-data/)
 * [複数の PCN はどのように状態遷移前制御ネットワークを形成するのか？](/jp/notes/pcn-network-structure/)
-* [TPCA の状態遷移単方向性 ― なぜ実システムでは過去の状態インスタンスへ戻らないのか？](/jp/notes/tpca-unidirectional-state-transition/)
+* [TPCA における状態インスタンスの単方向性 ― 状態タイプの循環と実運転履歴の違い](/jp/notes/tpca-unidirectional-state-transition/)
 
 ---
 
@@ -115,7 +115,7 @@ MES 作業指示 = 有効
 TPCA / PCN では、各経路を次の関係で扱う。
 
 ```text
-Current State → New Target State / Target Path
+Current State → New Target State
 ```
 
 同じ工程状態が後から再び発生した場合も、その時点で新しい状態インスタンスが形成される。
@@ -126,20 +126,22 @@ PCN は、Current State から明確な Target State へ入る Target State Entr
 
 ```text
 Current State
-→ Target State
+→ Target State と Target State Entry を特定
 → PCN
-→ 複数系統の状態
-→ C / A / E Mapping
-→ S / D / B Evaluation
+→ 関連状態
+→ C / A / E 状態マッピング
+→ S / D / B 判定
 → CAE-SDB Result + T
 → Arbitration
 → Multipath Control
+→ 選択された制御経路
+→ 実行結果
 → PCN Trace
 ```
 
 例えば Current State が「検査完了」の場合、候補となる Target State には、次生産工程、手直し工程、工程戻し、廃棄処理工程、隔離工程などがある。
 
-PCN は、対象製品またはロット、Target State、および今回の状態遷移に関係する複数系統の状態情報に基づいて判定し、次に進む生産経路を形成する。
+PCN は、対象製品またはロット、Target State、および今回の状態遷移に関係する関連状態に基づいて判定し、次に進む生産経路を形成する。
 
 PCN の実装は、MES、製造実行用ミドルウェア、産業用エッジシステム、PLC / HMI 連携モジュール、その他のソフトウェアコンポーネントなどで構成できる。
 
@@ -147,7 +149,7 @@ PCN の実装は、MES、製造実行用ミドルウェア、産業用エッジ�
 
 ---
 
-## 3. 複数系統の状態と C / A / E 状態マッピング
+## 3. 関連状態と C / A / E 状態マッピング
 
 代表的な状態を次に示す。
 
@@ -162,19 +164,25 @@ PCN の実装は、MES、製造実行用ミドルウェア、産業用エッジ�
 | 下流 / 搬送システム       | 下流受入状態、バッファ容量、搬送可能状態、引渡し許可                   |
 | データインターフェース       | 状態更新時刻、状態バージョン、シーケンス情報、書戻し完了、インターフェース状態、同期完了 |
 
-これらの状態は、今回の Target State Entry における機能役割に基づいて C / A / E へマッピングする。
+これらの関連状態は、今回の Target State Entry における役割に基づいて C / A / E の状態変数領域へマッピングする。
 
 ```text
-C：必要な条件が揃っているか。
-A：移行が許可されているか。
-E：移行後の実行チェーンが継続できるか。
+C：
+Target State へ進むための前提条件に関係する状態変数領域
+
+A：
+Target State への進入許可に関係する状態変数領域
+
+E：
+Target State へ進入した後に必要となる
+実行チェーンに関係する状態変数領域
 ```
 
-| 状態変数領域                       | 判定対象                                | 本事例における代表的な状態                                                         |
+| 状態変数領域                       | 本事例での役割                              | 本事例における代表的な状態                                                         |
 | ---------------------------- | ----------------------------------- | --------------------------------------------------------------------- |
-| C：Condition / 条件状態           | Target State へ入るために必要な事実条件が成立しているか  | 作業指示状態、ロット状態、前工程完了状態、品質結果、材料状態、レシピ状態、トレーサビリティ関係                       |
-| A：Authority / 許可状態           | Target State への移行が許可されているか          | 品質承認、生産許可、保全復旧許可、担当者権限、手動確認、特別承認                                      |
-| E：Execution Chain / 実行チェーン状態 | Target State へ入った後に後続の実行チェーンを継続できるか | 設備実行状態、下流受入状態、搬送状態、バッファ状態、手直し / 工程戻し / 廃棄処理 / 隔離経路、結果送信、トレーサビリティ書戻し状態 |
+| C：Condition / 条件状態           | Target State へ進むための前提条件に関係する状態を整理する  | 作業指示状態、ロット状態、前工程完了状態、品質結果、材料状態、レシピ状態、トレーサビリティ関係                       |
+| A：Authority / 許可状態           | Target State への進入許可に関係する状態を整理する          | 品質承認、生産許可、保全復旧許可、担当者権限、手動確認、特別承認                                      |
+| E：Execution Chain / 実行チェーン状態 | Target State へ進入した後に必要となる実行チェーンに関係する状態を整理する | 設備実行状態、下流受入状態、搬送状態、バッファ状態、手直し / 工程戻し / 廃棄処理 / 隔離経路、結果送信、トレーサビリティ書戻し状態 |
 
 関連状態は、今回の Target State Entry における役割に基づいて C / A / E へマッピングし、その後に必要な S / D / B 判定を行う。
 
@@ -234,16 +242,22 @@ E では、設備状態とともに、下流受入、搬送、バッファ、手
 C / A / E 状態マッピングの後、PCN は関連状態に対して必要な S / D / B 判定を行う。
 
 ```text
-S：判定に必要な構造が成立しているか。
-D：現在の状態を本判定の根拠として使用できるか。
-B：現在の状態が事前定義された制御境界に到達しているか。
+S：
+判定に必要な構造が定義・接続され、観測可能か。
+
+D：
+現在の状態を本判定の根拠として使用できるか。
+
+B：
+現在有効な状態が、事前に定義された許容範囲、
+しきい値、または制御境界内にあるか。
 ```
 
 | 判定特性                  | 判定対象                                                          | 本事例における代表項目                                                    |
 | --------------------- | ------------------------------------------------------------- | -------------------------------------------------------------- |
 | S：Structure / 構造完全性   | 必要な対象、信号、インターフェース、マッピング関係、許可元、経路、役割、実行チェーン境界が定義・接続され、観測可能であるか | ロットと品質結果のマッピング、品質承認元、保全復旧許可元、手直し / 工程戻し / 廃棄処理 / 隔離工程のインターフェース |
 | D：Dynamics / 動的時系列有効性 | 関連状態が現在も有効で、同期・安定し、今回の判定に使用できるか                               | 作業指示切替、レシピ同期、許可取消、状態未更新、状態有効期限、バージョン不一致、インターフェース遅延             |
-| B：Boundary / 制御境界     | 関連状態と事前定義された制御境界との関係                                          | 待機時間、同期時間、手動確認有効期間、バッファ容量、再試行回数、手直し回数                          |
+| B：Boundary / 制御境界     | 現在有効な関連状態が、事前に定義された許容範囲、しきい値、または制御境界内にあるか                    | バッファ容量、再試行回数、手直し回数、許可範囲、数量上限、関連パラメータ範囲                         |
 
 ### 状態値と現在の有効性
 
@@ -326,18 +340,20 @@ Target State への移行に品質承認、保全復旧許可、特定担当者�
 
 代表的な Boundary 判定には、次のようなものがある。
 
-* 状態同期待ち時間が事前定義された時間に到達した。
-* 手動確認が事前定義された有効期間に到達した。
-* 再試行回数が事前定義された上限に到達した。
-* 下流バッファが事前定義された容量境界に到達した。
-* 作業指示切替後の安定確認時間が事前定義された境界に到達した。
-* 手直し回数が事前定義された上限に到達した。
+* 再試行回数が事前定義された許容上限内にあるか。
+* 下流バッファが事前定義された受入可能容量範囲内にあるか。
+* 手直し回数が事前定義された許容回数内にあるか。
+* 現在の担当者またはシステム権限が、今回の工程に対して許可された範囲内にあるか。
+* 処理数量が事前定義された許容上限内にあるか。
+* 関連する工程パラメータが事前定義された許容範囲内にあるか。
 
 これらの S / D / B 判定結果を C / A / E の状態変数領域と組み合わせ、CAE-SDB Result を形成する。
 
 ---
 
-## 5. 生産状態遷移と Multipath Control
+## 5. 生産状態遷移と Multipath Control（複数経路制御）
+
+Multipath Control（複数経路制御）は、今回の Target State Entry に対して、進入許可、待機、再確認、再同期、再試行、手直し、工程戻し、隔離、移行禁止など、次に適用する制御処理を形成する。
 
 同じ Current State から、複数の Target State または生産経路が候補となる場合がある。
 
@@ -352,6 +368,8 @@ Target State への移行に品質承認、保全復旧許可、特定担当者�
 ```
 
 各 Target State Entry に対して、PCN はそれぞれ必要な C / A / E を設定し、S / D / B 判定を行う。
+
+複数の Target State が候補となる場合も、それぞれの Target State Entry を個別の判定対象として定義し、1 つの PCN は 1 つの明確な Target State Entry に対応する。Multipath Control は、今回の判定結果に基づいて、進入許可、待機、再確認、または別の Target State に対応する後続の制御経路を形成する。
 
 ### 次生産工程へ進む場合
 
@@ -372,7 +390,7 @@ Target State：次生産工程
 トレーサビリティ関係が有効
 ```
 
-必要な判定結果を Arbitration で処理し、次生産工程への移行許可を Multipath Control として形成する。
+必要な判定結果を Arbitration（制御優先度調停）で処理し、次生産工程への移行許可を Multipath Control（複数経路制御）として形成する。
 
 ```text
 CAE-SDB Result + T
@@ -409,7 +427,19 @@ A-D + E-D
 ```text
 CAE-SDB Result + T
 → Arbitration
-→ 待機 / 状態再同期 / 再確認
+→ Multipath Control
+→ 状態再同期 / 再確認
+```
+
+この場合、例えば次のように整理できる。
+
+```text
+Arbitration Result：
+A-D と E-D を優先処理し、
+次生産工程への進入を保留
+
+Multipath Control：
+状態再同期 → 再確認
 ```
 
 ### 手直し工程へ進む場合
@@ -470,7 +500,7 @@ Arbitration の結果に基づいて、廃棄処理工程への移行を Multipa
 → 廃棄処理工程へ移行
 ```
 
-手直し、工程戻し、廃棄処理、隔離は、それぞれ生産プロセス上の Target State または目標実行経路として扱う。
+手直し、工程戻し、廃棄処理、隔離は、それぞれ生産プロセス上の Target Stateとして扱う。
 
 これらの経路へ進んだ後は、その時点で新しい状態インスタンスが形成される。
 
@@ -484,13 +514,13 @@ Arbitration の結果に基づいて、廃棄処理工程への移行を Multipa
 | -------------- | -------------------------------------------------------------------------------------- |
 | C-S            | 現在ロットと品質結果、作業指示、レシピとの関係が十分に定義されていない                                                    |
 | C-D            | 作業指示、ロット、レシピ、品質結果の切替が同期していない、状態が有効時間を超えている、またはバージョンが一致していない                            |
-| C-B            | 条件状態が事前定義された値または時間の制御境界に到達している                                                         |
+| C-B            | 条件状態の値、数量、または関連パラメータが、事前定義された許容範囲またはしきい値の制御境界外にある                              |
 | A-S            | 品質承認、保全復旧許可、担当者確認などの許可元が十分に定義されていない                                                    |
 | A-D            | 許可取消、更新遅延、未更新、有効期間超過、システム間状態の非同期が発生している                                                |
-| A-B            | 許可待機時間、確認有効期間、権限範囲が事前定義された制御境界に到達している                                                  |
+| A-B            | 現在の担当者またはシステム権限が、今回の工程に対して許可された権限範囲外にある                                            |
 | E-S            | 下流受入、手直し、工程戻し、廃棄処理、隔離、結果書戻しの実行チェーン構造が十分に定義されていない                                       |
 | E-D            | 下流、搬送、手直し設備、廃棄処理、バッファ、インターフェース、書戻しなどの状態について、今回の Target State Entry に対する動的時系列有効性を確認できない |
-| E-B            | バッファ容量、待機時間、手直し回数、その他の実行チェーン状態が事前定義された制御境界に到達している                                      |
+| E-B            | バッファ容量、手直し回数、処理数量、その他の実行チェーン状態が事前定義された許容範囲または制御境界外にある                              |
 
 各 CAE-SDB Result には、対応する時間情報 T を保持する。
 
@@ -539,12 +569,14 @@ PCN は、今回の判定と制御結果を PCN Trace として記録する。
 代表的な記録内容は次の通りである。
 
 ```text
+PCN
 Current State
 Target State
-主要な入力状態
+Target State Entry
+関連状態
 時間情報 T
-C / A / E Mapping
-S / D / B Evaluation
+C / A / E 状態マッピング
+S / D / B 判定
 CAE-SDB Result
 Arbitration Result
 Multipath Control
@@ -552,7 +584,7 @@ Multipath Control
 Trace ID
 ```
 
-必要に応じて、主要な入力状態に次の情報を関連付ける。
+必要に応じて、関連状態に次の情報を関連付ける。
 
 ```text
 対象 / ロット情報
@@ -566,9 +598,13 @@ Trace ID
 例えば、次のような PCN Trace を形成できる。
 
 ```text
+PCN：次生産工程前 PCN
+
 Current State：前工程完了
 
 Target State：次生産工程
+
+Target State Entry：次生産工程への進入
 
 時間情報：T
 
@@ -576,7 +612,9 @@ CAE-SDB Result：A-D + E-D
 
 判定内容：品質承認状態の再確認が必要 / 下流受入状態が未更新
 
-Multipath Control：状態再同期 / 再確認
+Arbitration Result：A-D と E-D を優先処理し、次生産工程への進入を保留
+
+Multipath Control：状態再同期 → 再確認
 
 実行結果：次生産工程への移行を保留
 ```
@@ -584,13 +622,19 @@ Multipath Control：状態再同期 / 再確認
 別の例を次に示す。
 
 ```text
+PCN：手直し工程前 PCN
+
 Current State：検査完了
 
 Target State：手直し工程
 
+Target State Entry：手直し工程への進入
+
 時間情報：T
 
 品質結果：NG
+
+Arbitration Result：手直し工程への進入条件と許可を優先処理
 
 Multipath Control：手直し工程への移行許可
 
@@ -620,7 +664,7 @@ PCN Trace は、
 * 手直し、工程戻し、廃棄処理などの経路がどの程度使用されているか。
 * どの S に関する構造上の問題が繰り返し発生しているか。
 * どの D に関する動的時系列有効性の問題が継続しているか。
-* どの状態が制御境界に頻繁に到達しているか。
+* どの状態で制御境界外となる事象が頻繁に発生しているか。
 * どの Multipath Control が頻繁に選択されているか。
 * エンジニアリング改善後に、同じ CAE-SDB Result の発生頻度がどのように変化したか。
 
@@ -634,7 +678,7 @@ C-D、A-D、E-D が継続して多い場合は、作業指示切替、状態更�
 
 手直し工程の使用頻度が高い場合は、製品、設備、工程、品質履歴と組み合わせて、手直し経路が選択された条件を分析できる。
 
-B 判定が継続して高頻度で発生している場合は、現在の状態遷移条件、確認方法、制御境界などをレビュー対象とすることができる。
+B 判定による制御境界外の結果が継続して高頻度で発生している場合は、許容範囲、数量上限、容量、権限範囲などの制御境界をレビュー対象とすることができる。
 
 PCN Trace は、状態遷移条件や制御経路を継続的にレビューするためのデータとして利用できる。
 
@@ -645,12 +689,14 @@ PCN Trace は、状態遷移条件や制御経路を継続的にレビューす�
 PCN Trace は、一回の Target State Entry に関する次の情報を同じ判定履歴として保存する。
 
 ```text
+PCN
 Current State
 Target State
-主要な入力状態
+Target State Entry
+関連状態
 時間情報 T
-C / A / E Mapping
-S / D / B Evaluation
+C / A / E 状態マッピング
+S / D / B 判定
 CAE-SDB Result
 Arbitration Result
 Multipath Control
@@ -691,9 +737,9 @@ CAE-SDB Result：A-D
 
 本稿では、次の内容を公開範囲とする。
 
-* Current State / Target State
+* Current State / Target State / Target State Entry
 * 生産状態遷移における PCN の配置位置
-* 代表的な複数系統の状態
+* 関連状態
 * C / A / E 状態マッピング
 * S / D / B 判定
 * CAE-SDB Result
@@ -711,5 +757,6 @@ Public Case Version 1.0：2026-08-18 公開
 Public Case Version 1.1：2026-08-20 PCN、CAE-SDB Result、Arbitration、Multipath Control、PCN Trace の表記を統一  
 Public Case Version 1.2：2026-08-21 時間情報 T および状態遷移単方向性に関する説明を追加  
 Public Case Version 1.3：2026-08-25 CAE を状態遷移における機能役割に基づく C / A / E 状態マッピングとして整理し、SDB を Structure、Dynamics、Boundary の三つの判定特性として明確化  
+Public Case Version 1.4：2026-09-09 最新の TPCA / PCN 公開定義に合わせ、関連状態、C / A / E 状態変数領域、D / B の判定境界、Target State Entry、Arbitration、Multipath Control、PCN Trace、基本工程チェーンの表現を更新  
 
 著者：全野南政 / Nansei Zenno  
