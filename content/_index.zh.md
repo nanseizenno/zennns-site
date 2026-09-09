@@ -48,7 +48,7 @@ TPCA / PCN 不替代 PLC、状态机、SFC、Interlock、安全控制或 MES / W
 
 本站公开内容用于技术说明与交流，不构成专利实施许可或技术转让。
 
-[查看知识产权与专利](/zh/about)  
+## [查看知识产权与专利](/zh/about)  
 
 ---
 
@@ -56,27 +56,27 @@ TPCA / PCN 不替代 PLC、状态机、SFC、Interlock、安全控制或 MES / W
 
 ### [工程问题](/zh/questions/)
 
-从 Ready、Waiting、任务执行、多系统协同和状态迁移设计等工程问题进入。
+- 从 Ready、Waiting、任务执行、多系统协同和状态迁移设计等工程问题进入。
 
 ### [Concepts｜核心概念](/zh/concepts/)
 
-查看 TPCA、PCN、C / A / E、S / D / B、CAE-SDB、控制仲裁、PCN Trace 和 PCN Network 等核心概念。
+- 查看 TPCA、PCN、C / A / E、S / D / B、CAE-SDB、控制仲裁、PCN Trace 和 PCN Network 等核心概念。
 
 ### [应用案例](/zh/cases/)
 
-查看 TPCA / PCN 在自动化执行单元、MES / WCS 协同停滞和生产 DX 跨系统状态迁移中的应用。
+- 查看 TPCA / PCN 在自动化执行单元、MES / WCS 协同停滞和生产 DX 跨系统状态迁移中的应用。
 
 ### [白皮书](/zh/whitepaper/)
 
-系统了解 TPCA / PCN 的总体架构和工程主线。
+- 系统了解 TPCA / PCN 的总体架构和工程主线。
 
 ### [技术札记](/zh/notes/)
 
-进一步阅读与既有方法的关系、适用边界、PCN 工程节点、PCN Trace 和 PCN Network 等专题。
+- 进一步阅读与既有方法的关系、适用边界、PCN 工程节点、PCN Trace 和 PCN Network 等专题。
 
 ### [合作说明](/zh/about/cooperation/)
 
-围绕明确的目标状态入口开展技术交流、PoC 和合作讨论。
+- 围绕明确的目标状态入口开展技术交流、PoC 和合作讨论。
 
 ---
 
