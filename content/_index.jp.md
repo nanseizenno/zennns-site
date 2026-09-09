@@ -1,7 +1,7 @@
 ---
 title: "エンジニアリングシステムの状態遷移前制御｜TPCA / PCN"
 summary: "複雑なエンジニアリングシステムが Target State へ進む前の判定を対象とし、明確な Target State Entry を、独立して設計・判定・制御・記録可能なエンジニアリング対象として扱う。"
-description: "TPCA / PCN 状態遷移前制御体系の概要を示し、エンジニアリング問題、中核概念、適用事例、ホワイトペーパー、技術ノート、協業窓口への入口を提供する。"
+description: "TPCA / PCN 状態遷移前制御体系の概要を示し、エンジニアリング課題、中核概念、適用事例、ホワイトペーパー、技術ノート、協業窓口への入口を提供する。"
 draft: false
 ShowReadingTime: false
 ShowToc: false
@@ -17,13 +17,11 @@ ShowToc: false
 - 個々のシステムに明確な異常がないにもかかわらず、工程全体が次の段階へ進まない。
 - 次工程へ進めるかどうかを判断するために、エンジニアが複数システムを横断して状態を確認する必要がある。
 
-これらは一見すると異なる問題であるが、多くの場合、共通するエンジニアリング上の位置で発生している。
+TPCA / PCN では、これらの問題を、Current State（現在状態・現在段階・現在経路位置）から Target State（目標状態・目標実行経路・目標物理実行段階）へ進む際の Target State Entry（目標状態入口）に着目して整理する。
 
-> **システムが Current State から明確な Target State へ進む直前、すなわち Target State Entry の前である。**
+このとき確認する中心的な問いは、次の通りである。
 
-このとき確認すべきなのは、次の問いである。
-
-> **今回の Target State Entry は、なぜ移行できるのか。あるいは、なぜまだ移行できないのか。**
+> **今回の Target State Entry で、なぜ Target State へ進入できるのか。あるいは、なぜまだ進入できないのか。**
 
 ---
 
@@ -32,13 +30,11 @@ ShowToc: false
 > **明確な Target State Entry は、独立して設計・判定・制御・記録可能なエンジニアリング対象として扱う。**
 
 **TPCA（Transition Pre-Control Architecture）** は、状態遷移前制御アーキテクチャである。  
-**PCN（Pre-Control Node）** は、Target State Entry の前に配置する前制御ノードである。
+**PCN（Pre-Control Node / 前制御ノード）** は、明確な Target State Entry の前に配置する前制御ノードである。
 
-> **TPCA は全体アーキテクチャであり、PCN は個々の Target State Entry に配置するエンジニアリングノードである。**
+> **TPCA は全体アーキテクチャであり、PCN は個々の明確な Target State Entry の前に配置するエンジニアリングノードである。**
 
-TPCA / PCN は、PLC、ステートマシン、SFC、Interlock、安全制御、MES / WCS などの既存機構を置き換えるものではない。
-
-複数の既存機構が一つの状態遷移に関与する場合、TPCA / PCN は、同一の Target State Entry を中心として、前判定、制御出力、判定履歴をどのように構造化するかを扱う。
+TPCA / PCN は、PLC、ステートマシン、SFC、Interlock、安全制御、MES / WCS などと役割分担し、複数の既存機構が関与する Target State Entry に対して、前置判定、制御、履歴を構成する。
 
 ---
 
@@ -54,17 +50,17 @@ TPCA / PCN 状態遷移前制御体系に関連して、著者は複数のエン
 
 ## コンテンツ案内
 
-### [エンジニアリング問題](/jp/questions/)
+### [エンジニアリング課題](/jp/questions/)
 
-Ready、Waiting、タスク実行、複数システム間の協調、状態遷移設計など、実際のエンジニアリング問題から TPCA / PCN を理解する。
+自動化ユニット、複数システム連携、状態遷移設計の3つの問題領域から、「次の状態へ進まない」問題を整理し、TPCA / PCN を理解する入口を示す。
 
 ### [Concepts｜基本概念](/jp/concepts/)
 
-TPCA、PCN、C / A / E、S / D / B、CAE-SDB Result、Arbitration、PCN Trace、PCN Network などの中核概念を確認する。
+Current State、Target State、Target State Entry、PCN、CAE-SDB、Multipath Control、PCN Trace、PCN Network などの中核概念を確認する。
 
 ### [適用事例](/jp/cases/)
 
-TPCA / PCN を、自動化実行ユニット、MES / WCS 協調停滞、生産 DX における複数システム横断の状態遷移へ適用した事例を紹介する。
+TPCA / PCN を、自動化実行ユニット、MES / WCS 協調停滞、製造 DX における複数システム横断の状態遷移へ適用した事例を紹介する。
 
 ### [ホワイトペーパー](/jp/whitepaper/)
 
@@ -72,7 +68,7 @@ TPCA / PCN の全体アーキテクチャと、基本的なエンジニアリン
 
 ### [技術ノート](/jp/notes/)
 
-既存手法との関係、適用範囲、PCN のエンジニアリング上の位置付け、PCN Trace、PCN Network などの個別テーマを扱う。
+既存技術との関係、適用範囲、PCN のエンジニアリング上の位置付け、CAE-SDB、PCN Trace、PCN Network などの個別テーマを扱う。
 
 ---
 
