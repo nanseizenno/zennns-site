@@ -5,7 +5,8 @@ defaultContentLanguage: "zh"
 defaultContentLanguageInSubdir: true
 
 params:
-  defaultTheme: "auto"
+  defaultTheme: "dark"
+  disableThemeToggle: true
   ShowReadingTime: true
   ShowBreadCrumbs: true
   ShowPostNavLinks: true
