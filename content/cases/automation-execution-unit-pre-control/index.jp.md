@@ -1,13 +1,13 @@
 ---
 title: "自動化実行ユニット前判定事例"
-summary: "画像認識を用いたコンベヤロボットユニットを代表例として、Robot Ready が成立していてもピックアップ段階への移行判断には複数の状態確認が必要となる理由と、PLC / PCN が目標物理実行段階へ入る前に構造化判定、Arbitration、Multipath Control を行う方法を説明する。"
-description: "TPCA / PCN を自動化実行ユニットへ適用する方法を公開事例として説明する。画像認識を用いたコンベヤロボットユニットを代表例とし、ロボットがピックアップ段階へ入る前に、PLC / PCN が C / A / E 状態マッピングと S / D / B 判定を行い、CAE-SDB Result と時間情報 T を形成し、Arbitration を経て Multipath Control を出力し、PCN Trace に記録する流れを示す。"
+summary: "画像認識を用いたコンベヤロボットユニットを代表例として、Robot Ready が成立していてもピックアップ段階への移行判断には複数の状態確認が必要となる理由と、PCN が目標物理実行段階へ入る前に構造化判定、Arbitration、Multipath Control を行う方法を説明する。"
+description: "TPCA / PCN を自動化実行ユニットへ適用する方法を公開事例として説明する。画像認識を用いたコンベヤロボットユニットを代表例とし、ロボットがピックアップ段階へ入る前に、PCN が C / A / E 状態マッピングと S / D / B 判定を行い、CAE-SDB Result と時間情報 T を形成し、Arbitration を経て Multipath Control を出力し、PCN Trace に記録する流れを示す。"
 date: 2026-06-30
-lastmod: 2026-08-25
+lastmod: 2026-09-09
 author: "全野南政 / Nansei Zenno"
 document_type: "公開事例"
 case_type: "自動化実行ユニット層"
-version: "Public Case Version 1.3"
+version: "Public Case Version 1.4"
 citation_title: "自動化実行ユニット前判定事例：なぜ Robot Ready だけではピックアップ段階へ入れないのか"
 citation_url: "https://zennns.com/jp/cases/automation-execution-unit-pre-control/"
 draft: false
@@ -21,21 +21,21 @@ TocOpen: true
 
 > 適用階層：自動化実行ユニット層
 > 代表対象：画像認識を用いたコンベヤロボットユニット
-> バージョン：Public Case Version 1.3
+> バージョン：Public Case Version 1.4
 > 初回公開日：2026-06-30
-> 最終更新日：2026-08-25
+> 最終更新日：2026-09-09
 
 推奨引用形式：
 
 ```text
-全野南政，「自動化実行ユニット前判定事例：なぜ Robot Ready だけではピックアップ段階へ入れないのか」，TPCA / PCN 公開事例，Public Case Version 1.3，2026-08-25，https://zennns.com/jp/cases/automation-execution-unit-pre-control/
+全野南政，「自動化実行ユニット前判定事例：なぜ Robot Ready だけではピックアップ段階へ入れないのか」，TPCA / PCN 公開事例，Public Case Version 1.4，2026-09-09，https://zennns.com/jp/cases/automation-execution-unit-pre-control/
 ```
 
 基本概念については、以下を参照。
 
-* [中核概念](/jp/concepts/)
+* [Concepts｜基本概念](/jp/concepts/)
 * [TPCA / PCN 状態遷移前制御アーキテクチャ｜ホワイトペーパー](/jp/whitepaper/)
-* [なぜ CAE-SDB なのか ― 状態遷移における機能役割と状態検証の二軸構造](/jp/notes/why-cae-sdb/)
+* [なぜ CAE-SDB なのか ― 状態変数領域と判定特性の二軸構造](/jp/notes/why-cae-sdb/)
 * [なぜ Ready だけでは不十分なのか？](/jp/questions/why-ready-is-not-enough/)
 * [なぜ Waiting は原因を追いにくいのか？](/jp/questions/why-waiting-is-hard-to-trace/)
 
@@ -69,13 +69,15 @@ Robot Ready は、ロボット本体が所定の運転準備状態にあるこ�
 
 一方、「ピックアップ段階へ入る」という Target State Entry の判定では、ロボット本体の状態に加え、ワーク条件、移行許可、エンドエフェクタ、下流受入、異常処理経路、結果書戻しなど、今回の状態遷移に関係する状態を確認する必要がある。
 
-そのため PLC / PCN は、ピックアップ段階へ実際に入る前に、今回の状態遷移に関係する条件状態、許可状態、実行チェーン状態をまとめて判定する。
+そのため PCN は、ピックアップ段階へ実際に入る前に、今回の状態遷移に関係する条件状態、許可状態、実行チェーン状態をまとめて判定する。
 
 ---
 
 ## 2. 対象ユニットと PCN の配置位置
 
 本事例では、画像認識を用いたコンベヤロボットユニットを代表対象とする。
+
+本事例では、PCN を PLC 上の制御ロジックとして実装する構成を想定する。以下では、前置判定を担当するエンジニアリングノードを PCN と表記する。
 
 ワークはメインコンベヤから連続的に供給される。画像認識システムは認識処理後、例えば次の情報を出力する。
 
@@ -87,15 +89,15 @@ Robot Ready は、ロボット本体が所定の運転準備状態にあるこ�
 * 結果の時間情報
 * ワーク追跡情報
 
-PLC / PCN は、ロボットがピックアップ段階へ入る前に、今回の状態遷移に関係する複数系統の状態を読み取る。
+PCN は、ロボットがピックアップ段階へ入る前に、今回の状態遷移に関係する関連状態を読み取る。
 
-現在段階：
+Current State（現在状態・現在段階・現在経路位置）：
 
 ```text
-ロボット待機　+　ワークが認識・ピックアップ領域へ侵入　+　画像認識結果が生成済み
+ロボット待機　+　ワークが認識・ピックアップ領域へ進入　+　画像認識結果が生成済み
 ```
 
-目標段階：
+Target State（目標状態・目標実行経路・目標物理実行段階）：
 
 ```text
 ロボットがピックアップ段階へ入る
@@ -104,12 +106,21 @@ PLC / PCN は、ロボットがピックアップ段階へ入る前に、今回�
 PCN の位置：
 
 ```text
-現在段階 → PCN → 目標ピックアップ段階
+Current State
+認識完了 / ピックアップ待ち
+    ↓
+PCN（Pre-Control Node / 前制御ノード）
+［ピックアップ段階への Target State Entry に対する前置判定］
+    ↓
+Target State Entry（目標状態入口）
+    ↓
+Target State
+ピックアップ段階
 ```
 
 ![画像認識コンベヤロボットユニットの前制御例](/images/tpca/06-pcn-pick-flow.png)
 
-図：PLC / PCN は、ロボットがピックアップ段階へ入る前に、画像認識システム、ロボットコントローラ、安全システム、メインコンベヤ、正常品置場、戻り経路、異常品排出経路、上位システムなどの状態を取得し、前判定を行ったうえで対応する制御経路を形成する。
+図：PCN は、ロボットがピックアップ段階へ入る前に、画像認識システム、ロボットコントローラ、安全システム、メインコンベヤ、正常品置場、戻り経路、異常品排出経路、上位システムなどの状態を取得し、前判定を行ったうえで対応する制御経路を形成する。
 
 ![Target State Entry 前における PCN の配置関係](/images/tpca/07-pcn-position-before-target-stage.png)
 
@@ -129,9 +140,9 @@ PCN の配置位置については、以下を参照。
 
 ---
 
-## 3. 複数系統の状態と C / A / E 状態マッピング
+## 3. 関連状態と C / A / E 状態マッピング
 
-PLC / PCN は、「ピックアップ段階へ移行する」という Target State Entry に関係する複数の情報源から状態信号を取得する。
+PCN は、「ピックアップ段階へ移行する」という Target State Entry に関係する複数の情報源から関連状態を取得する。
 
 | 信号源          | 代表的な状態                                                  |
 | ------------ | ------------------------------------------------------- |
@@ -144,12 +155,12 @@ PLC / PCN は、「ピックアップ段階へ移行する」という Target St
 | 安全システム       | 安全扉、ライトカーテン、非常停止、安全回路、エリア進入許可                           |
 | 上位システム / HMI | 作業指示、生産許可、異常品処理許可、手動確認、結果記録または書戻し要求                     |
 
-これらの状態は PCN に入力された後、今回の Target State Entry における役割に基づいて C / A / E へマッピングする。
+これらの関連状態は PCN に入力された後、今回の Target State Entry における役割に基づいて C / A / E の状態変数領域へマッピングする。
 
 ```text
-C：必要な条件が揃っているか。
-A：移行が許可されているか。
-E：移行後の実行チェーンが継続できるか。
+C：Target State へ進むための前提条件に関係する状態変数領域。
+A：Target State への進入許可に関係する状態変数領域。
+E：Target State へ進入した後に必要となる実行チェーンに関係する状態変数領域。
 ```
 
 | 状態変数領域                       | 基本的な判定対象                       | 本事例における代表的な状態                                              |
@@ -168,11 +179,11 @@ E：移行後の実行チェーンが継続できるか。
 
 Robot Ready は、今回の Target State Entry に関係するロボット側の入力状態として取り扱う。
 
-Target State Entry の判定では、これらの状態を C / A / E の機能役割に従って整理し、必要な S / D / B 判定へ進める。
+Target State Entry の判定では、これらの関連状態を C / A / E の状態変数領域へ整理し、必要な S / D / B 判定へ進める。
 
 CAE-SDB の二軸構造については、以下を参照。
 
-[なぜ CAE-SDB なのか ― 状態遷移における機能役割と状態検証の二軸構造](/jp/notes/why-cae-sdb/)
+[なぜ CAE-SDB なのか ― 状態変数領域と判定特性の二軸構造](/jp/notes/why-cae-sdb/)
 
 ---
 
@@ -181,16 +192,16 @@ CAE-SDB の二軸構造については、以下を参照。
 C / A / E 状態マッピングの後、PCN は関連状態に対して必要な S / D / B 判定を行う。
 
 ```text
-S：判定に必要な構造が成立しているか。
+S：判定に必要な構造が定義・接続され、観測可能か。
 D：現在の状態を本判定の根拠として使用できるか。
-B：現在の状態が事前定義された制御境界に到達しているか。
+B：現在有効な状態が事前に定義された許容範囲、しきい値、または制御境界内にあるか。
 ```
 
 | 判定特性                  | 判定対象                                                                | 本事例における代表項目                                           |
 | --------------------- | ------------------------------------------------------------------- | ----------------------------------------------------- |
 | S：Structure / 構造完全性   | 今回の判定に必要な対象、信号、インターフェース、マッピング関係、許可元、経路、役割、実行チェーン境界が定義・接続され、観測可能であるか | 画像認識インターフェース、座標マッピング、安全許可元、戻り経路、異常品排出経路、結果書戻しインターフェース |
 | D：Dynamics / 動的時系列有効性 | 関連状態が現在も有効で、同期・安定し、今回の判定根拠として使用できるか                                 | 画像認識結果のタイムアウトまたは未更新、位置追跡の非同期、許可取消、ロボット状態の遅延、下流状態の競合   |
-| B：Boundary / 制御境界     | 関連状態と事前定義された制御境界との関係                                                | 認識信頼度、位置または姿勢の許容範囲、ピックアップ領域境界、バッファ容量、待機時間上限、再試行回数上限   |
+| B：Boundary / 制御境界     | 現在有効な関連状態が、事前に定義された許容範囲、しきい値、または制御境界内にあるか                            | 認識信頼度、位置または姿勢の許容範囲、ピックアップ領域、バッファ容量、待機時間上限、再試行回数上限     |
 
 例えば、画像認識インターフェースおよび座標マッピングが正しく設定され、画像認識結果が有効時間を超えている場合、次のような判定となる。
 
@@ -199,18 +210,18 @@ S：判定に必要な構造は定義・接続されている
 D：画像認識結果は現在の判定根拠として無効
 ```
 
-また、ワークの位置情報が最新で有効であり、その位置がピックアップ可能範囲の境界に達している場合は、次のように判定する。
+また、ワークの位置情報が最新で有効であり、その位置がピックアップ可能範囲を外れている場合は、次のように判定する。
 
 ```text
 D：現在の位置情報は有効
-B：現在位置が事前定義されたピックアップ位置の制御境界に到達している
+B：現在位置が事前定義されたピックアップ可能範囲外にある
 ```
 
-S / D / B の各判定結果は、C / A / E の機能役割と組み合わせて CAE-SDB Result を形成する。
+S / D / B の各判定結果は、C / A / E の状態変数領域と組み合わせて CAE-SDB Result を形成する。
 
 ---
 
-## 5. CAE-SDB Result、時間情報 T、Arbitration、Multipath Control
+## 5. CAE-SDB Result（CAE-SDB 判定結果）、時間情報 T、Arbitration（制御優先度調停）、Multipath Control（複数経路制御）
 
 PCN は、C / A / E にマッピングされた関連状態に対して必要な S / D / B 判定を行い、一つまたは複数の CAE-SDB Result を形成する。
 
@@ -225,10 +236,10 @@ PCN は、C / A / E にマッピングされた関連状態に対して必要な
 | C-B            | 認識信頼度が規定閾値を下回る、ワーク位置が許容ピックアップ範囲外、姿勢偏差が許容範囲外                          |
 | A-S            | 安全許可、エリア許可、上位システム許可の許可元が未定義または観測不能                                   |
 | A-D            | 許可が取り消されている、更新が遅延している、未更新である、または状態切替中である                             |
-| A-B            | 現在の認可レベル、許可エリアまたは許可状態集合が、今回のピックアップ段階に対して事前定義された制御境界に達している            |
+| A-B            | 今回の動作位置が、現在付与されているエリア許可範囲外にある                                           |
 | E-S            | 正常品搬送、戻り経路、異常品排出または結果書戻しの実行チェーンが完全に定義されていない                          |
 | E-D            | 下流状態が未更新、ロボット動作フィードバックがタイムアウト、戻り経路状態が競合                              |
-| E-B            | 下流の残容量が最低受入境界に達している、バッファ占有率が許容閾値に達している、関連する実行パラメータが事前定義された制御境界に達している |
+| E-B            | 下流の残容量が受入可能範囲外にある、バッファ占有率が許容範囲を超えている、関連する実行パラメータが事前定義された制御境界外にある      |
 
 同一の Target State Entry に対する判定では、複数の CAE-SDB Result が同時に形成される場合がある。
 
@@ -238,9 +249,9 @@ PCN は、C / A / E にマッピングされた関連状態に対して必要な
 CAE-SDB Result + T　→ Arbitration　→ Multipath Control
 ```
 
-Arbitration は、今回の Target State Entry に関する判定結果と事前定義された制御制約を受け取り、制御上の優先関係を処理する。
+Arbitration（制御優先度調停）は、今回の Target State Entry に関する判定結果と事前定義された制御制約を受け取り、制御上の優先関係を処理する。
 
-その結果に基づき、Multipath Control を形成する。
+その処理結果に基づき、Multipath Control（複数経路制御）として具体的な制御経路を形成する。
 
 本事例における代表的な Multipath Control は、次の通りである。
 
@@ -257,9 +268,9 @@ Arbitration は、今回の Target State Entry に関する判定結果と事前
 * 安全関連制御
 * 強化記録
 
-Multipath Control は、現在の Target State Entry に対するエンジニアリング制御出力である。
+Multipath Control は、現在の Target State Entry に対して次に適用する制御処理を形成するエンジニアリング制御出力である。
 
-その結果に基づき、現在の Target State への移行、または別の Target State / 目標実行経路への移行が制御される。
+その結果に基づき、進入許可、待機、再確認、再試行、リターン、異常分岐、移行禁止など、今回の Target State Entry に対して選択された制御経路を実行する。
 
 ---
 
@@ -267,13 +278,13 @@ Multipath Control は、現在の Target State Entry に対するエンジニア
 
 ここでは、「画像認識結果は一度有効であり、Robot Ready も成立しているが、ロボットがピックアップ段階へ入らない」場合を例とする。
 
-現在段階：
+Current State（現在状態・現在段階・現在経路位置）：
 
 ```text
 認識完了 / ピックアップ待ち
 ```
 
-目標段階：
+Target State（目標状態・目標実行経路・目標物理実行段階）：
 
 ```text
 ピックアップ段階へ移行
@@ -320,15 +331,15 @@ Arbitration では、現在の Target State Entry に対する CAE-SDB Result、
 ピックアップ段階への移行を保留　→ ワークリターン　→ 再認識
 ```
 
-PCN Trace には、例えば次の内容を記録できる。
+PCN Trace（PCN 状態遷移判定履歴）には、例えば次の内容を記録できる。
 
 ```text
 Current State：認識完了 / ピックアップ待ち
 Target State：ピックアップ段階
 時間情報：T
 主要な CAE-SDB Result：C-D：画像認識結果が無効
-Arbitration Result：リターン / 再認識経路を選択
-Multipath Control：リターン / 再認識
+Arbitration Result：C-D を優先処理し、現在のピックアップ段階への進入を保留
+Multipath Control：ワークリターン → 再認識
 実行結果：ワークを戻り経路へ搬送
 Trace ID：PCN-PICK-XXXX
 ```
@@ -337,9 +348,9 @@ Trace ID：PCN-PICK-XXXX
 
 ---
 
-## 7. PCN Trace とエンジニアリングレビュー
+## 7. PCN Trace（PCN 状態遷移判定履歴）とエンジニアリングレビュー
 
-PCN は Multipath Control を形成すると同時に、今回の Target State Entry に対する状態遷移判定履歴を PCN Trace として記録できる。
+PCN は、今回の Target State Entry における入力、判定、制御、実行結果を PCN Trace として記録する。
 
 公開レベルでの代表的な記録内容は、次の通りである。
 
@@ -385,7 +396,7 @@ PCN は Multipath Control を形成すると同時に、今回の Target State E
 
 Robot Ready は、ロボット本体の運転準備状態を示す。
 
-PLC / PCN は、今回の Target State Entry に関係する次の状態を取得し、C / A / E 状態マッピングと S / D / B 判定を行う。
+PCN は、今回の Target State Entry に関係する次の状態を取得し、C / A / E 状態マッピングと S / D / B 判定を行う。
 
 * ワーク条件
 * 認識状態
@@ -400,15 +411,17 @@ PLC / PCN は、今回の Target State Entry に関係する次の状態を取�
 TPCA / PCN は、PLC プログラム、画像認識インターフェース、ロボットコントローラ、安全システム、下流設備、上位システムなどに分散している関連状態を、「ピックアップ段階へ入る」という一つの明確な Target State Entry を中心として整理する。
 
 ```text
-Current State / 現在段階
-→ Target State / 目標段階
+Current State
+→ Target State と Target State Entry を特定
 → PCN
-→ 複数系統の状態
-→ C / A / E Mapping
-→ S / D / B Evaluation
+→ 関連状態
+→ C / A / E 状態マッピング
+→ S / D / B 判定
 → CAE-SDB Result + T
 → Arbitration
 → Multipath Control
+→ 選択された制御経路
+→ 実行結果
 → PCN Trace
 ```
 
@@ -421,7 +434,7 @@ Current State / 現在段階
 公開内容は、次の範囲とする。
 
 * PCN の配置位置
-* 複数系統の状態
+* 関連状態
 * C / A / E 状態マッピング
 * S / D / B 判定
 * CAE-SDB Result
@@ -436,7 +449,7 @@ Current State / 現在段階
 
 ## さらに読む
 
-* [なぜ CAE-SDB なのか ― 状態遷移における機能役割と状態検証の二軸構造](/jp/notes/why-cae-sdb/)
+* [なぜ CAE-SDB なのか ― 状態変数領域と判定特性の二軸構造](/jp/notes/why-cae-sdb/)
 * [なぜ Ready だけでは不十分なのか？](/jp/questions/why-ready-is-not-enough/)
 * [なぜ Waiting は原因を追いにくいのか？](/jp/questions/why-waiting-is-hard-to-trace/)
 * [なぜ状態遷移設計は個人の経験に依存し続けるのか？](/jp/questions/why-state-transition-depends-on-experience/)
@@ -444,7 +457,7 @@ Current State / 現在段階
 * [なぜ PCN は TPCA の最小エンジニアリングノードなのか？](/jp/notes/pcn-minimum-engineering-unit/)
 * [複数の PCN はどのように状態遷移前制御ネットワークを形成するのか？](/jp/notes/pcn-network-structure/)
 * [TPCA の状態遷移単方向性 ― なぜ実システムでは過去の状態インスタンスへ戻らないのか？](/jp/notes/tpca-unidirectional-state-transition/)
-* [中核概念](/jp/concepts/)
+* [Concepts｜基本概念](/jp/concepts/)
 * [TPCA / PCN 状態遷移前制御アーキテクチャ｜ホワイトペーパー](/jp/whitepaper/)
 
 ---
@@ -457,5 +470,6 @@ Current State / 現在段階
 * Public Case Version 1.1：2026-08-20 現行の TPCA / PCN 階層に合わせ、PCN、CAE-SDB Result、Arbitration、Multipath Control、PCN Trace の表記を統一
 * Public Case Version 1.2：2026-08-21 時間情報 T および状態遷移単方向性に関する説明を追加
 * Public Case Version 1.3：2026-08-25 CAE を状態遷移における機能役割に基づく C / A / E 状態マッピングとして整理し、SDB を Structure、Dynamics、Boundary の三つの判定特性として明確化
+* Public Case Version 1.4：2026-09-09 最新の TPCA / PCN 公開定義に合わせ、関連状態、B：Boundary、Target State Entry、Arbitration、Multipath Control、PCN Trace、基本工程チェーンの表現を更新
 
 著者：全野南政 / Nansei Zenno
