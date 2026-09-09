@@ -35,7 +35,7 @@ State Type では `A → B → A` のような循環を表現できる一方、�
 
 状態遷移、許可制約、実行チェーンの接続、動的時系列有効性、制御境界という 5 つの基本的な工学的共通認識から、TPCA / PCN がどのような既存のエンジニアリング事実を基盤としているかを説明する。
 
-### [TPCA / PCN と既存の産業オートメーション手法・制御メカニズムとの関係](/jp/notes/tpca-existing-theories/)
+### [TPCA / PCN と既存の産業オートメーション技術・エンジニアリング手法との関係](/jp/notes/tpca-existing-theories/)
 
 TPCA / PCN と、ステートマシン、SFC、Interlock、安全制御、アラーム管理、FMEA、STPA、RCA、Process Mining、MES / WCS、AI 分析、形式検証との役割分担と関係を説明する。
 
