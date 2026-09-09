@@ -23,13 +23,13 @@ draft: false
 
 このグループでは、主に次の問いを扱う。
 
->- TPCA は、どのようなエンジニアリング上の認識を基盤としているのか？
->- 実際のシステムにおける状態遷移を、どのように捉えるのか？  
->- 既存の産業オートメーション手法とは、どのような関係にあるのか？  
+- TPCA は、どのようなエンジニアリング上の認識を基盤としているのか？
+- 実際のシステムにおける状態遷移を、どのように捉えるのか？
+- 既存の産業オートメーション手法とは、どのような関係にあるのか？
 
 ### [TPCA における状態インスタンスの単方向性 ― 状態タイプの循環と実運転履歴の違い](/jp/notes/tpca-unidirectional-state-transition/)
 
-実際のエンジニアリングシステムにおける時間の単方向性から、状態内容は再び同じになることがあっても、時間位置が異なるため状態インスタンスが過去へ戻ることはないことを説明する。そのうえで、Rollback、Recovery、復帰、回流、Multipath Control を状態遷移の観点から整理する。
+State Type では `A → B → A` のような循環を表現できる一方、実運転では `A₁ → B₁ → A₂` のように新しい State Instance が時間方向へ継続して生成されることを説明する。Recovery、Rollback、Reset、Retry、Re-entry などの処理によって同じ State Type が再び形成された場合も、新しい State Instance として扱う考え方と、制御ソフトウェア設計および TPCA での採用を整理する。
 
 ### [TPCA / PCN はどのようなエンジニアリング基盤の上に成り立つか ― 5 つの基本的な工学的共通認識](/jp/notes/engineering-foundations-of-tpca-pcn/)
 
@@ -37,11 +37,11 @@ draft: false
 
 ### [TPCA / PCN と既存の産業オートメーション手法・制御メカニズムとの関係](/jp/notes/tpca-existing-theories/)
 
-TPCA / PCN と、ステートマシン、SFC、Interlock、安全制御、アラーム管理、FMEA、STPA、RCA、Process Mining、MES / WCS、AI 分析、形式検証との境界関係を説明する。
+TPCA / PCN と、ステートマシン、SFC、Interlock、安全制御、アラーム管理、FMEA、STPA、RCA、Process Mining、MES / WCS、AI 分析、形式検証との役割分担と関係を説明する。
 
 ### [TPCA / PCN は既存技術との論点に対してどの位置を取るか ― 3 つの代表的なエンジニアリング論点](/jp/notes/engineering-positions-of-tpca-pcn/)
 
-決定論的制御と AI、集中制御と分散自律、保守的な阻止と制御された継続という 3 つの代表的なエンジニアリング論点を通じて、TPCA / PCN のランタイム制御、ノード配置、Arbitration に関する基本的な技術的位置付けを説明する。
+決定論的制御と AI、集中制御と分散自律、保守的な阻止と制御された継続という 3 つの代表的なエンジニアリング論点を通じて、TPCA / PCN の制御、ノード配置、Arbitration に関する基本的な技術的位置付けを説明する。
 
 ---
 
@@ -49,18 +49,18 @@ TPCA / PCN と、ステートマシン、SFC、Interlock、安全制御、アラ
 
 このグループでは、主に次の問いを扱う。
 
->- なぜ 1 回の Target State Entry を独立したエンジニアリング対象として扱う必要があるのか？  
->- CAE-SDB は、なぜ C / A / E と S / D / B の二つの分析軸で構成されるのか？  
->- PCN は、どのように判定・制御・記録を行うのか？  
->- 複数の PCN は、どのようにシステムレベルの構造へ拡張されるのか？
+- なぜ 1 回の Target State Entry を独立したエンジニアリング対象として扱う必要があるのか？
+- CAE-SDB は、なぜ C / A / E と S / D / B の二つの軸で構成されるのか？
+- PCN は、どのように判定・制御・記録を行うのか？
+- 複数の PCN は、どのようにシステムレベルの構造へ拡張されるのか？
 
 ### [なぜ状態遷移条件を明示化する必要があるのか？](/jp/notes/explicit-state-transition-conditions/)
 
-プログラム、インターフェース、許可、設備連携、エンジニアの経験に分散している状態遷移判断を、明確な Target State Entry を中心として、設計・確認・記録・改善可能なエンジニアリング構造へ変換する必要性を説明する。
+プログラム、インターフェース、許可、設備連携、エンジニアの経験に分散している状態遷移判断を、明確な Target State Entry を中心として、設計・確認・記録・改善可能なエンジニアリング構造へ整理する必要性を説明する。
 
-### [なぜ CAE-SDB なのか？― 状態遷移における機能役割と状態検証の二軸構造](/jp/notes/why-cae-sdb/)
+### [なぜ CAE-SDB なのか ― 状態変数領域と判定特性の二軸構造](/jp/notes/why-cae-sdb/)
 
-CAE と SDB が二つの状態分類ではなく、それぞれ異なる次元を持つ分析軸であることを説明する。CAE は、Target State Entry に関係する状態を C：Condition、A：Authority、E：Execution Chain の機能役割へマッピングし、SDB は、それらの関連状態を S：Structure、D：Dynamics、B：Boundary の判定性質から評価する。両軸の組合せによって CAE-SDB Result を形成し、その後 Arbitration と Multipath Control へ接続する構造を整理する。
+C / A / E を状態遷移に関係する状態の役割を整理する状態変数領域、S / D / B を各状態に対する判定特性として構成する理由を説明する。同じ状態変数に複数の判定を適用でき、設備やシステムごとに信号名称や実装方法が異なっても、C-S、A-D、E-B などの共通形式で判定結果を整理できる二軸構造を示す。
 
 ### [なぜ PCN は TPCA の最小エンジニアリングノードなのか？](/jp/notes/pcn-minimum-engineering-unit/)
 
@@ -68,11 +68,11 @@ CAE と SDB が二つの状態分類ではなく、それぞれ異なる次元�
 
 ### [複数の PCN はどのように状態遷移前制御ネットワークを形成するのか？](/jp/notes/pcn-network-structure/)
 
-複数の PCN が、実際の状態遷移関係、および許可・資源・実行依存関係に基づいてどのように接続され、単一の Target State Entry からさらに PCN Network へ発展するかを説明する。
+複数の PCN が、実際の状態遷移関係、および許可・資源・実行依存関係に基づいてどのように接続され、単一の Target State Entry から PCN Network へ拡張されるかを説明する。
 
 ### [なぜ PCN Trace は新しいエンジニアリングデータなのか？](/jp/notes/why-pcn-trace-is-engineering-data/)
 
-PCN Trace と設備データ、生産データ、アラーム履歴との違いを説明し、1 回の完全な Target State Entry 判定を、独立して記録・比較・振り返り可能なエンジニアリングデータ対象として扱える理由を整理する。
+PCN Trace と設備データ、生産データ、アラーム履歴との違いを説明し、1 回の Target State Entry における判定・制御・実行結果を、独立して記録・比較・振り返り可能なエンジニアリングデータとして扱う理由を整理する。
 
 ---
 
