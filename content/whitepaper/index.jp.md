@@ -28,27 +28,42 @@ TPCA / PCN の中核命題は、次のとおりである。
 基本的な工程関係は次の通りである。
 
 ```text
-Current State / 現在状態
-    ↓
-PCN / 前制御ノード
-［Target State Entry に対する前置判定］
-    ↓
-Target State Entry / 目標状態入口
-    ↓
-Target State / 目標状態
-または Target Path / 目標実行経路
-または Target Stage / 目標実行段階
-
-PCN 内部：
-関連状態
-→ C / A / E 状態マッピング
-→ S / D / B 判定
-→ CAE-SDB 判定結果 + T
-→ 制御優先度調停（Arbitration）
-→ 複数経路制御（Multipath Control）
-→ 実行結果
-→ PCN Trace
+① Current State
+   （現在状態・現在段階・現在経路位置）
+   ↓
+② Target State
+   （目標状態・目標実行経路・目標物理実行段階）
+   と Target State Entry（目標状態入口）を特定
+   ↓
+③ PCN（Pre-Control Node / 前制御ノード）
+   └─ 関連状態を取得し、
+      C / A / E 状態マッピング
+   ↓
+④ S / D / B 判定
+   → CAE-SDB 判定結果 + T
+   ↓
+⑤ 制御優先度調停（Arbitration）
+   ↓
+⑥ 複数経路制御（Multipath Control）
+   ↓
+⑦ Target State Entry（目標状態入口）に対する制御結果
+   ├─ 進入許可
+   ├─ 待機・再確認・再試行
+   ├─ 別の Target State
+   │  （目標状態・目標実行経路・目標物理実行段階）
+   └─ 進入禁止 など
+   ↓
+⑧ 選択された制御経路を実行
+   → Target State
+      （目標状態・目標実行経路・目標物理実行段階）への進入
+   → 待機・再確認・再試行
+   → 進入禁止など
+   → 実行結果
+   ↓
+⑨ PCN Trace（状態遷移判定履歴）
+   → 入力・判定・制御・実行結果を関連付けて記録
 ```
+
 
 C / A / E は、今回の状態遷移に関係する状態の役割を整理する状態変数領域である。
 
@@ -102,9 +117,9 @@ TPCA / PCN は、この Target State Entry を中心として、分散した状�
 
 ## 2.1 TPCA と PCN
 
-TPCA は、Target State、Target Path、Target Stage へ進入する前の判定と制御を対象とする。
+TPCA は、Target State（目標状態・目標実行経路・目標物理実行段階）へ進入する前の判定と制御を対象とする。
 
-TPCA / PCN が対象とする Target State、Target Path、Target Stage には、例えば次のものがある。
+TPCA / PCN が対象とする Target State（目標状態・目標実行経路・目標物理実行段階）には、例えば次のものがある。
 
 - ロボットのピック、配置、検査などの物理実行段階
 - 圧入、搬送引渡し、分流などの工程段階
@@ -141,30 +156,19 @@ TPCA
 
 ## 2.2 基本エンジニアリングチェーン
 
-TPCA / PCN の基本チェーンは次の通りである。
+概要で示した ①～⑨ の工程を表にまとめると、次のようになる。
 
-```text
-Current State / 現在状態
-    ↓
-PCN / 前制御ノード
-［Target State Entry に対する前置判定］
-    ↓
-Target State Entry / 目標状態入口
-    ↓
-Target State / 目標状態
-または Target Path / 目標実行経路
-または Target Stage / 目標実行段階
-
-PCN 内部：
-関連状態
-→ C / A / E 状態マッピング
-→ S / D / B 判定
-→ CAE-SDB 判定結果 + T
-→ 制御優先度調停
-→ 複数経路制御
-→ 実行結果
-→ PCN Trace
-```
+| 工程位置 | エンジニアリング対象 | 主な処理 | 主な結果 |
+|---|---|---|---|
+| 1 | **Current State（現在状態・現在段階・現在経路位置）** | 今回の状態遷移の起点となる現在状態を確認する | 現在状態を特定 |
+| 2 | **Target State（目標状態・目標実行経路・目標物理実行段階） / Target State Entry（目標状態入口）** | 今回進入しようとする Target State と、それに対応する Target State Entry を明確にする | 今回の判定対象を確定 |
+| 3 | **PCN / 前制御ノード** | Target State Entry に関係する状態を取得し、C / A / E へ状態マッピングする | 状態変数領域を整理 |
+| 4 | **PCN 内部判定** | C / A / E の関連状態に対して S / D / B 判定を行う | CAE-SDB 判定結果 + T |
+| 5 | **PCN 内部制御判断** | CAE-SDB 判定結果、重要な許可、制御制約などを制御優先度調停（Arbitration）で処理する | 制御上の優先関係を確定 |
+| 6 | **PCN 制御出力** | 制御優先度調停の結果から複数経路制御（Multipath Control）を形成する | 進入許可、待機、再確認、代替経路、禁止など |
+| 7 | **Target State Entry に対する制御結果** | 今回の Target State Entry に対する進入可否、待機、再試行、代替経路などを確定する | 次の制御・実行先を確定 |
+| 8 | **選択された制御経路** | 複数経路制御で決定された状態・経路・処理を実行する | 実行結果を形成 |
+| 9 | **PCN Trace** | 入力状態、判定結果、制御結果、実行結果、時間情報 T を一つの履歴として関連付ける | 状態遷移判定履歴を記録 |
 
 ![TPCA の基本処理チェーン](/images/tpca/02-tpca-process-chain.png)
 
@@ -234,9 +238,9 @@ Target State
 
 | 項目 | 内容 |
 |---|---|
-| Current State / 現在状態 | 現在どの状態・工程段階にいるか |
-| Target State / 目標状態 | 次にどの状態・実行経路・物理段階へ進むか |
-| Target State Entry | 今回どの入口を判定対象とするか |
+| Current State（現在状態・現在段階・現在経路位置） | 現在どの状態・工程段階・経路位置にいるか |
+| Target State（目標状態・目標実行経路・目標物理実行段階） | 次にどの状態・実行経路・物理実行段階へ進むか |
+| Target State Entry（目標状態入口） | 今回どの入口を判定対象とするか |
 | 関連状態 | 今回の状態遷移に直接関係する状態 |
 | C / A / E 状態マッピング | 関連状態が今回の状態遷移で担う役割 |
 | S / D / B 判定 | 各状態に対する判定特性 |
@@ -439,7 +443,7 @@ PCN 内部では、CAE-SDB 判定結果を制御へ接続する。
 CAE-SDB 判定結果 + T
 → 制御優先度調停
 → 複数経路制御
-→ Target State / Target Path
+→ 選択された制御経路
 → 実行結果
 → PCN Trace
 ```
@@ -495,7 +499,7 @@ E-D
 
 同じ CAE-SDB 判定結果であっても、Target State Entry、安全上の制約、設備構成、制御ルールによって選択される制御経路は異なる。
 
-複数経路制御は、今回の状態遷移を次にどの Target State または Target Path へ接続するかを決定するエンジニアリング制御出力である。
+複数経路制御は、今回の Target State Entry に対して、進入許可、待機、再確認、再試行、代替経路、移行禁止など、次に適用する制御処理を形成するエンジニアリング制御出力である。
 
 ## 5.3 PCN Trace
 
@@ -505,10 +509,10 @@ PCN Trace は、1 回の Target State Entry に対する判定・制御・実行
 
 | 項目 | 内容 |
 |---|---|
-| Current State | 判定時点の現在状態 |
-| Target State | 今回進入しようとした目標状態 |
-| Target State Entry | 今回判定対象となった目標状態入口 |
-| PCN | 今回の判定を担当した前制御ノード |
+| Current State（現在状態） | 判定時点の現在状態 |
+| Target State（目標状態・目標実行経路・目標物理実行段階） | 今回進入しようとした Target State |
+| Target State Entry（目標状態入口） | 今回判定対象となった目標状態入口 |
+| PCN（Pre-Control Node / 前制御ノード） | 今回の判定を担当した前制御ノード |
 | 関連状態 | 今回の判定に使用した主要状態 |
 | 時間情報 T | 状態および判定の時間位置 |
 | C / A / E 状態マッピング | 状態遷移における役割 |
@@ -660,7 +664,7 @@ TPCA / PCN は、明確な実行入口を持つデジタルシステムにも適
 
 # 結語
 
-TPCA / PCN の中核は、Target State Entry を独立したエンジニアリング対象として扱うことにある。
+TPCA / PCN の中核は、Target State Entry（目標状態入口）を独立したエンジニアリング対象として扱うことにある。
 
 PCN は Target State Entry の前に配置され、関連状態を C / A / E と S / D / B の二軸で判定し、制御優先度調停、複数経路制御、PCN Trace へ接続する。
 
