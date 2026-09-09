@@ -5,7 +5,7 @@ draft: false
 
 技術ノートでは、TPCA / PCN の公開体系を補足する個別テーマを整理する。
 
-本ページでは、次の 4 つの方向に分けて掲載する。
+本ページでは、次の 4 つのテーマに分けて掲載する。
 
 1. **TPCA の基本原則と技術的位置付け**
 2. **PCN のエンジニアリング構造とシステム拡張**
@@ -25,11 +25,11 @@ draft: false
 
 - TPCA は、どのようなエンジニアリング上の認識を基盤としているのか？
 - 実際のシステムにおける状態遷移を、どのように捉えるのか？
-- 既存の産業オートメーション手法とは、どのような関係にあるのか？
+- 既存の産業オートメーション技術・エンジニアリング手法とは、どのような関係にあるのか？
 
 ### [TPCA における状態インスタンスの単方向性 ― 状態タイプの循環と実運転履歴の違い](/jp/notes/tpca-unidirectional-state-transition/)
 
-State Type では `A → B → A` のような循環を表現できる一方、実運転では `A₁ → B₁ → A₂` のように新しい State Instance が時間方向へ継続して生成されることを説明する。Recovery、Rollback、Reset、Retry、Re-entry などの処理によって同じ State Type が再び形成された場合も、新しい State Instance として扱う考え方と、制御ソフトウェア設計および TPCA での採用を整理する。
+State Type では `A → B → A` のような循環を表現できる一方、実運転では `A₁ → B₁ → A₂` のように新しい State Instance が時間方向へ継続して生成されることを説明する。Recovery、Rollback、Reset、Retry、Re-entry などによって同じ State Type へ再進入した場合も、新しい State Instance として扱う考え方と、制御ソフトウェア設計および TPCA での採用を整理する。
 
 ### [TPCA / PCN はどのようなエンジニアリング基盤の上に成り立つか ― 5 つの基本的な工学的共通認識](/jp/notes/engineering-foundations-of-tpca-pcn/)
 
@@ -37,11 +37,11 @@ State Type では `A → B → A` のような循環を表現できる一方、�
 
 ### [TPCA / PCN と既存の産業オートメーション技術・エンジニアリング手法との関係](/jp/notes/tpca-existing-theories/)
 
-TPCA / PCN と、ステートマシン、SFC、Interlock、安全制御、アラーム管理、FMEA、STPA、RCA、Process Mining、MES / WCS、AI 分析、形式検証との役割分担と関係を説明する。
+TPCA / PCN と、状態機械、SFC、Interlock、安全制御、アラーム管理、FMEA、STPA、RCA、Process Mining、MES / WCS、AI 分析などとの役割分担を、Target State Entry を中心として整理する。
 
 ### [TPCA / PCN は既存技術との論点に対してどの位置を取るか ― 3 つの代表的なエンジニアリング論点](/jp/notes/engineering-positions-of-tpca-pcn/)
 
-決定論的制御と AI、集中制御と分散自律、保守的な阻止と制御された継続という 3 つの代表的なエンジニアリング論点を通じて、TPCA / PCN の制御、ノード配置、Arbitration に関する基本的な技術的位置付けを説明する。
+明示的な制御と AI 支援、局所判定とシステム協調、保守的な阻止と制約下での継続という 3 つの代表的なエンジニアリング論点から、TPCA / PCN の基本的な技術的位置付けを説明する。
 
 ---
 
@@ -64,15 +64,15 @@ C / A / E を状態遷移に関係する状態の役割を整理する状態変�
 
 ### [なぜ PCN は TPCA の最小エンジニアリングノードなのか？](/jp/notes/pcn-minimum-engineering-unit/)
 
-1 つの PCN が、明確な Target State Entry を中心として、Current State、Target State、複数ソース状態信号、C / A / E 状態マッピング、S / D / B 判定、CAE-SDB Result、Arbitration、Multipath Control、PCN Trace をどのように整理するかを説明する。
+1 つの明確な Target State Entry に対して、関連状態、CAE-SDB 判定、制御優先度調停（Arbitration）、複数経路制御（Multipath Control）、PCN Trace を一つの工程単位として構成する理由と、PCN が TPCA の最小エンジニアリングノードとなる考え方を説明する。
 
 ### [複数の PCN はどのように状態遷移前制御ネットワークを形成するのか？](/jp/notes/pcn-network-structure/)
 
-複数の PCN が、実際の状態遷移関係、および許可・資源・実行依存関係に基づいてどのように接続され、単一の Target State Entry から PCN Network へ拡張されるかを説明する。
+複数の Target State Entry とそれぞれに対応する PCN が、状態進行、許可、資源、実行、状態更新などの依存関係によって PCN Network を形成する構造を説明する。各 PCN の Runtime と PCN Network の関係、および PCN Trace を用いたシステムレベルの分析への展開も整理する。
 
 ### [なぜ PCN Trace は新しいエンジニアリングデータなのか？](/jp/notes/why-pcn-trace-is-engineering-data/)
 
-PCN Trace と設備データ、生産データ、アラーム履歴との違いを説明し、1 回の Target State Entry における判定・制御・実行結果を、独立して記録・比較・振り返り可能なエンジニアリングデータとして扱う理由を整理する。
+1 回の Target State Entry における入力状態、CAE-SDB 判定結果、制御優先度調停、複数経路制御、実行結果、時間情報 T を一つの状態遷移判定履歴として関連付ける理由を説明する。蓄積した PCN Trace を用いた改善マトリクス、PLC / HMI、MES / WCS、製造 DX での活用方法も整理する。
 
 ---
 
@@ -80,17 +80,17 @@ PCN Trace と設備データ、生産データ、アラーム履歴との違い�
 
 このグループでは、主に次の問いを扱う。
 
->- TPCA / PCN は、どのような問題に適しているのか？  
->- 既存の運用指標やエンジニアリングデータとは、どのような関係にあるのか？  
->- どの Target State Entry に PCN を配置する価値があり、どの問題は PCN の対象とすべきではないのか？  
+- TPCA / PCN は、どのような問題に適しているのか？
+- 既存の運用指標やエンジニアリングデータとは、どのような関係にあるのか？
+- どのような Target State Entry を PCN の対象として選定する価値があるのか？
 
-### [TPCA / PCN 適用シナリオ分析](/jp/notes/tpca-pcn-applicable-scenarios/)
+### [TPCA / PCN の適用シナリオ分析](/jp/notes/tpca-pcn-applicable-scenarios/)
 
-どのような Target State Entry に PCN を配置することが適切か、どのような問題を PCN に含めるべきではないかを説明し、自動化実行ユニット、MES / WCS、群制御協調、生産 DX、人による確認などの場面における適用範囲を整理する。
+Target State Entry が明確であるか、関連状態を観測できるか、判定結果を制御へ接続できるか、PCN Trace を形成可能な構造を設計できるかという 4 つの観点から、TPCA / PCN の適用シナリオと適用境界を整理する。自動化実行ユニット、MES / WCS・複数設備協調、製造 DX、デジタル実行入口、人による確認を含むシステムなどの代表的な適用場面を示す。
 
 ### [なぜ OEE の後に PCN が必要なのか？](/jp/notes/why-oee-pcn/)
 
-OEE、設備データ、PCN の補完関係を説明する。OEE は主に運転パフォーマンスや損失を観察するためのものであり、PCN は明確な Target State Entry を中心として、なぜ進入できたのか、待機したのか、阻止されたのか、分流されたのかを記録する。
+OEE が運転実績や損失を把握するのに対し、PCN Trace はその時間帯の Target State Entry における判定・制御履歴を記録する。両者を関連付けることで、損失区間から状態遷移条件、許可、Execution Chain、制御経路などの具体的なエンジニアリング改善対象へ展開する考え方を説明する。
 
 ---
 
@@ -120,10 +120,10 @@ Ready、Waiting、タスク実行、複数システム協調、状態遷移設�
 
 ### [適用事例](/jp/cases/)
 
-自動化実行ユニット、MES / WCS 協調停滞、生産 DX における複数システム横断の状態遷移などの公開事例を確認する。
+自動化実行ユニット、MES / WCS 協調停滞、製造 DX における複数システム横断の状態遷移などの公開事例を確認する。
 
 ---
 
 本ページは、TPCA / PCN 状態遷移前制御体系における公開技術ノートの索引である。
 
-技術ノートは、ホワイトペーパーおよび Concepts ページを補足するものであり、TPCA / PCN の全体定義を置き換えるものではない。
+技術ノートは、ホワイトペーパーおよび Concepts ページを補足し、個別の技術論点、エンジニアリング構造、適用範囲、実務上の価値を詳しく説明する公開資料として位置付ける。
