@@ -5,102 +5,89 @@ draft: false
 
 技术札记用于补充 TPCA / PCN 公开体系中的专题说明。
 
-本页按四个方向整理：
+内容按四个方向整理：
 
-1. **TPCA 的基础原则与技术定位**
-2. **CAE-SDB 与 PCN 的工程结构和系统扩展**
+1. **基础原则与技术定位**
+2. **CAE-SDB、PCN 与系统结构**
 3. **工程价值与适用边界**
-4. **理解测试**
+4. **工程理解检查**
 
-如需先建立整体认识，建议先阅读：
+第一次阅读建议先看：
 
 - [Concepts｜核心概念](/zh/concepts/)
 - [TPCA / PCN 状态迁移前置控制架构｜白皮书](/zh/whitepaper/)
 
 ---
 
-## 一、TPCA 的基础原则与技术定位
+## 一、基础原则与技术定位
 
-这一组主要回答：
+这一组用于说明 TPCA / PCN 的基础工程认识、状态迁移原则，以及与既有工业自动化技术之间的关系。
 
->- TPCA 建立在什么工程认识之上？  
->- 它如何理解真实系统中的状态迁移？  
->- 它与既有工业自动化方法是什么关系？ 
+### [TPCA 中状态实例的单向性——状态类型循环与实际运行履历的区别](/zh/notes/tpca-unidirectional-state-transition/)
 
-### [TPCA 的状态迁移单向性——为什么真实工程系统不存在状态回退？](/zh/notes/tpca-unidirectional-state-transition/)
-
-从真实工程系统的时间单向性出发，说明状态内容可以再次相同，但状态实例因时间分量不同而不可能回到过去；并据此重新解释 Rollback、Recovery、复归、回流和多路径控制。
+区分 State Type（状态类型）与 State Instance（状态实例）。状态类型可以形成循环，实际运行中的状态实例则沿时间方向持续生成；Recovery、Rollback、Reset、Retry、Re-entry 等处理也按进入新状态实例理解。
 
 ### [TPCA / PCN 建立在什么工程基础上？——五个基础工程共识](/zh/notes/engineering-foundations-of-tpca-pcn/)
 
-从状态迁移、许可约束、执行链接续、动态时序有效性和控制边界五个基础工程共识出发，说明 TPCA / PCN 建立在什么已有工程事实之上。
+从状态迁移、许可约束、执行链接续、动态时序有效性和控制边界等已有工程事实出发，说明 TPCA / PCN 所建立的技术基础。
 
-### [TPCA / PCN 与既有工业自动化方法和控制机制的关系](/zh/notes/tpca-existing-theories/)
+### [TPCA / PCN 与既有工业自动化技术和工程方法的关系](/zh/notes/tpca-existing-theories/)
 
-说明 TPCA / PCN 与状态机、SFC、Interlock、安全控制、报警管理、FMEA、STPA、RCA、Process Mining、MES / WCS、AI 分析及形式化验证之间的边界关系。
+说明 TPCA / PCN 与状态机、SFC、Interlock、安全控制、报警管理、FMEA、STPA、RCA、Process Mining、MES / WCS 和 AI 分析之间的工程分工。
 
-### [TPCA / PCN 面对已有技术分歧，它站在哪里？——三个典型工程争议](/zh/notes/engineering-positions-of-tpca-pcn/)
+### [TPCA / PCN 如何看待既有技术中的工程论点？——三个代表性工程论点](/zh/notes/engineering-positions-of-tpca-pcn/)
 
-围绕确定性控制与 AI、集中控制与分布式自治、保守阻断与受控继续三个典型工程争议，说明 TPCA / PCN 在运行时控制、节点部署和控制仲裁方面的基本技术立场。
+围绕显式规则控制与 AI 辅助、局部判定与系统协同、保守阻断与约束条件下继续处理三个工程论点，说明 TPCA / PCN 的基本技术定位。
 
 ---
 
-## 二、CAE-SDB 与 PCN 的工程结构和系统扩展
+## 二、CAE-SDB、PCN 与系统结构
 
-这一组主要回答：
+这一组说明一次 Target State Entry（目标状态入口）如何形成状态映射、判定、控制和履历，以及多个 PCN 如何进一步形成系统级关系结构。
 
->- 为什么一次目标状态入口需要被独立组织和判定？  
->- CAE-SDB 为什么由两个不同维度的分析轴构成？  
->- PCN 如何完成判定、控制和记录？  
->- 多个 PCN 如何进一步形成系统级结构？ 
+### [为什么是 CAE-SDB？——状态变量域与判定性质的双轴结构](/zh/notes/why-cae-sdb/)
 
-### [为什么是 CAE-SDB？——状态迁移功能角色与状态验证的双轴结构](/zh/notes/why-cae-sdb/)
+说明 C / A / E 状态变量域与 S / D / B 判定性质为什么需要分成两条轴，以及 C-S、A-D、E-B 等 CAE-SDB 判定结果如何形成并进入后续控制处理。
 
-从目标状态入口出发，说明 CAE 与 SDB 并不是两套状态分类。CAE 用于识别相关状态在一次状态迁移中的功能角色：C 回答具不具备，A 回答允不允许，E 回答接不接得住；SDB 则分别判断相关状态的结构完整性、动态时序有效性以及相对于预定义边界的位置关系，并形成 CAE-SDB Result。
+### [为什么状态迁移条件需要显式化？](/zh/notes/explicit-state-transition-conditions/)
 
-### [为什么状态迁移条件必须显式化？](/zh/notes/explicit-state-transition-conditions/)
-
-说明为什么应将分散在程序、接口、许可、设备联动和工程师经验中的状态迁移判断，围绕明确的目标状态入口转化为可设计、可检查、可记录和可改善的工程结构。
+说明如何把分散在 PLC 程序、接口、许可、设备联动、MES / WCS 和工程师经验中的状态迁移判断，围绕明确的目标状态入口整理为可设计、可确认、可记录和可改善的工程对象。
 
 ### [为什么 PCN 是 TPCA 的最小工程节点？](/zh/notes/pcn-minimum-engineering-unit/)
 
-说明一个 PCN 如何围绕明确的目标状态入口，组织当前状态、目标状态、多源状态信号、C / A / E 状态映射、S / D / B 判定、CAE-SDB Result、控制仲裁、多路径控制和 PCN Trace。
+说明一个 PCN 如何对应一个明确的 Target State Entry，并把相关状态、CAE-SDB 判定、Arbitration（控制仲裁）、Multipath Control（多路径控制）和 PCN Trace（状态迁移判定履历）组织为一个工程责任单元。
 
 ### [多个 PCN 如何形成状态迁移前置控制网络？](/zh/notes/pcn-network-structure/)
 
-说明多个 PCN 如何按照实际状态迁移关系以及许可、资源和执行依赖关系连接，并从单个目标状态入口进一步形成 PCN Network。
+说明多个 Target State Entry / PCN 如何通过状态推进、许可、资源、执行和状态更新等依赖关系形成 PCN Network（PCN 网络）。
 
 ### [为什么 PCN Trace 是一种新的工程数据？](/zh/notes/why-pcn-trace-is-engineering-data/)
 
-说明 PCN Trace 与设备数据、生产数据和报警履历之间的区别，以及为什么一次完整的目标状态进入判定可以成为独立记录、比较和复盘的工程数据对象。
+说明 PCN Trace 与设备数据、生产数据和报警履历的区别，以及为什么一次 Target State Entry 的判定、控制和执行结果可以作为独立的数据对象持续记录、比较和分析。
 
 ---
 
 ## 三、工程价值与适用边界
 
-这一组主要回答：
-
->- TPCA / PCN 适合解决什么问题？  
->- 它与已有运行指标和工程数据是什么关系？  
->- 哪些对象值得设置 PCN，哪些问题不适合纳入？  
+这一组说明 TPCA / PCN 适合用于什么样的工程对象，以及如何与制造现场已有的运行实绩和改善数据配合使用。
 
 ### [TPCA / PCN 适用场景分析](/zh/notes/tpca-pcn-applicable-scenarios/)
 
-说明什么样的目标状态入口适合设置 PCN，什么样的问题不应纳入 PCN，并整理自动化执行单元、MES / WCS、群控协同、生产 DX 和人工确认等场景中的应用边界。
+从 Target State Entry 是否明确、相关状态是否可观测、判定结果是否能够连接实际控制、以及是否能够形成 PCN Trace 四个方面，说明 PCN 的适用条件和工程边界。
 
 ### [为什么 OEE 之后还需要 PCN？](/zh/notes/why-oee-pcn/)
 
-说明 OEE、设备数据与 PCN 的互补关系。OEE 主要用于观察运行绩效和损失，PCN 则围绕一次明确的目标状态入口，记录为什么可以进入、等待、阻断或分流。
+说明 OEE / 生产实绩数据与 PCN Trace 的互补关系。OEE 用于确认运行实绩和损失，PCN Trace 用于确认对应时间段内 Target State Entry 上实际发生的判定和控制。
 
 ---
 
-## 四、理解测试
+## 四、工程理解检查
 
-用于自我检验是否真正理解 TPCA / PCN 的工程逻辑。
+这一组用于检查是否能够把 TPCA / PCN 应用到具体工程对象，而不是只记住 C / A / E、S / D / B 等术语。
 
-### [你真的理解 TPCA / PCN 了吗？——十个工程问题](/zh/notes/tpca-pcn-understanding-test/)
+### [TPCA / PCN 工程理解检查——十个问题](/zh/notes/tpca-pcn-understanding-test/)
 
-通过十个具体工程问题，检查是否能够正确理解目标状态入口、PCN、C / A / E、S / D / B、CAE-SDB Result、控制仲裁、多路径控制、PCN Trace 和 PCN Network 之间的关系。
+通过十个工程问题检查 Target State Entry、PCN 位置、关键 A、Execution Chain（执行链）、CAE-SDB 判定纪律、Target State 绑定、控制仲裁、PCN Trace、PCN Network 和适用边界是否理解一致。
 
 ---
 
@@ -108,19 +95,19 @@ draft: false
 
 ### [Concepts｜核心概念](/zh/concepts/)
 
-查看 TPCA、PCN、Current State、Target State、C / A / E、S / D / B、CAE-SDB Result、控制仲裁、多路径控制、PCN Trace 和 PCN Network 等核心术语定义。
+查看 TPCA、PCN、Current State（当前状态）、Target State（目标状态）、Target State Entry（目标状态入口）、C / A / E、S / D / B、CAE-SDB Result、Arbitration、Multipath Control、PCN Trace 和 PCN Network 等核心定义。
 
 ### [TPCA / PCN 状态迁移前置控制架构｜白皮书](/zh/whitepaper/)
 
-系统了解 TPCA / PCN 的总体工程主线、核心结构和典型应用方向。
+系统了解 TPCA / PCN 的总体工程主线、核心结构、控制关系和应用方向。
 
 ### [Engineering Questions｜工程问题](/zh/questions/)
 
-从 Ready、Waiting、任务执行、多系统协同和状态迁移设计等制造现场问题进入 TPCA / PCN。
+从自动化执行单元、多系统协同和状态迁移设计中常见的工程问题进入 TPCA / PCN。
 
 ### [应用案例](/zh/cases/)
 
-查看自动化执行单元、MES / WCS 协同停滞和生产 DX 跨系统状态迁移等公开应用案例。
+查看自动化执行单元、MES / WCS 协同停滞和生产 DX 等公开应用案例。
 
 ---
 
