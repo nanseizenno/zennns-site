@@ -27,7 +27,7 @@ draft: false
 >- 実際のシステムにおける状態遷移を、どのように捉えるのか？  
 >- 既存の産業オートメーション手法とは、どのような関係にあるのか？  
 
-### [TPCA の状態遷移単方向性 ― なぜ実際のエンジニアリングシステムに状態の巻き戻しは存在しないのか？](/jp/notes/tpca-unidirectional-state-transition/)
+### [TPCA における状態インスタンスの単方向性 ― 状態タイプの循環と実運転履歴の違い](/jp/notes/tpca-unidirectional-state-transition/)
 
 実際のエンジニアリングシステムにおける時間の単方向性から、状態内容は再び同じになることがあっても、時間位置が異なるため状態インスタンスが過去へ戻ることはないことを説明する。そのうえで、Rollback、Recovery、復帰、回流、Multipath Control を状態遷移の観点から整理する。
 
