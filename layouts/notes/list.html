@@ -1,18 +1,50 @@
 {{- define "main" }}
 
 <style>
-  .post-content a {
+  .notes-index .post-content a {
     text-decoration: underline;
     text-underline-offset: 3px;
     text-decoration-thickness: 1px;
   }
 
-  .post-content a:hover {
-    text-decoration-thickness: 2px;
+  .notes-index .post-content h2 {
+    margin-top: 42px;
+    margin-bottom: 18px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .notes-index .post-content h3 {
+    margin-top: 30px;
+    margin-bottom: 7px;
+    line-height: 1.45;
+  }
+
+  .notes-index .post-content h3 a {
+    text-decoration: none;
+  }
+
+  .notes-index .post-content h3 a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .notes-index .post-content h3 + p {
+    margin-top: 0;
+    line-height: 1.75;
+    color: var(--secondary);
+  }
+
+  .notes-index .post-content li {
+    margin-bottom: 5px;
+  }
+
+  .notes-index .post-content hr {
+    margin: 34px 0;
   }
 </style>
 
-<article class="post-single">
+<article class="post-single notes-index">
   <header class="post-header">
     <h1 class="post-title">{{ .Title }}</h1>
   </header>
