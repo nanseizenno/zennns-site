@@ -1,0 +1,846 @@
+/* =========================================================
+   zennns.com / TPCA-PCN
+   Industrial Dark Technical Knowledge Base
+   Hugo PaperMod custom.css
+   ========================================================= */
+
+
+/* ---------------------------------------------------------
+   0. Global design tokens
+   只需要优先调整这里
+   --------------------------------------------------------- */
+
+:root {
+    --tpca-accent: #7fa7d8;
+
+    --tpca-bg: #101214;
+    --tpca-surface: #16191c;
+    --tpca-surface-2: #1b1f23;
+    --tpca-surface-3: #20252a;
+
+    --tpca-text: #d8dadd;
+    --tpca-text-strong: #eef0f2;
+    --tpca-muted: #9da3a9;
+    --tpca-faint: #747b82;
+
+    --tpca-border: #2b3137;
+    --tpca-border-soft: #23282d;
+
+    --tpca-code-bg: #0d0f11;
+    --tpca-inline-code-bg: #20252a;
+
+    --tpca-radius: 8px;
+    --tpca-radius-small: 5px;
+
+    --tpca-content-width: 800px;
+    --tpca-wide-width: 1040px;
+}
+
+
+/* ---------------------------------------------------------
+   1. PaperMod Dark Theme variables
+   PaperMod 的 .dark 模式下覆盖
+   --------------------------------------------------------- */
+
+.dark {
+    --theme: var(--tpca-bg);
+    --entry: var(--tpca-surface);
+    --primary: var(--tpca-text-strong);
+    --secondary: var(--tpca-muted);
+    --tertiary: var(--tpca-surface-2);
+    --content: var(--tpca-text);
+    --code-block-bg: var(--tpca-code-bg);
+    --code-bg: var(--tpca-inline-code-bg);
+    --border: var(--tpca-border);
+}
+
+
+/* ---------------------------------------------------------
+   2. Base / Body
+   --------------------------------------------------------- */
+
+body {
+    font-feature-settings:
+        "palt" 1,
+        "kern" 1;
+    text-rendering: optimizeLegibility;
+}
+
+body.dark {
+    background:
+        linear-gradient(
+            180deg,
+            #0f1113 0%,
+            var(--tpca-bg) 240px
+        );
+    color: var(--tpca-text);
+}
+
+
+/* 文章不要过宽 */
+.post-single {
+    max-width: var(--tpca-content-width);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* 首页和列表允许稍微宽一些 */
+.list,
+.main {
+    width: 100%;
+}
+
+
+/* ---------------------------------------------------------
+   3. Header / Navigation
+   --------------------------------------------------------- */
+
+.dark .header {
+    background: rgba(16, 18, 20, 0.94);
+}
+
+.dark .nav {
+    border-bottom: 1px solid var(--tpca-border-soft);
+}
+
+.dark .logo a {
+    color: var(--tpca-text-strong);
+    font-weight: 650;
+    letter-spacing: 0.01em;
+}
+
+.dark #menu a {
+    color: var(--tpca-muted);
+    transition:
+        color 0.16s ease,
+        background-color 0.16s ease;
+}
+
+.dark #menu a:hover,
+.dark #menu .active {
+    color: var(--tpca-text-strong);
+}
+
+
+/* ---------------------------------------------------------
+   4. Homepage
+   首页保持技术文档感，不做 SaaS 风格
+   --------------------------------------------------------- */
+
+.dark .home-info {
+    background: var(--tpca-surface);
+    border: 1px solid var(--tpca-border);
+    border-left: 3px solid var(--tpca-accent);
+    border-radius: var(--tpca-radius);
+    padding: 30px 32px;
+    box-shadow: none;
+}
+
+.dark .home-info .entry-header h1 {
+    color: var(--tpca-text-strong);
+    font-weight: 680;
+    letter-spacing: -0.015em;
+}
+
+.dark .home-info .entry-content {
+    color: var(--tpca-text);
+    line-height: 1.9;
+}
+
+
+/* PaperMod 首页/列表文章入口 */
+
+.dark .post-entry {
+    background: var(--tpca-surface);
+    border: 1px solid var(--tpca-border-soft);
+    border-radius: var(--tpca-radius);
+    box-shadow: none;
+
+    transition:
+        border-color 0.16s ease,
+        background-color 0.16s ease,
+        transform 0.16s ease;
+}
+
+.dark .post-entry:hover {
+    background: var(--tpca-surface-2);
+    border-color: var(--tpca-border);
+    transform: translateY(-1px);
+}
+
+.dark .entry-header h2 {
+    color: var(--tpca-text-strong);
+}
+
+.dark .entry-content {
+    color: var(--tpca-muted);
+    line-height: 1.75;
+}
+
+.dark .entry-footer {
+    color: var(--tpca-faint);
+}
+
+
+/* ---------------------------------------------------------
+   5. Article
+   --------------------------------------------------------- */
+
+.post-content {
+    font-size: 1rem;
+    line-height: 1.9;
+    letter-spacing: 0.01em;
+}
+
+.dark .post-content {
+    color: var(--tpca-text);
+}
+
+.post-content p {
+    margin-top: 1.1em;
+    margin-bottom: 1.1em;
+}
+
+
+/* 中文 / 日文长文章：不要让段落挤在一起 */
+
+.post-content ul,
+.post-content ol {
+    margin-top: 0.7em;
+    margin-bottom: 1.25em;
+}
+
+.post-content li {
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+    line-height: 1.8;
+}
+
+
+/* ---------------------------------------------------------
+   6. Headings
+   --------------------------------------------------------- */
+
+.dark .post-title {
+    color: var(--tpca-text-strong);
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+}
+
+.post-content h2 {
+    margin-top: 2.8em;
+    margin-bottom: 1em;
+    padding-bottom: 0.42em;
+
+    font-size: 1.45rem;
+    font-weight: 680;
+    line-height: 1.45;
+}
+
+.dark .post-content h2 {
+    color: var(--tpca-text-strong);
+    border-bottom: 1px solid var(--tpca-border);
+}
+
+.post-content h3 {
+    margin-top: 2em;
+    margin-bottom: 0.8em;
+
+    font-size: 1.17rem;
+    font-weight: 650;
+}
+
+.dark .post-content h3 {
+    color: var(--tpca-text-strong);
+}
+
+
+/* H4 不要过度放大 */
+
+.post-content h4 {
+    margin-top: 1.6em;
+    font-size: 1.02rem;
+    font-weight: 650;
+}
+
+.dark .post-content h4 {
+    color: var(--tpca-text);
+}
+
+
+/* ---------------------------------------------------------
+   7. Links
+   技术文档里链接要明显，但不要霓虹
+   --------------------------------------------------------- */
+
+.dark .post-content a {
+    color: var(--tpca-accent);
+
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(
+        in srgb,
+        var(--tpca-accent) 55%,
+        transparent
+    );
+
+    transition:
+        color 0.15s ease,
+        text-decoration-color 0.15s ease;
+}
+
+.dark .post-content a:hover {
+    color: #b7cbe4;
+    text-decoration-color: currentColor;
+}
+
+
+/* 导航链接不要正文式下划线 */
+
+.dark .nav a,
+.dark .pagination a,
+.dark .breadcrumbs a {
+    text-decoration: none;
+}
+
+
+/* ---------------------------------------------------------
+   8. Blockquote
+   用于你的核心命题 / 工程问题
+   --------------------------------------------------------- */
+
+.post-content blockquote {
+    margin: 1.6em 0;
+    padding: 0.9em 1.15em;
+
+    border-left-width: 3px;
+    border-left-style: solid;
+    border-radius: 0 var(--tpca-radius-small)
+                   var(--tpca-radius-small) 0;
+}
+
+.dark .post-content blockquote {
+    background: var(--tpca-surface-2);
+    border-left-color: var(--tpca-accent);
+    color: var(--tpca-text-strong);
+}
+
+.post-content blockquote p {
+    margin: 0.35em 0;
+}
+
+.post-content blockquote strong {
+    font-weight: 650;
+}
+
+
+/* ---------------------------------------------------------
+   9. Inline Code
+   --------------------------------------------------------- */
+
+.dark .post-content :not(pre) > code {
+    background: var(--tpca-inline-code-bg);
+    color: #d9e1ea;
+
+    border: 1px solid var(--tpca-border);
+    border-radius: 4px;
+
+    padding: 0.12em 0.36em;
+    font-size: 0.91em;
+}
+
+
+/* ---------------------------------------------------------
+   10. Code Blocks / text diagrams
+   --------------------------------------------------------- */
+
+.post-content pre {
+    margin: 1.5em 0;
+    padding: 1.15rem 1.25rem;
+
+    border-radius: var(--tpca-radius);
+    overflow-x: auto;
+
+    font-size: 0.91rem;
+    line-height: 1.65;
+}
+
+.dark .post-content pre {
+    background: var(--tpca-code-bg) !important;
+    border: 1px solid var(--tpca-border);
+    box-shadow: none;
+}
+
+.dark .post-content pre code {
+    color: #d4d8dc;
+}
+
+
+/*
+   text 流程图尤其重要：
+   给 Current → Target 这种图更多呼吸空间
+*/
+
+.post-content pre code.language-text,
+.post-content pre code[data-lang="text"] {
+    letter-spacing: 0.015em;
+}
+
+
+/* ---------------------------------------------------------
+   11. Tables
+   普通工程表格
+   --------------------------------------------------------- */
+
+.post-content table {
+    width: 100%;
+    margin: 1.6em 0;
+
+    border-collapse: separate;
+    border-spacing: 0;
+
+    font-size: 0.94rem;
+    line-height: 1.65;
+
+    overflow: hidden;
+    border-radius: var(--tpca-radius);
+}
+
+.dark .post-content table {
+    border: 1px solid var(--tpca-border);
+    background: var(--tpca-surface);
+}
+
+.post-content th,
+.post-content td {
+    padding: 0.72rem 0.85rem;
+    vertical-align: top;
+}
+
+.dark .post-content th {
+    background: var(--tpca-surface-3);
+    color: var(--tpca-text-strong);
+    font-weight: 650;
+
+    border-bottom: 1px solid var(--tpca-border);
+}
+
+.dark .post-content td {
+    color: var(--tpca-text);
+    border-bottom: 1px solid var(--tpca-border-soft);
+}
+
+.dark .post-content tr:last-child td {
+    border-bottom: 0;
+}
+
+.dark .post-content tbody tr {
+    transition: background-color 0.12s ease;
+}
+
+.dark .post-content tbody tr:hover {
+    background: #1b2024;
+}
+
+
+/* ---------------------------------------------------------
+   12. Horizontal Rule
+   --------------------------------------------------------- */
+
+.dark .post-content hr {
+    height: 1px;
+    margin: 2.7em 0;
+    background: var(--tpca-border);
+}
+
+
+/* ---------------------------------------------------------
+   13. Table of Contents
+   --------------------------------------------------------- */
+
+.dark .toc {
+    background: var(--tpca-surface);
+    border: 1px solid var(--tpca-border-soft);
+    border-radius: var(--tpca-radius);
+}
+
+.dark .toc details summary {
+    color: var(--tpca-text-strong);
+}
+
+.dark .toc a {
+    color: var(--tpca-muted);
+    text-decoration: none;
+}
+
+.dark .toc a:hover {
+    color: var(--tpca-accent);
+}
+
+
+/* ---------------------------------------------------------
+   14. Breadcrumbs / Metadata
+   --------------------------------------------------------- */
+
+.dark .breadcrumbs,
+.dark .post-meta {
+    color: var(--tpca-faint);
+}
+
+.dark .breadcrumbs a {
+    color: var(--tpca-muted);
+}
+
+
+/* =========================================================
+   15. CAE-SDB MATRIX
+   推荐使用 class="caesdb-matrix"
+   ========================================================= */
+
+.caesdb-matrix {
+    margin: 2rem 0;
+    overflow-x: auto;
+}
+
+.caesdb-matrix table {
+    min-width: 620px;
+    text-align: center;
+}
+
+.dark .caesdb-matrix table {
+    background: #131619;
+    border: 1px solid #343b42;
+}
+
+.caesdb-matrix th,
+.caesdb-matrix td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 0.85rem 1rem;
+}
+
+.dark .caesdb-matrix th {
+    background: #20252a;
+}
+
+.dark .caesdb-matrix td {
+    background: #161a1e;
+}
+
+
+/* C/A/E 行标题 */
+
+.caesdb-matrix tbody td:first-child,
+.caesdb-matrix tbody th:first-child {
+    text-align: left;
+    font-weight: 650;
+}
+
+.dark .caesdb-matrix tbody td:first-child,
+.dark .caesdb-matrix tbody th:first-child {
+    color: var(--tpca-text-strong);
+    background: #1c2126;
+}
+
+
+/* 矩阵格子 hover */
+
+.dark .caesdb-matrix td:not(:first-child):hover {
+    background: #222930;
+    color: var(--tpca-text-strong);
+}
+
+
+/* C-S / A-D 等代码 */
+
+.caesdb-matrix code {
+    font-size: 0.95em;
+    font-weight: 650;
+}
+
+
+/* =========================================================
+   16. QUESTIONS CARDS
+   首页 / Questions 页
+   class="question-grid"
+   ========================================================= */
+
+.question-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+
+    margin: 1.8rem 0 2.2rem;
+}
+
+.question-card {
+    display: block;
+
+    padding: 1.35rem 1.4rem;
+
+    border-radius: var(--tpca-radius);
+
+    text-decoration: none !important;
+
+    transition:
+        background-color 0.16s ease,
+        border-color 0.16s ease,
+        transform 0.16s ease;
+}
+
+.dark .question-card {
+    background: var(--tpca-surface);
+    border: 1px solid var(--tpca-border);
+    color: var(--tpca-text);
+}
+
+.dark .question-card:hover {
+    background: var(--tpca-surface-2);
+    border-color: #3a434c;
+    transform: translateY(-2px);
+}
+
+.question-card-number {
+    display: block;
+    margin-bottom: 0.9rem;
+
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    font-weight: 650;
+}
+
+.dark .question-card-number {
+    color: var(--tpca-accent);
+}
+
+.question-card-title {
+    display: block;
+
+    margin-bottom: 0.55rem;
+
+    font-size: 1.08rem;
+    font-weight: 680;
+    line-height: 1.45;
+}
+
+.dark .question-card-title {
+    color: var(--tpca-text-strong);
+}
+
+.question-card-text {
+    display: block;
+
+    font-size: 0.92rem;
+    line-height: 1.7;
+}
+
+.dark .question-card-text {
+    color: var(--tpca-muted);
+}
+
+
+/* Tablet */
+
+@media (max-width: 850px) {
+    .question-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =========================================================
+   17. TPCA / PCN SVG DIAGRAMS
+   ========================================================= */
+
+.tpca-diagram {
+    margin: 2rem auto;
+    padding: 1rem;
+
+    max-width: 100%;
+    overflow-x: auto;
+
+    border-radius: var(--tpca-radius);
+}
+
+.dark .tpca-diagram {
+    background: var(--tpca-surface);
+    border: 1px solid var(--tpca-border);
+}
+
+.tpca-diagram svg {
+    display: block;
+
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+
+    margin: auto;
+}
+
+
+/*
+   SVG 推荐在图里使用这些 class，
+   不要给每个节点单独写颜色
+*/
+
+.dark .tpca-diagram .svg-text {
+    fill: var(--tpca-text);
+}
+
+.dark .tpca-diagram .svg-muted {
+    fill: var(--tpca-muted);
+}
+
+.dark .tpca-diagram .svg-line {
+    stroke: #7d858d;
+}
+
+.dark .tpca-diagram .svg-node {
+    fill: #1a1f23;
+    stroke: #444c54;
+}
+
+.dark .tpca-diagram .svg-node-accent {
+    fill: #202a34;
+    stroke: var(--tpca-accent);
+}
+
+.dark .tpca-diagram .svg-accent {
+    fill: var(--tpca-accent);
+    stroke: var(--tpca-accent);
+}
+
+
+/* =========================================================
+   18. CONCEPT / ENGINEERING BOXES
+   可选，但很适合你的知识库
+   ========================================================= */
+
+.tech-box {
+    margin: 1.6rem 0;
+    padding: 1.05rem 1.2rem;
+
+    border-radius: var(--tpca-radius);
+}
+
+.dark .tech-box {
+    background: var(--tpca-surface);
+    border: 1px solid var(--tpca-border);
+}
+
+.tech-box-label {
+    margin-bottom: 0.5rem;
+
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+}
+
+.dark .tech-box-label {
+    color: var(--tpca-accent);
+}
+
+
+/* ---------------------------------------------------------
+   19. Selection / Focus
+   --------------------------------------------------------- */
+
+.dark ::selection {
+    background: #34475b;
+    color: #ffffff;
+}
+
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+    outline: 2px solid var(--tpca-accent);
+    outline-offset: 3px;
+}
+
+
+/* ---------------------------------------------------------
+   20. Scrollbar
+   --------------------------------------------------------- */
+
+.dark {
+    scrollbar-color: #444b52 #121416;
+}
+
+.dark ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.dark ::-webkit-scrollbar-track {
+    background: #121416;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: #3a4148;
+    border-radius: 10px;
+    border: 2px solid #121416;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: #505860;
+}
+
+
+/* ---------------------------------------------------------
+   21. Mobile
+   --------------------------------------------------------- */
+
+@media (max-width: 768px) {
+
+    .post-content {
+        font-size: 0.98rem;
+        line-height: 1.85;
+    }
+
+    .post-content h2 {
+        margin-top: 2.35em;
+        font-size: 1.32rem;
+    }
+
+    .post-content h3 {
+        font-size: 1.12rem;
+    }
+
+    .dark .home-info {
+        padding: 24px 20px;
+    }
+
+    .post-content pre {
+        padding: 1rem;
+        font-size: 0.86rem;
+    }
+
+    .post-content table {
+        font-size: 0.88rem;
+    }
+
+    .post-content th,
+    .post-content td {
+        padding: 0.62rem 0.68rem;
+    }
+}
+
+
+/* ---------------------------------------------------------
+   22. Reduced motion
+   --------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+        animation: none !important;
+    }
+}
