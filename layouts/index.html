@@ -1,63 +1,6 @@
 {{- define "main" }}
 
-<style>
-  .home-index {
-    max-width: 860px;
-  }
-
-  /* 普通正文链接 */
-  .home-index .post-content a {
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1px;
-  }
-
-  /* 一级内容区块 */
-  .home-index .post-content h2 {
-    margin-top: 48px;
-    margin-bottom: 20px;
-    padding-bottom: 9px;
-    border-bottom: 1px solid var(--border);
-    line-height: 1.4;
-  }
-
-  /* 首页导航入口 */
-  .home-index .post-content h3 {
-    margin-top: 26px;
-    margin-bottom: 6px;
-    line-height: 1.4;
-  }
-
-  /* 导航标题下面的说明 */
-  .home-index .post-content h3 + p {
-    margin-top: 0;
-    line-height: 1.75;
-    color: var(--secondary);
-  }
-
-  /* 核心命题 */
-  .home-index .post-content blockquote {
-    margin: 24px 0;
-    padding: 14px 20px;
-    border-left: 4px solid var(--primary);
-    background: var(--code-bg);
-  }
-
-  .home-index .post-content blockquote p {
-    margin: 0;
-  }
-
-  /* 列表稍微放松 */
-  .home-index .post-content li {
-    margin-bottom: 7px;
-  }
-
-  .home-index .post-content hr {
-    margin: 38px 0;
-  }
-</style>
-
-<article class="post-single home-index">
+<article class="post-single">
   <header class="post-header">
     <h1 class="post-title">{{ .Title }}</h1>
   </header>
