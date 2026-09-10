@@ -26,7 +26,7 @@ ShowToc: true
 TocOpen: true
 ---
 
-## なぜ Robot Ready（ロボット準備状態）だけではピックアップ段階へ入れないのか
+## なぜ Robot Readyだけではピックアップ段階へ入れないのか
 
 > 適用階層：自動化実行ユニット層  
 > 代表対象：画像認識を用いたコンベヤロボットユニット
@@ -37,7 +37,7 @@ TocOpen: true
 全野南政 / Nansei Zenno，「自動化実行ユニット前判定事例：なぜ Robot Ready だけではピックアップ段階へ入れないのか」，TPCA / PCN 公開事例，Public Case Version 1.4，2026-09-10，https://zennns.com/jp/cases/automation-execution-unit-pre-control/
 ```
 
-画像認識を用いたコンベヤロボットユニットでは、Robot Ready（ロボット準備状態）が成立し、画像認識結果も生成され、安全システムにも明確な異常がないにもかかわらず、ピックアップ動作が開始されないことがある。
+画像認識を用いたコンベヤロボットユニットでは、Robot Readyが成立し、画像認識結果も生成され、安全システムにも明確な異常がないにもかかわらず、ピックアップ動作が開始されないことがある。
 
 Robot Ready は、ロボット本体が所定の運転準備状態にあることを示す。
 
@@ -49,15 +49,12 @@ Robot Ready は、ロボット本体が所定の運転準備状態にあるこ�
 1. Current State（現在状態・現在段階・現在経路位置）
 2. Target State（目標状態・目標実行経路・目標物理実行段階）
    / Target State Entry（目標状態入口）
-3. PCN（前制御ノード）：
-   関連状態取得 + C / A / E 状態マッピング
-4. S / D / B 判定
-   → CAE-SDB Result（CAE-SDB 判定結果）+ T（時間情報）
+3. PCN（前制御ノード）：   関連状態取得 + C / A / E 状態マッピング
+4. S / D / B 判定   → CAE-SDB Result（CAE-SDB 判定結果）+ T（時間情報）
 5. Arbitration（制御優先度調停）
 6. Multipath Control（複数経路制御）
 7. Target State Entry に対する制御結果
-8. 選択された制御経路
-   → Execution Result（実行結果）
+8. 選択された制御経路   → Execution Result（実行結果）
 9. PCN Trace（PCN 状態遷移判定履歴）
 ```
 
@@ -95,8 +92,7 @@ Robot Ready は、ロボット本体が所定の運転準備状態にあるこ�
 今回の Current State は、次のように定義する。
 
 ```text
-Current State（現在状態）：
-認識完了 / ピックアップ待ち
+Current State（現在状態）：認識完了 / ピックアップ待ち
 ```
 
 この状態では、ワークは今回のピックアップ処理対象として認識され、画像認識結果も生成されているが、ロボットはまだピックアップ段階へ進入していない。
@@ -112,8 +108,7 @@ Current State（現在状態）：
 今回進入しようとする Target State（目標状態・目標実行経路・目標物理実行段階）は、
 
 ```text
-Target State（目標状態）：
-ピックアップ段階
+Target State（目標状態）：ピックアップ段階
 ```
 
 である。
@@ -121,8 +116,7 @@ Target State（目標状態）：
 対応する Target State Entry（目標状態入口）は、
 
 ```text
-Target State Entry（目標状態入口）：
-ピックアップ段階への進入
+Target State Entry（目標状態入口）：ピックアップ段階への進入
 ```
 
 である。
@@ -189,17 +183,13 @@ E = Execution Chain（実行チェーン状態）
 例えば、
 
 ```text
-ワーク位置
-→ C：Condition（条件状態）
+ワーク位置 → C：Condition（条件状態）
 
-エリア許可
-→ A：Authority（許可状態）
+エリア許可 → A：Authority（許可状態）
 
-Robot Ready（ロボット準備状態）
-→ E：Execution Chain（実行チェーン状態）
+Robot Ready → E：Execution Chain（実行チェーン状態）
 
-正常品置場の受入状態
-→ E：Execution Chain（実行チェーン状態）
+正常品置場の受入状態 → E：Execution Chain（実行チェーン状態）
 ```
 
 と整理できる。
@@ -246,10 +236,7 @@ B = Boundary（制御境界）
 
 ```text
 C-D：
-
-画像認識結果が、
-今回の Target State Entry に対する
-現在有効な判定根拠ではない
+画像認識結果が、今回の Target State Entry に対する現在有効な判定根拠ではない
 ```
 
 という CAE-SDB Result（CAE-SDB 判定結果）を形成できる。
@@ -266,9 +253,7 @@ C-D：
 ```text
 C-B：
 
-ワーク位置が、
-今回の Target State Entry に対する
-事前定義された制御境界外にある
+ワーク位置が、今回の Target State Entry に対する事前定義された制御境界外にある
 ```
 
 という CAE-SDB Result を形成できる。
@@ -372,17 +357,13 @@ Multipath Control の結果を今回の Target State Entry に反映し、入口
 例えば、今回の状態が次のとおりであるとする。
 
 ```text
-Robot Ready（ロボット準備状態）：
-成立
+Robot Ready：成立
 
-重要な安全許可：
-成立
+重要な安全許可：成立
 
-画像認識結果：
-有効時間を超過
+画像認識結果：有効時間を超過
 
-Return Path（リターン経路）：
-利用可能
+Return Path（リターン経路）：利用可能
 ```
 
 画像認識結果に対する D 判定から、
@@ -391,9 +372,7 @@ Return Path（リターン経路）：
 CAE-SDB Result（CAE-SDB 判定結果）：
 C-D
 
-画像認識結果は、
-現在のピックアップ入口に対する
-有効な判定根拠ではない
+画像認識結果は、現在のピックアップ入口に対する有効な判定根拠ではない
 ```
 
 という結果が形成されたとする。
@@ -401,11 +380,9 @@ C-D
 Arbitration と Multipath Control の結果を今回の Target State Entry に反映すると、例えば次のように整理できる。
 
 ```text
-Target State Entry に対する制御結果：
-現在のピックアップ入口には進入しない
+Target State Entry に対する制御結果：現在のピックアップ入口には進入しない
 
-後続制御方向：
-Return（リターン）
+後続制御方向：Return（リターン）
 ```
 
 この工程では、新たな制御判断を追加するのではなく、
@@ -421,8 +398,7 @@ Return（リターン）
 今回選択された制御経路を、
 
 ```text
-選択された制御経路：
-Return（リターン）
+選択された制御経路：Return（リターン）
 ```
 
 とする。
@@ -442,8 +418,7 @@ Return（リターン）
 実際の処理結果は、例えば次のようになる。
 
 ```text
-Execution Result（実行結果）：
-ワークがリターン経路へ進入した
+Execution Result（実行結果）：ワークがリターン経路へ進入した
 ```
 
 後続で再認識が必要な場合は、「再認識工程への進入」を新しい Target State として扱い、その Target State Entry に対して新しい状態遷移判定を行う。
@@ -484,59 +459,46 @@ Execution Result（実行結果）
 PCN：
 ピックアップ入口 PCN
 
-Current State（現在状態）：
-認識完了 / ピックアップ待ち
+Current State（現在状態）：認識完了 / ピックアップ待ち
 
-Target State（目標状態）：
-ピックアップ段階
+Target State（目標状態）：ピックアップ段階
 
-Target State Entry（目標状態入口）：
-ピックアップ段階への進入
+Target State Entry（目標状態入口）：ピックアップ段階への進入
 
 関連状態：
-Robot Ready = TRUE
-Safety Permission = TRUE
-Vision Result = Expired
-Return Path = Available
+  Robot Ready = TRUE
+  Safety Permission = TRUE
+  Vision Result = Expired
+  Return Path = Available
 
 C / A / E 状態マッピング：
-Vision Result（画像認識結果） → C：Condition（条件状態）
-Safety Permission（安全許可） → A：Authority（許可状態）
-Robot Ready（ロボット準備状態） → E：Execution Chain（実行チェーン状態）
+  Vision Result（画像認識結果） → C：Condition（条件状態）
+  Safety Permission（安全許可） → A：Authority（許可状態）
+  Robot Ready（ロボット準備状態） → E：Execution Chain（実行チェーン状態）
 
 S / D / B 判定：
-Vision Result（画像認識結果）
-→ D：Dynamics（動的時系列有効性）
-→ 現在無効
+  Vision Result（画像認識結果）
+    → D：Dynamics（動的時系列有効性）
+    → 現在無効
 
-CAE-SDB Result（CAE-SDB 判定結果）：
-C-D
+CAE-SDB Result（CAE-SDB 判定結果）：C-D
 
-重要な A：Authority（許可状態）：
-重要な安全許可は成立
+重要な A：Authority（許可状態）：重要な安全許可は成立
 
 Arbitration Result（制御優先度調停結果）：
-C-D を優先処理し、
-現在のピックアップ入口への進入を保留
-Return を後続制御方向として選択
+  C-D を優先処理し、現在のピックアップ入口への進入を保留Return を後続制御方向として選択
 
-Multipath Control（複数経路制御）：
-Return（リターン）
+Multipath Control（複数経路制御）：Return
 
-Target State Entry に対する制御結果：
-現在のピックアップ入口には進入しない
+Target State Entry に対する制御結果：現在のピックアップ入口には進入しない
 
-選択された制御経路：
-Return（リターン）
+選択された制御経路：Return
 
-Execution Result（実行結果）：
-ワークがリターン経路へ進入した
+Execution Result（実行結果）：ワークがリターン経路へ進入した
 
-時間情報：
-T
+時間情報：T
 
-Trace ID（履歴識別子）：
-PCN-PICK-XXXX
+Trace ID（履歴識別子）：PCN-PICK-XXXX
 ```
 
 PCN Trace は、一回の Target State Entry を単位として、今回使用した状態、C / A / E 状態マッピング、S / D / B 判定、CAE-SDB Result、Arbitration、Multipath Control、入口制御結果、選択された制御経路、Execution Result を関連付ける。
@@ -567,17 +529,13 @@ Robot Ready（ロボット準備状態）は、ロボット本体の局所的な
 
 ```text
 1. Current State（現在状態・現在段階・現在経路位置）
-2. Target State（目標状態・目標実行経路・目標物理実行段階）
-   / Target State Entry（目標状態入口）
-3. PCN（前制御ノード）：
-   関連状態取得 + C / A / E 状態マッピング
-4. S / D / B 判定
-   → CAE-SDB Result（CAE-SDB 判定結果）+ T（時間情報）
+2. Target State（目標状態・目標実行経路・目標物理実行段階）   / Target State Entry（目標状態入口）
+3. PCN（前制御ノード）：   関連状態取得 + C / A / E 状態マッピング
+4. S / D / B 判定   → CAE-SDB Result（CAE-SDB 判定結果）+ T（時間情報）
 5. Arbitration（制御優先度調停）
 6. Multipath Control（複数経路制御）
 7. Target State Entry に対する制御結果
-8. 選択された制御経路
-   → Execution Result（実行結果）
+8. 選択された制御経路   → Execution Result（実行結果）
 9. PCN Trace（PCN 状態遷移判定履歴）
 ```
 
