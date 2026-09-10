@@ -551,7 +551,6 @@ Robot Ready（ロボット準備状態）は、ロボット本体の局所的な
 ## さらに読む
 
 - [なぜ CAE-SDB なのか ― 状態変数領域と判定特性の二軸構造](/jp/notes/why-cae-sdb/)
-- [なぜ Ready だけでは不十分なのか？](/jp/questions/why-ready-is-not-enough/)
 - [なぜ状態遷移条件を明示する必要があるのか？](/jp/notes/explicit-state-transition-conditions/)
 - [なぜ PCN は TPCA の最小エンジニアリングノードなのか？](/jp/notes/pcn-minimum-engineering-unit/)
 - [なぜ PCN Trace は新しいエンジニアリングデータなのか？](/jp/notes/why-pcn-trace-is-engineering-data/)
