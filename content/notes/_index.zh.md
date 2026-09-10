@@ -5,11 +5,6 @@ draft: false
 
 技术札记用于补充 TPCA / PCN 公开体系中的专题说明，内容分为基础原则与技术定位、CAE-SDB / PCN 与系统结构、工程价值与适用边界、工程理解检查四个方向。
 
-第一次阅读建议先看：
-
-- [Concepts｜核心概念](/zh/concepts/)
-- [TPCA / PCN 状态迁移前置控制架构｜白皮书](/zh/whitepaper/)
-
 ---
 
 ## 一、基础原则与技术定位
