@@ -621,7 +621,7 @@ PCN 将这些分散在设备、系统和人员环节中的状态迁移条件对�
 
 相关案例：
 
-[生产 DX 状态迁移条件设计与履历分析案例](/zh/cases/production-dx-state-transition/)
+[制造 DX 状态迁移条件设计与履历分析案例](/zh/cases/production-dx-state-transition/)
 
 ## 6.4 数字调用扩展
 
