@@ -1,452 +1,553 @@
 ---
 title: "自动化执行单元前置判定案例"
-summary: "以视觉识别输送线机器人单元为代表例，说明 Robot Ready 为什么不能直接等同于抓取阶段进入条件成立，以及 PLC / PCN 如何在目标物理执行阶段进入前完成结构化判定、控制仲裁和多路径控制。"
-description: "公开说明 TPCA / PCN 在自动化执行单元中的应用方式。以视觉识别输送线机器人单元为代表例，说明 PLC / PCN 如何在机器人进入抓取阶段前进行 C / A / E 迁移功能角色映射和 S / D / B 状态判定，形成 CAE-SDB Result，并保留时间信息 T，经控制仲裁输出多路径控制，记录 PCN Trace。"
+
+summary: "以视觉识别输送线机器人单元为代表例，按照一次状态迁移实际发生的工程顺序，说明 PCN 如何从 Current State 和 Target State Entry 出发，完成相关状态获取、C / A / E 状态映射、S / D / B 判定、控制仲裁、多路径控制、入口控制结果、路径执行和 PCN Trace 记录。"
+
+description: "公开说明 TPCA / PCN 在自动化执行单元中的应用方式。以机器人进入抓取阶段为例，按照 Current State、Target State / Target State Entry、PCN、CAE-SDB、Arbitration、Multipath Control、入口控制结果、Execution Result 和 PCN Trace 的顺序展开一次完整的状态迁移前置控制过程。"
+
 date: 2026-06-30
-lastmod: 2026-08-25
+lastmod: 2026-09-10
+
 author: "全野南政 / Nansei Zenno"
+
 document_type: "公开案例"
 case_type: "自动化执行单元层"
-version: "Public Case Version 1.3"
-citation_title: "自动化执行单元前置判定案例：为什么 Robot Ready 不代表可以进入抓取阶段"
+
+version: "Public Case Version 1.4"
+
+citation_title: "自动化执行单元前置判定案例：为什么 Robot Ready 还不足以进入抓取阶段"
 citation_url: "https://zennns.com/zh/cases/automation-execution-unit-pre-control/"
+
 draft: false
 weight: 1
+
 ShowReadingTime: true
 ShowToc: true
 TocOpen: true
 ---
 
-## 为什么 Robot Ready 不代表可以进入抓取阶段
+## 为什么 Robot Ready 还不足以进入抓取阶段
 
 > 应用层级：自动化执行单元层  
-> 代表对象：视觉识别输送线机器人单元  
-> 版本：Public Case Version 1.3  
-> 首次发布：2026-06-30  
-> 最后更新：2026-08-25
+> 代表对象：视觉识别输送线机器人单元
 
-建议引用方式：
+**建议引用：**
 
 ```text
-全野南政，《自动化执行单元前置判定案例：为什么 Robot Ready 不代表可以进入抓取阶段》，TPCA / PCN 公开案例，Public Case Version 1.3，2026-08-25，https://zennns.com/zh/cases/automation-execution-unit-pre-control/
+全野南政 / Nansei Zenno，《自动化执行单元前置判定案例：为什么 Robot Ready 还不足以进入抓取阶段》，公开案例，Public Case Version 1.4，2026-09-10，https://zennns.com/zh/cases/automation-execution-unit-pre-control/
 ```
+
+视觉识别输送线机器人单元中，可能出现这样的现场状态：
+
+机器人已经 Ready（就绪），视觉系统也已经输出识别结果，安全系统没有明显异常，但抓取动作仍然没有开始。
+
+Robot Ready 表示机器人本体处于所定义的运行准备状态。
+
+进入抓取阶段还涉及当前工件条件、关键许可、抓取阶段所需执行链，以及这些状态在当前时间位置是否仍可作为有效判定依据。
+
+本案例按照一次实际状态迁移的工程处理顺序展开：
+
+```text
+1. Current State
+2. Target State / Target State Entry
+3. PCN：相关状态获取 + C / A / E Mapping
+4. S / D / B Evaluation → CAE-SDB Result + T
+5. Arbitration
+6. Multipath Control
+7. 当前入口控制结果
+8. 选定控制路径与 Execution Result
+9. PCN Trace
+```
+
+通过这 9 个步骤，可以直接看到：
+
+> **一次“准备进入抓取阶段”的请求，在 TPCA / PCN 中如何完成判定、控制、执行和记录。**
 
 基础概念可参见：
 
 - [核心概念](/zh/concepts/)
 - [TPCA / PCN 状态迁移前置控制架构｜白皮书](/zh/whitepaper/)
-- [为什么是 CAE-SDB？——状态迁移功能角色与状态验证的双轴结构](/zh/notes/why-cae-sdb/)
-- [为什么 Ready 不够？](/zh/questions/why-ready-is-not-enough/)
-- [为什么 Waiting 越来越难排查？](/zh/questions/why-waiting-is-hard-to-trace/)
 
 ---
 
-## 1. 现场问题
+## 案例对象
 
-在视觉识别输送线机器人单元中，可能出现以下现象：
+本案例以视觉识别输送线机器人单元为代表对象，并假设 PCN 由 PLC 内的控制逻辑实现。
 
-- 视觉系统已经输出 OK；
-- 机器人显示 Ready；
-- 安全系统无明显异常；
-- PLC 侧未形成直接阻断；
-- 机器人仍未进入抓取阶段。
+工件进入识别和抓取区域后，视觉系统生成工件存在、位置、姿态、识别置信度、结果时间和工件跟踪信息。
 
-继续排查后，可能发现：
-
-- 视觉结果曾经有效，但当前已经超时；
-- 工件已经接近或离开可抓取区域；
-- 区域许可尚未成立；
-- 正常投放位暂时无法承接；
-- 返回路径不可用；
-- 异常分流路径尚未准备完成；
-- 结果回写链路无法继续。
-
-表面现象可以概括为：
-
-> **Robot Ready，为什么仍然没有进入抓取阶段？**
-
-关键在于：
-
-> **Robot Ready 只表示机器人本体具备局部运行条件，并不能证明“进入抓取阶段”这一 Target State Entry 已经具备完整的进入依据。**
-
-机器人进入抓取阶段后，后续物理执行链仍需继续接续。
-
-因此，PLC / PCN 需要在抓取阶段真正进入之前，对与本次状态迁移相关的条件、许可和执行链状态进行统一判定。
-
----
-
-## 2. 案例对象与 PCN 位置
-
-本案例以视觉识别输送线机器人单元为代表对象。
-
-工件由主输送带连续进入，视觉系统完成识别后，可以提供：
-
-- 工件存在状态；
-- 位置；
-- 姿态；
-- 识别置信度；
-- 异常判定；
-- 结果时间信息；
-- 工件跟踪信息。
-
-PLC / PCN 在机器人进入抓取阶段之前，读取与本次状态迁移有关的多源状态。
-
-当前阶段：
-
-```text
-机器人等待
-+
-工件进入识别与抓取区域
-+
-视觉结果已经生成
-```
-
-目标阶段：
-
-```text
-机器人进入抓取阶段
-```
-
-PCN 位置：
-
-```text
-当前阶段 → PCN → 目标抓取阶段
-```
+机器人控制器、安全系统、主输送带、正常投放位和上位系统分别提供与抓取入口有关的状态。
 
 ![视觉识别输送线机器人单元前置控制示意图](/images/tpca/06-pcn-pick-flow.png)
 
-图：PLC / PCN 在机器人进入抓取阶段前，汇总视觉系统、机器人控制器、安全系统、主输送带、正常投放位、返回路径、异常分流路径和上位系统等状态，完成前置判定并形成相应控制路径。
+图：PCN 在机器人进入抓取阶段前取得与当前 Target State Entry 有关的多源状态，并根据判定结果形成控制路径。
+
+---
+
+# 1. Current State（当前状态 / 当前阶段）
+
+本案例从“识别已经完成，但机器人尚未开始抓取”的时点开始。
+
+当前状态定义为：
+
+```text
+Current State： 识别完成 / 等待抓取
+```
+
+这一状态表示工件已经进入本次抓取流程，视觉识别结果已经生成，机器人尚未进入抓取执行。
+
+这里先明确本次实际运行的状态迁移起点。
+
+后续的状态获取、C / A / E 状态映射以及 S / D / B 判定，均以这个 Current State 为本次运行实例的起点。
+
+---
+
+# 2. Target State / Target State Entry（目标状态 / 目标状态入口）
+
+本次准备进入的 Target State 为：
+
+```text
+Target State： 抓取阶段
+```
+
+对应的 Target State Entry 为：
+
+```text
+Target State Entry： 进入抓取阶段
+```
+
+PCN 位于 Current State 与 Target State Entry 之间：
+
+```text
+Current State［识别完成 / 等待抓取］
+    ↓
+PCN［针对“进入抓取阶段”的前置判定］
+    ↓
+Target State［Entry 进入抓取阶段］
+    ↓
+Target State［抓取阶段］
+```
 
 ![PCN 在目标阶段入口前的位置关系图](/images/tpca/07-pcn-position-before-target-stage.png)
 
-图：PCN 位于当前阶段与目标阶段之间，在抓取动作真正启动之前完成前置判定。
+图：PCN 在抓取动作真正开始之前，对“进入抓取阶段”这一 Target State Entry 进行前置判定。
 
-本案例中的 PCN 负责：
+本案例后续的 C / A / E、S / D / B、Arbitration 和 Multipath Control，均绑定这个明确的 Target State Entry。
 
-> **“进入抓取阶段”这一明确 Target State Entry 的前置判定。**
-
-进入抓取阶段以后，如果运行状态发生变化，则系统形成新的 Current State，并围绕后续 Target State 继续进行新的状态迁移判定。
-
-关于 PCN 的工程位置，可参见：
+关于 PCN 与 Target State Entry 的对应关系，可参见：
 
 [为什么 PCN 是 TPCA 的最小工程节点？](/zh/notes/pcn-minimum-engineering-unit/)
 
 ---
 
-## 3. 多源状态信号与 C / A / E 迁移功能角色映射
+# 3. PCN：相关状态获取与 C / A / E 状态映射
 
-PLC / PCN 不以单一 Ready 信号作为最终判断依据，而是读取与“进入抓取阶段”直接相关的多源状态。
+PCN 取得与“进入抓取阶段”直接相关的状态。
 
-| 信号来源 | 代表性状态 |
+代表性输入如下。
+
+| 来源 | 与本次抓取入口有关的状态 |
 |---|---|
-| 视觉系统 | 工件存在、位置、姿态、识别置信度、异常判定、结果时间、工件跟踪信息 |
-| 主输送带 | 运行状态、速度、位置、工件区域状态 |
-| 返回输送带 | 运行状态、可接收状态、返回路径状态 |
-| 异常输送带 | 运行状态、可接收状态、异常分流路径状态 |
-| 正常投放位 | 空位状态、承接状态、前一件处理状态 |
-| 机器人控制器 | 自动模式、Ready、当前位置、路径状态、程序状态、动作完成状态、夹爪 / 真空状态、报警状态 |
-| 安全系统 | 安全门、光栅、急停、安全回路、区域进入许可 |
-| 上位系统 / HMI | 工单、生产许可、异常品处理许可、人工确认、结果记录或回写要求 |
+| 视觉系统 | 工件存在、位置、姿态、识别结果、识别置信度、结果时间、工件跟踪 |
+| 主输送带 | 运行状态、速度、工件位置、抓取区域状态 |
+| 机器人控制器 | 自动模式、Ready、当前位置、路径状态、夹爪 / 真空状态、报警状态 |
+| 安全系统 | 安全门、光栅、急停、安全回路、区域许可 |
+| 正常投放位 | 空位、接收状态、前一工件处理状态 |
+| 上位系统 / HMI | 生产许可、工单状态、必要人工确认、结果记录或回写要求 |
 
-这些状态进入 PCN 后，根据本次 Target State Entry 映射到 C / A / E。
+这些状态根据其在当前 Target State Entry 中承担的工程作用映射到 C / A / E 状态变量域。
 
 ```text
-C：具不具备？
-A：允不允许？
-E：接不接得住？
+C = Condition（条件状态）
+A = Authority（许可状态）
+E = Execution Chain（执行链状态）
 ```
 
-| 迁移功能角色 | 基本问题 | 本案例中的代表性状态 |
-|---|---|---|
-| C：Condition | 进入抓取阶段所需的事实条件是否具备 | 工件存在状态、位置状态、姿态状态、视觉识别结果、识别置信度、工件跟踪状态 |
-| A：Authority | 系统是否被允许进入抓取阶段 | 安全许可、区域许可、PLC 放行、上位许可、必要人工确认 |
-| E：Execution Chain | 进入抓取阶段以后执行链是否能够继续接续 | 机器人路径状态、夹爪 / 真空状态、正常投放位承接状态、返回路径状态、异常分流路径状态、结果回写链路状态 |
+本案例可以整理为：
 
-相关状态首先按迁移功能角色进入 C / A / E，再进行 S / D / B 判定。
+| 状态变量域 | 当前入口中的主要对象 |
+|---|---|
+| C：Condition | 工件存在、位置、姿态、视觉识别结果、识别置信度、工件跟踪 |
+| A：Authority | 安全许可、区域许可、PLC 放行、上位系统许可、必要人工确认 |
+| E：Execution Chain | 机器人路径、夹爪 / 真空状态、当前抓取阶段所要求的下游接收状态、结果回写链路 |
+
+例如：
 
 ```text
-位置状态 → C
+工件位置 → C
 区域许可 → A
-正常投放位承接状态 → E
+正常投放位接收状态 → E
 ```
 
-因此：
+Robot Ready 作为机器人侧的相关状态之一，根据当前抓取入口中的工程作用参与状态映射和判定。
 
-```text
-Robot Ready ≠ 抓取阶段进入依据已经完整成立
-```
+除当前 Target State 直接相关的 C / A / E 状态外，PCN 还可以取得回流、异常分流等候选控制路径的可用状态，供后续 Arbitration 和 Multipath Control 使用。
 
-Robot Ready 只是与本次状态迁移有关的一个输入状态。
-
-CAE-SDB 双轴结构的专题说明可参见：
-
-[为什么是 CAE-SDB？——状态迁移功能角色与状态验证的双轴结构](/zh/notes/why-cae-sdb/)
+如果这些候选路径对应其他 Target State / Target Path，则其可用性属于后续控制选择信息，并与当前“抓取阶段”的 Execution Chain 分开处理。
 
 ---
 
-## 4. S / D / B 状态判定
+# 4. S / D / B Evaluation 与 CAE-SDB Result
 
-完成 C / A / E 迁移功能角色映射后，PCN 进一步从 S / D / B 三类判定性质对相关状态进行判断。
-
-```text
-S：结构建立了吗？
-D：当前状态有效吗？
-B：当前状态在界内吗？
-```
-
-| 判定性质 | 判定问题 | 本案例中的代表项 |
-|---|---|---|
-| S：Structure | 本次判定所需的对象、信号、接口、映射关系、许可来源和执行链边界是否已定义、接入并可观测 | 视觉接口、坐标映射、安全许可来源、返回路径、异常分流路径、结果回写接口 |
-| D：Dynamics | 当前状态是否仍然有效、同步并适用于本次判定 | 视觉结果超时或未刷新、位置追踪不同步、许可撤销、机器人状态延迟、下游状态冲突 |
-| B：Boundary | 当前有效状态是否处于预先定义的允许范围、限制值或边界内 | 识别置信度范围、位置或姿态允许范围、抓取区域边界、缓存容量边界、等待时间上限、重试次数上限 |
-
-例如，视觉结果接口和坐标映射均已建立，但识别结果已经超过有效时间：
+完成 C / A / E 状态映射后，PCN 对当前 Target State Entry 所需要的相关状态执行 S / D / B 判定。
 
 ```text
-S：结构已建立
-D：当前状态已失效
+S = Structure（结构完整性）
+D = Dynamics（动态时序有效性）
+B = Boundary（控制边界）
 ```
 
-再例如，当前工件位置仍然是最新有效值，但已经接近或超出抓取位置允许范围：
+本案例中的典型判定包括：
 
-```text
-D：当前状态有效
-B：当前位置超出允许抓取边界
-```
-
----
-
-## 5. CAE-SDB Result、时间信息 T、控制仲裁与多路径控制
-
-PCN 对 C / A / E 相关状态进行 S / D / B 判定后，可以形成一个或多个 CAE-SDB Result，并保留与本次状态和判定对应的时间信息 T。
-
-代表性结果如下。
-
-| 判定结果 | 本案例中的代表性问题 |
+| 判定性质 | 典型确认内容 |
 |---|---|
-| C-S | 视觉接口未接入；坐标映射未建立；工件跟踪关系未定义 |
-| C-D | 视觉结果超时或未刷新；工件位置与输送带追踪不同步；识别状态发生冲突 |
-| C-B | 识别置信度低于规定阈值；工件位置超出允许抓取范围；姿态偏差超出允许范围 |
-| A-S | 安全许可、区域许可或上位许可来源未定义或不可观测 |
-| A-D | 许可被撤销、延迟、未刷新或处于切换状态 |
-| A-B | 当前授权等级、允许区域或允许状态集合不满足本次抓取阶段的预定义边界要求 |
-| E-S | 正常投放、返回、异常分流或结果回写链路未完整定义 |
-| E-D | 下游状态未刷新；机器人动作反馈超时；返回路径状态冲突 |
-| E-B | 下游剩余容量低于最低承接边界；缓冲占用率超过允许阈值；相关执行参数超出允许范围 |
+| S：Structure | 视觉接口、坐标映射、安全许可来源、下游接收接口、结果回写接口是否已经定义、接入并可观测 |
+| D：Dynamics | 视觉结果是否仍有效，工件跟踪是否同步，许可是否被撤销，机器人或下游状态是否延迟或未更新 |
+| B：Boundary | 识别置信度、工件位置、姿态、抓取区域、下游容量等是否处于预先定义的允许边界内 |
 
-同一次状态迁移中可以同时形成多个判定结果。
+例如：
 
 ```text
-CAE-SDB Result + T
-→ 控制仲裁
-→ 多路径控制
+视觉接口已经建立
+坐标映射已经建立
+视觉结果超过有效时间
 ```
 
-本案例中的代表性控制路径可以包括：
+此时可以确认结构已经建立，但当前视觉结果无法继续作为本次抓取入口的有效判定依据。
 
-- 允许进入抓取阶段；
-- 等待；
-- 重识别；
-- 重采样；
-- 重定位；
-- 回流；
-- 异常分流；
-- 下游协调；
-- 人工确认；
-- 禁止进入；
-- 安全相关控制；
-- 增强记录。
+如果相应 D 判定已经定义并实际完成，可以形成：
 
-这些控制路径对应系统从当前状态进入新的 Target State 或 Target Path。
+```text
+C-D：
+视觉结果在动态时序有效性方面
+不满足当前入口要求
+```
+
+又例如：
+
+```text
+视觉结果仍然有效
+工件位置已经超出允许抓取范围
+```
+
+如果相应 B 判定已经定义并实际完成，可以形成：
+
+```text
+C-B：
+工件位置超出当前抓取入口的
+预定义控制边界
+```
+
+> **需要执行某项 S / D / B 判定，表示该判定属于当前入口的评价规则；CAE-SDB Result 在对应判定实际完成并获得结果后形成。**
+
+时间信息 T 与本次使用的状态及判定结果关联保存。
+
+关于 C / A / E 与 S / D / B 的双轴关系，可参见：
+
+[为什么是 CAE-SDB？——状态变量域与判定性质的双轴结构](/zh/notes/why-cae-sdb/)
 
 ---
 
-## 6. 典型判定过程
+# 5. Arbitration（控制仲裁）
 
-以“视觉结果曾经有效、Robot Ready 成立，但机器人未进入抓取阶段”为例。
+一次 Target State Entry 中，可能同时形成多个 CAE-SDB Result，也可能同时存在关键许可、安全约束和执行链状态等入口控制条件。
 
-当前阶段：
+例如，本次 Arbitration 的输入可以包括：
 
 ```text
-识别完成 / 等待抓取
+CAE-SDB Result：
+C-D
+视觉结果失效
 ```
 
-目标阶段：
-
 ```text
-进入抓取阶段
+关键许可：
+关键安全许可成立
 ```
 
-当前状态：
-
 ```text
-机器人 Ready：成立
-安全许可：成立
-视觉结果：已超过当前有效时间
-返回路径：可用
+执行链状态：
+当前抓取阶段所需执行链
+满足当前入口要求
 ```
 
-按照迁移功能角色：
+另一种情况下，也可能同时形成：
 
 ```text
-视觉结果 → C
-安全许可 → A
-返回路径 → E
+CAE-SDB Result：
+C-D
+A-D
+E-B
 ```
 
-进一步进行 S / D / B 判定后，PCN 可以形成：
+Arbitration（控制仲裁）结合：
+
+- CAE-SDB Result；
+- 关键许可；
+- 安全约束；
+- 当前 Target State Entry 的控制规则；
+- 当前入口允许选择的合法控制路径；
+
+处理当前入口的控制优先关系。
+
+其中，关键 A 可以构成独立必要约束。
+
+关键安全许可未成立时，当前抓取入口不得形成允许进入抓取阶段的控制结果。
+
+Arbitration 处理的是：
+
+> **当前多个判定结果和控制约束同时存在时，控制上应当优先处理什么。**
+
+---
+
+# 6. Multipath Control（多路径控制）
+
+Arbitration 完成后，PCN 形成当前 Target State Entry 对应的 Multipath Control。
+
+本案例可以配置的代表性控制路径包括：
 
 ```text
-C-D：视觉结果当前已失效
-
-A：关键许可成立
-
-E：返回路径可接续
+Allow（允许进入）
+Wait（等待）
+Re-identify（重新识别）
+Re-sample（重新采样）
+Re-position（重新定位）
+Retry（重试）
+Return（回流）
+异常分流
+下游协调
+Manual Confirm（人工确认）
+Prohibit（禁止进入）
+Safety Lock（安全锁定）
+增强记录
 ```
 
-并保留本次状态与判定对应的时间信息 T。
+CAE-SDB Result 经 Arbitration 与当前 Target State Entry 的合法控制路径建立控制关系。
 
-经控制仲裁后，本次抓取不放行。
-
-代表性控制路径为：
+例如，同样是：
 
 ```text
-不进入抓取
-→ 工件回流
-→ 重新识别
+C-D
 ```
 
-PCN Trace 可以记录：
+在不同 Target State Entry、不同控制规则和不同候选路径条件下，可以形成不同的 Multipath Control。
+
+Return、异常分流或其他替代路径如果对应新的 Target State / Target Path，则作为当前入口的候选控制输出处理。
+
+后续进入这些新的 Target State / Target Path 时，在其对应入口下继续进行新的状态迁移判定。
+
+---
+
+# 7. 当前入口控制结果
+
+Multipath Control 形成后，需要明确当前“进入抓取阶段”这一 Target State Entry 的最终控制结果。
+
+例如，本次状态为：
 
 ```text
-当前阶段：识别完成 / 等待抓取
-目标阶段：进入抓取阶段
+Robot Ready：
+成立
+
+关键安全许可：
+成立
+
+视觉结果：
+已经超过有效时间
+
+回流路径：
+可用
+```
+
+对视觉结果完成 D 判定后形成：
+
+```text
+CAE-SDB Result：
+C-D
+
+视觉结果不能继续作为
+当前抓取入口的有效判定依据
+```
+
+经过 Arbitration 后，本次入口的控制结果可以整理为：
+
+```text
+当前入口控制结果：
+当前抓取入口不进入
+
+后续控制方向：
+Return（回流）
+```
+
+这一步明确当前 Target State Entry 最终如何处理，以及后续进入哪一个已经选定的控制方向。
+
+实际控制路径是否执行成功，在下一步确认。
+
+---
+
+# 8. 选定控制路径与 Execution Result（执行结果）
+
+本次选定的控制路径为：
+
+```text
+选定控制路径：
+Return（回流）
+```
+
+系统开始执行该控制路径：
+
+```text
+当前抓取入口不进入
+    ↓
+工件执行回流
+    ↓
+工件进入回流路径
+    ↓
+形成新的运行状态
+```
+
+实际执行完成后形成：
+
+```text
+Execution Result：
+工件已进入回流路径
+```
+
+后续如果需要重新识别，则“进入重新识别流程”构成新的 Target State / Target Path，并在相应 Target State Entry 下继续进行新的状态迁移判定。
+
+因此，一次完整处理需要区分：
+
+```text
+CAE-SDB Result
+↓
+控制仲裁结果
+↓
+Multipath Control
+↓
+当前入口控制结果
+↓
+选定控制路径
+↓
+Execution Result
+```
+
+第 7 步确定当前入口的控制结果与后续方向。
+
+第 8 步确认已经选定的控制路径实际执行成了什么结果。
+
+关于状态类型循环与实际运行状态实例之间的关系，可参见：
+
+[TPCA 中状态实例的单向性——状态类型循环与实际运行履历的区别](/zh/notes/tpca-unidirectional-state-transition/)
+
+---
+
+# 9. PCN Trace（状态迁移判定履历）
+
+本次状态迁移完成控制处理后，PCN 将输入、判定、控制和执行结果关联记录为 PCN Trace。
+
+例如：
+
+```text
+PCN：抓取入口 PCN
+
+Current State：识别完成 / 等待抓取
+
+Target State：抓取阶段
+
+Target State Entry：进入抓取阶段
+
+主要输入：
+  Robot Ready = TRUE
+  Safety Permission = TRUE
+  Vision Result = Expired
+
+
+CAE-SDB Result：C-D
+
+关键许可：关键安全许可成立
+
+控制仲裁结果：当前抓取入口不允许进入，选择 Return 作为后续控制方向
+
+Multipath Control：Return（回流）
+
+当前入口控制结果：当前抓取入口不进入
+
+选定控制路径：Return（回流）
+
+Execution Result：工件已进入回流路径
+
 时间信息：T
-主要判定：C-D：视觉结果已失效
-控制结果：回流再识别
-执行结果：工件进入返回路径
+
 Trace ID：PCN-PICK-XXXX
 ```
 
-如果关键安全许可未成立，则即使 C 和 E 均满足，也不得进入抓取阶段。
+PCN Trace 以一次 Target State Entry 为单位，关联记录本次使用的状态、结构化判定、控制仲裁、控制路径和实际执行结果。
 
----
+长期积累后，这些 Trace 可以用于：
 
-## 7. PCN Trace 与工程复盘
-
-PCN 在形成控制路径的同时，可以记录本次状态迁移的判定履历。
-
-公开层面的代表性内容包括：
-
-- 当前阶段；
-- 目标阶段；
-- 关键输入状态；
-- 时间信息 T；
-- C / A / E 迁移功能角色映射；
-- S / D / B 判定；
-- CAE-SDB Result；
-- 控制仲裁结果；
-- 多路径控制结果；
-- 执行结果；
-- Trace ID。
-
-这些记录可以用于：
-
-- HMI 结构化显示；
+- HMI 或上位系统的结构化显示；
 - 现场问题复盘；
-- 高频状态迁移问题统计；
-- 改善前后比较；
-- 同类自动化单元复用；
-- 项目交接与新人培训。
+- 高频判定结果统计；
+- 高频控制路径统计；
+- 控制路径与 Execution Result 的关系比较；
+- 工程修改前后比较；
+- 同类自动化执行单元复用；
+- 工程交接。
 
-> **PCN Trace 记录本次为什么没有进入抓取阶段，以及系统最终进入了哪一条 Target State 或控制路径。**
+关于 PCN Trace 作为状态迁移判定履历的工程意义，可参见：
 
-时间信息 T 用于区分工程状态内容相同、但发生在不同时间位置的状态实例。
-
-相关说明可参见：
-
-- [为什么 PCN Trace 是一种新的工程数据？](/zh/notes/why-pcn-trace-is-engineering-data/)
-- [为什么 OEE 之后还需要 PCN？](/zh/notes/why-oee-pcn/)
+[为什么 PCN Trace 是一种新的工程数据？](/zh/notes/why-pcn-trace-is-engineering-data/)
 
 ---
 
-## 8. 案例意义与公开边界
+## 案例总结
 
-本案例表明：
+Robot Ready 表示机器人本体的局部准备状态。
 
-> **自动化执行单元进入目标物理执行阶段之前，不能仅依据单体 Ready 判断 Target State Entry 是否已经具备完整进入依据。**
-
-在视觉识别输送线机器人单元中，Robot Ready 只表示机器人本体具备局部运行条件。
-
-系统能否进入抓取阶段，还取决于：
-
-- 工件条件；
-- 识别状态；
-- 关键许可；
-- 机器人本体与末端执行机构；
-- 正常投放路径；
-- 返回路径；
-- 异常分流路径；
-- 下游承接；
-- 结果回写。
-
-TPCA / PCN 将这些分散在 PLC 程序、视觉接口、机器人控制器、安全系统、下游设备和上位系统中的状态，围绕“进入抓取阶段”这一 Target State Entry 进行组织。
+本案例进一步围绕明确的 Target State Entry，把进入抓取阶段所涉及的相关状态、结构化判定、控制仲裁、控制路径和执行结果按照统一工程顺序展开：
 
 ```text
-当前阶段
-→ 目标阶段
-→ PCN
-→ 多源状态
-→ C / A / E 迁移功能角色映射
-→ S / D / B 状态判定
-→ CAE-SDB Result + T
-→ 控制仲裁
-→ 多路径控制
-→ PCN Trace
+1. Current State
+2. Target State / Target State Entry
+3. PCN：相关状态获取 + C / A / E Mapping
+4. S / D / B Evaluation  → CAE-SDB Result + T
+5. Arbitration
+6. Multipath Control
+7. 当前入口控制结果
+8. 选定控制路径  → Execution Result
+9. PCN Trace
 ```
 
-进入抓取阶段后，如果运行状态发生变化，系统形成新的 Current State，并围绕新的 Target State 继续下一次状态迁移判定。
+自动化执行单元进入目标物理执行阶段之前，可以按照这一顺序组织一次完整的状态迁移前置控制。
 
-本文为公开说明案例。
+不同设备和不同应用对象可以采用相同的工程分析骨架，具体变化主要体现在：
 
-公开内容包括：
+```text
+相关状态，判定规则，关键许可，合法控制路径，执行结果
+```
 
-- PCN 的工程位置；
-- 多源状态；
-- C / A / E 迁移功能角色映射；
-- S / D / B 状态判定；
-- CAE-SDB Result；
-- 时间信息 T；
-- 控制仲裁；
-- 代表性多路径控制；
-- PCN Trace 的基本作用。
-
-具体阈值、等待窗口、重试次数、完整控制优先级、内部配置结构、接口参数、运行生命周期和详细 Trace 结构，根据实际设备、安全要求和具体工程实现另行确定。
+这也构成 TPCA / PCN 应用案例、PoC 和工程展开时的基本分析顺序。
 
 ---
 
 ## 进一步阅读
 
-- [为什么是 CAE-SDB？——状态迁移功能角色与状态验证的双轴结构](/zh/notes/why-cae-sdb/)
+- [为什么是 CAE-SDB？——状态变量域与判定性质的双轴结构](/zh/notes/why-cae-sdb/)
 - [为什么 Ready 不够？](/zh/questions/why-ready-is-not-enough/)
-- [为什么 Waiting 越来越难排查？](/zh/questions/why-waiting-is-hard-to-trace/)
-- [为什么状态迁移设计长期依赖个人经验？](/zh/questions/why-state-transition-depends-on-experience/)
-- [为什么状态迁移条件必须显式化？](/zh/notes/explicit-state-transition-conditions/)
+- [为什么状态迁移条件需要显式化？](/zh/notes/explicit-state-transition-conditions/)
 - [为什么 PCN 是 TPCA 的最小工程节点？](/zh/notes/pcn-minimum-engineering-unit/)
-- [多个 PCN 如何形成状态迁移前置控制网络？](/zh/notes/pcn-network-structure/)
-- [TPCA 的状态迁移单向性——为什么真实工程系统不存在状态回退？](/zh/notes/tpca-unidirectional-state-transition/)
-- [核心概念](/zh/concepts/)
+- [为什么 PCN Trace 是一种新的工程数据？](/zh/notes/why-pcn-trace-is-engineering-data/)
 - [TPCA / PCN 状态迁移前置控制架构｜白皮书](/zh/whitepaper/)
 
 ---
 
-## 9. 版本说明
+## 版本说明
 
 本文为 TPCA / PCN 状态迁移前置控制架构在自动化执行单元中的公开案例。
 
 - Public Case Version 1.0：2026-06-30
-- Public Case Version 1.1：2026-08-20 按当前 TPCA / PCN 层级统一 PCN、CAE-SDB Result、控制仲裁、多路径控制与 PCN Trace 的表达
-- Public Case Version 1.2：2026-08-21 补充时间信息 T 与状态迁移单向性的相关说明
-- Public Case Version 1.3：2026-08-25 明确 CAE 为迁移功能角色映射，SDB 分别判断结构完整性、动态时序有效性和边界关系
+- Public Case Version 1.1：2026-08-20，统一 PCN、CAE-SDB Result、Arbitration、Multipath Control 与 PCN Trace 的层级表达。
+- Public Case Version 1.2：2026-08-21，补充时间信息 T 与状态实例相关说明。
+- Public Case Version 1.3：2026-08-25，明确 C / A / E 与 S / D / B 的双轴关系。
+- Public Case Version 1.4：2026-09-10，按统一九步案例工程分析顺序重构正文，并统一当前 Target State 的状态映射、候选控制路径、入口控制结果、实际执行结果及案例辅助标签的表达方式。
 
 作者：全野南政 / Nansei Zenno
