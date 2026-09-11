@@ -27,7 +27,7 @@ ShowReadingTime: false
 | **1. Current State** | 明确本次状态迁移从什么状态或阶段开始。 |
 | **2. Target State / Target State Entry** | 明确准备进入什么目标状态，以及需要进行前置判定的目标状态入口。 |
 | **3. PCN：相关状态获取 + C / A / E Mapping** | 获取与本次状态迁移直接相关的多源状态，并按照 Condition、Authority、Execution Chain 进行状态映射。 |
-| **4. S / D / B Evaluation** | 从结构完整性、动态时序有效性和控制边界三个方面进行判定，形成 CAE-SDB Result，并保留时间信息 T。 |
+| **4. CAE-SDB Matrix + S / D / B Evaluation** | 将 C / A / E 与 S / D / B 组合为 9 个判定坐标，对当前入口相关状态进行判定，形成 CAE-SDB Result，并保留时间信息 T。 |
 | **5. Arbitration** | 处理多个判定结果、关键许可和控制约束之间的优先关系。 |
 | **6. Multipath Control** | 输出经控制仲裁确定的多路径控制。 |
 | **7. 当前入口控制结果** | 明确本次 Target State Entry 的控制结果，例如允许进入、暂不进入、禁止进入或转入已确定的后续控制路径。 |
