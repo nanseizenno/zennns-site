@@ -231,7 +231,7 @@ Target State Entry
 Target State
 ```
 
-![PCN 前制御ノードの位置と動作](/images/tpca/04-pcn-node-position.png)
+![PCN 前制御ノードの位置と動作](/images/tpca/04-pcn-node-position.jp.png)
 
 図3：PCN は Target State Entry の前に配置され、Target State へ移行する前に、関連状態の整理、構造化判定、制御優先度調停、制御経路形成を行う。
 
