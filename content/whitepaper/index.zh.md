@@ -570,9 +570,13 @@ PCN Network 表示：
 
 # 第 6 章 代表性应用方向
 
+TPCA / PCN 可面向不同层级的工程对象进行应用。以下三个公开案例分别覆盖自动化执行单元、MES / WCS 协同控制以及制造DX中的状态迁移条件设计与履历分析。
+
+虽然对象、相关状态源和控制路径不同，但均可按照统一的 9 步工程分析方法，从 Current State 和 Target State Entry 出发，完成相关状态获取、结构化判定、控制仲裁、路径形成、执行结果确认及 PCN Trace 记录。
+
 ![TPCA / PCN 的应用方向](/images/tpca/05-tpca-application-map.png)
 
-图5：TPCA / PCN 可以应用于自动化执行单元、MES / WCS 与多设备协同、制造 DX，以及具有明确执行入口的数字系统。
+图5：TPCA / PCN 代表性应用的 9 步横向对比
 
 ## 6.1 自动化执行单元
 
