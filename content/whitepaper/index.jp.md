@@ -589,7 +589,11 @@ PCN Network は、
 
 # 第 6 章 代表的な適用方向
 
-![TPCA / PCN の適用方向](/images/tpca/05-tpca-application-map.png)
+TPCA / PCN は、異なる階層のエンジニアリング対象に適用できる。以下の3つの公開事例では、自動化実行ユニット、MES / WCS 協調制御、製造DXにおける状態遷移条件設計および履歴分析をそれぞれ対象としている。
+
+対象、関連する状態情報源、制御経路は異なるが、いずれも共通の9ステップ分析法に基づき、Current State と Target State Entry を起点として、関連状態の取得、構造化判定、制御仲裁、制御経路の形成、実行結果の確認、PCN Trace の記録までを一貫して整理できる。
+
+![TPCA / PCN の適用方向](/images/tpca/05-tpca-application-map.jp.png)
 
 図5：TPCA / PCN は、自動化実行ユニット、MES / WCS・複数設備協調、製造DX、デジタル呼出しなど、異なる Target State Entry へ展開できる。
 
