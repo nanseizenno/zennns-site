@@ -88,6 +88,11 @@ PCN 形成 CAE-SDB 判定结果后，将重要许可和控制约束一并纳入 
 - 单体设备没有明确故障，但 Waiting（等待）持续存在；
 - 多个系统都有状态记录，却难以说明究竟是哪一项状态影响了当前状态迁移。
 
+![复杂工程系统中的共通状态迁移结构](/images/tpca/01-common-state-transition-problem.png)
+
+图1：复杂工程系统从当前状态向下一状态迁移时，通常需要综合前提条件、相关系统状态、时序与边界信息以及许可条件进行入口前判定，并根据判定结果进入不同执行链条。
+
+
 遇到这类问题时，首先需要明确：
 
 ```text
@@ -101,10 +106,6 @@ Target State（目标状态）
 然后再把与本次 Target State Entry 直接相关的状态放到同一状态迁移上下文中进行确认。
 
 TPCA / PCN 以 Target State Entry 为中心，把原本分散在不同系统中的状态、判定、控制和履历整理为一个明确的工程对象。
-
-![复杂工程系统中的共通状态迁移问题](/images/tpca/01-common-state-transition-problem.png)
-
-图1：多个现场问题可能集中出现在系统准备进入 Target State 之前的 Target State Entry。
 
 详细问题可参见：
 
