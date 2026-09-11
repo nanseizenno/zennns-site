@@ -595,7 +595,7 @@ TPCA / PCN は、異なる階層のエンジニアリング対象に適用でき
 
 ![TPCA / PCN の適用方向](/images/tpca/05-tpca-application-map.jp.png)
 
-図5：TPCA / PCN は、自動化実行ユニット、MES / WCS・複数設備協調、製造DX、デジタル呼出しなど、異なる Target State Entry へ展開できる。
+図5：TPCA / PCN の代表的な適用事例における9ステップ横断比較
 
 ## 6.1 自動化実行ユニット
 
