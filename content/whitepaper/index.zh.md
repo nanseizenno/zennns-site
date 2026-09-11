@@ -40,6 +40,7 @@ TPCA / PCN 的核心命题是：
       完成 C / A / E 状态映射
    ↓
 ④ S / D / B 判定
+   → CAE-SDB Matrix
    → CAE-SDB Result（CAE-SDB 判定结果） + T
    ↓
 ⑤ Arbitration（控制仲裁）
@@ -65,9 +66,9 @@ TPCA / PCN 的核心命题是：
 
 C / A / E 用于整理相关状态在本次状态迁移中的工程作用，构成三个状态变量域。
 
-S / D / B 用于从结构完整性、动态时序有效性和控制边界三个方面对相关状态进行判定。
+S / D / B 用于从结构完整性、动态时序有效性和控制边界三个方面对相关状态进行判定，并与 C / A / E 组合形成 CAE-SDB Matrix。
 
-PCN 形成 CAE-SDB 判定结果后，将重要许可和控制约束一并纳入 Arbitration，确定当前 Target State Entry 的 Multipath Control。
+PCN 形成 CAE-SDB 判定结果后，将重要许可和控制约束一并纳入 Arbitration，处理当前 Target State Entry 的控制优先关系，并据此形成 Multipath Control。
 
 判定、控制和执行结果记录为 PCN Trace。
 
@@ -159,7 +160,7 @@ TPCA
 | 1 | **Current State（当前状态 / 当前阶段 / 当前路径位置）** | 确认本次状态迁移的起点 | 明确当前状态 |
 | 2 | **Target State / Target State Entry** | 明确准备进入的目标状态及对应入口 | 确定本次判定对象 |
 | 3 | **PCN** | 获取相关状态并映射到 C / A / E | 整理状态变量域 |
-| 4 | **PCN 内部判定** | 对相关状态执行需要的 S / D / B 判定 | CAE-SDB Result + T |
+| 4 | **PCN 内部判定** | 对 C / A / E 状态变量域执行当前入口所需的 S / D / B 判定，并将结果整理到 CAE-SDB Matrix | CAE-SDB Result + T |
 | 5 | **PCN 内部控制判断** | 结合判定结果、重要许可和控制约束进行 Arbitration | 明确控制优先关系 |
 | 6 | **PCN 控制输出** | 根据仲裁结果形成 Multipath Control | 允许、等待、再确认、其他路径、禁止等 |
 | 7 | **Target State Entry 控制结果** | 确定当前入口的后续处理 | 明确下一控制或执行方向 |
@@ -239,7 +240,8 @@ Target State
 | CAE-SDB Result | 本次形成的结构化判定结果 |
 | 时间信息 T | 与状态及判定对应的时间信息 |
 | Arbitration | 多个结果和约束之间的控制优先关系 |
-| Multipath Control | 当前入口选定的控制路径 |
+| Multipath Control | 经 Arbitration 形成的当前入口控制路径 |
+| Target State Entry 控制结果 | 明确本次目标状态入口最终如何处理，例如允许进入、暂不进入或禁止进入 |
 | PCN Trace | 输入、判定、控制和执行结果的履历 |
 
 PCN 的输入数量、判定规则和实现规模根据具体系统确定。
@@ -406,6 +408,8 @@ E-D：
 
 CAE-SDB Result 只有在对应的 S / D / B 判定已经定义、存在判定依据并实际完成后才形成。需要进行某项判定，不等于相应结果已经触发。
 
+> **一次 Target State Entry 不要求形成全部 9 项 CAE-SDB Result。**
+
 详细说明参见：
 
 [为什么是 CAE-SDB？——状态变量域与判定性质的双轴结构](/zh/notes/why-cae-sdb/)
@@ -435,7 +439,8 @@ PCN 内部把 CAE-SDB 判定结果连接到控制：
 CAE-SDB Result + T
 → Arbitration（控制仲裁）
 → Multipath Control（多路径控制）
-→ 选定控制路径
+→ Target State Entry 控制结果
+→ 选定控制路径的执行
 → Execution Result（执行结果）
 → PCN Trace
 ```
@@ -489,7 +494,7 @@ Arbitration 需要结合：
 
 Multipath Control 的作用，是针对当前 Target State Entry 形成下一步应该执行的工程控制处理。
 
-替代路径、回流路径、退避路径等可以作为候选控制路径；如果它们对应其他 Target State 或 Target Path，则应在相应入口下单独判断，不能因为这些路径可用就直接认定当前 Target State 的 E 已经成立。
+替代路径、回流路径、回退路径等可以作为候选控制路径；如果它们对应其他 Target State 或 Target Path，则应在相应入口下单独判断，不能因为这些路径可用就直接认定当前 Target State 的 E 已经成立。
 
 ## 5.3 PCN Trace
 
@@ -509,8 +514,9 @@ PCN Trace 把一次 Target State Entry 的判定、控制和执行结果作为�
 | S / D / B 判定 | 对相关状态执行的判定 |
 | CAE-SDB Result | 结构化判定结果 |
 | Arbitration Result（控制仲裁结果） | 控制优先关系处理结果 |
-| Multipath Control | 本次选定的控制路径 |
-| Execution Result | 执行后的实际结果 |
+| Multipath Control | 经 Arbitration 形成的本次控制路径 |
+| Target State Entry 控制结果 | 本次目标状态入口最终允许进入、暂不进入、禁止进入等控制结果 |
+| Execution Result | 已选控制路径执行后的实际结果 |
 | Trace ID | 识别一次判定履历的标识 |
 
 PCN Trace 长期积累后，可以比较：
@@ -693,7 +699,7 @@ TPCA / PCN 因而提供了一种围绕同一状态迁移入口组织状态条件
 - Public Version 1.2：2026-08-20 更新。统一以 Target State Entry 作为可独立设计、判定、控制和记录的工程对象，并进一步明确 TPCA 与 PCN 的架构关系。
 - Public Version 1.3：2026-08-21 更新。补充时间信息 T、状态实例、PCN Trace、PCN Network 和 Multipath Control 相关说明。
 - Public Version 1.4：2026-08-25 更新。整理 CAE-SDB 的双轴结构。
-- Public Version 1.5：2026-09-09 更新。按照当前公开技术札记体系重新整理白皮书结构，减少重复说明，并统一 Target State Entry、CAE-SDB、Arbitration、Multipath Control、PCN Trace 和 PCN Network 的公开表达。
+- Public Version 1.5：2026-09-09 更新。追加九步工程分析顺序，减少重复说明，并统一 Target State Entry、CAE-SDB、Arbitration、Multipath Control、PCN Trace 和 PCN Network 的公开表达。
 
 作者：全野南政 / Nansei Zenno
 
