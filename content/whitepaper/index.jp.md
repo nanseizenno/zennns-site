@@ -1,7 +1,7 @@
 ---
 title: "TPCA / PCN 状態遷移前制御アーキテクチャ"
 summary: "明確な Target State Entry を独立して設計・判定・制御・記録可能なエンジニアリング対象として扱い、PCN によって状態遷移前判定、制御優先度調停、複数経路制御、PCN Trace までを一連の構造として構成する。"
-description: "状態遷移前制御アーキテクチャである TPCA と、そのエンジニアリングノードである PCN を説明する。Target State Entry を中心として関連状態を C / A / E の状態変数領域へ整理し、S / D / B の判定特性から CAE-SDB 判定結果を形成する。さらに、制御優先度調停、複数経路制御、PCN Trace、PCN Network へ展開する全体構造を示す。"
+description: "TPCA / PCN 状態遷移前制御アーキテクチャの公開ホワイトペーパー。Target State Entry を中心に、C / A / E、S / D / B、CAE-SDB Result、Arbitration、Multipath Control、PCN Trace、PCN Network の全体構造を示す。"
 date: 2026-07-01
 lastmod: 2026-09-09
 author: "全野南政 / Nansei Zenno"
@@ -40,24 +40,25 @@ TPCA / PCN の中核命題は、次のとおりである。
       C / A / E 状態マッピング
    ↓
 ④ S / D / B 判定
-   → CAE-SDB 判定結果 + T
+   → CAE-SDB Matrix
+   → CAE-SDB Result（CAE-SDB 判定結果）+ T（時間情報）
    ↓
-⑤ 制御優先度調停（Arbitration）
+⑤ Arbitration（制御優先度調停）
    ↓
-⑥ 複数経路制御（Multipath Control）
+⑥ Multipath Control（複数経路制御）
    ↓
 ⑦ Target State Entry（目標状態入口）に対する制御結果
-   ├─ 進入許可
+   ├─ 移行許可
    ├─ 待機・再確認・再試行
    ├─ 別の Target State
    │  （目標状態・目標実行経路・目標物理実行段階）
-   └─ 進入禁止 など
+   └─ 移行禁止 など
    ↓
 ⑧ 選択された制御経路を実行
    → Target State
-      （目標状態・目標実行経路・目標物理実行段階）への進入
+      （目標状態・目標実行経路・目標物理実行段階）への移行
    → 待機・再確認・再試行
-   → 進入禁止など
+   → 移行禁止など
    → 実行結果
    ↓
 ⑨ PCN Trace（状態遷移判定履歴）
@@ -67,9 +68,9 @@ TPCA / PCN の中核命題は、次のとおりである。
 
 C / A / E は、今回の状態遷移に関係する状態の役割を整理する状態変数領域である。
 
-S / D / B は、それらの状態を構造完全性、動的時系列有効性、制御境界の観点から判定する判定特性である。
+S / D / B は、それらの状態を構造完全性、動的時系列有効性、制御境界の観点から判定する判定性質である。
 
-PCN は CAE-SDB 判定結果を形成し、重要な許可や制御制約を含めて制御優先度調停を行い、今回の Target State Entry に対する複数経路制御を決定する。
+PCN は CAE-SDB Result（CAE-SDB 判定結果）を形成した後、重要な許可や制御制約を Arbitration（制御優先度調停）へ渡して制御上の優先関係を処理し、その結果に基づいて Multipath Control（複数経路制御）を形成する。
 
 判定、制御、実行結果は PCN Trace として記録する。
 
@@ -125,7 +126,7 @@ TPCA / PCN が対象とする Target State（目標状態・目標実行経路�
 - 圧入、搬送引渡し、分流などの工程段階
 - MES / WCS におけるタスク実行経路
 - AGV / AMR 群制御における協調実行状態
-- 製造 DX における複数システム横断の重要な状態切替
+- 製造DX における複数システム横断の重要な状態切替
 - デジタルシステムにおける明確な実行経路
 
 PCN は、1 つの明確な Target State Entry に対応する。
@@ -138,8 +139,8 @@ PCN は、その入口に関係する状態を取得し、CAE-SDB による構�
 TPCA
 → PCN
 → CAE-SDB
-→ 制御優先度調停
-→ 複数経路制御
+→ Arbitration（制御優先度調停）
+→ Multipath Control（複数経路制御）
 → PCN Trace
 ```
 
@@ -150,8 +151,8 @@ TPCA
 | TPCA | 状態遷移前制御の全体アーキテクチャ |
 | PCN | 1 つの Target State Entry に対応する前制御ノード |
 | CAE-SDB | PCN 内部の構造化判定ロジック |
-| 制御優先度調停 | 複数の判定結果、重要な許可、制御制約の優先関係を処理する |
-| 複数経路制御 | 今回の Target State Entry に対する制御経路を形成する |
+| Arbitration（制御優先度調停） | 複数の判定結果、重要な許可、制御制約の優先関係を処理する |
+| Multipath Control（複数経路制御） | 今回の Target State Entry に対する制御経路を形成する |
 | PCN Trace | 1 回の Target State Entry に対する判定・制御・実行履歴 |
 
 ## 2.2 基本エンジニアリングチェーン
@@ -161,14 +162,14 @@ TPCA
 | 工程位置 | エンジニアリング対象 | 主な処理 | 主な結果 |
 |---|---|---|---|
 | 1 | **Current State（現在状態・現在段階・現在経路位置）** | 今回の状態遷移の起点となる現在状態を確認する | 現在状態を特定 |
-| 2 | **Target State（目標状態・目標実行経路・目標物理実行段階） / Target State Entry（目標状態入口）** | 今回進入しようとする Target State と、それに対応する Target State Entry を明確にする | 今回の判定対象を確定 |
+| 2 | **Target State（目標状態・目標実行経路・目標物理実行段階） / Target State Entry（目標状態入口）** | 今回移行しようとする Target State と、それに対応する Target State Entry を明確にする | 今回の判定対象を確定 |
 | 3 | **PCN / 前制御ノード** | Target State Entry に関係する状態を取得し、C / A / E へ状態マッピングする | 状態変数領域を整理 |
-| 4 | **PCN 内部判定** | C / A / E の関連状態に対して S / D / B 判定を行う | CAE-SDB 判定結果 + T |
-| 5 | **PCN 内部制御判断** | CAE-SDB 判定結果、重要な許可、制御制約などを制御優先度調停（Arbitration）で処理する | 制御上の優先関係を確定 |
-| 6 | **PCN 制御出力** | 制御優先度調停の結果から複数経路制御（Multipath Control）を形成する | 進入許可、待機、再確認、代替経路、禁止など |
-| 7 | **Target State Entry に対する制御結果** | 今回の Target State Entry に対する進入可否、待機、再試行、代替経路などを確定する | 次の制御・実行先を確定 |
-| 8 | **選択された制御経路** | 複数経路制御で決定された状態・経路・処理を実行する | 実行結果を形成 |
-| 9 | **PCN Trace** | 入力状態、判定結果、制御結果、実行結果、時間情報 T を一つの履歴として関連付ける | 状態遷移判定履歴を記録 |
+| 4 | **PCN 内部判定** | C / A / E の関連状態に対して S / D / B 判定を行い、結果を CAE-SDB Matrix に整理する | CAE-SDB Result（CAE-SDB 判定結果）+ T（時間情報） |
+| 5 | **PCN 内部制御判断** | CAE-SDB Result、重要な許可、制御制約などを Arbitration（制御優先度調停）で処理する | 制御上の優先関係を明確化 |
+| 6 | **PCN 制御出力** | Arbitration の結果に基づいて Multipath Control（複数経路制御）を形成する | 移行許可、待機、再確認、代替経路、移行禁止など |
+| 7 | **Target State Entry に対する制御結果** | 今回の Target State Entry に対して、移行、保留、禁止、別経路などの処理結果を明確にする | 次の制御・実行方向を明確化 |
+| 8 | **選択された制御経路** | 選択された制御経路を実行する | Execution Result（実行結果）を形成 |
+| 9 | **PCN Trace** | 入力状態、判定結果、制御結果、実行結果、時間情報 T を一つの履歴として関連付ける | PCN 状態遷移判定履歴を記録 |
 
 ![TPCA の基本処理チェーン](/images/tpca/02-tpca-process-chain.png)
 
@@ -177,7 +178,7 @@ TPCA
 この構造により、単純な Ready / Not Ready、OK / NG、Waiting / Blocked などの結果に加えて、
 
 - どの状態変数領域に関係する結果か。
-- どの判定特性に関係する結果か。
+- どの判定性質に関係する結果か。
 - どの制御経路が選択されたか。
 - 実行後にどのような結果となったか。
 
@@ -232,7 +233,7 @@ Target State
 
 ![PCN 前制御ノードの位置と動作](/images/tpca/04-pcn-node-position.png)
 
-図3：PCN は Target State Entry の前に配置され、Target State へ進入する前に、関連状態の整理、構造化判定、制御優先度調停、制御経路形成を行う。
+図3：PCN は Target State Entry の前に配置され、Target State へ移行する前に、関連状態の整理、構造化判定、制御優先度調停、制御経路形成を行う。
 
 1 つの PCN では、少なくとも次の対象を整理する。
 
@@ -243,11 +244,12 @@ Target State
 | Target State Entry（目標状態入口） | 今回どの入口を判定対象とするか |
 | 関連状態 | 今回の状態遷移に直接関係する状態 |
 | C / A / E 状態マッピング | 関連状態が今回の状態遷移で担う役割 |
-| S / D / B 判定 | 各状態に対する判定特性 |
-| CAE-SDB 判定結果 | 今回形成された構造化判定結果 |
+| S / D / B 判定 | 各状態に対して実行する判定性質 |
+| CAE-SDB Result（CAE-SDB 判定結果） | 今回形成された構造化判定結果 |
 | 時間情報 T | 状態および判定に対応する時間情報 |
-| 制御優先度調停 | 複数結果と制約の優先関係 |
-| 複数経路制御 | 今回選択する制御経路 |
+| Arbitration（制御優先度調停） | 複数の判定結果、重要な許可、制御制約の優先関係 |
+| Multipath Control（複数経路制御） | Arbitration の結果に基づいて形成する制御経路 |
+| Target State Entry に対する制御結果 | 今回の目標状態入口に対する移行、保留、禁止などの処理結果 |
 | PCN Trace | 入力、判定、制御、実行結果の履歴 |
 
 PCN の実装規模、入力数、判定ルール数は対象システムに応じて設定する。
@@ -270,7 +272,7 @@ PCN の実装規模、入力数、判定ルール数は対象システムに応�
 - 配置完了 → 圧入
 - 検査待ち → 検査実行
 - 搬送待機 → 引渡し
-- 検査完了 → 正常分流への進入（判定結果に応じて異常分流などの別経路を選択）
+- 検査完了 → 正常分流への移行（判定結果に応じて異常分流などの別経路を選択）
 
 MES / WCS・複数設備協調では、例えば次の入口がある。
 
@@ -280,11 +282,11 @@ MES / WCS・複数設備協調では、例えば次の入口がある。
 - 共有資源使用前
 - 下流引渡し前
 
-製造 DX では、例えば次の入口がある。
+製造DX では、例えば次の入口がある。
 
-- 品質放行後の次工程進入
+- 品質放行後の次工程への移行
 - 保全完了後の自動運転再開
-- 作業指示切替後の目標生産状態への進入
+- 作業指示切替後の目標生産状態への移行
 - 手動確認後の自動運転再開
 
 PCN の配置位置は Target State Entry を基準として決定する。
@@ -311,7 +313,7 @@ TPCA / PCN の導入・検証は、プロジェクト段階に応じて段階的
 
 ---
 
-# 第 4 章 CAE-SDB：状態変数領域と判定特性
+# 第 4 章 CAE-SDB：状態変数領域と判定性質
 
 ## 4.1 二軸構造
 
@@ -320,7 +322,7 @@ CAE-SDB は、Target State Entry に関係する状態を二つの軸で整理�
 ```text
 C / A / E：状態変数領域
 
-S / D / B：判定特性
+S / D / B：判定性質
 ```
 
 C / A / E は、状態が今回の状態遷移で担う役割を表す。
@@ -328,18 +330,18 @@ C / A / E は、状態が今回の状態遷移で担う役割を表す。
 | 状態変数領域 | 定義 | 基本的な問い |
 |---|---|---|
 | C = Condition / 条件状態 | Target State へ進むための前提条件 | 必要な条件はそろっているか |
-| A = Authority / 許可状態 | Target State への進入を許可する状態 | 現在、この状態へ進むことが許可されているか |
-| E = Execution Chain / 実行チェーン状態 | Target State へ進入した後に必要な実行チェーン | 進入後も必要な実行チェーンを継続できるか |
+| A = Authority / 許可状態 | Target State への移行を許可する状態 | 現在、この状態へ進むことが許可されているか |
+| E = Execution Chain / 実行チェーン状態 | Target State へ移行した後に必要な実行チェーン | 進入後も必要な実行チェーンを継続できるか |
 
 重要な A：Authority は、Target State Entry に対する独立した必要制約となる場合がある。
 
-重要な許可が成立していない場合、その Target State Entry への進入は許可しない。
+重要な許可が成立していない場合、その Target State Entry からの移行は許可しない。
 
-E：Execution Chain は、単体設備の Ready に加えて、下流受入、代替経路、異常経路、資源、結果書戻しなど、進入後の継続に必要な実行チェーンを対象とする。
+E：Execution Chain は、単体設備の Ready に加えて、下流受入、代替経路、異常経路、資源、結果書戻しなど、移行後の継続に必要な実行チェーンを対象とする。
 
-S / D / B は、各状態に対する判定特性である。
+S / D / B は、各状態に対する判定性質である。
 
-| 判定特性 | 定義 | 基本的な問い |
+| 判定性質 | 定義 | 基本的な問い |
 |---|---|---|
 | S = Structure / 構造完全性 | 必要な信号、インターフェース、マッピング、許可元、経路、実行チェーン境界が定義・接続・観測可能か | 判定に必要な構造が整っているか |
 | D = Dynamics / 動的時系列有効性 | 状態が今回の Target State Entry に対する現在有効な判定根拠として使用できるか | この状態を現在の判定根拠として使用できるか |
@@ -385,7 +387,7 @@ B：
 
 ## 4.2 CAE-SDB の組合せ
 
-C / A / E と S / D / B を組み合わせることで、次の判定座標を構成できる。
+C / A / E と S / D / B を組み合わせることで、CAE-SDB Matrix の各セルを構成できる。
 
 | 状態変数領域 | S：構造完全性 | D：動的時系列有効性 | B：制御境界 |
 |---|---|---|---|
@@ -395,7 +397,7 @@ C / A / E と S / D / B を組み合わせることで、次の判定座標を�
 
 ![CAE-SDB 二軸判定構造](/images/tpca/03-cae-sdb-matrix.png)
 
-図4：C / A / E は状態変数領域、S / D / B は判定特性を示し、二つの軸を組み合わせて CAE-SDB 判定結果を形成する。
+図4：C / A / E は状態変数領域、S / D / B は判定性質を示し、二つの軸を組み合わせて CAE-SDB 判定結果を形成する。
 
 例えば、
 
@@ -414,9 +416,13 @@ E-D：
 
 この構造により、設備やシステムごとに信号名称や実装方法が異なっても、判定結果を共通形式で整理できる。
 
+CAE-SDB Result は、対応する S / D / B 判定が定義され、判定に必要な根拠が取得され、実際に判定を行った場合に形成する。
+
+> **1 回の Target State Entry で、9 つすべての CAE-SDB Result を形成する必要はない。**
+
 詳細については、以下を参照。
 
-[なぜ CAE-SDB なのか ― 状態変数領域と判定特性の二軸構造](/jp/notes/why-cae-sdb/)
+[なぜ CAE-SDB なのか ― 状態変数領域と判定性質の二軸構造](/jp/notes/why-cae-sdb/)
 
 ## 4.3 時間情報 T
 
@@ -433,22 +439,23 @@ E-D：
 
 ---
 
-# 第 5 章 制御優先度調停、複数経路制御、PCN Trace
+# 第 5 章 Arbitration、Multipath Control、PCN Trace、PCN Network
 
 ## 5.1 判定結果から制御へ
 
 PCN 内部では、CAE-SDB 判定結果を制御へ接続する。
 
 ```text
-CAE-SDB 判定結果 + T
-→ 制御優先度調停
-→ 複数経路制御
-→ 選択された制御経路
-→ 実行結果
+CAE-SDB Result + T
+→ Arbitration（制御優先度調停）
+→ Multipath Control（複数経路制御）
+→ Target State Entry に対する制御結果
+→ 選択された制御経路の実行
+→ Execution Result（実行結果）
 → PCN Trace
 ```
 
-1 回の Target State Entry では、複数の CAE-SDB 判定結果が同時に形成される場合がある。
+1 回の Target State Entry では、複数の CAE-SDB Result が同時に形成される場合がある。
 
 例えば、
 
@@ -460,9 +467,9 @@ E-D
 
 が同時に存在する場合である。
 
-制御優先度調停では、
+Arbitration（制御優先度調停）では、
 
-- CAE-SDB 判定結果
+- CAE-SDB Result（CAE-SDB 判定結果）
 - 重要な Authority
 - 安全上の制約
 - 事前定義された制御ルール
@@ -470,11 +477,11 @@ E-D
 
 を用いて、今回の Target State Entry に対する制御上の優先関係を処理する。
 
-必要な C / A / E 関連状態について、Target State Entry に要求される S / D / B 判定が成立し、重要な許可および上位の制限制約が満たされている場合に、Target State への進入を許可する。
+今回の Target State Entry に必要な関連状態の判定結果、重要な許可、および上位の制限制約が移行条件を満たしている場合は、Target State への移行を許可する。
 
-進入条件が成立しない場合は、制御優先度調停の結果に基づいて対応する制御経路を形成する。
+移行条件を満たしていない場合は、Arbitration の結果に基づいて対応する制御経路を形成する。
 
-## 5.2 複数経路制御
+## 5.2 Multipath Control（複数経路制御）
 
 代表的な制御経路には、次のものがある。
 
@@ -497,9 +504,11 @@ E-D
 - 異常隔離
 - 詳細記録
 
-同じ CAE-SDB 判定結果であっても、Target State Entry、安全上の制約、設備構成、制御ルールによって選択される制御経路は異なる。
+同じ CAE-SDB Result であっても、Target State Entry、安全上の制約、設備構成、制御ルールによって選択される制御経路は異なる。
 
-複数経路制御は、今回の Target State Entry に対して、進入許可、待機、再確認、再試行、代替経路、移行禁止など、次に適用する制御処理を形成するエンジニアリング制御出力である。
+Multipath Control は、今回の Target State Entry に対して、移行許可、待機、再確認、再試行、代替経路、移行禁止など、次に適用する制御処理を形成するエンジニアリング制御出力である。
+
+代替経路やリターン経路などが別の Target State に対応する場合は、今回の Target State Entry に対する候補制御経路として扱う。実際に別の Target State へ移行する場合は、その Target State に対応する Target State Entry で改めて判定する。
 
 ## 5.3 PCN Trace
 
@@ -510,17 +519,18 @@ PCN Trace は、1 回の Target State Entry に対する判定・制御・実行
 | 項目 | 内容 |
 |---|---|
 | Current State（現在状態） | 判定時点の現在状態 |
-| Target State（目標状態・目標実行経路・目標物理実行段階） | 今回進入しようとした Target State |
+| Target State（目標状態・目標実行経路・目標物理実行段階） | 今回移行しようとした Target State |
 | Target State Entry（目標状態入口） | 今回判定対象となった目標状態入口 |
 | PCN（Pre-Control Node / 前制御ノード） | 今回の判定を担当した前制御ノード |
 | 関連状態 | 今回の判定に使用した主要状態 |
 | 時間情報 T | 状態および判定の時間位置 |
 | C / A / E 状態マッピング | 状態遷移における役割 |
 | S / D / B 判定 | 各状態に対する判定 |
-| CAE-SDB 判定結果 | 構造化判定結果 |
-| 制御優先度調停結果 | 制御上の優先関係 |
-| 複数経路制御 | 今回選択された制御経路 |
-| 実行結果 | 制御後に確認された結果 |
+| CAE-SDB Result（CAE-SDB 判定結果） | 構造化判定結果 |
+| Arbitration Result（制御優先度調停結果） | 制御上の優先関係を処理した結果 |
+| Multipath Control（複数経路制御） | Arbitration の結果に基づいて形成された制御経路 |
+| Target State Entry に対する制御結果 | 今回の目標状態入口に対する移行、保留、禁止などの処理結果 |
+| Execution Result（実行結果） | 選択された制御経路を実行した結果 |
 | Trace ID | 1 回の判定履歴を識別する情報 |
 
 PCN Trace を継続して蓄積することで、
@@ -581,7 +591,7 @@ PCN Network は、
 
 ![TPCA / PCN の適用方向](/images/tpca/05-tpca-application-map.png)
 
-図5：TPCA / PCN は、自動化実行ユニット、MES / WCS・複数設備協調、製造 DX、デジタル呼出しなど、異なる Target State Entry へ展開できる。
+図5：TPCA / PCN は、自動化実行ユニット、MES / WCS・複数設備協調、製造DX、デジタル呼出しなど、異なる Target State Entry へ展開できる。
 
 ## 6.1 自動化実行ユニット
 
@@ -596,11 +606,11 @@ PCN Network は、
 
 例えば、ロボットが Ready であっても、画像認識結果の失効、安全許可、グリッパ状態、下流受入、異常経路などが今回の Target State Entry に影響する。
 
-PCN は目標物理実行段階へ進入する前に配置し、関連状態を CAE-SDB で判定し、制御優先度調停を経て複数経路制御へ接続する。
+PCN は目標物理実行段階へ移行する前に配置し、関連状態に対して CAE-SDB 判定を行い、Arbitration（制御優先度調停）を経て Multipath Control（複数経路制御）へ接続する。
 
 関連事例：
 
-[自動化実行ユニット前置判定事例](/jp/cases/automation-execution-unit-pre-control/)
+[自動化実行ユニット前判定事例](/jp/cases/automation-execution-unit-pre-control/)
 
 ## 6.2 MES / WCS・複数設備協調
 
@@ -621,14 +631,14 @@ PCN は、複数システムに分散した状態を Target State Entry に対�
 
 [MES / WCS 協調停滞診断モジュール事例](/jp/cases/collaborative-stagnation-diagnosis/)
 
-## 6.3 製造 DX
+## 6.3 製造DX
 
-製造 DX では、設備データ、生産データ、品質状態、保全状態、手動確認などを利用して、複数システム横断の状態遷移を設計できる。
+製造DX では、設備データ、生産データ、品質状態、保全状態、手動確認などを利用して、複数システム横断の状態遷移を設計できる。
 
 代表例には、次のものがある。
 
-- 品質放行後の次工程進入
-- 作業指示切替後の目標生産状態への進入
+- 品質放行後の次工程への移行
+- 作業指示切替後の目標生産状態への移行
 - 保全完了後の自動運転再開
 - 手動確認後の自動運転再開
 - 複数システムにまたがる工程状態切替
@@ -637,7 +647,7 @@ PCN は、これらの Target State Entry に分散している状態遷移条�
 
 関連事例：
 
-[製造 DX 状態遷移条件設計・履歴分析事例](/jp/cases/production-dx-state-transition/)
+[製造DX 状態遷移条件設計・履歴分析事例](/jp/cases/production-dx-state-transition/)
 
 ## 6.4 デジタル呼出しへの拡張
 
@@ -666,7 +676,7 @@ TPCA / PCN は、明確な実行入口を持つデジタルシステムにも適
 
 TPCA / PCN の中核は、Target State Entry（目標状態入口）を独立したエンジニアリング対象として扱うことにある。
 
-PCN は Target State Entry の前に配置され、関連状態を C / A / E と S / D / B の二軸で判定し、制御優先度調停、複数経路制御、PCN Trace へ接続する。
+PCN は Target State Entry の前に配置され、関連状態を C / A / E の状態変数領域へ整理し、S / D / B の判定性質から CAE-SDB Result を形成する。続いて Arbitration で制御上の優先関係を処理し、Multipath Control を形成して、その判定・制御・実行結果を PCN Trace へ記録する。
 
 この構造により、分散した状態情報を Target State Entry 単位の判定へ集約し、その結果を制御と履歴へ接続できる。
 
@@ -716,7 +726,7 @@ TPCA / PCN は、状態遷移条件、許可、実行チェーン、制御境界
 
 - Public Version 1.4：2026-08-25 更新。CAE-SDB の二軸構造説明を整理。
 
-- Public Version 1.5：2026-09-09 更新。先頭部分と各章の重複説明を削減。詳細な技術論点はエンジニアリング課題、技術ノート、適用事例へ分離。
+- Public Version 1.5：2026-09-09 更新。9 ステップのエンジニアリング分析順序を追加し、Target State Entry、CAE-SDB、Arbitration、Multipath Control、PCN Trace、PCN Network の公開表現を統一。
 
 著者：全野南政 / Nansei Zenno
 
