@@ -395,7 +395,7 @@ C / A / E と S / D / B を組み合わせることで、CAE-SDB Matrix の各�
 | A：許可状態 | A-S | A-D | A-B |
 | E：実行チェーン状態 | E-S | E-D | E-B |
 
-![CAE-SDB 二軸判定構造](/images/tpca/03-cae-sdb-matrix.png)
+![CAE-SDB 二軸判定構造](/images/tpca/03-cae-sdb-matrix.jp.png)
 
 図4：C / A / E は状態変数領域、S / D / B は判定性質を示し、二つの軸を組み合わせて CAE-SDB 判定結果を形成する。
 
