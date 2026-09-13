@@ -28,24 +28,24 @@ languages:
           url: "/jp/"
           weight: 10
 
-        - name: "ホワイトペーパー"
-          url: "/jp/whitepaper/"
-          weight: 20
-
-        - name: "CAE-SDB"
-          url: "/jp/notes/why-cae-sdb/"
-          weight: 30
-
-        - name: "応用事例"
-          url: "/jp/cases/"
-          weight: 40
-
         - name: "エンジニアリング課題"
           url: "/jp/questions/"
-          weight: 50
+          weight: 20
 
         - name: "基本概念"
           url: "/jp/concepts/"
+          weight: 30
+
+        - name: "ホワイトペーパー"
+          url: "/jp/whitepaper/"
+          weight: 40
+
+        - name: "CAE-SDB"
+          url: "/jp/notes/why-cae-sdb/"
+          weight: 50
+
+        - name: "応用事例"
+          url: "/jp/cases/"
           weight: 60
 
         - name: "技術ノート"
@@ -85,24 +85,24 @@ languages:
           url: "/zh/"
           weight: 10
 
-        - name: "白皮书"
-          url: "/zh/whitepaper/"
-          weight: 20
-
-        - name: "CAE-SDB"
-          url: "/zh/notes/why-cae-sdb/"
-          weight: 30
-
-        - name: "应用案例"
-          url: "/zh/cases/"
-          weight: 40
-
         - name: "工程问题"
           url: "/zh/questions/"
-          weight: 50
+          weight: 20
 
         - name: "核心概念"
           url: "/zh/concepts/"
+          weight: 30
+
+        - name: "白皮书"
+          url: "/zh/whitepaper/"
+          weight: 40
+
+        - name: "CAE-SDB"
+          url: "/zh/notes/why-cae-sdb/"
+          weight: 50
+
+        - name: "应用案例"
+          url: "/zh/cases/"
           weight: 60
 
         - name: "技术札记"
@@ -142,20 +142,20 @@ languages:
           url: "/en/"
           weight: 10
 
-        - name: "White Papers"
-          url: "/en/whitepaper/"
-          weight: 20
-
-        - name: "Cases"
-          url: "/en/cases/"
-          weight: 30
-
         - name: "Engineering Questions"
           url: "/en/questions/"
-          weight: 40
+          weight: 20
 
         - name: "Core Concepts"
           url: "/en/concepts/"
+          weight: 30
+
+        - name: "White Papers"
+          url: "/en/whitepaper/"
+          weight: 40
+
+        - name: "Cases"
+          url: "/en/cases/"
           weight: 50
 
         - name: "Technical Notes"
