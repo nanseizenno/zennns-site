@@ -27,37 +27,49 @@ languages:
         - name: "ホーム"
           url: "/jp/"
           weight: 10
-        - name: "エンジニアリング課題"
-          url: "/jp/questions/"
-          weight: 20
-        - name: "基本概念"
-          url: "/jp/concepts/"
-          weight: 30
+
         - name: "ホワイトペーパー"
           url: "/jp/whitepaper/"
-          weight: 40
+          weight: 20
+
+        - name: "CAE-SDB"
+          url: "/jp/notes/why-cae-sdb/"
+          weight: 30
+
         - name: "応用事例"
           url: "/jp/cases/"
+          weight: 40
+
+        - name: "エンジニアリング課題"
+          url: "/jp/questions/"
           weight: 50
+
+        - name: "基本概念"
+          url: "/jp/concepts/"
+          weight: 60
+
         - name: "技術ノート"
           url: "/jp/notes/"
-          weight: 60
+          weight: 70
+
         - name: "本サイトについて"
           url: "/jp/about/"
-          weight: 70
+          weight: 80
 
         - name: "協業について"
           url: "/jp/about/cooperation/"
           parent: "本サイトについて"
-          weight: 71
+          weight: 81
+
         - name: "権利について"
           url: "/jp/about/legal/"
           parent: "本サイトについて"
-          weight: 72
+          weight: 82
+
         - name: "著者について"
           url: "/jp/about/author/"
           parent: "本サイトについて"
-          weight: 73
+          weight: 83
 
   zh:
     languageCode: "zh-CN"
@@ -72,36 +84,49 @@ languages:
         - name: "首页"
           url: "/zh/"
           weight: 10
-        - name: "工程问题"
-          url: "/zh/questions/"
-          weight: 20
-        - name: "核心概念"
-          url: "/zh/concepts/"
-          weight: 30
+
         - name: "白皮书"
           url: "/zh/whitepaper/"
-          weight: 40
+          weight: 20
+
+        - name: "CAE-SDB"
+          url: "/zh/notes/why-cae-sdb/"
+          weight: 30
+
         - name: "应用案例"
           url: "/zh/cases/"
+          weight: 40
+
+        - name: "工程问题"
+          url: "/zh/questions/"
           weight: 50
+
+        - name: "核心概念"
+          url: "/zh/concepts/"
+          weight: 60
+
         - name: "技术札记"
           url: "/zh/notes/"
-          weight: 60
+          weight: 70
+
         - name: "关于本站"
           url: "/zh/about/"
-          weight: 70
+          weight: 80
+
         - name: "合作说明"
           url: "/zh/about/cooperation/"
           parent: "关于本站"
-          weight: 71
+          weight: 81
+
         - name: "权利声明"
           url: "/zh/about/legal/"
           parent: "关于本站"
-          weight: 72
+          weight: 82
+
         - name: "关于作者"
           url: "/zh/about/author/"
           parent: "关于本站"
-          weight: 73
+          weight: 83
 
   en:
     languageCode: "en-US"
@@ -116,21 +141,27 @@ languages:
         - name: "Home"
           url: "/en/"
           weight: 10
-        - name: "Engineering Questions"
-          url: "/en/questions/"
-          weight: 20
-        - name: "Core Concepts"
-          url: "/en/concepts/"
-          weight: 30
+
         - name: "White Papers"
           url: "/en/whitepaper/"
-          weight: 40
+          weight: 20
+
         - name: "Cases"
           url: "/en/cases/"
+          weight: 30
+
+        - name: "Engineering Questions"
+          url: "/en/questions/"
+          weight: 40
+
+        - name: "Core Concepts"
+          url: "/en/concepts/"
           weight: 50
+
         - name: "Technical Notes"
           url: "/en/notes/"
           weight: 60
+
         - name: "About"
           url: "/en/about/"
           weight: 70
@@ -139,10 +170,12 @@ languages:
           url: "/en/about/cooperation/"
           parent: "About"
           weight: 71
+
         - name: "Legal Notice"
           url: "/en/about/legal/"
           parent: "About"
           weight: 72
+
         - name: "Author"
           url: "/en/about/author/"
           parent: "About"
