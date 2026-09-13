@@ -30,7 +30,7 @@ TPCA / PCN では、これらの問題を、Current State（現在状態・現�
 > **明確な Target State Entry は、独立して設計・判定・制御・記録可能なエンジニアリング対象として扱う。**
 
 **TPCA（Transition Pre-Control Architecture）** は、状態遷移前制御アーキテクチャである。  
-**PCN（Pre-Control Node / 前制御ノード）** は、明確な Target State Entry の前に配置する前制御ノードである。
+**PCN（Pre-Control Node ）** は、明確な Target State Entry の前に配置する前制御ノードである。
 
 > **TPCA は全体アーキテクチャであり、PCN は個々の明確な Target State Entry の前に配置するエンジニアリングノードである。**
 
