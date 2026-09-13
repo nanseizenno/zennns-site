@@ -1,7 +1,7 @@
 ---
 title: "エンジニアリングシステムの状態遷移前制御｜TPCA / PCN"
-summary: "複雑なエンジニアリングシステムが Target State へ進む前の判定を対象とし、明確な Target State Entry を、独立して設計・判定・制御・記録可能なエンジニアリング対象として扱う。"
-description: "TPCA / PCN 状態遷移前制御体系の概要を示し、エンジニアリング課題、中核概念、適用事例、ホワイトペーパー、技術ノート、協業窓口への入口を提供する。"
+summary: "複雑なエンジニアリングシステムが Target State へ進む前の判定と制御を対象とし、明確な Target State Entry を独立して設計・判定・制御・記録可能なエンジニアリング対象として扱う。"
+description: "TPCA / PCN 状態遷移前制御体系、CAE-SDB の中核分析方法、および代表的なエンジニアリング適用事例を紹介する。"
 draft: false
 ShowReadingTime: false
 ShowToc: false
@@ -34,7 +34,24 @@ TPCA / PCN では、これらの問題を、Current State（現在状態・現�
 
 > **TPCA は全体アーキテクチャであり、PCN は個々の明確な Target State Entry の前に配置するエンジニアリングノードである。**
 
-TPCA / PCN は、PLC、ステートマシン、SFC、Interlock、安全制御、MES / WCS などと役割分担し、複数の既存機構が関与する Target State Entry に対して、前置判定、制御、履歴を構成する。
+TPCA / PCN は、複数の設備、システム、許可元、実行チェーンに関係する状態を Target State Entry の前で整理・判定し、その結果を制御と状態遷移判定履歴へ接続する。
+
+その中核的な構造化分析方法が **CAE-SDB** である。
+
+TPCA / PCN は、PLC、ステートマシン、SFC、Interlock、安全制御、MES / WCS などの既存機構と役割分担して利用する。
+
+---
+
+## CAE-SDB｜中核分析方法
+
+CAE-SDB は、Target State Entry 前の複雑な状態を二つの軸から構造化して判定する。
+
+> **C / A / E**：条件・許可・実行チェーン  
+> **S / D / B**：構造・動的時系列有効性・制御境界
+
+この二軸構造により、分散した状態情報を共通形式の判定結果として整理し、後続の制御優先度調停と複数経路制御へ接続する。
+
+### [なぜ CAE-SDB なのか](/jp/notes/why-cae-sdb/)
 
 ---
 
@@ -52,24 +69,32 @@ TPCA / PCN 状態遷移前制御体系に関連して、著者は複数のエン
 
 ### [エンジニアリング課題](/jp/questions/)
 
-自動化ユニット、複数システム連携、状態遷移設計の3つの問題領域から、「次の状態へ進まない」問題を整理し、TPCA / PCN を理解する入口を示す。
+自動化ユニット、複数システム連携、状態遷移設計などの実際のエンジニアリング課題から、TPCA / PCN を理解する入口を示す。
 
 ### [Concepts｜基本概念](/jp/concepts/)
 
-Current State、Target State、Target State Entry、PCN、CAE-SDB、Multipath Control、PCN Trace、PCN Network などの中核概念を確認する。
-
-### [適用事例](/jp/cases/)
-
-TPCA / PCN を、自動化実行ユニット、MES / WCS 協調停滞、製造 DX における複数システム横断の状態遷移へ適用した事例を紹介する。
+Current State、Target State、Target State Entry、PCN、C / A / E、S / D / B、Multipath Control、PCN Trace、PCN Network などの基本概念を確認する。
 
 ### [ホワイトペーパー](/jp/whitepaper/)
 
-TPCA / PCN の全体アーキテクチャと、基本的なエンジニアリングの流れを体系的に整理する。
+TPCA / PCN の全体アーキテクチャと、状態遷移前制御の基本的なエンジニアリングフローを体系的に整理する。
+
+### [CAE-SDB｜中核分析方法](/jp/notes/why-cae-sdb/)
+
+Target State Entry 前の複雑な状態を、C / A / E と S / D / B の二軸から構造化して判定する方法を説明する。
+
+### [応用事例](/jp/cases/)
+
+TPCA / PCN を、自動化実行ユニット、MES / WCS 協調停滞、製造 DX における複数システム横断の状態遷移へ適用した事例を紹介する。
 
 ### [技術ノート](/jp/notes/)
 
-既存技術との関係、適用範囲、PCN のエンジニアリング上の位置付け、CAE-SDB、PCN Trace、PCN Network などの個別テーマを扱う。
+既存技術との関係、適用範囲、PCN のエンジニアリング上の位置付け、PCN Trace、PCN Network などの個別テーマを扱う。
+
+### [協業について](/jp/about/cooperation/)
+
+明確な Target State Entry を対象とした技術交流、PoC、共同開発について案内する。
 
 ---
 
-本サイトでは、TPCA / PCN のエンジニアリング上の位置付け、全体アーキテクチャ、基本概念、代表的な適用事例を中心に公開している。
+本サイトでは、TPCA / PCN の全体アーキテクチャ、CAE-SDB の中核分析方法、基本概念および代表的なエンジニアリング適用事例を中心に公開している。
