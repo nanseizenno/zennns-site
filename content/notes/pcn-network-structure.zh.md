@@ -30,7 +30,7 @@ PCN Network 可以定义为：
 
 多个目标状态入口分别形成对应的 PCN，并通过状态推进、许可、资源、执行链和状态更新等工程关系连接。不同设备、MES / WCS、AGV / AMR 群控等系统可以为各 PCN 提供相关状态信息；PCN Trace 进一步为跨节点的履历比较和系统级分析提供基础。
 
-![PCN Network 状态迁移前置控制网络整体结构示意](/images/notes/10-pcn-network-structure.zh.png)
+![PCN Network 状态迁移前置控制网络整体结构示意](/images/tpca/10-pcn-network-structure.zh.png)
 
 *图 1：PCN Network 整体结构示意。中部表示多个目标状态入口及其 PCN 之间的状态迁移与工程依赖关系；右侧表示基于 PCN Trace 的后续分析与人工确认流程。*
 
