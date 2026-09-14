@@ -6,7 +6,7 @@ date: 2026-08-25
 lastmod: 2026-09-13
 author: "全野南政 / Nansei Zenno"
 document_type: "技术札记"
-version: "Public Note Version 1.1"
+version: "Public Note Version 1.2"
 citation_url: "https://zennns.com/zh/notes/why-cae-sdb/"
 draft: false
 ShowReadingTime: true
@@ -128,6 +128,12 @@ E：进入目标状态以后执行链能否继续
 
 C、A、E 均在进入 Target State 之前由 PCN 获取和判定。
 
+C / A / E 对应一次明确状态迁移相对于 Target State Entry 的三个功能位置：进入前所需条件、入口处的进入许可，以及进入后的执行链接续。
+
+对于一次具有明确方向的状态迁移，这三个位置构成对迁移成立性相关状态功能角色的结构性分解。
+
+Current State、Target State、时间信息、状态标识、判定结果和控制结果具有各自独立的工程作用，不属于状态迁移功能角色。
+
 ### 2.1 C：Condition｜条件状态
 
 C 表示进入目标状态之前需要成立的条件状态。
@@ -196,6 +202,10 @@ E 必须绑定当前 Target State Entry。
 
 完成 C / A / E Mapping 后，PCN 根据当前 Target State Entry 已定义的判定规则，对相关状态执行 S / D / B Evaluation。
 
+S / D / B 分别对应工程状态验证中的三个基本问题：判定所依赖的结构是否已经建立、状态是否仍然有效，以及有效状态是否仍处于预先定义的允许边界内。
+
+结构建立、运行时有效性和允许边界并不是针对某一种设备提出的经验分类，而是工程系统中长期存在的基本验证问题。TPCA / PCN 将这三类判定性质统一收拢到 Target State Entry 的状态判定语境中，并使其能够一致作用于 C / A / E 三类状态变量域。
+
 ```text
 S：结构是否建立完整？
 
@@ -224,7 +234,7 @@ S 回答：
 
 ### 3.2 D：Dynamics｜动态时序有效性
 
-D 用于确认已经存在的状态，当前是否仍能够作为本次 Target State Entry 的有效判定依据。
+D 用于确认已经存在的状态，是否仍能够作为本次 Target State Entry 的有效判定依据。
 
 典型问题包括：
 
@@ -250,7 +260,7 @@ VisionOK = TRUE
 
 D 回答：
 
-> **这个状态当前还能否作为本次 Target State Entry 的有效判定依据？**
+> **这个状态还能否作为本次 Target State Entry 的有效判定依据？**
 
 ### 3.3 B：Boundary｜控制边界
 
@@ -447,32 +457,125 @@ PCN Trace 用于记录本次状态迁移中的主要状态、判定结果、控�
 
 ---
 
-## 6. 方法边界与当前范围
+## 6. 结构基础、适用边界与开放问题
 
-CAE-SDB 当前用于 TPCA / PCN 中 Target State Entry 前的结构化状态判定。
+CAE-SDB 的两条轴具有不同但明确的结构基础。
 
-当前主要关注三个问题：
+### 6.1 C / A / E 的结构基础
+
+C / A / E 表示一次明确 Target State Entry 中，与状态迁移成立性直接相关的三类功能角色。
+
+其结构关系为：
 
 ```text
-C / A / E 是否能够稳定整理状态迁移中的主要功能角色；
+进入前
+是否具备进入目标状态所需的条件
+        ↓
+C = Condition
 
-S / D / B 是否能够稳定整理状态所需要的主要判定性质；
+Target State Entry
+是否允许进入目标状态
+        ↓
+A = Authority
 
-CAE-SDB Result 是否能够持续连接后续 Arbitration、
-Multipath Control 和 PCN Trace。
+进入后
+目标状态所要求的执行链是否能够继续
+        ↓
+E = Execution Chain
 ```
 
-当前公开定义不主张已经通过数学方法证明 C / A / E 或 S / D / B 对所有工程系统具有形式上的完备性。
+对于一次具有明确方向的状态迁移，与迁移成立性直接相关的状态功能关系分别位于进入前、入口处和进入后三个位置。
 
-如果后续在不同设备、系统或行业中持续出现现有 C / A / E 无法自然表示的独立状态迁移角色，或出现 S / D / B 无法自然表示的独立判定性质，应作为新的候选结构单独验证。
+因此，C / A / E 并不是从具体设备案例中归纳得到的分类，而是围绕 Target State Entry 对状态迁移功能角色进行的结构性分解。
 
-因此，CAE-SDB 当前首先作为一种面向工程状态迁移前判定的结构化分析方法使用，其适用范围通过持续的工程案例、PoC 和跨对象应用进一步验证。
+如果某一信息无法直接归入 C / A / E，应首先判断其是否属于 Current State、Target State、时间信息、状态标识、元数据、判定性质、控制结果或履历信息，再判断其在整体工程结构中的位置。
+
+### 6.2 S / D / B 的工程基础
+
+S / D / B 表示对 C / A / E 状态进行工程验证时使用的三类基本判定性质。
+
+```text
+S = Structure
+判定所依赖的结构是否已经建立、接入并可观测。
+
+D = Dynamics
+状态是否仍然有效，并可作为本次状态迁移的判定依据。
+
+B = Boundary
+有效状态是否处于预先定义的允许范围、阈值或控制边界内。
+```
+
+这三类判定分别对应工程系统中长期存在的三个基本验证问题：
+
+```text
+结构建立了吗？
+
+当前状态有效吗？
+
+当前状态在界内吗？
+```
+
+类似的工程问题长期存在于工业控制、过程系统、工业通信、数据质量、软件接口与契约等领域。
+
+TPCA / PCN 的工作，是将这些验证性质统一置于 Target State Entry 的状态迁移语境中，并与 C / A / E 状态迁移功能角色形成二轴结构。
+
+因此：
+
+```text
+状态迁移功能角色
+C / A / E
+
+        ×
+
+状态判定性质
+S / D / B
+
+        ↓
+
+CAE-SDB Result
+```
+
+构成 CAE-SDB 的基本分析结构。
+
+### 6.3 适用边界
+
+CAE-SDB 的直接适用对象，是具有明确状态迁移关系的工程系统。
+
+至少需要能够明确：
+
+- Current State / Current Stage；
+- Target State / Target Stage；
+- Target State Entry；
+- 与本次迁移直接相关的状态；
+- 状态对应的条件、许可和执行链关系；
+- 必要的结构、动态和边界判定依据。
+
+具体设备类型、控制平台、行业和信号名称可以不同，但分析对象必须能够被表示为一次明确的状态迁移入口。
+
+### 6.4 后续开放问题
+
+CAE-SDB 后续研究主要通过工程项目、PoC 和跨行业应用展开。
+
+研究重点包括不同工程对象中的映射方式、行业化判定规则、判定质量评价、Arbitration 规则以及 Multipath Control 的形成方式。
+
+主要开放问题包括：
+
+- C / A / E 和 S / D / B 在不同行业中的局部细分、扩展和工程映射方式；
+- 不同行业中 S / D / B 判定规则、数据来源和参数结构是否存在系统性差异；
+- CAE-SDB Result 的判定质量、一致性、稳定性和工程有效性如何评价；
+- 多个 CAE-SDB Result 同时出现时，Arbitration 规则如何形成；
+- 不同风险等级和工程对象下，Multipath Control 的合法候选路径如何定义；
+- Target State Entry 与 PCN 的合理粒度如何确定；
+- 多个 PCN 形成 PCN Network 后，节点之间的依赖、冲突和协同关系如何处理；
+- PCN Trace 长期积累后，如何支持比较分析、工程改善和再部署。
+
+这些问题依赖具体工程对象、现场数据、风险条件和实施经验，需要通过后续项目持续验证和发展。
 
 ---
 
 ## 参考文献与外部资料
 
-以下资料用于说明状态建模、工业状态信息和复杂系统事件时序等相关工程基础，不表示这些既有理论与 CAE-SDB 存在一一对应关系，也不用于证明 CAE-SDB 的完备性。
+以下资料用于说明状态建模、工业状态信息、时间语义和事件顺序等相关工程基础。所列资料与 CAE-SDB 不存在一一对应关系，也不表示 CAE-SDB 直接来源于其中任何单一理论或标准。
 
 1. **HAREL D.**  
    *Statecharts: A Visual Formalism for Complex Systems.*  
@@ -497,7 +600,7 @@ Multipath Control 和 PCN Trace。
 
 题目：为什么是 CAE-SDB？——目标状态入口前的双轴结构化分析方法  
 文档类型：技术札记  
-版本：Public Note Version 1.1  
+版本：Public Note Version 1.2  
 首次发布日期：2026-08-25  
 最后更新：2026-09-13  
 作者：全野南政 / Nansei Zenno  
