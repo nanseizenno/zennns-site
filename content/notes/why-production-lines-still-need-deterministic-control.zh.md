@@ -7,7 +7,7 @@ lastmod: 2026-09-15
 author: "全野南政 / Nansei Zenno"
 document_type: "技术札记"
 version: "Public Note Version 1.0"
-draft: true
+draft: false
 ShowReadingTime: true
 ShowToc: true
 TocOpen: true
