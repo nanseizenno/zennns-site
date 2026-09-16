@@ -62,7 +62,7 @@ CAE-SDB 采用双轴结构分析目标状态入口前的复杂状态：
 
 从“什么更可能、更优”到“现在允许执行”，中间存在一个状态迁移工程问题。
 
-### [为什么智能算法越来越强，生产线的底层控制仍然需要确定性判定？](/zh/notes/why-production-lines-still-need-deterministic-control/)
+### [为什么智能算法与物理执行控制之间，需要状态迁移前置控制？](/zh/notes/why-production-lines-still-need-deterministic-control/)
 
 从智能算法、离散事件系统、状态表示和目标状态入口四个角度，讨论复杂自动化系统中“推荐下一步”与“允许下一步”之间的工程关系，以及 TPCA / PCN 在其中的位置。
 
