@@ -32,7 +32,7 @@ TPCA / PCN では、現在状態、目標状態、目標状態入口を明確に
 
 画像認識、予測、最適化などの知的アルゴリズムや上位システムを利用する場合も、その出力を現在の設備状態や許可、実行条件と組み合わせ、実行可能な状態遷移制御へ接続する必要がある。TPCA / PCN は、この知的判断と物理実行制御の間にある状態遷移前制御も対象とする。
 
-### [なぜ知的アルゴリズムと物理実行制御の間に、状態遷移前制御が必要なのか？](/jp/notes/why-production-lines-still-need-deterministic-control//)
+### [なぜ知的アルゴリズムと物理実行制御の間に、状態遷移前制御が必要なのか？](/jp/notes/why-production-lines-still-need-deterministic-control/)
 
 ---
 
