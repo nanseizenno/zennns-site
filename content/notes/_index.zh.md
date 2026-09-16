@@ -11,7 +11,7 @@ draft: false
 
 这一组用于说明 TPCA / PCN 的基础工程认识、状态迁移原则，以及与既有工业自动化技术之间的关系。
 
-### [为什么智能算法越来越强，生产线的底层控制仍然需要确定性判定？](/zh/notes/why-production-lines-still-need-deterministic-control/)
+### [为什么智能算法与物理执行控制之间，需要状态迁移前置控制？](/zh/notes/why-production-lines-still-need-deterministic-control/)
 
 - 从智能算法的识别、预测与优化能力出发，说明为什么具体物理状态迁移入口最终仍需要形成明确的进入、保持或禁止结果，并进一步讨论状态表示、Target State Entry（目标状态入口）以及 TPCA / PCN 在其中的工程位置。
 
