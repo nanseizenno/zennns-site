@@ -19,6 +19,10 @@ draft: false
 > - 実際のシステムにおける状態遷移を、どのように捉えるのか？
 > - 既存の産業オートメーション技術・エンジニアリング手法とは、どのような関係にあるのか？
 
+### [なぜ知的アルゴリズムと物理実行制御の間に、状態遷移前制御が必要なのか？](/jp/notes/intelligent-algorithm-physical-execution-pre-control/)
+
+- 画像認識、予測、最適化、学習アルゴリズムなどの出力を、PLC、ロボット、搬送設備などの物理実行制御へ接続する際に必要となる中間層を説明する。TPCA / PCN が、知的アルゴリズムの出力を目標状態入口に関係する工学情報として整理し、状態遷移判定、制御優先度調停、複数経路制御を経て、実行可能な制御へ接続する役割を示す。
+
 ### [TPCA における状態インスタンスの単方向性 ― 状態タイプの循環と実運転履歴の違い](/jp/notes/tpca-unidirectional-state-transition/)
 
 - State Type では `A → B → A` のような循環を表現できる一方、実運転では `A₁ → B₁ → A₂` のように新しい State Instance が時間方向へ継続して生成されることを説明する。Recovery、Rollback、Reset、Retry、Re-entry などによって同じ State Type へ再進入した場合も、新しい State Instance として扱う考え方と、制御ソフトウェア設計および TPCA での採用を整理する。
