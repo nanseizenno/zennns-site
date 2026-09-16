@@ -58,11 +58,11 @@ TPCA / PCN 围绕一次具体的目标状态入口，将这些分散的信息重
 
 CAE-SDB 首先根据相关状态在**本次状态迁移中承担的功能角色**，将其组织为：
 
-> **C：条件　A：许可　E：执行链**
+> **C = Condition ：条件　A = Authority：许可　E = Execution Chain：执行链**
 
 随后再从三个不同的状态判定性质进行分析：
 
-> **S：结构　D：动态　B：边界**
+> **S = Structure：结构　D = Dynamics：动态　B = Boundary：边界**
 
 由此形成：
 
