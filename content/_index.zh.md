@@ -104,7 +104,7 @@ CAE-SDB 首先根据这些状态在本次迁移中的功能，将其组织为**�
 
 如果希望直接看实际工程对象中的应用方式，可以进入[应用案例](/zh/cases/)。
 
-此外，网站还整理了[工程问题](/zh/questions/)、[核心概念](/zh/concepts/)、[技术札记](/zh/notes/)、[技术与知识产权](/zh/about/)以及[合作说明](/zh/about/cooperation/)。
+此外，网站还整理了[工程问题](/zh/questions/)、[核心概念](/zh/concepts/)、[技术札记](/zh/notes/)、以及[合作说明](/zh/about/cooperation/)。
 
 ---
 
