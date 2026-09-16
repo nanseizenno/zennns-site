@@ -1,0 +1,47 @@
+name: Build Markdown
+
+on:
+  workflow_dispatch:
+    inputs:
+      language:
+        description: "Markdown language"
+        required: true
+        default: "both"
+        type: choice
+        options:
+          - both
+          - jp
+          - zh
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependency
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+
+      - name: Build Markdown
+        run: |
+          python tools/markdown/build_markdown.py --lang "${{ inputs.language }}"
+
+      - name: Upload Markdown artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: TPCA-PCN-Markdown
+          path: dist/*.md
+          if-no-files-found: error
+          retention-days: 30
