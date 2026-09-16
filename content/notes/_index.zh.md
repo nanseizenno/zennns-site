@@ -11,6 +11,10 @@ draft: false
 
 这一组用于说明 TPCA / PCN 的基础工程认识、状态迁移原则，以及与既有工业自动化技术之间的关系。
 
+### [为什么智能算法越来越强，生产线的底层控制仍然需要确定性判定？](/zh/notes/why-production-lines-still-need-deterministic-control/)
+
+- 从智能算法的识别、预测与优化能力出发，说明为什么具体物理状态迁移入口最终仍需要形成明确的进入、保持或禁止结果，并进一步讨论状态表示、Target State Entry（目标状态入口）以及 TPCA / PCN 在其中的工程位置。
+
 ### [TPCA 中状态实例的单向性——状态类型循环与实际运行履历的区别](/zh/notes/tpca-unidirectional-state-transition/)
 
 - 区分 State Type（状态类型）与 State Instance（状态实例）。状态类型可以形成循环，实际运行中的状态实例则沿时间方向持续生成；Recovery、Rollback、Reset、Retry、Re-entry 等处理也按进入新状态实例理解。
