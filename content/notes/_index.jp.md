@@ -35,9 +35,6 @@ draft: false
 
 - TPCA / PCN と、状態機械、SFC、Interlock、安全制御、アラーム管理、FMEA、STPA、RCA、Process Mining、MES / WCS、AI 分析などとの役割分担を、Target State Entry を中心として整理する。
 
-### [TPCA / PCN は既存技術との論点に対してどの位置を取るか ― 3 つの代表的なエンジニアリング論点](/jp/notes/engineering-positions-of-tpca-pcn/)
-
-- 明示的な制御と AI 支援、局所判定とシステム協調、保守的な阻止と制約下での継続という 3 つの代表的なエンジニアリング論点から、TPCA / PCN の基本的な技術的位置付けを説明する。
 
 ---
 
