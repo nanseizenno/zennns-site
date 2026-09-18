@@ -1,4 +1,5 @@
 ---
+title: "状态迁移如何形成可分析的工程数据？"
 author: 全野南政 / Nansei Zenno
 citation_url: "https://zennns.com/zh/notes/how-state-transition-becomes-engineering-data/"
 date: 2026-09-18
@@ -21,7 +22,7 @@ TocOpen: true
 version: Public Note Version 1.0
 ---
 
-## 状态迁移如何形成可分析的工程数据？
+
 
 制造和自动化系统中并不缺少数据。
 
