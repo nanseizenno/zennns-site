@@ -1,12 +1,7 @@
 ---
-title: "状态迁移如何形成可分析的工程数据？"
-summary: 说明真实工程中的一次状态迁移，如何从目标状态入口定义开始，经相关状态选择、C/ A / E 状态映射、S / D / B判定、控制仲裁、多路径控制和执行结果，最终形成保留状态迁移判定语义的  PCN Trace，并进一步用于统计分析、比较和工程改善。
-title: 状态迁移如何形成可分析的工程数据？------从 Target State
-  Entry、CAE-SDB 到 PCN Trace
-description: "从状态迁移的数据表示角度，说明 Target State Entry
-  如何确定观察对象，CAE-SDB
-  如何为与同一目标状态入口相关的异构状态建立统一的状态迁移判定语义，以及
-  PCN Trace 如何将判定、控制和执行结果组织为可比较、可追溯的工程数据。"
+title: "状态迁移如何形成可分析的工程数据？——从 Target State Entry、CAE-SDB 到 PCN Trace"
+summary: "说明真实工程中的一次状态迁移，如何从目标状态入口定义开始，经相关状态选择、C / A / E 状态映射、S / D / B 判定、控制仲裁、多路径控制和执行结果，最终形成保留状态迁移判定语义的 PCN Trace，并进一步用于统计分析、比较和工程改善。"
+description: "从状态迁移的数据表示角度，说明 Target State Entry 如何确定观察对象，CAE-SDB 如何为与同一目标状态入口相关的异构状态建立统一的状态迁移判定语义，以及 PCN Trace 如何将判定、控制和执行结果组织为可比较、可追溯的工程数据。"
 date: 2026-09-18
 author: "全野南政 / Nansei Zenno"
 document_type: "技术札记"
