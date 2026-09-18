@@ -1,18 +1,18 @@
 ---
 title: "制造 DX 状态迁移条件设计与履历分析案例"
 
-summary: "以部件自动加工完成后进入人工作业单元组装为代表场景，说明 PCN 如何围绕明确的 Target State Entry，组织 MES、自动加工设备、质量系统、部件搬送与供给、作业人员资格、单元设备、治具工具和后续处理中的相关状态，并按照统一九步工程顺序完成 C / A / E 状态映射、S / D / B 判定、Arbitration、Multipath Control、入口控制、路径执行和 PCN Trace 记录。"
+summary: "以部件自动加工完成后进入人工作业单元组装为代表场景，说明 PCN 如何围绕明确的 Target State Entry，组织 MES、自动加工设备、质量系统、部件搬送与供给、作业人员资格、单元设备、治具工具和后续处理中的相关状态，并按照统一九步工程顺序完成 C / A / E 状态映射、S / D / B 判定、Arbitration、Multipath Control、入口控制、控制路径执行或后续 Target State Entry、Execution Result 和 PCN Trace 记录。"
 
 description: "公开说明 TPCA / PCN 在制造 DX 状态迁移条件设计与履历分析中的应用方式。以“自动加工完成 → 人工作业单元组装开始”为代表状态迁移，将分散在 MES、自动加工设备、质量系统、部件供给、作业人员资格、单元设备、治具工具、后续检测和结果回写中的状态，围绕一次明确的 Target State Entry 组织为可判定、可控制、可记录和可复盘的工程结构。"
 
 date: 2026-08-18
-lastmod: 2026-09-10
+lastmod: 2026-09-18
 
 author: "全野南政 / Nansei Zenno"
 
 document_type: "公开案例"
 
-version: "Public Case Version 1.4"
+version: "Public Case Version 1.5"
 
 citation_title: "制造 DX 状态迁移条件设计与履历分析案例：自动加工已经完成，为什么仍不能开始人工作业单元组装？"
 citation_url: "https://zennns.com/zh/cases/production-dx-state-transition/"
@@ -32,7 +32,7 @@ TocOpen: true
 **建议引用：**
 
 ```text
-全野南政 / Nansei Zenno，《制造 DX 状态迁移条件设计与履历分析案例：自动加工已经完成，为什么仍不能开始人工作业单元组装？》，公开案例，Public Case Version 1.4，2026-09-10，https://zennns.com/zh/cases/production-dx-state-transition/
+全野南政 / Nansei Zenno，《制造 DX 状态迁移条件设计与履历分析案例：自动加工已经完成，为什么仍不能开始人工作业单元组装？》，公开案例，Public Case Version 1.5，2026-09-18，https://zennns.com/zh/cases/production-dx-state-transition/
 ```
 
 制造现场中，经常存在这样的生产流程：
@@ -79,7 +79,7 @@ TocOpen: true
 5. Arbitration
 6. Multipath Control
 7. 当前入口控制结果
-8. 选定控制路径与 Execution Result
+8. 控制路径执行 / 后续 Target State Entry 与 Execution Result
 9. PCN Trace
 ```
 
@@ -306,8 +306,8 @@ C / A / E 状态变量域与 S / D / B 判定性质组合后，可以形成 9 �
 | C-D | 当前质量结果对应上一批次；MES 作业指示已经切换但单元侧仍保留上一版本；部件供给状态长时间未刷新；当前部件 ID 与现场实际对象发生切换不同步 |
 | C-B | 当前有效的质量测量值超出允许范围；部件位置超出允许作业范围；单元前在制品数量、等待时间或其他条件参数达到预定义边界 |
 | A-S | 质量放行、生产许可、作业人员资格、当前产品作业权限或必要人工确认的来源未定义；许可接口或映射关系未建立；关键许可状态无法由当前 PCN 取得 |
-| A-D | 当前产品作业资格已经过期或被撤销；质量放行状态长时间未刷新；生产许可或人工确认发生更新延迟；许可状态与当前产品切换不同步 |
-| A-B | 当前有效的作业资格适用产品范围不包含当前产品；当前有效生产许可的适用单元或批次范围不满足本次入口要求；许可使用范围达到预定义边界 |
+| A-D | 当前产品作业资格被撤销；质量放行状态长时间未刷新；生产许可或人工确认发生更新延迟；许可状态与当前产品切换不同步 |
+| A-B | 当前产品作业资格超过有效期；当前有效的作业资格适用产品范围不包含当前产品；当前有效生产许可的有效时间窗、适用单元或批次范围不满足本次入口要求；许可使用范围达到预定义边界 |
 | E-S | 当前组装执行链所要求的单元设备、治具、紧固工具、组装后检测、完成品放置、搬出或实绩回写接口未完整定义、未接入或对象关系未建立 |
 | E-D | 单元设备或工具状态长时间未刷新；产品切换后治具 / 工具状态仍对应上一产品；组装后检测、搬出或实绩回写状态延迟、不同步或无法确认当前有效 |
 | E-B | 当前有效的紧固工具设定值超出允许范围；治具位置或设备参数超出允许边界；组装后缓存容量、完成品放置容量或当前执行链等待时间达到预定义边界 |
@@ -318,7 +318,7 @@ C / A / E 状态变量域与 S / D / B 判定性质组合后，可以形成 9 �
 
 只有当前入口已经定义相应判定规则、存在可用判定依据，并且实际完成 Evaluation 后，才形成对应的 CAE-SDB Result。
 
-例如，作业人员已经登录，但当前产品对应的作业资格已经过期：
+例如，作业人员已经登录，但当前产品对应的作业资格已经超过有效期：
 
 ```text
 作业人员登录：有效
@@ -328,11 +328,12 @@ C / A / E 状态变量域与 S / D / B 判定性质组合后，可以形成 9 �
 资格有效期：已过期
 ```
 
-如果当前产品作业资格映射到 A，并完成相应 D 判定，可以形成：
+如果当前产品作业资格映射到 A，并完成相应 B 判定，可以形成：
 
 ```text
-A-D：
-当前作业资格已经失效，无法作为本次组装开始入口的有效许可依据
+A-B：
+当前作业资格已经超过有效期，
+不满足本次组装开始入口的许可边界
 ```
 
 再例如：
@@ -401,8 +402,8 @@ A-B：
 
 ```text
 CAE-SDB Result：
-  A-D
-  当前作业人员资格已经失效
+  A-B
+  当前作业人员资格已经超过有效期
 ```
 
 当前产品作业资格属于本次人工作业单元组装开始入口的关键 A。
@@ -417,7 +418,7 @@ Arbitration 结合：
 
 处理当前入口的控制优先关系。
 
-本例中，C 和 E 相关状态满足进入要求，关键 A 中的作业人员资格当前无效，因此控制仲裁优先处理该 A-D。
+本例中，C 和 E 相关状态满足进入要求，关键 A 中的作业人员资格当前无效，因此控制仲裁优先处理该 A-B。
 
 ```text
 控制仲裁结果：
@@ -454,7 +455,7 @@ Arbitration 完成后，PCN 输出当前 Target State Entry 对应的 Multipath 
 增强记录
 ```
 
-针对本次 A-D，可以形成：
+针对本次 A-B，可以形成：
 
 ```text
 Multipath Control：暂缓当前组装开始 + 确认具备有效资格的作业人员
@@ -486,13 +487,25 @@ Multipath Control：暂缓当前组装开始 + 确认具备有效资格的作业
 
 ---
 
-# 8. 选定控制路径与 Execution Result（执行结果）
+# 8. 控制路径执行 / 后续 Target State Entry 与 Execution Result（执行结果）
 
-本次选定的控制路径为：
+本次已经确定的 Multipath Control 为：
 
 ```text
-选定控制路径：确认具备有效资格的作业人员
+确认具备有效资格的作业人员
 ```
+
+在制造 DX 跨系统状态迁移中，Multipath Control 形成后，需要区分两类处理。
+
+## 8.1 当前入口下的处理动作
+
+本案例中的：
+
+```text
+确认具备有效资格的作业人员
+```
+
+属于当前“开始对象部件的人工作业单元组装”入口下的处理动作，不自动构成新的 Target State Entry。
 
 现场可以按以下方式执行：
 
@@ -518,25 +531,102 @@ Multipath Control：暂缓当前组装开始 + 确认具备有效资格的作业
 则形成：
 
 ```text
-Execution Result：已完成具备有效资格的作业人员更换，当前作业资格状态已确认有效
+Execution Result：
+已完成具备有效资格的作业人员更换，
+当前作业资格状态已确认有效
 ```
 
-后续再次请求开始人工作业单元组装时，基于新的 Current State / State Instance，在对应 Target State Entry 下继续进行新的状态迁移前置判定。
+该 Execution Result 表示本次处理动作已经完成。
+
+但它不直接表示原来的 Target State Entry 已经自动允许进入。
+
+后续再次请求：
+
+```text
+Target State Entry：
+开始对象部件的人工作业单元组装
+```
+
+时，需要基于更新后的 Current State 和相关状态，重新执行该入口的 C / A / E Mapping、S / D / B Evaluation、Arbitration 和 Multipath Control。
+
+也就是说：
+
+> **处理动作完成，只表示形成了新的运行事实；是否允许进入原 Target State Entry，需要重新判定。**
+
+## 8.2 Multipath Control 指向新的 Target State / Target Path
+
+如果 Multipath Control 选择的是：
+
+```text
+转入其他作业单元
+退避至在制品缓存
+转入返修工序
+隔离
+```
+
+等新的 Target State / Target Path，则不能因为该路径已经被选中，就直接视为允许进入。
+
+此时需要形成新的状态迁移入口：
+
+```text
+原 Target State Entry
+        ↓
+Multipath Control
+        ↓
+选定新的 Target State / Target Path
+        ↓
+对应 Target State Entry
+        ↓
+对应 PCN 重新执行前置判定
+        ↓
+若该入口允许进入
+        ↓
+执行对应路径
+        ↓
+Execution Result
+```
+
+因此，需要区分：
+
+```text
+A. 当前入口下的处理动作
+   → 执行处理
+   → Execution Result
+   → 后续重新请求原 Target State Entry
+
+B. 新 Target State / Target Path
+   → 新 Target State Entry
+   → 对应 PCN 重新判定
+   → 允许后执行
+   → Execution Result
+```
 
 一次完整处理可以整理为：
 
 ```text
 CAE-SDB Result
         ↓
-控制仲裁结果
+Arbitration
         ↓
 Multipath Control
         ↓
 当前入口控制结果
         ↓
-控制路径执行
-        ↓
-Execution Result
+        ├─ 当前入口下的处理动作
+        │      ↓
+        │   Execution Result
+        │      ↓
+        │   重新请求原 Target State Entry
+        │
+        └─ 新 Target State / Target Path
+               ↓
+           新 Target State Entry
+               ↓
+           对应 PCN 重新判定
+               ↓
+           路径执行
+               ↓
+           Execution Result
 ```
 
 关于状态类型循环与实际运行状态实例之间的关系，可参见：
@@ -586,18 +676,18 @@ Execution Result
 
 【S / D / B 判定】：
   作业人员资格
-    → D：动态时序有效性
-    → 资格有效期已过期
+    → B：控制边界
+    → 资格有效期已超过预定义允许期限
 
 【CAE-SDB Result】：
-  A-D 
+  A-B 
 
 【关键许可】：
   质量放行 = 成立
   作业人员资格 = 当前无效
 
 【控制仲裁结果】：
-  优先处理作业人员资格 A-D
+  优先处理作业人员资格 A-B
   暂缓当前作业人员开始组装
 
 【Multipath Control】：
@@ -622,13 +712,15 @@ Execution Result
 
 通过这条 PCN Trace，可以确认一次完整的状态迁移判定关系：
 
-> **自动加工已经完成，当前部件也已到达人工作业单元；由于当前作业人员资格已经失效，本次组装开始被暂缓，并转入具备有效资格的作业人员确认与更换路径。**
+> **自动加工已经完成，当前部件也已到达人工作业单元；由于当前作业人员资格已经超过有效期，本次组装开始被暂缓，并转入具备有效资格的作业人员确认与更换路径。**
+
+作业人员更换完成后形成新的运行事实。后续再次请求进入“对象部件的人工作业单元组装中”时，应基于更新后的状态重新执行该 Target State Entry 的前置判定，并形成新的判定履历；前一次 Trace 不被覆盖。
 
 长期积累 PCN Trace 后，可以进一步分析：
 
 - 哪些人工作业单元组装入口经常出现暂缓；
 - 质量放行等待在什么产品、批次或时间段集中发生；
-- 作业人员资格相关的 A-D 在哪些产品、班次或作业单元中高频出现；
+- 作业人员资格有效期相关的 A-B 在哪些产品、班次或作业单元中高频出现；
 - 作业指示或产品切换相关的 D 问题主要发生在哪些单元；
 - 必要零部件缺失或供给等待出现的频率；
 - 单元设备、治具、工具、后续检测等 Execution Chain 的薄弱位置；
@@ -639,7 +731,7 @@ Execution Result
 
 ```text
 Target State Entry：开始人工作业单元组装
-CAE-SDB Result：A-D
+CAE-SDB Result：A-B
 相关状态：作业人员资格有效期已过期
 ```
 
@@ -697,7 +789,7 @@ MES
 5. Arbitration
 6. Multipath Control
 7. 当前入口控制结果
-8. 选定控制路径 → Execution Result
+8. 控制路径执行 / 后续 Target State Entry → Execution Result
 9. PCN Trace
 ```
 
@@ -724,6 +816,8 @@ S / D / B
 
 具体场景中的相关状态、判定规则、关键许可、合法控制路径和 Execution Result 可以变化，九步工程分析顺序保持一致。
 
+其中，当前入口下的处理动作完成后，不表示原 Target State Entry 自动允许进入；后续再次请求原目标状态时，需要基于更新后的状态重新判定。若 Multipath Control 指向新的 Target State / Target Path，则需要进入新的 Target State Entry，并由对应 PCN 完成新的前置判定。
+
 ---
 
 ## 进一步阅读
@@ -746,5 +840,6 @@ S / D / B
 - Public Case Version 1.2：2026-08-21，补充时间信息 T 与状态实例相关说明。
 - Public Case Version 1.3：2026-08-25，明确 C / A / E 与 S / D / B 的双轴关系。
 - Public Case Version 1.4：2026-09-10，按统一九步工程分析顺序重新整理，并采用“自动加工 → 人工作业单元组装”作为代表场景。
+- Public Case Version 1.5：2026-09-18，按当前 S / D / B 定义修正作业资格有效期的判定性质，将“资格超过有效期”由 A-D 调整为 A-B，并明确资格撤销、状态未刷新、延迟和不同步等动态问题仍归入 A-D。
 
 作者：全野南政 / Nansei Zenno
