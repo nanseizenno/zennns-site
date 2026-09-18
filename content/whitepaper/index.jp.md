@@ -80,7 +80,7 @@ PCN は CAE-SDB 判定結果を形成した後、重要な許可や制御上の�
 
 また、単体設備には明確な故障がないまま Waiting が続いたり、複数システムに状態記録が残っていても、どの状態が現在の状態遷移に関係しているのかを説明しにくい場合もある。
 
-![複雑なエンジニアリングシステムに共通する状態遷移構造](/images/tpca/01-common-state-transition-problem.png)
+![複雑なエンジニアリングシステムに共通する状態遷移構造](/images/tpca/01-common-state-transition-problem.jp.png)
 
 図1：複雑なエンジニアリングシステムが現在状態から次の状態へ移行する際には、前提条件、関連システムの状態、時系列情報、境界条件、許可条件などを入口前に確認し、その結果に応じた実行経路へ接続する。
 
@@ -205,7 +205,7 @@ PCN
 目標状態
 ```
 
-![PCN 前制御ノードの位置と動作](/images/tpca/04-pcn-node-position.png)
+![PCN 前制御ノードの位置と動作](/images/tpca/04-pcn-node-position.jp.png)
 
 図3：PCN は目標状態へ進入する前に、関連状態の整理、構造化判定、制御優先度調停、制御経路の形成を行う。
 
@@ -319,7 +319,7 @@ C / A / E と S / D / B を組み合わせると、次の判定座標が形成�
 | A：許可状態 | A-S | A-D | A-B |
 | E：実行チェーン状態 | E-S | E-D | E-B |
 
-![CAE-SDB 二軸判定構造](/images/tpca/03-cae-sdb-matrix.png)
+![CAE-SDB 二軸判定構造](/images/tpca/03-cae-sdb-matrix.jp.png)
 
 図4：C / A / E は状態変数領域、S / D / B は判定性質を表す。二つの軸を組み合わせることで CAE-SDB 判定結果を形成する。
 
@@ -506,7 +506,7 @@ TPCA / PCN は、異なる階層のエンジニアリング対象へ適用でき
 
 対象、関連状態の取得元、制御経路は異なるが、いずれも共通の 9 ステップ工程分析に基づき、現在状態と目標状態入口の特定から、関連状態の取得、構造化判定、制御優先度調停、経路形成、実行結果の確認、PCN Trace の記録までを整理できる。
 
-![TPCA / PCN の適用方向](/images/tpca/05-tpca-application-map.png)
+![TPCA / PCN の適用方向](/images/tpca/05-tpca-application-map.jp.png)
 
 図5：TPCA / PCN の代表的な適用例を 9 ステップ工程分析で横断比較したもの。
 
