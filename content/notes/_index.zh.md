@@ -27,9 +27,6 @@ draft: false
 
 - 说明 TPCA / PCN 与状态机、SFC、Interlock、安全控制、报警管理、FMEA、STPA、RCA、Process Mining、MES / WCS 和 AI 分析之间的工程分工。
 
-### [TPCA / PCN 如何看待既有技术中的工程论点？——三个代表性工程论点](/zh/notes/engineering-positions-of-tpca-pcn/)
-
-- 围绕显式规则控制与 AI 辅助、局部判定与系统协同、保守阻断与约束条件下继续处理三个工程论点，说明 TPCA / PCN 的基本技术定位。
 
 ---
 
