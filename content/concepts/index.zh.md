@@ -4,7 +4,7 @@ summary: "整理 TPCA / PCN 状态迁移前置控制体系中的核心术语，�
 description: "用于统一 TPCA / PCN 状态迁移前置控制体系中的核心术语，说明目标状态入口、PCN 前置控制节点、C / A / E 状态映射、S / D / B 判定、CAE-SDB Result、时间信息 T、Arbitration、Multipath Control、PCN Trace、PCN Runtime 和 PCN Network 之间的关系。"
 draft: false
 date: 2026-07-04
-lastmod: 2026-08-21
+lastmod: 2026-09-18
 author: "全野南政 / Nansei Zenno"
 ShowReadingTime: false
 ShowToc: true
@@ -36,8 +36,8 @@ TPCA / PCN 的核心命题是：
 | A                  | Authority / 许可状态        | 判断安全、权限、资源、上位系统或人工许可是否允许进入目标状态           |
 | E                  | Execution Chain / 执行链状态 | 判断进入目标状态后，执行链是否能够继续接续                    |
 | S                  | Structure / 结构完整性       | 判断所需信号、接口、映射关系、许可来源和执行链边界是否完整            |
-| D                  | Dynamics / 动态时序有效性      | 判断相关状态是否仍然有效、同步、稳定、未超时或未撤销               |
-| B                  | Boundary / 控制边界         | 判断相关状态是否已经进入预先定义的控制边界                    |
+| D                  | Dynamics / 动态时序有效性      | 判断相关状态在当前时点是否仍可作为本次迁移的有效判定依据              |
+| B                  | Boundary / 控制边界         | 判断相关状态是否仍处于本次目标状态入口所允许的工程边界内              |
 | CAE-SDB            | 结构化判定逻辑                 | 将 C / A / E 状态变量域与 S / D / B 判定性质组合分析    |
 | CAE-SDB Result     | CAE-SDB 判定结果            | 一次前置判定形成的一个或多个结构化判定结果                    |
 | T                  | 时间信息                    | 与状态和判定一起保留的时间信息，用于状态先后关系、动态判定和 PCN Trace |
@@ -51,13 +51,14 @@ TPCA / PCN 的基本工程关系为：
 
 ```text
 当前状态
-→ 目标状态
+→ 目标状态 / 目标状态入口
 → PCN
 → C / A / E 状态映射
 → S / D / B 判定
 → CAE-SDB Result + T
 → Arbitration
 → Multipath Control
+→ Execution Result
 → PCN Trace
 ```
 
@@ -109,7 +110,7 @@ Current State → New Target State
 * 执行链是否能够接续；
 * 判定所需结构是否完整；
 * 当前状态是否具有动态时序有效性；
-* 是否进入预先定义的控制边界；
+* 相关状态是否处于预先定义的工程边界内；
 * 多个判定结果同时存在时的控制仲裁；
 * 最终进入的目标状态或目标执行路径。
 
@@ -131,13 +132,14 @@ TPCA 将分散在设备、控制程序、MES / WCS、安全系统、人工确认
 
 ```text
 当前状态
-→ 目标状态
+→ 目标状态 / 目标状态入口
 → PCN
 → C / A / E 状态映射
 → S / D / B 判定
 → CAE-SDB Result + T
 → Arbitration
 → Multipath Control
+→ Execution Result
 → PCN Trace
 ```
 
@@ -173,11 +175,12 @@ PCN 部署在一个明确的目标状态入口前，是 TPCA 在具体状态迁�
 * 时间信息 T 保留；
 * Arbitration；
 * Multipath Control 输出；
+* 执行结果获取；
 * PCN Trace 生成。
 
 PCN 的具体实现形式不固定。
 
-在自动化执行单元中，可以由 PLC 功能块、边缘控制器模块或软件判定节点承担；在 MES / WCS、AGV / AMR 群控、生产 DX 或数字系统中，也可以部署在任务执行、资源放行、站点承接、状态恢复或目标调用路径进入之前。
+在自动化执行单元中，可以由 PLC 功能块、边缘控制器模块或软件判定节点承担；在 MES / WCS、AGV / AMR 群控、制造 DX 或数字系统中，也可以部署在任务执行、资源放行、站点承接、状态恢复或目标调用路径进入之前。
 
 ---
 
@@ -198,6 +201,7 @@ PCN Runtime 是 PCN 在实际系统中执行在线状态处理、判定、控制
 * 时间信息记录；
 * Arbitration；
 * Multipath Control 输出；
+* 执行结果获取；
 * PCN Trace 生成。
 
 PCN Runtime 描述运行角色，不限定具体的软件、PLC、工业边缘控制器、MES / WCS 插件或其他平台实现方式。
@@ -214,7 +218,7 @@ PCN Runtime 描述运行角色，不限定具体的软件、PLC、工业边缘�
 
 PCN Network 是多个 PCN 按实际状态迁移关系以及必要的许可、资源和执行依赖关系连接形成的前置控制结构。
 
-单个 PCN 对应一个明确的目标状态入口。多个 PCN 可以分布在设备单元、产线、MES / WCS、AGV / AMR 群控层、生产 DX 系统或数字系统中。
+单个 PCN 对应一个明确的目标状态入口。多个 PCN 可以分布在设备单元、产线、MES / WCS、AGV / AMR 群控层、制造 DX 系统或数字系统中。
 
 PCN Network 描述目标状态入口之间的工程关系，不以设备之间的物理连接关系作为定义依据。
 
@@ -418,36 +422,22 @@ S 用于判断完成本次状态迁移判定所需的工程结构是否完整。
 
 D 是对 C / A / E 状态变量进行分析时使用的判定性质。
 
-D 判断运行中的相关状态是否仍然有效、同步、稳定和可信。
+D 判断与当前 Target State Entry 相关的状态在判定时点是否具有有效的动态时序关系。
 
-典型问题包括：
+典型判定内容包括：
 
-* 信号超时；
-* 未刷新；
-* 状态过期；
-* 抖动；
-* 冲突；
-* 延迟；
-* 不同步；
-* 版本不一致；
-* 序列关系异常；
-* 低置信度；
-* 许可撤销；
-* 状态处于切换过程中。
+* 状态是否超时或未刷新；
+* 状态是否过期；
+* 状态是否存在抖动或频繁切换；
+* 相关状态之间是否存在冲突、延迟或不同步；
+* 状态的版本、序列或对象关系是否与当前迁移一致；
+* 许可是否发生撤销；
+* 状态是否处于切换过程中；
+* 当前状态是否仍具有足够的有效性和可信度。
 
-状态值成立，不等于状态当前仍然有效。
+D 可以结合时间戳、更新时间、状态持续时间、序列、版本、对象关联和状态切换关系等信息进行判定。
 
-例如：
-
-```text
-下游可接收 = TRUE
-```
-
-如果该状态长时间未刷新，或产生于下游状态切换之前，就不能仅依据当前读取值判断执行链仍然有效。
-
-D 可以结合时间戳、更新时间、序列、版本和对象关联等信息进行判断。
-
-D 用于判断当前状态是否仍可作为本次目标状态进入的有效判定依据。
+> **D 用于判断相关状态在当前时点是否仍可作为本次 Target State Entry 的有效判定依据。**
 
 ---
 
@@ -457,18 +447,21 @@ D 用于判断当前状态是否仍可作为本次目标状态进入的有效判
 
 B 是对 C / A / E 状态变量进行分析时使用的判定性质。
 
-B 判断相关状态是否已经进入预先定义的控制边界。
+B 判断与当前 Target State Entry 相关的状态是否处于预先定义的工程边界内。
 
-用于形成边界判定的工程参数可以包括：
+典型判定内容包括：
 
-* 容许范围；
-* 时间窗口；
-* 重试上限；
-* 置信度范围；
-* 位置偏差范围；
-* 人工确认有效期限；
-* 缓存容量；
-* 其他与目标状态进入有关的边界条件。
+* 参数是否处于允许范围；
+* 位置或尺寸偏差是否处于允许范围；
+* 置信度是否达到规定边界；
+* 资源或缓存容量是否达到边界；
+* 等待时间或持续时间是否达到控制边界；
+* 重试次数或循环次数是否达到控制边界；
+* 人工确认或临时许可是否处于规定的适用边界内。
+
+B 可以结合阈值、范围、容量、时间、次数、置信度和偏差等预先定义的工程参数进行判定。
+
+> **B 用于判断相关状态是否仍处于本次 Target State Entry 所允许的工程边界内。**
 
 ---
 
@@ -585,7 +578,7 @@ CAE-SDB Result + T → Arbitration → Multipath Control
 
 不同控制路径对应不同的后续工程处理。
 
-从 TPCA 的状态迁移视角看，Multipath Control 用于确定当前状态下一步进入的目标状态或目标执行路径。
+从 TPCA 的状态迁移视角看，Multipath Control 用于确定针对当前 Target State Entry 的控制路径，并进一步连接后续执行结果。
 
 其基本关系为：
 
@@ -657,6 +650,7 @@ TPCA
 │   │   ├─ CAE-SDB Result + T
 │   │   ├─ Arbitration
 │   │   ├─ Multipath Control
+│   │   ├─ Execution Result
 │   │   └─ PCN Trace
 │   │
 │   └─ 对应一个明确的目标状态入口
@@ -676,7 +670,8 @@ TPCA
 * **CAE-SDB Result**：结构化判定结果；
 * **T**：与状态和判定一起保留的时间信息；
 * **Arbitration**：控制仲裁；
-* **Multipath Control**：下一目标状态或目标执行路径；
+* **Multipath Control**：针对当前目标状态入口形成的多路径控制输出；
+* **Execution Result**：控制输出以后实际发生的执行结果；
 * **PCN Trace**：一次状态迁移判定履历；
 * **PCN Network**：多个 PCN 形成的状态迁移前置控制网络。
 
@@ -684,10 +679,11 @@ TPCA
 
 ## 延伸阅读
 
+* [为什么是 CAE-SDB？——目标状态入口前的双轴结构化分析方法](/zh/notes/why-cae-sdb/)
+* [为什么 PCN 是 TPCA 的最小工程节点？](/zh/notes/pcn-minimum-engineering-unit/)
+* [为什么 PCN Trace 是一种新的工程数据？](/zh/notes/why-pcn-trace-is-engineering-data/)
 * [TPCA 的状态迁移单向性——为什么真实工程系统不存在状态回退？](/zh/notes/tpca-unidirectional-state-transition/)
-* [TPCA / PCN 建立在什么工程基础上？——五个基础工程共识](/zh/notes/engineering-foundations-of-tpca-pcn/)
-* [TPCA / PCN 面对已有技术分歧，它站在哪里？——三个典型工程争议](/zh/notes/engineering-positions-of-tpca-pcn/)
-* [你真的理解 TPCA / PCN 了吗？——十个工程问题](/zh/notes/tpca-pcn-understanding-test/)
+
 
 ---
 
