@@ -586,7 +586,6 @@ S / D / B
 
 - [为什么是 CAE-SDB？——状态变量域与判定性质的双轴结构](/zh/notes/why-cae-sdb/)
 - [为什么 Ready 不够？](/zh/questions/why-ready-is-not-enough/)
-- [为什么状态迁移条件需要显式化？](/zh/notes/explicit-state-transition-conditions/)
 - [为什么 PCN 是 TPCA 的最小工程节点？](/zh/notes/pcn-minimum-engineering-unit/)
 - [为什么 PCN Trace 是一种新的工程数据？](/zh/notes/why-pcn-trace-is-engineering-data/)
 - [TPCA / PCN 状态迁移前置控制架构｜白皮书](/zh/whitepaper/)
