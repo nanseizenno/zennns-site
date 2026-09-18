@@ -642,10 +642,8 @@ Multipath Control
 例如：
 
 ```text
-【PCN：
-
+【PCN】：
 人工作业单元组装开始入口 PCN
-
 
 【Current State】：
   自动加工完成 / 等待人工作业单元组装
