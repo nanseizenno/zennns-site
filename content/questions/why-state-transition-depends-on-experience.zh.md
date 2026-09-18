@@ -205,7 +205,7 @@ TPCA / PCN 关注的正是这一类状态迁移前的工程问题。
 
 进一步如何通过 PCN、PCN Trace 和状态迁移结构实现这一目标，可继续阅读：
 
-- [为什么状态迁移条件必须显式化？](/zh/notes/explicit-state-transition-conditions/)
+
 - [为什么 PCN 是 TPCA 的最小工程节点？](/zh/notes/pcn-minimum-engineering-unit/)
 - [TPCA / PCN 状态迁移前置控制架构｜白皮书](/zh/whitepaper/)
 
@@ -233,7 +233,6 @@ TPCA / PCN 关注的，就是将这类状态迁移判断从隐含经验逐步转
 
 ## 进一步阅读
 
-- [为什么状态迁移条件必须显式化？](/zh/notes/explicit-state-transition-conditions/)
 - [为什么 PCN 是 TPCA 的最小工程节点？](/zh/notes/pcn-minimum-engineering-unit/)
 - [为什么 Ready 不够？](/zh/questions/why-ready-is-not-enough/)
 - [Concepts｜核心概念](/zh/concepts/)
