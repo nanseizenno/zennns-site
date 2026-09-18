@@ -1,257 +1,312 @@
 ---
 title: "TPCA / PCN 与既有工业自动化技术和工程方法的关系"
-summary: "从 Target State Entry 出发，说明 TPCA / PCN 与 FMEA、STPA、RCA、Process Mining、状态机、SFC、Interlock、安全控制、MES / WCS、AI 分析等既有技术之间的工程分工。"
-description: "说明在既有工业自动化方法和控制机制各自承担原有职责的情况下，TPCA / PCN 如何围绕 Target State Entry 组织状态迁移前判定、控制和履历。"
-date: 2026-07-04
-lastmod: 2026-09-09
+summary: "从状态与顺序控制、许可与安全约束、生产协同系统以及分析改善方法等层面，说明 TPCA、PCN 与 PCN Trace 在既有工业自动化体系中的工程位置与分工关系。"
+description: "说明 TPCA 如何组织状态迁移前置控制设计、PCN 如何在具体目标状态入口承载相应运行过程，以及二者与 PLC、状态机、SFC、Interlock、安全控制、MES / WCS、Process Mining、RCA、FMEA、STPA 和 AI 分析等既有技术的工程关系。"
+date: 2026-08-18
+lastmod: 2026-09-18
 author: "全野南政 / Nansei Zenno"
 document_type: "技术札记"
-version: "Public Note Version 1.3"
+version: "Public Note Version 1.2"
+citation_title: "TPCA / PCN 与既有工业自动化技术和工程方法的关系"
 citation_url: "https://zennns.com/zh/notes/tpca-existing-theories/"
 draft: false
-weight: 1
 ShowReadingTime: true
 ShowToc: true
 TocOpen: true
 ---
 
-## TPCA / PCN 与既有工业自动化技术和工程方法的关系
+# TPCA / PCN 与既有工业自动化技术和工程方法的关系
 
-工业自动化领域已经形成了大量成熟方法和控制机制。状态机、SFC、Interlock、安全控制、报警管理、MES / WCS 主要服务于状态管理、顺序控制、安全、任务和资源协调；FMEA、STPA、RCA、Process Mining 则分别用于风险分析、安全分析、原因分析和过程履历分析。
+工业自动化系统已经形成了大量成熟技术。
 
-TPCA / PCN 不替代这些方法。
+PLC 能够执行设备控制和顺序逻辑，IEC 61131-3 对可编程控制器编程语言以及 SFC 等结构元素给出了标准化定义；状态机及其扩展形式长期用于描述复杂离散事件系统中的状态与迁移关系。[1][2] Interlock、Handshake 和安全控制负责不同层面的许可与约束，其中功能安全系统具有独立且明确的安全职责。[3] MES / WCS 管理任务、资源与协同过程，报警管理、RCA、FMEA、STPA、Process Mining、统计分析和 AI 又从不同角度支持风险分析、问题分析和持续改善。[4][5][6][7][8]
 
-它关注的是另一个工程位置：当系统准备进入一个明确的 Target State Entry 时，如何把分散在不同设备和系统中的相关状态组织起来，形成一次完整的状态迁移前判定、控制和履历。
+在这样的既有技术体系中，TPCA、PCN 和 PCN Trace 分别位于哪里？
 
-基本关系如下：
+TPCA 以明确的目标状态入口（Target State Entry）为工程对象，用于组织一次状态迁移所涉及的状态、判定和控制关系。
+
+PCN（Pre-Control Node）是这一设计在具体 Target State Entry 上的工程承载节点，在运行过程中执行相应的前置判定与控制，并取得执行结果、形成 PCN Trace。
+
+PCN Trace 则将一次状态迁移相关的判定依据、判定结果、控制选择和执行结果保持在同一个状态迁移语义链中，形成可追溯、可进一步分析的状态迁移履历。
+
+TPCA / PCN 与既有 PLC、状态机、SFC、Interlock、安全控制、MES / WCS 以及后续分析方法形成工程分工，并通过现有系统提供的状态、许可和执行能力完成实际工程部署。
+
+---
+
+## 1. 状态与顺序控制：PLC、状态机与 SFC
+
+PLC 程序、状态机和 SFC 已经能够表达设备状态、动作顺序、状态转换和具体控制逻辑，并承担自动化系统中的实际执行控制。IEC 61131-3 将 SFC 定义为用于组织程序和功能块内部结构的顺序功能图元素；Statecharts 等状态机扩展则进一步处理层级、并发和通信等复杂状态表达问题。[1][2]
+
+这些技术说明，状态表达与状态迁移本身已经具有成熟的工程基础。TPCA 所增加的关注点，是把需要进行前置控制设计的具体 Target State Entry 显式化：
 
 ```text
 Current State
-    ↓
-Target State Entry / PCN
-    ↓
+      ↓
+Target State Entry
+      ↓
 Target State
 ```
 
-在 PCN 内部，与本次 Target State Entry 直接相关的状态被接入以下处理链：
+围绕这一入口，工程师可以整理本次状态迁移涉及的条件、许可、执行链接续关系、状态有效性以及后续可选择的控制路径。
+
+因此，状态机和 SFC 可以继续承担状态表达、顺序控制和具体执行；TPCA 则从状态迁移设计角度，将需要重点管理的 Target State Entry 作为明确的工程对象。
+
+当这一设计进入实际运行时，可以由相应 PCN 承担该入口的状态取得、前置判定、控制结果组织和履历形成。
+
+这种分工使既有控制体系继续执行实际状态迁移，同时使“这一次状态迁移应该如何设计，以及为什么当前能够进入或不能进入”成为可以显式组织的工程问题。
+
+---
+
+## 2. 许可与安全约束：Interlock、Handshake 与安全控制
+
+工业自动化系统中的许可与约束已经存在于多种成熟机制中。
+
+安全回路、安全 PLC、Interlock、设备间 Handshake、区域许可、资源占用许可和上位系统许可，都可能参与一次状态迁移。IEC 61508 对电气、电子及可编程电子安全相关系统执行安全功能时需要考虑的基本要求进行了系统规定，为功能安全责任边界提供了成熟的工程基础。[3]
+
+这些既有机制继续保持各自原有职责，并可以成为与具体 Target State Entry 有关的状态来源。
+
+例如：
 
 ```text
-相关状态
-→ C / A / E Mapping
-→ S / D / B Evaluation
-→ CAE-SDB Result + T
-→ Arbitration
-→ Multipath Control
+安全许可
+区域许可
+设备间许可
+资源占用许可
+上位系统许可
+```
+
+在 TPCA 的状态迁移设计中，与系统是否允许进入目标状态有关的状态可以进入 A（Authority）等工程关系进行组织。关键 A 作为独立必要约束处理；关键许可未成立时，不允许进入相应目标状态。
+
+当相应设计由 PCN 承载运行时，PCN 根据实际取得的状态执行相应判断和控制。安全相关的判断与执行仍由既有安全体系承担。
+
+由此，与本次状态迁移有关的许可可以和条件状态、执行链接续状态共同围绕明确的 Target State Entry 形成工程关系，同时保持既有 Interlock、Handshake 和安全控制原有的责任边界。
+
+---
+
+## 3. 生产与协同系统：MES、WCS、机器人与设备控制系统
+
+复杂制造系统中的状态通常分布在不同系统中。
+
+MES 管理生产任务和生产过程，WCS 负责物流任务、调度和资源协调，PLC 与机器人控制器掌握设备和动作状态，AGV / AMR 提供移动主体状态，安全系统提供相关许可，上下游设备则分别维护自身的运行和承接状态。
+
+一次状态迁移可能同时依赖这些不同来源。
+
+```text
+MES / WCS
+     │
+Robot / PLC
+     │
+AGV / AMR
+     │
+Safety
+     │
+Downstream
+     ↓
+Target State Entry
+```
+
+TPCA 在设计阶段围绕明确的 Target State Entry，确定哪些状态与本次迁移有关，以及这些状态如何进入相应的判定和控制关系。
+
+PCN 则作为具体入口上的工程承载节点，在运行过程中取得相关状态，执行 C / A / E 映射、S / D / B 判定以及后续控制，并取得相应执行结果。
+
+MES、WCS、PLC、机器人控制器和安全系统继续承担各自原有的任务管理、调度、设备控制和安全职责。
+
+对于跨越多个设备或多个 PCN 的问题，则按照实际系统层级、共享资源和协同关系进行处理。
+
+这种结构使局部状态迁移能够具有明确的设计对象和运行承载单元，同时保留与上位系统、周边设备和其他节点之间的工程协同。
+
+---
+
+## 4. 风险、故障与原因分析：FMEA、STPA、RCA 与报警管理
+
+FMEA、STPA、RCA 和报警管理分别服务于不同的工程阶段和分析目的。
+
+IEC 60812 将 FMEA / FMECA 定义为系统识别失效模式及其局部和整体影响的方法，并可进一步用于失效处理优先级判断。[4] Leveson 提出的系统理论安全方法则从系统约束、控制关系和复杂社会技术系统角度开展危险与安全分析，为 STPA 提供理论基础。[5]
+
+RCA 关注事件发生以后“发生了什么、如何发生以及为什么发生”，并通过数据收集、因果因素整理、根因识别和改善建议来降低重复发生的可能性。[6] 报警管理则围绕报警的识别、设计、运行、维护和变更等生命周期活动建立管理体系。[7]
+
+这些方法解决的问题不同，也处于不同的工程阶段。PCN 在运行过程中围绕一次明确的状态迁移形成相应的运行事实。
+
+公开层面的基本关系可以表示为：
+
+```text
+Target State Entry
+→ Pre-Control
+→ Control Path
+→ Execution Result
 → PCN Trace
 ```
 
-本文不展开介绍各类既有技术本身，只说明它们与 TPCA / PCN 在工程系统中的职责关系。
+PCN Trace 将一次状态迁移相关的判定依据、判定结果、控制选择和执行结果保持在同一个状态迁移语义链中。
 
-基础概念可参见：
+因此，当现场进一步开展原因分析、履历比较或工程改善时，可以把一次明确的状态迁移及其运行履历作为分析对象之一。
 
-- [Concepts｜核心概念](/zh/concepts/)
-- [TPCA / PCN 状态迁移前置控制架构｜白皮书](/zh/whitepaper/)
-- [为什么 PCN 是 TPCA 的最小工程节点？](/zh/notes/pcn-minimum-engineering-unit/)
+FMEA、STPA、RCA 和报警管理继续按照各自方法和适用阶段发挥作用；PCN Trace 则为运行阶段增加一种围绕状态迁移组织的工程数据。
 
 ---
 
-## 1. 与分析和诊断方法的关系
+## 5. 运行数据分析：Process Mining、统计分析与 AI
 
-FMEA、STPA、RCA 和 Process Mining 都可以用于复杂工程问题分析，但处理对象和使用位置并不相同。
+工业系统已经能够产生大量日志、事件、报警和生产履历。Process Mining、统计分析和 AI 可以利用这些数据识别流程特征、异常模式和改善机会。
 
-| 方法 | 主要对象 |
-|---|---|
-| FMEA | 潜在失效模式、影响、原因和控制措施 |
-| STPA / STAMP | 安全控制结构、控制约束和危险场景 |
-| RCA | 已发生问题及其原因关系 |
-| Process Mining | 基于事件日志还原的实际流程、偏差、等待和瓶颈 |
-| TPCA / PCN | 明确 Target State Entry 上的状态迁移前判定、控制和履历 |
+Process Mining 的基本对象是事件数据。相关研究强调，事件需要具有时间信息，并与活动、资源及相应流程实例建立关联；在此基础上可以进行流程发现、一致性检查以及其他流程分析。[8] 因此，分析能力不仅取决于算法，也取决于数据在进入分析以前如何被组织。
 
-例如某项许可状态出现问题时，FMEA 可以分析与该许可相关的失效模式及影响，STPA 可以分析其安全控制结构和约束，RCA 可以用于追查已经发生的问题原因，Process Mining 可以从事件日志中观察这种问题对流程等待或偏差的影响。
+在进入具体分析方法以前，TPCA 首先关注：
 
-PCN 所处的位置不同。它在实际运行中读取这项许可状态，并判断它在本次 Target State Entry 中是否属于 A：Authority，以及当前是否满足进入要求。
+> **需要观察哪一次状态迁移，以及应当围绕这次迁移组织什么工程事实？**
 
-因此，这些方法可以同时用于同一个系统，但承担的工程任务不同。分析方法用于识别风险、原因或流程问题，PCN 则把运行时状态放回当前 Target State Entry 中进行判定和控制。
+当 Target State Entry 被明确，并由相应 PCN 承载实际运行以后，可以持续形成与具体状态迁移对应的 PCN Trace。
 
-STPA / STAMP 的公开资料可参见 MIT 的 STPA Handbook，Process Mining 可参见 van der Aalst 的相关体系资料。[1][2]
-
----
-
-## 2. 与状态机、SFC、Interlock 和安全控制的关系
-
-### 2.1 状态机和 SFC
-
-状态机和 SFC 用于组织状态、步骤、动作和迁移关系，是工业控制中成熟的顺序控制方法。
-
-例如设备原有的迁移条件可以写成：
+由此形成：
 
 ```text
-Vision_OK
-AND Robot_Ready
-AND Safety_OK
-AND Downstream_Ready
+Target State Entry
+        ↓
+PCN
+        ↓
+PCN Trace
+        ↓
+统计 / Process Mining / AI / 工程分析
+        ↓
+问题发现与工程改善
 ```
 
-这样的逻辑可以继续作为设备控制条件使用。TPCA / PCN 并不要求重新实现一套状态机，也不要求把现有 SFC 改写成新的控制结构。
+PCN Trace 可以直接支持围绕状态迁移的统计、比较和 AI 辅助分析；当按照具体流程分析方法所要求的事件结构、关联标识和时间关系进一步组织后，也可以作为 Process Mining 等流程分析的数据来源。
 
-PCN 关注其中某一个明确的 Target State Entry。它把与这次迁移有关的状态对应起来，并继续形成 CAE-SDB Result、Arbitration、Multipath Control 和 PCN Trace。
+Process Mining 可以继续从事件日志和流程数据中发现实际流程关系，统计方法可以比较频度、时间和变化趋势，AI 可以辅助进行模式提取、履历比较、改善候选整理和工程报告生成。
 
-因此，状态机和 SFC 主要负责状态及顺序关系，PCN 负责 Target State Entry 单位的前置判定、控制和履历。
+在这一关系中，分析方法可以根据问题和数据特点选择。
 
-IEC 61131-3 及 PLCopen 的公开资料可作为 SFC 和 PLC 编程语言体系的参考。[3]
+> **先决定看什么，再决定怎么看，最后才决定使用什么方法进行分析。**
 
-### 2.2 Interlock / Handshake
+TPCA 明确需要被工程化描述的状态迁移，PCN 在实际运行中形成相应的状态迁移履历，后续分析方法再从这些运行事实中提取进一步的工程价值。
 
-Interlock 和 Handshake 用于构成设备动作条件和设备间协同条件。
+相关讨论可继续阅读：
 
-这些既有条件可以直接作为 PCN 的相关状态或既有约束使用。对于当前 Target State Entry，PCN 进一步区分某个状态在本次迁移中承担的是 Condition、Authority 还是 Execution Chain，并按需要执行 Structure、Dynamics 或 Boundary 判定。
-
-例如，同一个 Handshake 状态可能表示对方设备允许接收，也可能只是表示接口在线。两者在当前 Target State Entry 中的工程含义并不相同。
-
-PCN 的作用不是替代 Interlock 或 Handshake，而是把这些已有状态放回明确的状态迁移入口中，说明它们为什么参与本次判定。
-
-### 2.3 安全控制
-
-安全 PLC、安全继电器、安全门、光栅、急停和安全扫描器等用于实现机械安全功能。
-
-PCN 可以读取安全系统输出的许可状态，并将关键安全许可作为当前 Target State Entry 中与 A：Authority 有关的状态。关键 A 不成立时，即使其他 C 和 E 状态均满足，也不得允许进入目标状态。
-
-安全系统负责安全功能本身，PCN 不替代安全回路或安全控制逻辑。PCN 只是把安全许可作为本次 Target State Entry 的必要约束，与其他相关状态一起参与前置判定。
-
-机械安全相关控制系统的设计原则可参见 ISO 13849-1。[4]
-
-### 2.4 报警管理和故障诊断
-
-报警管理和故障诊断用于处理异常状态、故障原因、响应和履历。
-
-这些结果也可以作为 PCN 的相关状态使用，但其工程含义仍取决于当前 Target State Entry。
-
-例如，同样是通信异常，如果影响的是视觉结果有效性，可能进入 C 相关判定；如果影响上位系统许可，可能进入 A；如果影响后续结果回写，则可能与 E 有关。
-
-PCN 并不重新定义报警或故障，而是确认这些异常对当前状态迁移入口实际产生什么影响。
+[状态迁移如何形成可分析的工程数据？——从 Target State Entry、CAE-SDB 到 PCN Trace](/zh/notes/how-state-transition-becomes-engineering-data/)
 
 ---
 
-## 3. 与 MES / WCS 和 AI 的关系
+## 6. TPCA、PCN 与既有技术的整体工程关系
 
-### 3.1 MES / WCS
-
-MES、WCS 和群控系统本身已经承担任务、资源、路径、站点、调度和执行状态等管理功能。
-
-例如现场可能已经看到：
+综合来看，可以从状态迁移设计、运行与执行、分析与改善三个层面理解 TPCA、PCN 与既有工业自动化技术之间的关系。
 
 ```text
-MES：任务已生成
-WCS：存在任务记录
-设备：在线
-车辆：在线
-```
+状态迁移设计
+────────────────────────
 
-但对于一个具体 Target State Entry，这些信息未必已经足够。还可能需要确认任务状态是否仍然有效、必要许可是否成立、资源锁是否允许进入、路径是否可用、下游是否能够接收，以及进入 Target State 后的 Execution Chain 是否能够继续。
-
-MES / WCS 继续承担原有的任务、资源和调度功能。PCN 则针对其中重要的 Target State Entry，把分散在多个系统中的相关状态放到同一次状态迁移判定中。
-
-制造运营与企业系统、控制系统之间的集成边界，可参见 ISA-95 / IEC 62264 系列。[5]
-
-### 3.2 AI / 数据分析
-
-AI 和数据分析更适合用于 PCN Trace 形成后的履历分析。
-
-长期运行后，可以基于 Trace 比较不同入口的运行情况，识别重复问题、提取模式、比较工程修改前后的结果，并辅助整理改善候选和工程报告。
-
-PCN 本身负责 Target State Entry 上的运行时前置判定和控制。AI 不直接替代这部分工程规则，而是利用已有履历做后续分析和改善支持。
-
-两者分别处于不同的工程位置：PCN 面向当前这一次状态迁移，AI 主要面向已经形成的历史数据。
-
----
-
-## 4. TPCA / PCN 在整个工程体系中的位置
-
-TPCA / PCN 使用的很多单项状态和控制概念，在既有工业自动化中本来就存在，例如 Condition、Authority、Ready、Interlock、安全许可、报警、超时、等待、重试和降级运行。
-
-TPCA / PCN 的重点不在于重新定义这些单项机制，而在于把它们围绕一个明确的 Target State Entry 组织到同一个工程关系中：
-
-```text
-Current State
-    ↓
-Target State Entry / PCN
-    ↓
-Target State
-
-PCN 内部：
+工程对象 / 状态迁移需求
+        ↓
+TPCA
+        ↓
+Target State Entry
+        ↓
 相关状态
-→ C / A / E Mapping
-→ S / D / B Evaluation
-→ CAE-SDB Result + T
+→ CAE-SDB
 → Arbitration
 → Multipath Control
-→ PCN Trace
+
+
+运行与执行
+────────────────────────
+
+PLC / Robot / MES / WCS / Safety
+        ↕
+状态、许可与执行能力
+        ↕
+PCN
+        ↓
+前置判定与控制结果
+        ↓
+Execution Result
+        ↓
+PCN Trace
+
+
+分析与改善
+────────────────────────
+
+PCN Trace
+        ↓
+规则 / 统计 / RCA / Process Mining / AI
+        ↓
+分析、比较与改善候选
+        ↓
+工程确认与修改
+        ↓
+新的运行结果与 Trace
 ```
 
-既有系统与 PCN 的主要分工如下。
+上图表示的是工程职责和信息关系，并不代表固定的软件层级、物理部署位置或严格的顺序处理结构。
 
-| 既有对象 | 主要职责 | 与 PCN 的关系 |
-|---|---|---|
-| PLC / 状态机 / SFC | 状态管理、顺序控制、动作执行 | 提供本次 Target State Entry 所需状态，并执行相应控制逻辑 |
-| Interlock / Handshake | 动作条件和设备间协同条件 | 作为相关状态或既有约束参与判定 |
-| 安全系统 | 安全功能、安全许可、危险动作限制 | 提供与关键 A 有关的许可状态 |
-| 报警管理 / 故障诊断 | 异常管理、故障状态和原因分析 | 其结果可作为相关状态参与判定 |
-| MES / WCS | 任务、资源、调度和生产协同 | 提供上位状态、许可和资源信息，并可使用 PCN 判定或履历结果 |
-| AI / 数据分析 | 履历分析、模式提取、改善支持 | 使用 PCN Trace 进行后续分析 |
-| TPCA / PCN | Target State Entry 上的结构化判定、控制仲裁、多路径控制和履历 | 将多源相关状态按同一个状态迁移入口组织为完整工程关系 |
+TPCA 属于状态迁移前置控制的架构与设计方法层；PCN 是部署在具体 Target State Entry 上的工程实现单元。实际系统中，PCN 可以根据对象和系统架构与 PLC、MES / WCS、机器人、安全系统及其他控制对象进行工程连接。
 
-这样，既有设备控制、安全控制、任务管理、调度、诊断和分析机制可以继续承担原有职责，PCN 则负责把与某个 Target State Entry 直接相关的状态连接到同一判定和控制上下文中。
+PCN Trace 则来自实际运行过程，并为后续分析、比较和改善提供围绕状态迁移组织的工程事实。
 
 ---
 
 ## 总结
 
-工业自动化已经有状态机、SFC、Interlock、安全控制、报警管理、故障诊断、MES / WCS、FMEA、STPA、RCA 和 Process Mining 等成熟技术。
+工业自动化系统已经拥有成熟的状态控制、顺序控制、安全联锁、任务调度、设备控制和分析方法。[1][3][4][7][8]
 
-TPCA / PCN 不替代这些技术，也不要求改变它们原有的工程职责。
+TPCA 在其中明确 Target State Entry 这一工程对象，并围绕具体状态迁移组织相关状态、判定和控制设计。
 
-它把这些系统提供的状态、许可、诊断结果、任务信息和资源信息，对应到一个明确的 Target State Entry，并形成：
+PCN 将相应设计承载到具体 Target State Entry 的运行过程中，取得实际状态、执行前置判定与控制，并通过执行结果形成 PCN Trace。
 
-```text
-相关状态
-→ C / A / E Mapping
-→ S / D / B Evaluation
-→ CAE-SDB Result + T
-→ Arbitration
-→ Multipath Control
-→ PCN Trace
-```
+因此，整体工程关系可以概括为：
 
-这样，一次 Target State Entry 可以作为统一的设计、判定、控制和记录对象进行管理。
+> **既有系统提供状态、许可和执行能力；TPCA 围绕明确的 Target State Entry 组织状态迁移的判定与控制设计；PCN 将相应设计承载到具体状态迁移入口的运行过程中，并通过 PCN Trace 形成可追溯、可进一步分析的状态迁移履历。**
 
-既有技术继续负责设备控制、安全、任务、调度、诊断和分析；PCN 负责把与本次状态迁移直接相关的状态组织到同一个前置判定和控制结构中。
+在此基础上，规则、统计、RCA、Process Mining、AI 及其他工程方法可以继续利用这些运行事实开展问题分析、比较和改善。
 
 ---
 
-## 参考文献与外部资料
+## 参考文献
 
-本文以下列资料作为既有技术定位的代表性参考。
+以下文献用于说明本文涉及的主要既有技术及其原有工程职责。引用目的在于为状态控制、功能安全、风险分析、原因分析、报警管理和流程分析等技术建立外部工程锚点，并不表示 TPCA / PCN 来源于这些方法，也不表示这些方法之间具有统一的层级关系。
 
-1. **MIT Partnership for Systems Approaches to Safety and Security — Books and Handbooks**  
-   *STPA Handbook* 及 STPA / CAST 相关公开资料。  
-   https://psas.scripts.mit.edu/home/books-and-handbooks/
+[1] IEC. *IEC 61131-3:2025, Programmable controllers – Part 3: Programming languages*. International Electrotechnical Commission, 2025.  
+用于说明可编程控制器编程语言以及 SFC 的标准化工程基础。IEC 61131-3:2025 定义 ST、LD、FBD，并将 SFC 作为组织程序和功能块内部结构的顺序功能图元素。  
+https://webstore.iec.ch/en/publication/68533
 
-2. **Wil van der Aalst — *Process Mining: Data Science in Action*, 2nd ed., Springer, 2016**  
-   Process Mining 的代表性体系资料。  
-   DOI: 10.1007/978-3-662-49851-4  
-   https://link.springer.com/book/10.1007/978-3-662-49851-4
+[2] Harel, D. “Statecharts: A Visual Formalism for Complex Systems.” *Science of Computer Programming*, Vol. 8, No. 3, 1987, pp. 231–274. DOI: 10.1016/0167-6423(87)90035-9.  
+用于说明状态机及其扩展在复杂离散事件系统中的状态表达基础。该文通过层级、并发和通信扩展传统状态图，是复杂状态迁移表达的重要经典文献。  
+https://doi.org/10.1016/0167-6423(87)90035-9
 
-3. **PLCopen — IEC 61131-3**  
-   IEC 61131-3 的 PLC 编程语言体系及 SFC 相关公开资料。  
-   https://www.plcopen.org/standards/logic/iec-61131-3/
+[3] IEC. *IEC 61508-1:2010, Functional safety of electrical/electronic/programmable electronic safety-related systems – Part 1: General requirements*. International Electrotechnical Commission, 2010.  
+用于说明功能安全系统具有独立的安全功能、生命周期和工程责任要求。本文据此保持安全控制与 TPCA / PCN 前置判定之间的职责边界。  
+https://webstore.iec.ch/en/publication/5515
 
-4. **ISO 13849-1:2023 — Safety of machinery — Safety-related parts of control systems**  
-   机械安全相关控制系统设计原则的 ISO 官方页面。  
-   https://www.iso.org/standard/73481.html
+[4] IEC. *IEC 60812:2018, Failure modes and effects analysis (FMEA and FMECA)*. International Electrotechnical Commission, 2018.  
+用于说明 FMEA / FMECA 的工程定位：系统识别失效模式、影响及必要处理，并可根据后果严重度等因素支持处理优先级判断。  
+https://webstore.iec.ch/en/publication/26359
 
-5. **ISA — ISA-95 Series of Standards: Enterprise-Control System Integration**  
-   ISA-95 / IEC 62264 关于企业系统与制造控制系统集成边界的官方资料。  
-   https://www.isa.org/standards-and-publications/isa-standards/isa-95-standard
+[5] Leveson, N. G. *Engineering a Safer World: Systems Thinking Applied to Safety*. MIT Press, 2012.  
+用于说明基于系统理论的安全分析基础。该书提出 STAMP，并以系统控制、约束和复杂交互关系为核心讨论危险分析、安全设计和运行安全，是 STPA 方法的重要理论基础。  
+https://mitpress.mit.edu/9780262016629/engineering-a-safer-world/
+
+[6] Rooney, J. J., and Vanden Heuvel, L. N. “Root Cause Analysis for Beginners.” *Quality Progress*, Vol. 37, No. 7, 2004, pp. 45–53.  
+用于说明 RCA 的基本工程目的：通过识别事件发生的事实、过程和根本原因，形成能够降低重复发生可能性的改善措施。  
+https://asq.org/-/media/ASQ-Supplemental-Media-Import/E/9/0/5/7/ar_19550.pdf
+
+[7] ISA. *ANSI/ISA-18.2-2016, Management of Alarm Systems for the Process Industries*. International Society of Automation, 2016.  
+用于说明报警管理的工程边界。ISA-18.2 围绕报警的识别、合理化、设计、实施、运行、维护和变更等活动建立生命周期管理框架。  
+https://www.isa.org/standards-and-publications/isa-standards/isa-18-series-of-standards
+
+[8] van der Aalst, W. M. P. *Process Mining: Data Science in Action*. 2nd ed., Springer, 2016. DOI: 10.1007/978-3-662-49851-4.  
+用于说明 Process Mining 以事件数据为基础，通过流程发现、一致性检查及其他分析方法研究实际流程行为。该文献也说明了事件数据的结构与质量对流程分析的重要性。  
+https://doi.org/10.1007/978-3-662-49851-4
+
+---
+
+## 进一步阅读
+
+- [Concepts｜核心概念](/zh/concepts/)
+- [为什么是 CAE-SDB？——目标状态入口前的双轴结构化分析方法](/zh/notes/why-cae-sdb/)
+- [状态迁移如何形成可分析的工程数据？——从 Target State Entry、CAE-SDB 到 PCN Trace](/zh/notes/how-state-transition-becomes-engineering-data/)
+- [为什么 PCN Trace 是一种新的工程数据？](/zh/notes/why-pcn-trace-is-engineering-data/)
+- [应用案例](/zh/cases/)
+- [TPCA / PCN 状态迁移前置控制架构｜白皮书](/zh/whitepaper/)
 
 ---
 
@@ -259,12 +314,8 @@ TPCA / PCN 不替代这些技术，也不要求改变它们原有的工程职责
 
 题目：TPCA / PCN 与既有工业自动化技术和工程方法的关系  
 文档类型：技术札记  
-版本：Public Note Version 1.3  
-首次发布日期：2026-07-04  
-最后更新：2026-09-09  
+版本：Public Note Version 1.2  
+首次发布日期：2026-08-18  
+最后更新：2026-09-18  
 作者：全野南政 / Nansei Zenno  
 当前 URL：https://zennns.com/zh/notes/tpca-existing-theories/
-
----
-
-本文属于 TPCA / PCN 状态迁移前置控制体系的公开说明内容。
