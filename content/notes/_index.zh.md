@@ -35,10 +35,6 @@ draft: false
 
 - 说明 C / A / E 状态变量域与 S / D / B 判定性质为什么需要分成两条轴，以及 C-S、A-D、E-B 等 CAE-SDB 判定结果如何形成并进入后续控制处理。
 
-### [为什么状态迁移条件需要显式化？](/zh/notes/explicit-state-transition-conditions/)
-
-- 说明如何把分散在 PLC 程序、接口、许可、设备联动、MES / WCS 和工程师经验中的状态迁移判断，围绕明确的目标状态入口整理为可设计、可确认、可记录和可改善的工程对象。
-
 ### [为什么 PCN 是 TPCA 的最小工程节点？](/zh/notes/pcn-minimum-engineering-unit/)
 
 - 说明一个 PCN 如何对应一个明确的 Target State Entry，并把相关状态、CAE-SDB 判定、Arbitration（控制仲裁）、Multipath Control（多路径控制）和 PCN Trace（状态迁移判定履历）组织为一个工程责任单元。
