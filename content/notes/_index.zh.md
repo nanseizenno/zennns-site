@@ -3,13 +3,13 @@ title: 技术札记
 draft: false
 ---
 
-技术札记用于补充 TPCA / PCN 公开体系中的专题说明，内容分为基础原则与技术定位、CAE-SDB / PCN 与系统结构、工程价值与适用边界、工程理解检查四个方向。
+技术札记用于补充 TPCA / PCN 公开体系中的专题说明，内容分为基础原则与技术定位、CAE-SDB / PCN 与系统结构、工程理解检查三个方向。
 
 ---
 
 ## 一、基础原则与技术定位
 
-这一组用于说明 TPCA / PCN 的基础工程认识、状态迁移原则，以及与既有工业自动化技术之间的关系。
+这一组用于说明 TPCA / PCN 的基础工程认识、状态迁移原则、适用边界，以及与既有工业自动化技术和制造现场数据之间的关系。
 
 ### [为什么智能算法与物理执行控制之间，需要状态迁移前置控制？](/zh/notes/why-production-lines-still-need-deterministic-control/)
 
@@ -19,11 +19,17 @@ draft: false
 
 - 区分 State Type（状态类型）与 State Instance（状态实例）。状态类型可以形成循环，实际运行中的状态实例则沿时间方向持续生成；Recovery、Rollback、Reset、Retry、Re-entry 等处理也按进入新状态实例理解。
 
+### [TPCA / PCN 适用场景分析](/zh/notes/tpca-pcn-applicable-scenarios/)
+
+- 从 Target State Entry 是否明确、相关状态是否可观测、判定结果是否能够连接实际控制，以及是否能够形成 PCN Trace 四个方面，说明 TPCA / PCN 的适用条件和工程边界。
 
 ### [TPCA / PCN 与既有工业自动化技术和工程方法的关系](/zh/notes/tpca-existing-theories/)
 
-- 说明 TPCA / PCN 与状态机、SFC、Interlock、安全控制、报警管理、FMEA、STPA、RCA、Process Mining、MES / WCS 和 AI 分析之间的工程分工。
+- 说明 TPCA、PCN 与状态机、SFC、Interlock、安全控制、报警管理、FMEA、STPA、RCA、Process Mining、MES / WCS 和 AI 分析之间的工程位置与分工关系。
 
+### [为什么 OEE 之后还需要 PCN？](/zh/notes/why-oee-pcn/)
+
+- 说明 OEE / 生产实绩数据与 PCN Trace 的工程分工。OEE 用于观察运行实绩和损失，PCN Trace 用于记录具体 Target State Entry 上发生的判定、控制选择和执行结果，为进一步分析对应的状态迁移过程提供依据。
 
 ---
 
@@ -37,7 +43,7 @@ draft: false
 
 ### [为什么 PCN 是 TPCA 的最小工程节点？](/zh/notes/pcn-minimum-engineering-unit/)
 
-- 说明一个 PCN 如何对应一个明确的 Target State Entry，并把相关状态、CAE-SDB 判定、Arbitration（控制仲裁）、Multipath Control（多路径控制）和 PCN Trace（状态迁移判定履历）组织为一个工程责任单元。
+- 说明一个 PCN 如何对应一个明确的 Target State Entry，并把相关状态、CAE-SDB 判定、Arbitration（控制仲裁）、Multipath Control（多路径控制）、执行结果和 PCN Trace（状态迁移判定履历）组织为一个工程责任单元。
 
 ### [多个 PCN 如何形成状态迁移前置控制网络？](/zh/notes/pcn-network-structure/)
 
@@ -45,25 +51,11 @@ draft: false
 
 ### [为什么 PCN Trace 是一种新的工程数据？](/zh/notes/why-pcn-trace-is-engineering-data/)
 
-- 说明 PCN Trace 与设备数据、生产数据和报警履历的区别，以及为什么一次 Target State Entry 的判定、控制和执行结果可以作为独立的数据对象持续记录、比较和分析。
+- 说明 PCN Trace 与设备数据、生产数据和报警履历的区别，以及为什么一次 Target State Entry 的判定、控制选择和执行结果可以围绕同一次状态迁移持续记录、比较和分析。
 
 ---
 
-## 三、工程价值与适用边界
-
-这一组说明 TPCA / PCN 适合用于什么样的工程对象，以及如何与制造现场已有的运行实绩和改善数据配合使用。
-
-### [TPCA / PCN 适用场景分析](/zh/notes/tpca-pcn-applicable-scenarios/)
-
-- 从 Target State Entry 是否明确、相关状态是否可观测、判定结果是否能够连接实际控制、以及是否能够形成 PCN Trace 四个方面，说明 PCN 的适用条件和工程边界。
-
-### [为什么 OEE 之后还需要 PCN？](/zh/notes/why-oee-pcn/)
-
-- 说明 OEE / 生产实绩数据与 PCN Trace 的互补关系。OEE 用于确认运行实绩和损失，PCN Trace 用于确认对应时间段内 Target State Entry 上实际发生的判定和控制。
-
----
-
-## 四、工程理解检查
+## 三、工程理解检查
 
 ### [TPCA / PCN 工程理解检查——十个问题](/zh/notes/tpca-pcn-understanding-test/)
 
