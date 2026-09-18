@@ -50,16 +50,29 @@ TPCA / PCN 的核心命题是：
 TPCA / PCN 的基本工程关系为：
 
 ```text
-当前状态
-→ 目标状态 / 目标状态入口
-→ PCN
-→ C / A / E 状态映射
-→ S / D / B 判定
-→ CAE-SDB Result + T
-→ Arbitration
-→ Multipath Control
-→ Execution Result
-→ PCN Trace
+① Current State（当前状态、当前阶段、当前路径位置）
+   ↓
+② Target State（目标状态、目标执行路径、目标物理执行阶段）
+   并确定 Target State Entry（目标状态入口）
+   ↓
+③ PCN（Pre-Control Node / 前置控制节点）
+   └─ 获取相关状态，进行 C / A / E 状态映射
+   ↓
+④ S / D / B 判定 → CAE-SDB 判定结果 + T
+   ↓
+⑤ 控制仲裁（Arbitration）
+   ↓
+⑥ 多路径控制（Multipath Control）
+   ↓
+⑦ 对 Target State Entry 应用控制
+   ├─ 允许进入
+   ├─ 等待、重新确认、重试
+   ├─ 转向其他 Target State
+   └─ 禁止进入等
+   ↓
+⑧ 执行选定的控制路径 → 执行结果
+   ↓
+⑨ PCN Trace（状态迁移判定履历）→ 将输入、判定、控制和执行结果关联记录
 ```
 
 PCN Runtime 承载上述过程的实际运行。多个 PCN 按不同目标状态入口及其状态迁移关系连接后，可以形成 PCN Network。
