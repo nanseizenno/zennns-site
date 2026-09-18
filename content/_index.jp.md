@@ -135,7 +135,7 @@ TPCA / PCN の全体像を体系的に確認する場合は、[ホワイトペ�
 
 具体的な工程対象への適用方法については、[適用事例](/jp/cases/)を参照できる。
 
-そのほか、[工程問題](/jp/questions/)、[中核概念](/jp/concepts/)、[技術ノート](/jp/notes/)、[協業について](/jp/about/cooperation/)も掲載している。
+そのほか、[工程問題](/jp/questions/)、[中核概念](/jp/concepts/)、[技術ノート](/jp/notes/)も掲載している。
 
 ---
 
