@@ -9,7 +9,7 @@ draft: false
 
 ## 一、基础原则与技术定位
 
-这一组用于说明 TPCA / PCN 的基础工程认识、状态迁移原则、适用边界，以及与既有工业自动化技术和制造现场数据之间的关系。
+>这一组用于说明 TPCA / PCN 的基础工程认识、状态迁移原则、适用边界，以及与既有工业自动化技术和制造现场数据之间的关系。
 
 ### [为什么智能算法与物理执行控制之间，需要状态迁移前置控制？](/zh/notes/why-production-lines-still-need-deterministic-control/)
 
@@ -35,7 +35,7 @@ draft: false
 
 ## 二、CAE-SDB、PCN 与系统结构
 
-这一组说明一次 Target State Entry（目标状态入口）如何形成状态映射、判定、控制和履历，以及多个 PCN 如何进一步形成系统级关系结构。
+>这一组说明一次 Target State Entry（目标状态入口）如何形成状态映射、判定、控制和履历，以及多个 PCN 如何进一步形成系统级关系结构。
 
 ### [为什么是 CAE-SDB？——状态变量域与判定性质的双轴结构](/zh/notes/why-cae-sdb/)
 
