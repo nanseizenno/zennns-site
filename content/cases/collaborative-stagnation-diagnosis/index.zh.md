@@ -2,13 +2,13 @@
 
 title: "MES / WCS 协同停滞诊断模块案例"
 
-summary: "以制造现场协同停滞为对象，按照统一九步工程分析顺序，说明 PCN 如何从 Current State 和 Target State Entry 出发，汇总 MES、WCS、搬送主体、站点、资源、许可和下游状态，完成 C / A / E 状态映射、S / D / B 判定，并结合群控协同层的群体指标、停滞识别与停滞结构分型形成控制与履历。"
+summary: "以制造现场协同停滞为对象，按照统一九步工程分析顺序，说明 PCN 如何从 Current State 和 Target State Entry 出发，汇总 MES、WCS、搬送主体、站点、资源、许可和下游状态，完成 C / A / E 状态映射、S / D / B 判定，并结合群控协同层的群体指标、停滞识别与停滞结构分型形成控制、后续状态迁移与履历。"
 
-description: "公开说明 TPCA / PCN 在 MES / WCS 协同停滞诊断中的应用方式。围绕制造现场进入可持续协同执行状态这一 Target State，按照 Current State、Target State / Target State Entry、PCN、CAE-SDB、群控协同分析、Arbitration、Multipath Control、入口控制结果、Execution Result 和 PCN Trace 的顺序展开完整案例。"
+description: "公开说明 TPCA / PCN 在 MES / WCS 协同停滞诊断中的应用方式。围绕制造现场进入可持续协同执行状态这一 Target State，按照 Current State、Target State / Target State Entry、PCN、CAE-SDB、群控协同分析、Arbitration、Multipath Control、入口控制结果、控制路径执行或后续 Target State Entry、Execution Result 和 PCN Trace 的顺序展开完整案例。"
 
 date: 2026-06-30
 
-lastmod: 2026-09-10
+lastmod: 2026-09-18
 
 author: "全野南政 / Nansei Zenno"
 
@@ -16,7 +16,7 @@ document_type: "公开案例"
 
 case_type: "群控协同层 / MES-WCS 协同停滞诊断"
 
-version: "Public Case Version 1.5"
+version: "Public Case Version 1.6"
 
 citation_title: "MES / WCS 协同停滞诊断模块案例：为什么 MES 记录了状态，仍解释不了制造现场为什么停"
 
@@ -43,7 +43,7 @@ TocOpen: true
 **建议引用：**
 
 ```text
-全野南政 / Nansei Zenno，《MES / WCS 协同停滞诊断模块案例：为什么 MES 记录了状态，仍解释不了制造现场为什么停》，公开案例，Public Case Version 1.5，2026-09-10，https://zennns.com/zh/cases/collaborative-stagnation-diagnosis/
+全野南政 / Nansei Zenno，《MES / WCS 协同停滞诊断模块案例：为什么 MES 记录了状态，仍解释不了制造现场为什么停》，公开案例，Public Case Version 1.6，2026-09-18，https://zennns.com/zh/cases/collaborative-stagnation-diagnosis/
 ```
 
 MES 可以记录任务、设备、工位、物料、报警、产量和生产实绩。
@@ -66,26 +66,18 @@ WCS 可以记录搬送任务、车辆状态、路径状态、资源占用和调�
 
 ```text
 1. Current State
-
 2. Target State / Target State Entry
-
 3. PCN：相关状态获取 + C / A / E Mapping
-
 4. 前置判定与群控协同分析
    ├─ S / D / B Evaluation
    │  → CAE-SDB Result + T
    └─ 群体指标
       → 群体停滞识别
       → 停滞结构分型
-
 5. Arbitration
-
 6. Multipath Control
-
 7. 当前入口控制结果
-
-8. 选定控制路径与 Execution Result
-
+8. 控制路径执行 / 后续 Target State Entry 与 Execution Result
 9. PCN Trace
 ```
 
@@ -362,8 +354,10 @@ E-B：
 群体未执行比例
 群体辅助执行比例
 群体能源补给比例
-群体许可未成立比例
+群体授权未成立比例
 ```
+
+其中，“群体授权未成立比例”沿用群控协同层原有分析术语。具体项目中，对应状态可以来自调度授权、资源授权或其他能够作为 Authority 依据的外部可观测状态。
 
 还可以结合路径资源占用、站点承接和关键任务持续未执行等群体状态进行判断。
 
@@ -575,7 +569,7 @@ Arbitration 已经确定本次 Multipath Control 为：
 
 ---
 
-# 8. 选定控制路径与 Execution Result（执行结果）
+# 8. 控制路径执行 / 后续 Target State Entry 与 Execution Result（执行结果）
 
 本次已经确定的 Multipath Control 为：
 
@@ -583,18 +577,27 @@ Arbitration 已经确定本次 Multipath Control 为：
 资源释放 + 路径协调 + 任务重新分配
 ```
 
-在采用控制建议或协调请求输出方式的部署中，既有 WCS、调度系统或现场控制系统接收这些结果，并按照其原有控制权限执行相应处理。
+在 MES / WCS 协同停滞诊断中，Multipath Control 形成后，需要区分两种工程情况。
+
+## 8.1 当前入口下的协调操作或控制请求
+
+如果 Multipath Control 表示资源释放、路径协调、任务重新分配等当前协同入口下的协调操作、控制建议或控制请求，并不构成一个新的 Target State / Target Path，则由具有相应控制权限的既有 MES、WCS、调度系统或现场控制系统执行相应处理。
 
 示意执行过程如下：
 
 ```text
 当前协同入口暂不进入
     ↓
+Multipath Control：
+资源释放 + 路径协调 + 任务重新分配
+    ↓
 既有控制系统处理异常占用或失效资源锁
     ↓
 重新协调路径与通行权
     ↓
 重新分配受影响任务
+    ↓
+Execution Feedback
     ↓
 形成新的协同运行状态
 ```
@@ -616,37 +619,84 @@ Execution Result：
 受影响任务重新进入可执行状态
 ```
 
-后续如果再次请求进入“可持续协同执行状态”，则基于新的 Current State / State Instance，在对应 Target State Entry 下继续进行新的状态迁移判定。
+这类情况下，Execution Result 可以继续关联当前 Target State Entry 的 PCN Trace。
+
+## 8.2 Multipath Control 指向新的 Target State / Target Path
+
+如果 Multipath Control 选择的是一个新的 Target State / Target Path，例如转入备用路径、回退路径、异常分流路径或其他需要独立进入判定的后续状态，则该路径不能因为“已被选中”而直接视为允许进入。
+
+此时应当形成新的状态迁移入口：
+
+```text
+原 Target State Entry
+    ↓
+Multipath Control
+    ↓
+选定新的 Target State / Target Path
+    ↓
+对应 Target State Entry
+    ↓
+对应 PCN 重新执行前置判定
+    ↓
+若该入口允许进入
+    ↓
+执行对应路径
+    ↓
+Execution Result
+```
+
+也就是说：
+
+> **Multipath Control 选择一条候选路径，不等于该路径已经满足进入要求。**
+
+只有当系统真正准备进入新的 Target State / Target Path 时，才在该路径对应的 Target State Entry 下，由对应 PCN 根据其自身进入要求重新取得相关状态，并执行新的 C / A / E Mapping、S / D / B Evaluation、Arbitration 和 Multipath Control。
+
+本案例中的“资源释放 + 路径协调 + 任务重新分配”作为当前入口下的协调操作示例，不强制定义为新的 Target State Entry。
+
+实际项目中，某项控制输出是否构成新的 Target State / Target Path，应根据其是否需要独立的进入条件、许可、执行链和前置判定来确定。
 
 因此，一次完整处理需要区分：
 
 ```text
 CAE-SDB Result + 群体停滞识别 + 停滞结构分型
         ↓
-控制仲裁结果
+Arbitration
         ↓
 Multipath Control
         ↓
-
 当前入口控制结果
         ↓
-控制路径执行
-        ↓
-Execution Result
+        ├─ 当前入口下的协调操作 / 控制请求
+        │      ↓
+        │   Execution Feedback
+        │      ↓
+        │   Execution Result
+        │
+        └─ 新 Target State / Target Path
+               ↓
+           新 Target State Entry
+               ↓
+           对应 PCN 重新判定
+               ↓
+           路径执行
+               ↓
+           Execution Result
 ```
 
 其中：
 
 ```text
-Arbitration = 决定控制优先关系
+Arbitration
+= 处理判定结果、群控分析结果和控制约束之间的优先关系
 
-Multipath Control = 输出已经确定的控制路径
+Multipath Control
+= 输出已经确定的合法控制路径、协调方向或后续候选路径
 
-当前入口控制结果 = 说明当前 Target State Entry 是否进入或暂不进入
+当前入口控制结果
+= 说明当前 Target State Entry 如何处理
 
-控制路径执行 = 由具有相应控制权限的系统执行已经确定的处理
-
-Execution Result = 说明已确定的控制路径实际执行后形成了什么结果
+Execution Result
+= 说明实际执行后形成了什么结果
 ```
 
 关于状态类型循环与实际运行状态实例之间的关系，可参见：
@@ -701,6 +751,24 @@ Trace ID：PCN-COLLAB-XXXX
 
 PCN Trace 以一次 Target State Entry 为单位，关联记录本次使用的状态、CAE-SDB 判定结果、群控协同分析结果、控制仲裁、控制路径和实际执行结果。
 
+当 Multipath Control 仅形成当前入口下的协调操作、资源处理、控制建议或控制请求时，其 Execution Feedback 与 Execution Result 可以继续关联当前 PCN Trace。
+
+当 Multipath Control 选择新的 Target State / Target Path 时，则由新的 Target State Entry 对应 PCN 形成新的 PCN Trace，并与前一 Trace 建立关联：
+
+```text
+原入口 PCN Trace
+    ↓
+Selected Next Target State Entry
+    ↓
+下一入口对应 PCN
+    ↓
+新的 PCN Trace
+    ↓
+Execution Result
+```
+
+前一入口的 Multipath Control 可以选择下一候选状态迁移入口，但不能替代下一入口本身的前置判定。
+
 长期积累后，这些 Trace 可以用于：
 
 - 高频协同受阻入口识别；
@@ -750,7 +818,7 @@ MES、WCS、设备和搬送系统已经拥有大量任务、主体、路径、�
 5. Arbitration
 6. Multipath Control
 7. 当前入口控制结果
-8. 选定控制路径   → Execution Result
+8. 控制路径执行 / 后续 Target State Entry → Execution Result
 9. PCN Trace
 ```
 
@@ -769,6 +837,8 @@ MES、WCS、设备和搬送系统已经拥有大量任务、主体、路径、�
 上述结果如何进入 Arbitration
 最终形成什么 Multipath Control
 当前入口最终如何处理
+Multipath Control 是当前入口下的协调操作，还是指向新的 Target State / Target Path
+如果指向新路径，是否需要新的 Target State Entry 与对应 PCN 判定
 选定路径实际执行成什么结果
 这些信息如何形成 PCN Trace
 ```
@@ -803,7 +873,9 @@ CAE-SDB
   → 描述和识别多主体系统的群体协同受阻结构
 ```
 
-两类结果在 Arbitration 层汇合，再连接到 Multipath Control、当前入口控制结果、实际执行和 PCN Trace。
+两类结果在 Arbitration 层汇合，再连接到 Multipath Control、当前入口控制结果、控制路径执行或后续 Target State Entry、Execution Result 和 PCN Trace。
+
+其中，不是每一项 Multipath Control 都自动形成新的 PCN。只有当其实际指向另一个需要独立进入判定的 Target State / Target Path 时，才转入新的 Target State Entry，并由对应 PCN 重新执行前置判定。
 
 这种组织方式保留了群控协同层的技术特征，同时与 TPCA / PCN 的统一九步工程分析顺序保持一致。
 
@@ -831,5 +903,6 @@ CAE-SDB
 - Public Case Version 1.3：2026-08-21，补充时间信息 T 与状态实例相关说明。
 - Public Case Version 1.4：2026-08-25，按 CAE-SDB 双轴结构统一案例表达，并统一停滞识别、结构分型与 CAE-SDB Result 的处理顺序。
 - Public Case Version 1.5：2026-09-10，按统一九步工程分析顺序重新整理；明确 Current State 与群体停滞识别的先后关系，并收紧诊断模块与既有控制系统之间的执行边界。
+- Public Case Version 1.6：2026-09-18，进一步明确 Multipath Control 后的两类处理；同时恢复“群体授权未成立比例”的群控协同层原始术语，并补充跨入口 PCN Trace 的衔接规则。
 
 作者：全野南政 / Nansei Zenno
