@@ -3,109 +3,88 @@ title: 技術ノート
 draft: false
 ---
 
-技術ノートでは、TPCA / PCN の公開体系を補足する個別テーマを整理する。
+技術ノートでは、TPCA / PCN の公開体系を補足する個別テーマを扱う。
 
- 本ページでは、次の 4 つのテーマに分けて掲載する。
- 1. **TPCA の基本原則と技術的位置付け**
- 2. **PCN のエンジニアリング構造とシステム拡張**
- 3. **エンジニアリング上の価値と適用範囲**
- 4. **理解度確認**
+内容は、**基礎原則と技術的位置づけ、CAE-SDB / PCN とシステム構造、工程理解の確認**の三つに分けて整理している。
 
 ---
 
-## 1. TPCA の基本原則と技術的位置付け
-> このグループでは、主に次の問いを扱う。
-> - TPCA は、どのようなエンジニアリング上の認識を基盤としているのか？
-> - 実際のシステムにおける状態遷移を、どのように捉えるのか？
-> - 既存の産業オートメーション技術・エンジニアリング手法とは、どのような関係にあるのか？
+## 1. 基礎原則と技術的位置づけ
 
-### [なぜ知的アルゴリズムと物理実行制御の間に、状態遷移前制御が必要なのか？](/jp/notes/why-production-lines-still-need-deterministic-control/)
+> このグループでは、TPCA / PCN の基礎となる工程上の考え方、状態遷移の原則、適用条件、および既存の産業オートメーション技術や製造現場データとの関係を扱う。
 
-- 画像認識、予測、最適化、学習アルゴリズムなどの出力を、PLC、ロボット、搬送設備などの物理実行制御へ接続する際に必要となる中間層を説明する。TPCA / PCN が、知的アルゴリズムの出力を目標状態入口に関係する工学情報として整理し、状態遷移判定、制御優先度調停、複数経路制御を経て、実行可能な制御へ接続する役割を示す。
+### [なぜAI・最適化アルゴリズムが高度化しても、生産ラインの現場制御には確定的な判定が必要なのか？](/jp/notes/why-production-lines-still-need-deterministic-control/)
 
-### [TPCA における状態インスタンスの単方向性 ― 状態タイプの循環と実運転履歴の違い](/jp/notes/tpca-unidirectional-state-transition/)
+画像認識、予測、最適化などの知能アルゴリズムが高度化しても、具体的な物理状態遷移の入口では、最終的に進入・保持・禁止を明確に判定する必要がある。その理由を、状態表現、目標状態入口、TPCA / PCN の工程上の位置づけから整理する。
 
-- State Type では `A → B → A` のような循環を表現できる一方、実運転では `A₁ → B₁ → A₂` のように新しい State Instance が時間方向へ継続して生成されることを説明する。Recovery、Rollback、Reset、Retry、Re-entry などによって同じ State Type へ再進入した場合も、新しい State Instance として扱う考え方と、制御ソフトウェア設計および TPCA での採用を整理する。
+### [TPCA における状態インスタンスの一方向性——状態タイプの循環と実運転履歴の違い](/jp/notes/tpca-unidirectional-state-transition/)
 
+State Type（状態タイプ）と State Instance（状態インスタンス）を区別し、状態タイプは循環しても、実運転中の状態インスタンスは時間方向に新たに生成され続けることを説明する。Recovery、Rollback、Reset、Retry、Re-entry なども、新しい状態インスタンスへの遷移として扱う。
 
-### [TPCA / PCN と既存の産業オートメーション技術・エンジニアリング手法との関係](/jp/notes/tpca-existing-theories/)
+### [TPCA / PCN 適用場面の分析](/jp/notes/tpca-pcn-applicable-scenarios/)
 
-- TPCA / PCN と、状態機械、SFC、Interlock、安全制御、アラーム管理、FMEA、STPA、RCA、Process Mining、MES / WCS、AI 分析などとの役割分担を、Target State Entry を中心として整理する。
+目標状態入口が明確か、関連状態を観測できるか、判定結果を実際の制御へ接続できるか、PCN Trace を形成できるかという観点から、TPCA / PCN の適用条件と工程上の境界を整理する。
 
+### [TPCA / PCN と既存の産業オートメーション技術・工学手法との関係](/jp/notes/tpca-existing-theories/)
 
----
-
-## 2. PCN のエンジニアリング構造とシステム拡張
-> このグループでは、主に次の問いを扱う。
-> - なぜ 1 回の Target State Entry を独立したエンジニアリング対象として扱う必要があるのか？
-> - CAE-SDB は、なぜ C / A / E と S / D / B の二つの軸で構成されるのか？
-> - PCN は、どのように判定・制御・記録を行うのか？
-> - 複数の PCN は、どのようにシステムレベルの構造へ拡張されるのか？
-
-### [なぜ CAE-SDB なのか ― 状態変数領域と判定特性の二軸構造](/jp/notes/why-cae-sdb/)
-
-- C / A / E を状態遷移に関係する状態の役割を整理する状態変数領域、S / D / B を各状態に対する判定特性として構成する理由を説明する。同じ状態変数に複数の判定を適用でき、設備やシステムごとに信号名称や実装方法が異なっても、C-S、A-D、E-B などの共通形式で判定結果を整理できる二軸構造を示す。
-
-### [なぜ PCN は TPCA の最小エンジニアリングノードなのか？](/jp/notes/pcn-minimum-engineering-unit/)
-
-- 1 つの明確な Target State Entry に対して、関連状態、CAE-SDB 判定、制御優先度調停（Arbitration）、複数経路制御（Multipath Control）、PCN Trace を一つの工程単位として構成する理由と、PCN が TPCA の最小エンジニアリングノードとなる考え方を説明する。
-
-### [複数の PCN はどのように状態遷移前制御ネットワークを形成するのか？](/jp/notes/pcn-network-structure/)
-
-- 複数の Target State Entry とそれぞれに対応する PCN が、状態進行、許可、資源、実行、状態更新などの依存関係によって PCN Network を形成する構造を説明する。各 PCN の Runtime と PCN Network の関係、および PCN Trace を用いたシステムレベルの分析への展開も整理する。
-
-### [なぜ PCN Trace は新しいエンジニアリングデータなのか？](/jp/notes/why-pcn-trace-is-engineering-data/)
-
-- 1 回の Target State Entry における入力状態、CAE-SDB 判定結果、制御優先度調停、複数経路制御、実行結果、時間情報 T を一つの状態遷移判定履歴として関連付ける理由を説明する。蓄積した PCN Trace を用いた改善マトリクス、PLC / HMI、MES / WCS、製造 DX での活用方法も整理する。
-
----
-
-## 3. エンジニアリング上の価値と適用範囲
-> このグループでは、主に次の問いを扱う。
-> - TPCA / PCN は、どのような問題に適しているのか？
-> - 既存の運用指標やエンジニアリングデータとは、どのような関係にあるのか？
-> - どのような Target State Entry を PCN の対象として選定する価値があるのか？
-
-### [TPCA / PCN の適用シナリオ分析](/jp/notes/tpca-pcn-applicable-scenarios/)
-
-- Target State Entry が明確であるか、関連状態を観測できるか、判定結果を制御へ接続できるか、PCN Trace を形成可能な構造を設計できるかという 4 つの観点から、TPCA / PCN の適用シナリオと適用境界を整理する。自動化実行ユニット、MES / WCS・複数設備協調、製造 DX、デジタル実行入口、人による確認を含むシステムなどの代表的な適用場面を示す。
+TPCA、PCN と、状態機械、SFC、Interlock、安全制御、アラーム管理、FMEA、STPA、RCA、Process Mining、MES / WCS、AI 分析との役割分担と工程上の位置関係を整理する。
 
 ### [なぜ OEE の後に PCN が必要なのか？](/jp/notes/why-oee-pcn/)
 
-- OEE が運転実績や損失を把握するのに対し、PCN Trace はその時間帯の Target State Entry における判定・制御履歴を記録する。両者を関連付けることで、損失区間から状態遷移条件、許可、Execution Chain、制御経路などの具体的なエンジニアリング改善対象へ展開する考え方を説明する。
+OEE や生産実績データと PCN Trace の役割の違いを整理する。OEE は稼働実績や損失を把握するために用い、PCN Trace は具体的な目標状態入口における判定、制御選択、実行結果を記録し、状態遷移過程そのものを分析するための基盤となる。
 
 ---
 
-## 4. 理解度確認
+## 2. CAE-SDB、PCN とシステム構造
 
-> このグループでは新しい概念を追加せず、TPCA / PCN のエンジニアリングロジックを正しく理解しているかを確認する。
+> このグループでは、一回の目標状態入口に対して、状態の整理、判定、制御、履歴がどのように形成されるかを扱う。さらに、複数の PCN が接続された場合のシステムレベルの関係構造についても説明する。
 
-### [TPCA / PCN を本当に理解しているか ― 10 のエンジニアリング問題](/jp/notes/tpca-pcn-understanding-test/)
+### [なぜ CAE-SDB なのか？——目標状態入口前の二軸構造化分析法](/jp/notes/why-cae-sdb/)
 
-- 10 の具体的なエンジニアリング問題を通じて、Target State Entry、PCN、C / A / E、S / D / B、CAE-SDB Result、Arbitration、Multipath Control、PCN Trace、PCN Network の関係を正しく理解できているかを確認する。
+C / A / E による状態遷移上の機能役割と、S / D / B による判定性質を二つの軸として分ける理由を説明する。また、C-S、A-D、E-B などの CAE-SDB 判定結果がどのように形成され、後段の制御処理へ接続されるかを整理する。
+
+### [なぜ PCN は TPCA の最小エンジニアリングノードなのか？](/jp/notes/pcn-minimum-engineering-unit/)
+
+一つの PCN が一つの明確な目標状態入口を担当し、関連状態、CAE-SDB 判定、制御優先度調停、複数経路制御、実行結果、PCN Trace を一つの状態遷移単位として扱う理由を説明する。
+
+### [複数の PCN はどのように状態遷移前制御ネットワークを形成するのか？](/jp/notes/pcn-network-structure/)
+
+複数の目標状態入口 / PCN が、状態の進行、許可、共有資源、実行、状態更新などの依存関係を通じて、PCN Network を形成する考え方を説明する。
+
+### [なぜ PCN Trace は新しいエンジニアリングデータなのか？](/jp/notes/why-pcn-trace-is-engineering-data/)
+
+PCN Trace と設備データ、生産データ、アラーム履歴との違いを整理する。一回の目標状態入口における判定、制御選択、実行結果を同じ状態遷移単位として記録することで、継続的な比較・分析が可能になる理由を説明する。
 
 ---
 
-## 関連コンテンツ
+## 3. 工程理解の確認
 
-### [Concepts｜基本概念](/jp/concepts/)
+### [TPCA / PCN 工程理解チェック——10の設問](/jp/notes/tpca-pcn-understanding-test/)
 
-- TPCA、PCN、Current State、Target State、Target State Entry、C / A / E、S / D / B、CAE-SDB Result、時間情報 T、Arbitration、Multipath Control、PCN Trace、PCN Network などの中核用語を確認する。
+10の工程設問を通じて、目標状態入口、PCN の位置、重要な A、Execution Chain、CAE-SDB の判定原則、目標状態との対応、制御優先度調停、PCN Trace、PCN Network、適用境界について、理解が一致しているかを確認する。
+
+---
+
+## 関連ページ
+
+### [Concepts｜中核概念](/jp/concepts/)
+
+TPCA、PCN、現在状態、目標状態、目標状態入口、C / A / E、S / D / B、CAE-SDB Result、制御優先度調停、複数経路制御、PCN Trace、PCN Network などの基本定義を整理している。
 
 ### [TPCA / PCN 状態遷移前制御アーキテクチャ｜ホワイトペーパー](/jp/whitepaper/)
 
-- TPCA / PCN の全体的なエンジニアリングの流れ、中核構造、代表的な適用方向を体系的に理解する。
+TPCA / PCN の全体構造、主要な工程チェーン、判定構造、制御関係、適用方向を体系的に説明する。
 
-### [Engineering Questions｜エンジニアリング課題](/jp/questions/)
+### [工程問題](/jp/questions/)
 
-- Ready、Waiting、タスク実行、複数システム協調、状態遷移設計など、製造現場の問題から TPCA / PCN へ入る。
+自動化実行ユニット、複数システム間の協調、状態遷移設計など、製造現場で実際に発生する工程問題から TPCA / PCN の考え方へ入る。
 
 ### [適用事例](/jp/cases/)
 
-- 自動化実行ユニット、MES / WCS 協調停滞、製造 DX における複数システム横断の状態遷移などの公開事例を確認する。
+自動化実行ユニット、MES / WCS 協調停滞、製造DX などの公開事例を掲載する。
 
 ---
 
-本ページは、TPCA / PCN 状態遷移前制御体系における公開技術ノートの索引である。
+本ページは、TPCA / PCN 状態遷移前制御体系に関する公開技術ノートの索引である。
 
-技術ノートは、ホワイトペーパーおよび Concepts ページを補足し、個別の技術論点、エンジニアリング構造、適用範囲、実務上の価値を詳しく説明する公開資料として位置付ける。
+技術ノートは、ホワイトペーパーおよび中核概念ページを補足するための個別テーマ解説であり、TPCA / PCN 全体の定義に代わるものではない。
