@@ -68,7 +68,7 @@ draft: false
 
 ---
 
-### 生产 DX 状态迁移条件设计
+### 制造 DX 状态迁移条件设计
 
 适合制造企业 DX、生产技术、质量、设备、保全部门，以及 MES / QMS / 制造数据平台相关企业。
 
@@ -89,7 +89,7 @@ draft: false
 
 相关案例：
 
-[生产 DX 状态迁移条件设计与履历分析案例](/zh/cases/production-dx-state-transition/)
+[制造 DX 状态迁移条件设计与履历分析案例](/zh/cases/production-dx-state-transition/)
 
 ---
 
