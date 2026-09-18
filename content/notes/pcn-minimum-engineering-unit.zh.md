@@ -60,7 +60,6 @@ PCN 是 TPCA 从总体架构落实到具体 Target State Entry 时使用的最�
 
 - [Concepts｜核心概念](/zh/concepts/)
 - [TPCA / PCN 状态迁移前置控制架构｜白皮书](/zh/whitepaper/)
-- [为什么状态迁移条件需要显式化？](/zh/notes/explicit-state-transition-conditions/)
 - [为什么是 CAE-SDB？——状态变量域与判定性质的二轴结构](/zh/notes/why-cae-sdb/)
 
 ---
