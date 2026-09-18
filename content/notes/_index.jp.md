@@ -27,9 +27,6 @@ draft: false
 
 - State Type では `A → B → A` のような循環を表現できる一方、実運転では `A₁ → B₁ → A₂` のように新しい State Instance が時間方向へ継続して生成されることを説明する。Recovery、Rollback、Reset、Retry、Re-entry などによって同じ State Type へ再進入した場合も、新しい State Instance として扱う考え方と、制御ソフトウェア設計および TPCA での採用を整理する。
 
-### [TPCA / PCN はどのようなエンジニアリング基盤の上に成り立つか ― 5 つの基本的な工学的共通認識](/jp/notes/engineering-foundations-of-tpca-pcn/)
-
-- 状態遷移、許可制約、実行チェーンの接続、動的時系列有効性、制御境界という 5 つの基本的な工学的共通認識から、TPCA / PCN がどのような既存のエンジニアリング事実を基盤としているかを説明する。
 
 ### [TPCA / PCN と既存の産業オートメーション技術・エンジニアリング手法との関係](/jp/notes/tpca-existing-theories/)
 
