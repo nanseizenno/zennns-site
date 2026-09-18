@@ -19,9 +19,6 @@ draft: false
 
 - 区分 State Type（状态类型）与 State Instance（状态实例）。状态类型可以形成循环，实际运行中的状态实例则沿时间方向持续生成；Recovery、Rollback、Reset、Retry、Re-entry 等处理也按进入新状态实例理解。
 
-### [TPCA / PCN 建立在什么工程基础上？——五个基础工程共识](/zh/notes/engineering-foundations-of-tpca-pcn/)
-
-- 从状态迁移、许可约束、执行链接续、动态时序有效性和控制边界等已有工程事实出发，说明 TPCA / PCN 所建立的技术基础。
 
 ### [TPCA / PCN 与既有工业自动化技术和工程方法的关系](/zh/notes/tpca-existing-theories/)
 
