@@ -44,7 +44,7 @@ languages:
           url: "/jp/notes/why-cae-sdb/"
           weight: 50
 
-        - name: "応用事例"
+        - name: "応用事例と工学的価値"
           url: "/jp/cases/"
           weight: 60
 
@@ -101,7 +101,7 @@ languages:
           url: "/zh/notes/why-cae-sdb/"
           weight: 50
 
-        - name: "应用案例"
+        - name: "应用案例与工程价值"
           url: "/zh/cases/"
           weight: 60
 
