@@ -1,9 +1,9 @@
 ---
 title: "TPCA における状態インスタンスの単方向性 ― 状態タイプの循環と実運転履歴の違い"
-summary: "状態タイプでは A → B → A のような循環を表現できる一方、実運転では A₁ → B₁ → A₂ のように新しい状態インスタンスが時間方向へ継続して生成されることを説明する。Recovery、Rollback、Reset、Retry、Re-entry も新しい状態インスタンスへの遷移として整理し、この考え方を TPCA の状態遷移設計に採用する理由を示す。"
-description: "TPCA における State Type と State Instance の違い、および単方向の状態インスタンスモデルを制御ソフトウェアへ適用する考え方を整理する。"
+summary: "状態タイプでは A → B → A のような循環を表現できる一方、実運転では A₁ → B₁ → A₂ のように新しい状態インスタンスが時間方向へ継続して生成されることを説明する。Recovery（復旧）、Rollback（ロールバック）、Reset（リセット）、Retry（再試行）、Re-entry（再進入） も新しい状態インスタンスへの遷移として整理し、この考え方を TPCA の状態遷移設計に採用する理由を示す。"
+description: "TPCA における State Type（状態タイプ）と State Instance（状態インスタンス） の違い、および単方向の状態インスタンスモデルを制御ソフトウェアへ適用する考え方を整理する。"
 date: 2026-08-21
-lastmod: 2026-09-08
+lastmod: 2026-09-20
 author: "全野南政 / Nansei Zenno"
 document_type: "技術ノート"
 version: "Public Note Version 1.1"
@@ -16,7 +16,7 @@ TocOpen: true
 
 ## TPCA における状態インスタンスの単方向性
 
-状態タイプと実行履歴を区別する考え方自体は、状態機械の実行トレースやワークフロー履歴などでも用いられている。本稿では、この区別を TPCA の状態遷移設計に適用した場合の工程上の意味を整理する。
+状態タイプと実行履歴を区別する考え方自体は、状態機械の実行トレースやワークフロー履歴などでも用いられている。本稿では、この区別を TPCA の状態遷移設計に適用した場合の意味を整理する。
 
 自動化システムでは、状態機械、SFC、シーケンス制御、設備状態モデルなどを用いて運転状態を表現する。
 
@@ -30,7 +30,7 @@ A → B → A
 
 という状態遷移である。
 
-一方、実運転で発生した状態を時間位置とともに見ると、最初の A と後の A は同じ発生状態ではない。
+一方、実運転で発生した状態を時間位置とともに見ると、最初の A と後の A は同一の発生状態ではない。
 
 実際には、
 
@@ -42,41 +42,41 @@ A₁ → B₁ → A₂
 
 `A₁` と `A₂` は同じ状態タイプ A に属していても、発生した時間位置とそこへ至る履歴が異なるため、別の状態インスタンスである。
 
-本稿の論点は、時間が進行するという事実そのものではない。その時間方向を State Instance の識別と状態遷移設計に明示的に反映することにある。
+本稿の論点は、時間が進行するという事実そのものではない。時間方向を State Instance（状態インスタンス）の識別と状態遷移設計に明示的に反映することにある。
 
 本稿では、この関係を次のように整理する。
 
 > **状態タイプは循環できるが、実運転の状態インスタンスは時間方向へ継続して生成される。**
 
-この考え方を用いると、Recovery、Rollback、Reset、Retry、Re-entry なども、現在の State Instance から次の State Instance への遷移として共通の状態モデルで扱うことができる。
+この考え方を用いると、Recovery（復旧）、Rollback（ロールバック）、Reset（リセット）、Retry（再試行）、Re-entry（再進入） なども、現在の State Instance から次の State Instance（状態インスタンス）への遷移として共通の状態モデルで扱うことができる。
 
 ---
 
 ## 1. なぜ A → B → A と A₁ → B₁ → A₂ を区別するのか
 
-例えば、ロボットが Home 位置で待機している状態を A とする。
+例えば、ロボットが Home（原点）位置で待機している状態を A とする。
 
 ```text
 A:
-Robot Position = Home
-Mode = Auto
-Ready = TRUE
+Robot Position（ロボット位置） = Home
+Mode（運転モード） = Auto
+Ready（運転準備完了） = TRUE
 ```
 
 その後、ロボットが動作を開始して状態 B へ進む。
 
 ```text
 B:
-Robot Executing
-Ready = FALSE
+Robot Executing（ロボット実行中）
+Ready（運転準備完了） = FALSE
 ```
 
 動作完了後、ロボットが再び Home へ戻り、
 
 ```text
-Robot Position = Home
-Mode = Auto
-Ready = TRUE
+Robot Position（ロボット位置） = Home
+Mode（運転モード） = Auto
+Ready（運転準備完了） = TRUE
 ```
 
 となった場合、状態タイプとしては再び A と表現できる。
@@ -122,17 +122,17 @@ A₁ ≠ A₂
 
 である。
 
-> **同じ状態タイプへ再進入しても、それは過去の状態インスタンスそのものではない。**
+> **同じ状態タイプへ再進入しても、過去の状態インスタンスそのものへ戻ったことにはならない。**
 
 ---
 
-## 2. State Type と State Instance
+## 2. State Type（状態タイプ）と State Instance（状態インスタンス）
 
 本稿では、状態を二つのレベルに分けて考える。
 
 ### State Type
 
-State Type は、システム設計上の状態の種類を表す。
+State Type（状態タイプ）は、システム設計上の状態の種類を表す。
 
 例えば、
 
@@ -158,7 +158,7 @@ AUTO → FAULT → AUTO
 
 ### State Instance
 
-State Instance は、実運転中に実際に発生した一つの状態を表す。
+State Instance（状態インスタンス）は、実運転中に実際に発生した一つの状態を表す。
 
 説明上、状態インスタンスを次のように表す。
 
@@ -209,23 +209,23 @@ S₂ ≠ S₀
 
 したがって、
 
-> **State Type は繰り返し現れることができるが、State Instance は実運転の時間方向に沿って新しく生成される。**
+> **State Type（状態タイプ）は繰り返し現れることができるが、State Instance（状態インスタンス）は実運転の時間方向に沿って新たに生成される。**
 
 ---
 
-## 3. Recovery / Rollback / Reset も新しい State Instance への遷移である
+## 3. Recovery（復旧） / Rollback（ロールバック） / Reset（リセット） も新しい State Instance（状態インスタンス）への遷移である
 
 制御ソフトウェアでは、異常復旧、状態再設定、再試行、状態再進入などを表す処理として、例えば次のような名称が使用される。
 
 ```text
-Recovery
-Rollback
-Reset
-Retry
-Re-entry
+Recovery（復旧）
+Rollback（ロールバック）
+Reset（リセット）
+Retry（再試行）
+Re-entry（再進入）
 ```
 
-これらの処理も、実運転上は過去の State Instance そのものへ戻るわけではない。
+これらの処理も、実運転上は過去の State Instance（状態インスタンス）そのものへ戻るわけではない。
 
 例えば、
 
@@ -238,7 +238,7 @@ AUTO₁
 
 という状態遷移を考える。
 
-`AUTO₂` が `AUTO₁` と同じ State Type であっても、
+`AUTO₂` が `AUTO₁` と同じ State Type（状態タイプ）であっても、
 
 ```text
 Type(AUTO₁) = Type(AUTO₂)
@@ -252,7 +252,7 @@ AUTO₁ ≠ AUTO₂
 
 である。
 
-`AUTO₂` は、異常発生と Recovery を経た後に形成された新しい State Instance である。
+`AUTO₂` は、異常発生と Recovery（復旧）を経た後に形成された新しい State Instance である。
 
 同様に、
 
@@ -263,14 +263,14 @@ READY₁
 → READY₂
 ```
 
-の場合も、`READY₂` は `READY₁` と同じ State Type に属する新しい State Instance である。
+の場合も、`READY₂` は `READY₁` と同じ State Type（状態タイプ）に属する新しい State Instance である。
 
-Retry や Re-entry についても同じである。
+Retry（再試行）や Re-entry（再進入） についても同様である。
 
-この整理により、Recovery、Rollback、Reset、Retry、Re-entry を、
+この整理により、Recovery（復旧）、Rollback（ロールバック）、Reset（リセット）、Retry（再試行）、Re-entry（再進入） を、
 
 ```text
-Current State
+Current State（現在状態）
 → New State
 ```
 
@@ -280,24 +280,24 @@ Current State
 
 ## 4. 制御ソフトウェア設計上の利点
 
-State Type の循環と State Instance の時間方向を分けて扱うと、制御ソフトウェアの状態モデルを一貫した形で整理しやすくなる。
+State Type の循環と State Instance（状態インスタンス）の時間方向を分けて扱うと、制御ソフトウェアの状態モデルを一貫した形で整理しやすくなる。
 
 ### 4.1 正常処理と異常処理を同じ遷移形式で扱える
 
-正常処理だけでなく、異常処理、Recovery、Rollback、Reset、Retry、Re-entry も、
+正常処理に加え、異常処理、Recovery（復旧）、Rollback（ロールバック）、Reset（リセット）、Retry（再試行）、Re-entry（再進入） も、
 
 ```text
-Current State
+Current State（現在状態）
 → New State
 ```
 
 という同じ状態遷移形式で表現できる。
 
-Recovery や Retry を、過去の State Instance へ逆向きに戻る遷移として表現する必要がない。
+Recovery（復旧）や Retry（再試行） を、過去の State Instance（状態インスタンス）へ逆向きに戻る遷移として表現する必要がない。
 
 ### 4.2 実運転履歴を区別して残せる
 
-同じ State Type へ再進入した場合も、新しい State Instance として扱うことで、
+同じ State Type へ再進入した場合も、新しい State Instance（状態インスタンス）として扱うことで、
 
 ```text
 AUTO₁
@@ -329,7 +329,7 @@ WAIT₁ → EXECUTE₁ → WAIT₂
 
 ### 4.4 実運転の状態インスタンス列と実行履歴を一つの時間方向で記述できる
 
-正常処理、異常処理、Recovery、Retry などを、過去の State Instance へ逆向きに戻る遷移として扱わず、すべて後続する State Instance への遷移として記述することで、実運転の状態インスタンス列と実行履歴を一つの時間方向で整理できる。
+正常処理、異常処理、Recovery（復旧）、Retry（再試行） などを、過去の State Instance（状態インスタンス）へ逆向きに戻る遷移として扱わず、すべて後続する State Instance（状態インスタンス）への遷移として記述することで、実運転の状態インスタンス列と実行履歴を一つの時間方向で整理できる。
 
 この整理は、次のような項目に利用できる可能性がある。
 
@@ -349,13 +349,13 @@ WAIT₁ → EXECUTE₁ → WAIT₂
 TPCA / PCN では、実運転上の状態遷移を、
 
 ```text
-Current State
-→ Target State
+Current State（現在状態）
+→ Target State（目標状態）
 ```
 
 という関係で扱う。
 
-ここで Target State が過去に存在した State Type と同じであっても、実際に進入した後の状態は新しい State Instance として扱う。
+ここで Target State（目標状態） が過去に存在した State Type（状態タイプ）と同じであっても、実際に進入した後の状態は新しい State Instance（状態インスタンス）として扱う。
 
 例えば、
 
@@ -384,7 +384,7 @@ TPCA では、この考え方を正常処理、異常処理、復旧処理、再
 
 TPCA における状態インスタンスの単方向性は、
 
-> **実運転で発生した State Instance を、時間方向へ継続する一連の状態として扱う。**
+> **実運転で発生した State Instance（状態インスタンス）を、時間方向へ継続する一連の状態として扱う。**
 
 という設計原則である。
 
@@ -406,19 +406,19 @@ TPCA / PCN は、この区別を状態遷移表現の基本原則として採用
 
 本稿の要点は、次の3点である。
 
-1. State Type には循環を含めることができる。
+1. State Type（状態タイプ）には循環を含めることができる。
 
 ```text
 A → B → A
 ```
 
-2. 実運転で発生する State Instance は時間方向へ継続する。
+2. 実運転で発生する State Instance（状態インスタンス）は時間方向へ継続する。
 
 ```text
 A₁ → B₁ → A₂
 ```
 
-3. Recovery、Rollback、Reset、Retry、Re-entry などの処理によって過去と同じ State Type が再び形成された場合も、その状態は新しい State Instance として扱う。
+3. Recovery（復旧）、Rollback（ロールバック）、Reset（リセット）、Retry（再試行）、Re-entry（再進入） などの処理によって過去と同じ State Type が再び形成された場合も、その状態は新しい State Instance（状態インスタンス）として扱う。
 
 この整理により、正常処理、異常処理、復旧処理、再試行、状態再進入を共通した状態遷移形式で表現できる。
 
@@ -452,7 +452,7 @@ TPCA / PCN では、この考え方を実運転上の状態遷移設計に採用
 文書種別：技術ノート  
 バージョン：Public Note Version 1.1  
 初回公開日：2026-08-21  
-最終更新日：2026-09-08  
+最終更新日：2026-09-20  
 著者：全野南政 / Nansei Zenno  
 現在の URL：https://zennns.com/jp/notes/tpca-unidirectional-state-transition/
 
