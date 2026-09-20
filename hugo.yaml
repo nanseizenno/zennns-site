@@ -24,19 +24,19 @@ languages:
       author: "全野南政 / Nansei Zenno"
     menu:
       main:
-        - name: "ホーム"
+        - name: "Home"
           url: "/jp/"
           weight: 10
 
-        - name: "エンジニアリング課題"
+        - name: "Engineering Questions"
           url: "/jp/questions/"
           weight: 20
 
-        - name: "基本概念"
+        - name: "Concepts"
           url: "/jp/concepts/"
           weight: 30
 
-        - name: "ホワイトペーパー"
+        - name: "Whitepaper"
           url: "/jp/whitepaper/"
           weight: 40
 
@@ -44,31 +44,31 @@ languages:
           url: "/jp/notes/why-cae-sdb/"
           weight: 50
 
-        - name: "応用事例と工学的価値"
+        - name: "Use Cases"
           url: "/jp/cases/"
           weight: 60
 
-        - name: "技術ノート"
+        - name: "Technical Notes"
           url: "/jp/notes/"
           weight: 70
 
-        - name: "本サイトについて"
+        - name: "About"
           url: "/jp/about/"
           weight: 80
 
-        - name: "協業について"
+        - name: "Cooperation"
           url: "/jp/about/cooperation/"
-          parent: "本サイトについて"
+          parent: "About"
           weight: 81
 
-        - name: "権利について"
+        - name: "Legal"
           url: "/jp/about/legal/"
-          parent: "本サイトについて"
+          parent: "About"
           weight: 82
 
-        - name: "著者について"
+        - name: "Author"
           url: "/jp/about/author/"
-          parent: "本サイトについて"
+          parent: "About"
           weight: 83
 
   zh:
