@@ -69,26 +69,13 @@ https://zennns.com/jp/cases/production-dx-state-transition/
 
 ```text
 1. 現在状態
-
 2. 目標状態 / 目標状態入口
-
-3. PCN：
-   関連状態取得
-   + C / A / E 状態マッピング
-
-4. S / D / B 判定
-   → CAE-SDB Result + T
-
+3. PCN：関連状態取得 + C / A / E 状態マッピング
+4. S / D / B 判定 → CAE-SDB Result + T
 5. 制御優先度調停
-
 6. 複数経路制御
-
 7. 現在の入口に対する制御結果
-
-8. 制御経路の実行
-   / 後続の目標状態入口
-   / 実行結果
-
+8. 後続の目標状態入口と実行結果
 9. 状態遷移判定履歴
 ```
 
