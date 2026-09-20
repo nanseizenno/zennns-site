@@ -30,7 +30,7 @@ ShowReadingTime: false
 
 关于为什么可以通过方法使用前后的信息结构差异、跨案例结构一致性等方式评价工程方法，可参见：
 
-[工程方法评价中的结构有效性与案例证据](/zh/notes/engineering-method-structural-validity/)
+### [工程方法评价中的结构有效性与案例证据](/zh/notes/engineering-method-structural-validity/)
 
 
 # 九步工程分析顺序
