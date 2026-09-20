@@ -416,7 +416,7 @@ PCN Trace により、本判定でどの状態を利用したか、それぞれ�
 - [TPCA / PCN 状態遷移前制御アーキテクチャ｜ホワイトペーパー](/jp/whitepaper/)
 - [なぜ PCN は TPCA の最小エンジニアリングノードなのか？](/jp/notes/pcn-minimum-engineering-unit/)
 - [なぜ CAE-SDB なのか？——目標状態入口前の二軸構造化分析法](/jp/notes/why-cae-sdb/)
-- [状態遷移はどのように分析可能なエンジニアリングデータとして形成されるのか？——目標状態入口、CAE-SDB、PCN Trace まで](/jp/notes/how-state-transition-becomes-engineering-data/)
+- [状態遷移はどのように分析可能なエンジニアリングデータとして形成されるのか？](/jp/notes/how-state-transition-becomes-engineering-data/)
 - [なぜ OEE の後に PCN が必要なのか？](/jp/notes/why-oee-pcn/)
 - [複数の PCN はどのように状態遷移前制御ネットワークを形成するのか？](/jp/notes/pcn-network-structure/)
 - [なぜAI・最適化アルゴリズムが高度化しても、生産ラインの現場制御には確定的な判定が必要なのか？](/jp/notes/why-production-lines-still-need-deterministic-control/)
