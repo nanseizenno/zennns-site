@@ -124,7 +124,7 @@ PCN Trace 由此将数据的组织单位从分散的信号、事件和报警，�
 
 如果希望理解一次状态迁移如何进一步形成可分析、可追溯的工程数据，可以阅读[状态迁移如何形成可分析的工程数据？](/zh/notes/how-state-transition-becomes-engineering-data/)。
 
-如果希望直接了解不同工程对象中的应用方式，可以进入[应用案例](/zh/cases/)。
+如果希望直接了解不同工程对象中的应用方式，可以进入[应用案例与工程价值](/zh/cases/)。
 
 此外，网站还整理了[工程问题](/zh/questions/)、[核心概念](/zh/concepts/)、[技术札记](/zh/notes/)以及[合作说明](/zh/about/cooperation/)。
 
