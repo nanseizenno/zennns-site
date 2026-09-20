@@ -74,7 +74,7 @@ TPCA / PCN 将明确的目标状态入口作为工程对象，进一步组织相
 
 - [TPCA / PCN｜主页](/zh/)
 - [核心概念](/zh/concepts/)
-- [应用案例](/zh/cases/)
+- [应用案例与工程价值](/zh/cases/)
 - [技术札记](/zh/notes/)
 - [TPCA / PCN 状态迁移前置控制架构｜白皮书](/zh/whitepaper/)
 
