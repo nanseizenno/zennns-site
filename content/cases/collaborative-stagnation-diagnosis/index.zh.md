@@ -8,7 +8,7 @@ description: "公开说明 TPCA / PCN 在 MES / WCS 协同停滞诊断中的应�
 
 date: 2026-06-30
 
-lastmod: 2026-09-18
+lastmod: 2026-09-20
 
 author: "全野南政 / Nansei Zenno"
 
@@ -43,7 +43,7 @@ TocOpen: true
 **建议引用：**
 
 ```text
-全野南政 / Nansei Zenno，《MES / WCS 协同停滞诊断模块案例：为什么 MES 记录了状态，仍解释不了制造现场为什么停》，公开案例，Public Case Version 1.6，2026-09-18，https://zennns.com/zh/cases/collaborative-stagnation-diagnosis/
+全野南政 / Nansei Zenno，《MES / WCS 协同停滞诊断模块案例：为什么 MES 记录了状态，仍解释不了制造现场为什么停》，公开案例，Public Case Version 1.6，2026-09-20，https://zennns.com/zh/cases/collaborative-stagnation-diagnosis/
 ```
 
 MES 可以记录任务、设备、工位、物料、报警、产量和生产实绩。
@@ -903,6 +903,6 @@ CAE-SDB
 - Public Case Version 1.3：2026-08-21，补充时间信息 T 与状态实例相关说明。
 - Public Case Version 1.4：2026-08-25，按 CAE-SDB 双轴结构统一案例表达，并统一停滞识别、结构分型与 CAE-SDB Result 的处理顺序。
 - Public Case Version 1.5：2026-09-10，按统一九步工程分析顺序重新整理；明确 Current State 与群体停滞识别的先后关系，并收紧诊断模块与既有控制系统之间的执行边界。
-- Public Case Version 1.6：2026-09-18，进一步明确 Multipath Control 后的两类处理；同时恢复“群体授权未成立比例”的群控协同层原始术语，并补充跨入口 PCN Trace 的衔接规则。
+- Public Case Version 1.6：2026-09-20，进一步明确 Multipath Control 后的两类处理；同时恢复“群体授权未成立比例”的群控协同层原始术语，并补充跨入口 PCN Trace 的衔接规则。
 
 作者：全野南政 / Nansei Zenno
