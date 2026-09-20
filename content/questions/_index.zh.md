@@ -24,47 +24,47 @@ layout: "questions"
 
 ---
 
-## 设备 Ready，为什么还是不动作？
+### 设备 Ready，为什么还是不动作？
 
-### [为什么 Ready 不够？](/zh/questions/why-ready-is-not-enough/)
+#### [为什么 Ready 不够？](/zh/questions/why-ready-is-not-enough/)
 
 > 单体 Ready 可以说明局部运行状态，但一次实际动作能否开始，还取决于与当前状态迁移相关的条件、许可和执行链。
 
 ---
 
-## 系统一直 Waiting，到底在等什么？
+### 系统一直 Waiting，到底在等什么？
 
-### [为什么 Waiting 越来越难排查？](/zh/questions/why-waiting-is-hard-to-trace/)
+#### [为什么 Waiting 越来越难排查？](/zh/questions/why-waiting-is-hard-to-trace/)
 
 > Waiting 可以说明系统尚未进入下一状态，但真正的等待原因可能分散在设备、许可、上下游状态和不同控制系统中。
 
 ---
 
-## 系统都有记录，为什么还是解释不了停滞？
+### 系统都有记录，为什么还是解释不了停滞？
 
-### [为什么 MES / WCS 能记录，却不能解释停滞？](/zh/questions/why-mes-records-but-cannot-explain/)
+#### [为什么 MES / WCS 能记录，却不能解释停滞？](/zh/questions/why-mes-records-but-cannot-explain/)
 
 > MES、WCS、设备和搬送系统分别拥有自己的状态和记录，但这些信息并不会自动围绕同一次状态迁移形成完整的判断关系。
 
 ---
 
-## 任务已经存在，为什么还没有真正执行？
+### 任务已经存在，为什么还没有真正执行？
 
-### [为什么任务存在，不代表任务可以执行？](/zh/questions/why-task-exists-but-cannot-execute/)
+#### [为什么任务存在，不代表任务可以执行？](/zh/questions/why-task-exists-but-cannot-execute/)
 
 > 任务生成以后，从“存在任务”到“真正进入执行”，中间仍然需要满足与当前目标状态入口相关的工程要求。
 
 ---
 
-## 更深一层：为什么这些判断难以沉淀？
+### 更深一层：为什么这些判断难以沉淀？
 
-### [为什么状态迁移设计长期依赖个人经验？](/zh/questions/why-state-transition-depends-on-experience/)
+#### [为什么状态迁移设计长期依赖个人经验？](/zh/questions/why-state-transition-depends-on-experience/)
 
 > 设备程序、联锁、步序和项目经验中已经存在大量状态迁移判断，但“什么情况下可以进入下一状态，以及不能进入时应该怎么办”的工程知识，往往分散在不同实现和工程师经验中，难以围绕明确的状态迁移入口持续积累和复用。
 
 ---
 
-## 从现场问题进入 TPCA / PCN
+### 从现场问题进入 TPCA / PCN
 
 这些现象虽然表现不同，都涉及系统从当前状态进入下一状态之前的判断问题。
 
