@@ -433,7 +433,7 @@ C-D
 当前抓取入口的有效判定依据
 ```
 
-经过 Arbitration 后，本次入口的控制结果可以整理为：
+经过 Arbitration 后，本次入口可以形成：
 
 ```text
 当前入口控制结果：
@@ -449,7 +449,7 @@ Return（回流）
 进入回流路径
 ```
 
-这里需要区分：
+这里：
 
 ```text
 当前抓取入口不进入
@@ -457,17 +457,13 @@ Return（回流）
 
 表示本次“进入抓取阶段”的 Target State Entry 未被允许。
 
-而：
-
 ```text
 Return（回流）
 ```
 
-表示 Arbitration 选择了后续候选控制路径。
+表示系统选择回流作为后续候选控制路径。
 
-Return 被选中，并不直接表示回流路径已经允许进入。
-
-如果系统继续转向回流状态，则还需要在“进入回流路径”这一新的 Target State Entry 下进行下一次前置判定。
+该路径是否能够进入，由其对应的 Target State Entry 重新判定。
 
 ---
 
@@ -479,7 +475,7 @@ Return 被选中，并不直接表示回流路径已经允许进入。
 Return（回流）
 ```
 
-对应新的状态迁移目标为：
+因此形成新的状态迁移目标：
 
 ```text
 Target State：
@@ -489,7 +485,7 @@ Target State Entry：
 进入回流路径
 ```
 
-此时系统进入新的前置判定上下文：
+系统随后进入新的前置判定：
 
 ```text
 Current State［识别完成 / 等待抓取］
@@ -498,70 +494,16 @@ Current State［识别完成 / 等待抓取］
     ↓
 Target State Entry［进入回流路径］
     ↓
-Target State［回流状态］
-```
-
-回流入口对应的 PCN，需要根据该 Target State Entry 自身的进入要求重新取得相关状态，并执行：
-
-```text
-C / A / E Mapping
-↓
-S / D / B Evaluation
-↓
-CAE-SDB Result
-↓
-Arbitration
-↓
-Multipath Control
-```
-
-本公开案例不展开“进入回流路径”对应 PCN 的具体状态配置和 CAE-SDB 判定规则。
-
-只有当该 Target State Entry 的前置判定形成允许进入的控制结果后，系统才执行回流路径。
-
-完整关系为：
-
-```text
-当前抓取入口不进入
-    ↓
-Multipath Control：Return
-    ↓
-Target State：回流状态
-    ↓
-Target State Entry：进入回流路径
-    ↓
-对应 PCN 重新执行前置判定
-    ↓
 若允许进入
     ↓
 执行回流
     ↓
-工件实际进入回流路径
-    ↓
-Execution Result：工件已进入回流路径
+Execution Result［工件已进入回流路径］
 ```
 
-因此，一次控制处理需要区分：
+回流入口对应的 PCN 按照该 Target State Entry 自身的状态和规则重新完成前置判定。
 
-```text
-原 Target State Entry 的 CAE-SDB Result
-↓
-原入口的 Arbitration
-↓
-原入口的 Multipath Control
-↓
-原入口控制结果
-↓
-被选定路径对应的新 Target State Entry
-↓
-对应 PCN 的新一次前置判定
-↓
-路径执行
-↓
-Execution Result
-```
-
-如果后续还需要重新识别，则“进入重新识别流程”再次构成新的 Target State / Target State Entry，并按照相同工程顺序继续进行新的状态迁移前置判定。
+本公开案例不展开回流入口的具体状态配置、CAE-SDB 判定规则和控制参数。
 
 关于状态类型循环与实际运行状态实例之间的关系，可参见：
 
@@ -573,9 +515,9 @@ Execution Result
 
 PCN Trace 以一次明确的 Target State Entry 为基本记录对象。
 
-因此，本案例中的“进入抓取阶段”和后续“进入回流路径”，属于两个不同的 Target State Entry，也对应两个不同的 PCN 判定上下文。
+因此，本案例中的“进入抓取阶段”和后续“进入回流路径”分别形成不同的 Trace。
 
-首先，本次抓取入口可以形成如下 Trace：
+本次抓取入口可以记录：
 
 ```text
 PCN：
@@ -598,21 +540,11 @@ Target State Entry：
 CAE-SDB Result：
 C-D
 
-关键许可：
-关键安全许可成立
-
 Arbitration Result：
-当前抓取入口不允许进入，
-选择 Return 作为后续控制路径
+当前抓取入口不进入
 
 Multipath Control：
 Return（回流）
-
-当前入口控制结果：
-当前抓取入口不进入
-
-Selected Next Target State：
-回流状态
 
 Selected Next Target State Entry：
 进入回流路径
@@ -624,68 +556,9 @@ Trace ID：
 PCN-PICK-XXXX
 ```
 
-该 Trace 记录的是：
+当系统继续判定“进入回流路径”时，由回流入口对应 PCN 形成新的 Trace，并记录该入口的相关状态、CAE-SDB Result、控制结果和 Execution Result。
 
-> **为什么本次抓取入口没有进入，以及下一步为什么转向回流入口。**
-
-随后，当系统准备进入回流路径时，对应 PCN 形成新的前置判定和新的 Trace。
-
-其结构可以表示为：
-
-```text
-PCN：
-回流入口 PCN
-
-Current State：
-识别完成 / 等待抓取
-
-Target State：
-回流状态
-
-Target State Entry：
-进入回流路径
-
-相关状态：
-依据回流入口实际配置取得
-
-CAE-SDB Result：
-依据回流入口实际判定规则形成
-
-Arbitration Result：
-依据回流入口实际判定结果形成
-
-Multipath Control：
-若满足进入要求，则 Allow
-
-Execution Result：
-工件已进入回流路径
-
-Previous Trace：
-PCN-PICK-XXXX
-
-Trace ID：
-PCN-RETURN-XXXX
-```
-
-本案例不公开展开回流入口 PCN 的具体状态配置、判定规则和控制参数。
-
-这里需要保留的核心关系是：
-
-```text
-抓取入口 Trace
-    ↓
-Selected Next Target State Entry
-    ↓
-回流入口 PCN
-    ↓
-回流入口 Trace
-    ↓
-Execution Result
-```
-
-也就是说，前一个 PCN 的 Multipath Control 可以选择下一候选状态迁移入口，但不能替代下一入口本身的前置判定。
-
-PCN Trace 由此能够连续记录：
+由此可以连续保留：
 
 ```text
 Target State Entry
@@ -703,18 +576,6 @@ Multipath Control
 Execution Result
 ```
 
-长期积累后，这些 Trace 可以用于：
-
-- HMI 或上位系统的结构化显示；
-- 现场问题复盘；
-- 高频判定结果统计；
-- 高频控制路径统计；
-- 不同 Target State Entry 之间的迁移关系分析；
-- 控制路径与 Execution Result 的关系比较；
-- 工程修改前后比较；
-- 同类自动化执行单元复用；
-- 工程交接。
-
 关于 PCN Trace 作为状态迁移判定履历的工程意义，可参见：
 
 [为什么 PCN Trace 是一种新的工程数据？](/zh/notes/why-pcn-trace-is-engineering-data/)
@@ -723,9 +584,7 @@ Execution Result
 
 ## 案例总结
 
-Robot Ready 表示机器人本体的局部准备状态。
-
-本案例进一步围绕明确的 Target State Entry，把进入抓取阶段所涉及的相关状态、结构化判定、控制仲裁、控制路径、后续状态迁移入口和执行结果按照统一工程顺序展开：
+本案例围绕“进入抓取阶段”这一明确的 Target State Entry，按照一次实际状态迁移的工程顺序展开：
 
 ```text
 1. Current State
@@ -735,44 +594,13 @@ Robot Ready 表示机器人本体的局部准备状态。
 5. Arbitration
 6. Multipath Control
 7. 当前入口控制结果
-8. 后续 Target State Entry → 对应 PCN 判定 → Execution Result
+8. 后续 Target State Entry 与 Execution Result
 9. PCN Trace
 ```
 
-其中，第 4 步通过：
+Robot Ready 只是当前入口中的一个相关状态。
 
-```text
-C / A / E
-×
-S / D / B
-```
-
-形成 9 个可用于组织当前入口判定问题的 CAE-SDB 坐标，并根据当前入口实际存在的判定规则形成相应 Result。
-
-如果当前 Target State Entry 可以进入，则 Multipath Control 可以形成 Allow，并进入当前目标状态。
-
-如果当前 Target State Entry 不能进入，而 Arbitration 选择 Return、异常分流、回退或其他替代路径，则该路径对应新的 Target State / Target State Entry。
-
-系统需要在新的 Target State Entry 下，由对应 PCN 再次完成前置判定。
-
-因此：
-
-> **候选替代路径可用，不等于当前 Target State 的 E 成立；Multipath Control 选择某条替代路径，也不等于该路径已经获得进入许可。**
-
-自动化执行单元进入目标物理执行阶段之前，可以按照这一顺序组织一次完整的状态迁移前置控制。
-
-不同设备和不同应用对象可以采用相同的工程分析骨架，具体变化主要体现在：
-
-```text
-相关状态
-判定规则
-关键许可
-合法控制路径
-后续 Target State Entry
-执行结果
-```
-
-这也构成 TPCA / PCN 应用案例、PoC 和工程展开时的基本分析顺序。
+PCN 围绕明确的 Target State Entry，将相关状态、结构化判定、控制结果、后续状态迁移和履历记录连接成一次完整的状态迁移前置控制过程。
 
 ---
 
@@ -794,7 +622,7 @@ S / D / B
 - Public Case Version 1.1：2026-08-20，统一 PCN、CAE-SDB Result、Arbitration、Multipath Control 与 PCN Trace 的层级表达。
 - Public Case Version 1.2：2026-08-21，补充时间信息 T 与状态实例相关说明。
 - Public Case Version 1.3：2026-08-25，明确 C / A / E 与 S / D / B 的双轴关系。
-- Public Case Version 1.4：2026-09-10，按统一九步案例工程分析顺序重构正文，并统一当前 Target State 的状态映射、候选控制路径、入口控制结果、实际执行结果及案例辅助标签的表达方式。
-- Public Case Version 1.5：2026-09-18，进一步明确 PCN、Target State Entry 与 Target State 的位置关系；补充被选定路径对应的新 Target State Entry、对应 PCN 重新判定及不同入口 PCN Trace 的衔接关系。
+- Public Case Version 1.4：2026-09-10，按统一九步案例工程分析顺序重构正文。
+- Public Case Version 1.5：2026-09-20，补充被选定路径对应的新 Target State Entry、对应 PCN 重新判定及不同入口 PCN Trace 的衔接关系。
 
 作者：全野南政 / Nansei Zenno
