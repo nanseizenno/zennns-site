@@ -392,7 +392,6 @@ A-B
 ## 进一步阅读
 
 - [为什么是 CAE-SDB？——状态变量域与判定性质的双轴结构](/zh/notes/why-cae-sdb/)
-- [为什么状态迁移条件需要显式化？](/zh/notes/explicit-state-transition-conditions/)
 - [为什么 PCN 是 TPCA 的最小工程节点？](/zh/notes/pcn-minimum-engineering-unit/)
 - [为什么状态迁移判定履历是一种新的工程数据？](/zh/notes/why-pcn-trace-is-engineering-data/)
 - [TPCA 中状态实例的单向性——状态类型循环与实际运行履历的区别](/zh/notes/tpca-unidirectional-state-transition/)
