@@ -40,19 +40,19 @@ TocOpen: true
 视觉识别输送线机器人单元中，现场可能看到这样的状态：
 
 ```text
-Robot Ready        = TRUE
-Vision Result      = OK
-Safety Permission  = TRUE
-Downstream Ready   = TRUE
+机器人就绪：成立
+视觉识别结果：正常
+安全许可：成立
+正常投放位接收状态：成立
 
-Robot Motion       = STOP
+机器人动作：未开始
 ```
 
 从单个系统看，各项状态似乎都没有明显异常。
 
 但机器人仍然没有开始抓取。
 
-问题在于，Robot Ready、Vision Result、Safety Permission 和 Downstream Ready 分别来自不同设备或系统。它们是否能够共同支持**当前这一时刻进入抓取阶段**，还需要放到同一个目标状态入口中判断。
+问题在于，机器人就绪、视觉识别结果、安全许可和正常投放位接收状态分别来自不同设备或系统。它们是否能够共同支持**当前这一时刻进入抓取阶段**，还需要放到同一个目标状态入口中判断。
 
 本案例以“进入抓取阶段”为 Target State Entry（目标状态入口），沿统一九步工程顺序说明 PCN 如何取得相关状态、形成 CAE-SDB 判定结果，并继续连接控制仲裁、多路径控制、后续状态迁移和状态迁移判定履历。
 
@@ -114,10 +114,10 @@ Robot Motion       = STOP
 示例运行状态：
 
 ```text
-Workpiece Present  = TRUE
-Vision Result      = OK
-Robot Ready        = TRUE
-Robot Motion       = STOP
+工件存在：成立
+视觉识别结果：正常
+机器人就绪：成立
+机器人动作：未开始
 ```
 
 工件已经进入本次抓取流程，视觉系统也已经产生本周期识别结果。
@@ -154,7 +154,7 @@ PCN 设置在当前状态与这一目标状态入口之间。
 
 # 3. PCN：相关状态获取与 C / A / E 状态映射
 
-PCN 只取得与当前“进入抓取阶段”直接相关的状态，并根据这些状态在本次状态迁移中的工程作用进行 C / A / E Mapping。
+PCN 只取得与当前“进入抓取阶段”直接相关的状态，并根据这些状态在本次状态迁移中的工程作用进行 C / A / E 状态映射。
 
 | 代表状态 | 状态映射 |
 |---|---|
@@ -164,17 +164,17 @@ PCN 只取得与当前“进入抓取阶段”直接相关的状态，并根据�
 
 本次示例重点使用：
 
-- 视觉结果：C；
+- 视觉识别结果：C；
 - 安全许可：A；
 - 机器人就绪：E 的相关输入；
 - 正常投放位接收状态：E。
 
-这里，`Robot Ready = TRUE` 只是当前抓取执行链中的一个相关状态。
+这里，“机器人就绪 = 成立”只是当前抓取执行链中的一个相关状态。
 
 它不能单独说明：
 
 ```text
-进入抓取阶段 = 允许
+进入抓取阶段：允许
 ```
 
 还需要确认视觉结果是否属于当前对象、是否仍在有效时间内，必要许可是否成立，以及抓取以后执行链是否能够继续。
@@ -188,15 +188,15 @@ PCN 只取得与当前“进入抓取阶段”直接相关的状态，并根据�
 在本次示例运行中，PCN 在抓取入口取得如下状态：
 
 ```text
-Current Time                 = 10:32:21.850
+当前判定时刻：10:32:21.850
 
-Robot Ready                  = TRUE
-Safety Permission            = TRUE
-Downstream Receive Ready     = TRUE
+机器人就绪：成立
+安全许可：成立
+正常投放位接收状态：成立
 
-Vision Result                = OK
-Vision Result Timestamp      = 10:32:14.200
-Vision Valid Window          = 5.0 s
+视觉识别结果：正常
+视觉结果生成时刻：10:32:14.200
+视觉结果有效窗口：5.0 s
 ```
 
 视觉结果距离当前判定时刻已经过去：
@@ -218,7 +218,7 @@ Vision Valid Window          = 5.0 s
 因此，虽然：
 
 ```text
-Vision Result = OK
+视觉识别结果：正常
 ```
 
 但这一结果已经不能继续作为当前抓取入口的有效判定依据。
@@ -228,7 +228,7 @@ Vision Result = OK
 问题发生在该状态的动态时序有效性，因此形成：
 
 ```text
-CAE-SDB Result：
+CAE-SDB 判定结果：
 
 C-D
 
@@ -241,13 +241,13 @@ C-D
 现场看到的原始状态仍然可以是：
 
 ```text
-Vision Result = OK
+视觉识别结果：正常
 ```
 
 但 PCN 当前需要判断的是：
 
 ```text
-这个 OK 现在是否仍然有效？
+这个正常结果现在是否仍然有效？
 ```
 
 两者不是同一个工程问题。
@@ -267,13 +267,13 @@ Vision Result = OK
 当前抓取入口已经形成以下主要判定信息：
 
 ```text
-CAE-SDB Result：
+CAE-SDB 判定结果：
 C-D
 
 关键安全许可：
 成立
 
-Robot Ready：
+机器人就绪：
 成立
 
 正常投放位接收状态：
@@ -283,7 +283,7 @@ Robot Ready：
 可用
 ```
 
-此时不能因为 Robot Ready、安全许可和下游状态正常，就忽略已经失效的视觉条件继续执行抓取。
+此时不能因为机器人就绪、安全许可和下游状态正常，就忽略已经失效的视觉条件继续执行抓取。
 
 当前抓取动作的位置和姿态依据已经失去有效性。
 
@@ -306,7 +306,7 @@ Robot Ready：
 根据控制仲裁结果，本次选定：
 
 ```text
-Multipath Control：
+多路径控制：
 
 回流
 ```
@@ -319,7 +319,7 @@ Multipath Control：
 
 # 7. 当前入口控制结果
 
-对于当前 Target State Entry：
+对于当前 Target State Entry（目标状态入口）：
 
 ```text
 进入抓取阶段
@@ -336,10 +336,10 @@ Multipath Control：
 系统同时确定新的候选目标状态：
 
 ```text
-Target State：
+目标状态：
 回流状态
 
-Target State Entry：
+目标状态入口：
 进入回流路径
 ```
 
@@ -354,28 +354,28 @@ Target State Entry：
 新的状态迁移为：
 
 ```text
-Current State：
+当前状态：
 识别完成 / 等待抓取
 
-Target State：
+目标状态：
 回流状态
 
-Target State Entry：
+目标状态入口：
 进入回流路径
 ```
 
-“进入回流路径”属于新的 Target State Entry。
+“进入回流路径”属于新的 Target State Entry（目标状态入口）。
 
 因此，需要由对应 PCN 根据回流入口自己的相关状态和进入条件重新执行前置判定。
 
 例如，回流入口实际可能需要确认：
 
 ```text
-Return Conveyor Ready
-Return Path Available
-Area Permission
-Workpiece Position
-Downstream Return Capacity
+回流输送带就绪状态
+回流路径可用状态
+区域许可
+工件当前位置
+回流下游承接能力
 ```
 
 这些状态并不因为抓取入口已经选择“回流”就自动成立。
@@ -383,7 +383,7 @@ Downstream Return Capacity
 如果新的回流入口判定允许进入，系统才真正执行回流，并形成：
 
 ```text
-Execution Result：
+执行结果：
 
 工件已进入回流路径
 ```
@@ -394,63 +394,63 @@ Execution Result：
 
 # 9. 状态迁移判定履历
 
-本次抓取入口可以形成如下 PCN Trace：
+本次抓取入口可以形成如下 PCN Trace（状态迁移判定履历）：
 
 ```text
-Trace ID：
+履历 ID：
 PCN-PICK-XXXX
 
 PCN：
 抓取入口 PCN
 
-Current State：
+当前状态：
 识别完成 / 等待抓取
 
-Target State：
+目标状态：
 抓取阶段
 
-Target State Entry：
+目标状态入口：
 进入抓取阶段
 
-Judgment Time：
+判定时刻：
 10:32:21.850
 
-Related States：
-  Robot Ready = TRUE
-  Safety Permission = TRUE
-  Downstream Receive Ready = TRUE
-  Vision Result = OK
-  Vision Result Timestamp = 10:32:14.200
+主要相关状态：
+  机器人就绪 = 成立
+  安全许可 = 成立
+  正常投放位接收状态 = 成立
+  视觉识别结果 = 正常
+  视觉结果生成时刻 = 10:32:14.200
 
-CAE-SDB Result：
+CAE-SDB 判定结果：
 C-D
 
-Judgment：
+判定内容：
 视觉结果超过 5.0 s 有效窗口
 
-Arbitration Result：
+控制仲裁结果：
 当前抓取入口不允许进入
 
-Multipath Control：
+多路径控制：
 回流
 
-Current Entry Result：
+当前入口控制结果：
 当前抓取入口不进入
 
-Next Target State：
+后续目标状态：
 回流状态
 
-Next Target State Entry：
+后续目标状态入口：
 进入回流路径
 
-Time Information：
+时间信息：
 T
 ```
 
 这条履历保留的不是单纯一个：
 
 ```text
-Robot Not Moving
+机器人未动作
 ```
 
 而是一次完整状态迁移中的状态、判定和控制关系。
@@ -468,24 +468,24 @@ Robot Not Moving
 本次示例开始时，现场看到：
 
 ```text
-Robot Ready        = TRUE
-Vision Result      = OK
-Safety Permission  = TRUE
-Downstream Ready   = TRUE
+机器人就绪：成立
+视觉识别结果：正常
+安全许可：成立
+正常投放位接收状态：成立
 ```
 
 如果只查看当前状态值，很容易留下一个问题：
 
 > **机器人已经准备好，为什么仍然不抓取？**
 
-将这些状态对应到“进入抓取阶段”这一 Target State Entry 后，可以进一步看到：
+将这些状态对应到“进入抓取阶段”这一 Target State Entry（目标状态入口）后，可以进一步看到：
 
 ```text
-Vision Result          = OK
-Vision Result Age      = 7.650 s
-Valid Window           = 5.0 s
+视觉识别结果：正常
+视觉结果经过时间：7.650 s
+允许有效窗口：5.0 s
 
-CAE-SDB Result         = C-D
+CAE-SDB 判定结果：C-D
 ```
 
 问题由“机器人没有动作”进一步定位为：
@@ -496,8 +496,8 @@ CAE-SDB Result         = C-D
 
 | 原有现场能够确认 | 通过本案例进一步明确 |
 |---|---|
-| 机器人已经就绪 | Robot Ready 是当前抓取执行链中的相关状态之一，不能单独代表入口成立 |
-| 视觉系统已经输出 OK | 当前结果虽然为 OK，但已经超过本次入口允许的有效时间 |
+| 机器人已经就绪 | 机器人就绪是当前抓取执行链中的相关状态之一，不能单独代表入口成立 |
+| 视觉系统已经输出正常结果 | 当前结果虽然正常，但已经超过本次入口允许的有效时间 |
 | 安全许可成立 | 关键 A 已成立，但不能替代 C 和 E 的判定 |
 | 正常投放位可以接收 | 当前执行链相关状态满足本次入口要求 |
 | 抓取动作没有开始 | 当前入口形成 `C-D` |
@@ -509,15 +509,15 @@ CAE-SDB Result         = C-D
 从这条履历可以直接还原本周期的工程关系：
 
 ```text
-Robot Ready
-Safety Permission
-Downstream Ready
+机器人就绪
+安全许可
+正常投放位接收状态
         ↓
 均满足
 
-Vision Result = OK
+视觉识别结果 = 正常
         ↓
-已过期
+已经超过有效时间
         ↓
 C-D
         ↓
