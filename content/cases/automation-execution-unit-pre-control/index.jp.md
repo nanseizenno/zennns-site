@@ -60,7 +60,7 @@ https://zennns.com/jp/cases/automation-execution-unit-pre-control/
 
 「把持段階への移行」に直接関係する状態は、画像認識、ロボット、安全、搬送、下流、上位システムから取得する。
 
-![画像認識搬送ラインのロボットユニット前制御イメージ](/images/tpca/06-pcn-pick-flow.png)
+![画像認識搬送ラインのロボットユニット前制御イメージ](/images/tpca/06-pcn-pick-flow.jp.png)
 
 図：PCN は、ロボットが把持段階へ移行する前に、現在の目標状態入口に関係する複数システムの状態を取得し、判定結果に基づいて制御経路を決定する。
 
