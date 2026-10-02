@@ -23,11 +23,12 @@ TocOpen: true
 > 代表対象：画像認識を用いた搬送ラインのロボットユニット
 
 **推奨引用：**
-
+```text
 全野南政 / Nansei Zenno，  
 『自動化実行ユニット前判定事例：ロボットが Ready でも、なぜ把持段階へ移行できないのか』，  
 公開事例，Public Case Version 1.6，2026-10-01，  
 https://zennns.com/jp/cases/automation-execution-unit-pre-control/
+```
 
 画像認識を用いた搬送ラインのロボットユニットでは、Robot Ready、画像認識結果、安全許可、正常品搬送先の受入状態がいずれも成立しているにもかかわらず、ロボットが把持を開始しないことがある。
 
