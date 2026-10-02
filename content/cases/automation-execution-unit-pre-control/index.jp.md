@@ -90,7 +90,7 @@ PCN は、現在状態とこの目標状態入口の間に配置される。
 
 ロボットが実際に動作を開始する前に、PCN は今回の入口に必要な状態取得、状態マッピング、判定、制御を完了する。
 
-![目標段階入口前における PCN の位置関係](/images/tpca/07-pcn-position-before-target-stage.png)
+![目標段階入口前における PCN の位置関係](/images/tpca/07-pcn-position-before-target-stage.jp.png)
 
 図：PCN は、把持動作が開始される前に、「把持段階への移行」という目標状態入口について前制御判定を行う。
 
