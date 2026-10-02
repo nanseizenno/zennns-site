@@ -70,7 +70,7 @@ MES と WCS は、通常すでに多くの運転情報を持っている。
 
 AGV / AMR の群制御搬送は代表的な適用場面の一つだが、本事例の対象は、より一般的な製造現場における協調停滞である。複数の単体設備に明確な故障がなくても、全体の実行が継続できない状態を扱う。
 
-![MES / WCS 協調停滞診断モジュールの構成イメージ](/images/tpca/08-mes-wcs-collaborative-stagnation-module.png)
+![MES / WCS 協調停滞診断モジュールの構成イメージ](/images/tpca/08-mes-wcs-collaborative-stagnation-module.jp.png)
 
 図：協調停滞診断モジュールは、MES、WCS、搬送主体、ステーション、経路資源、許可状態、下流状態を取得し、同一の協調状態遷移に関連付ける。
 
