@@ -23,12 +23,12 @@ TocOpen: true
 > 代表对象：制造现场协同停滞诊断模块
 
 **建议引用：**
-
+```text
 全野南政 / Nansei Zenno，  
 《MES / WCS 协同停滞诊断模块案例：为什么 MES 记录了状态，仍解释不了制造现场为什么停》，  
 公开案例，Public Case Version 1.7，2026-10-01，  
 https://zennns.com/zh/cases/collaborative-stagnation-diagnosis/
-
+```
 MES 和 WCS 通常已经掌握大量运行信息。
 
 例如某一时刻，系统有 42 个活动任务，其中 17 个持续等待或未执行。执行主体在线，工位需求存在，部分路径仍可使用，共享资源处于部分占用状态，现场也没有出现足以直接解释整体停滞的重大单体设备报警。
